@@ -12,6 +12,22 @@ $(document).ready(function() {
     let message = $("#message");
     let userId = $("#userId").val();
     let url = $("#url").val();
+    let reg = /^(?=[a-zA-Z0-9.]{2,32}$)(?!.*[_.]{2})[^_.].*[^_.]$/
+
+    username.on("input", () => {
+        let usernameText = username.val();
+
+        if(!reg.test(usernameText)) {
+            username.removeClass("is-valid");
+            username.addClass("is-invalid");
+            message.html("This username format isn't correct");
+            message.css({color: "red"});
+        }else {
+            username.addClass("is-valid");
+            username.removeClass("is-invalid");
+            message.html("");
+        }
+    });
 
     username.on("change", function(e) {
         if (!e.originalEvent)
@@ -19,6 +35,11 @@ $(document).ready(function() {
 
         let usernameText = username.val();
         let nameText = name.val();
+
+        if(usernameText === "" || !reg.test(usernameText)) {
+            message.html("");
+            return;
+        }
 
         $.ajax(url + "/api/username/check", {
             method: "POST",

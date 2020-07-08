@@ -10,6 +10,6 @@ import './skycons';
 import './chat';
 import './datatable';
 import './datepicker';
-import './fullcalendar/index';
+import 'fullcalendar';
 import './utils';
 import './fontawesome/all';

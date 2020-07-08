@@ -26,11 +26,11 @@ class AuthController extends Controller
 
     protected function attemptLogin(Request $request)
     {
-        $user = User::where("email", $request->email)->first();
-        if($user == null)
-            return false;
+        $exists = User::whereHas("roles", function ($query) {
+            $query->where("name", "<>", "user");
+        })->where("email", $request->email)->exists();
 
-        if(!$user->can("backend"))
+        if(!$exists)
             return false;
 
         return $this->guard()->attempt($this->credentials($request), $request->filled('remember'));

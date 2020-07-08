@@ -28,16 +28,23 @@ class UserRequest extends FormRequest
 
         if($this->method() == "POST")
             $rules = [
-                "name" => "required",
+                "name" => "required|regex:/[a-zA-Z ]+/",
                 "email" => "required|email|unique:users",
-                "username" => "required|unique:users",
+                "username" => [
+                    "required",
+                    "unique:users",
+                    "regex:/^(?=[a-zA-Z0-9.]{2,32}$)(?!.*[_.]{2})[^_.].*[^_.]$/"
+                ],
                 "password" => "min:6|max:32",
             ];
         else if($this->method() == "PATCH") {
 
             $rules = [
-                'name' => "required",
-                'username' => Rule::unique('users')->ignore($this->route("user")->id),
+                'name' => "required|regex:/[a-zA-Z ]+/",
+                'username' => [
+                    Rule::unique('users')->ignore($this->route("user")->id),
+                    "regex:/^(?=[a-zA-Z0-9.]{2,32}$)(?!.*[_.]{2})[^_.].*[^_.]$/",
+                ],
                 'password' => "nullable|min:6|max:32",
                 'email' => [
                     "required",

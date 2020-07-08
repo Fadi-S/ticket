@@ -10993,10 +10993,33 @@ jquery__WEBPACK_IMPORTED_MODULE_0__(document).ready(function () {
   var message = jquery__WEBPACK_IMPORTED_MODULE_0__("#message");
   var userId = jquery__WEBPACK_IMPORTED_MODULE_0__("#userId").val();
   var url = jquery__WEBPACK_IMPORTED_MODULE_0__("#url").val();
+  var reg = /^(?=[a-zA-Z0-9.]{2,32}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
+  username.on("input", function () {
+    var usernameText = username.val();
+
+    if (!reg.test(usernameText)) {
+      username.removeClass("is-valid");
+      username.addClass("is-invalid");
+      message.html("This username format isn't correct");
+      message.css({
+        color: "red"
+      });
+    } else {
+      username.addClass("is-valid");
+      username.removeClass("is-invalid");
+      message.html("");
+    }
+  });
   username.on("change", function (e) {
     if (!e.originalEvent) return;
     var usernameText = username.val();
     var nameText = name.val();
+
+    if (usernameText === "" || !reg.test(usernameText)) {
+      message.html("");
+      return;
+    }
+
     jquery__WEBPACK_IMPORTED_MODULE_0__["ajax"](url + "/api/username/check", {
       method: "POST",
       data: {

@@ -18,6 +18,7 @@ class CreateEventsTable extends Migration
             $table->timestamp("time");
             $table->integer("number_of_places");
             $table->integer("type_id");
+            $table->string("description")->nullable();
             $table->softDeletes();
             $table->timestamps();
 

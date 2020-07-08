@@ -9,85 +9,45 @@ class AdminPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Determine whether the user can view any models.
-     *
-     * @param User $user
-     * @return mixed
-     */
-    public function viewAny(User $user)
+    public function viewAny(User $admin){}
+
+    public function view(User $admin, User $model)
     {
-        //
+        return $admin->can("admins.view") ? true : null;
     }
 
-    /**
-     * Determine whether the user can view the model.
-     *
-     * @param User $user
-     * @param User $model
-     * @return mixed
-     */
-    public function view(User $user, User $model)
+    public function create(User $admin)
     {
-        //
+        return $admin->can("admins.create") ? true : null;
     }
 
-    /**
-     * Determine whether the user can create models.
-     *
-     * @param User $user
-     * @return mixed
-     */
-    public function create(User $user)
+    public function store(User $admin)
     {
-        //
+        return $admin->can("admins.create") ? true : null;
     }
 
-    /**
-     * Determine whether the user can update the model.
-     *
-     * @param User $user
-     * @param  \App\User  $model
-     * @return mixed
-     */
-    public function update(User $user, User $model)
+    public function edit(User $admin, User $model)
     {
-        //
+        return $admin->can("admins.edit") ? true : null;
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     *
-     * @param User $user
-     * @param  \App\User  $model
-     * @return mixed
-     */
-    public function delete(User $user, User $model)
+    public function update(User $admin, User $model)
     {
-        //
+        return $admin->can("admins.edit") ? true : null;
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param User $user
-     * @param  \App\User  $model
-     * @return mixed
-     */
-    public function restore(User $user, User $model)
+    public function delete(User $admin, User $model)
     {
-        //
+        return $admin->can("admins.delete") ? true : null;
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param User $user
-     * @param  \App\User  $model
-     * @return mixed
-     */
-    public function forceDelete(User $user, User $model)
+    public function restore(User $admin, User $model)
     {
-        //
+        return $admin->can("admins.delete") && $admin->can("activityLog") ? true : null;
+    }
+
+    public function forceDelete(User $admin, User $model)
+    {
+        return $admin->can("admins.forceDelete") ? true : null;
     }
 }

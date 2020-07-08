@@ -182,6 +182,31 @@
                         </li>
                     </ul>
                 </li>
+
+                <li class="nav-item dropdown">
+                    <a class="dropdown-toggle" href="javascript:void(0);">
+                <span class="icon-holder">
+                  <i class="c-teal-500 fa fa-calendar"></i>
+                </span>
+                        <span class="title">Mass</span>
+                        <span class="arrow">
+                  <i class="fa fa-angle-right"></i>
+                </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+
+                            <a class='sidebar-link' href="{{ url("/masses/create") }}">
+                                <i class="fa fa-plus"></i> Create Event
+                            </a>
+                        </li>
+                        <li>
+                            <a class='sidebar-link' href="{{ url("/masses") }}">
+                                <i class="fa fa-calendar"></i> View All
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>

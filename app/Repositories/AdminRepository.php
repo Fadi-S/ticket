@@ -12,7 +12,7 @@ trait AdminRepository
 
     function getAllAdmins($paginate = 100)
     {
-        return User::with("roles", function ($query) {
+        return User::whereHas("roles", function ($query) {
             $query->where("name", "<>", "user");
         })->paginate($paginate);
     }
@@ -28,7 +28,14 @@ trait AdminRepository
 
     function updateAdmin(AdminRequest $request, User $admin)
     {
-        return $admin->update($request->all());
+        $attr = $request->all();
+
+        if($request->password == "")
+            $attr = $request->except("password");
+
+        $admin->syncRoles([$request->role]);
+
+        return $admin->update($attr);
     }
 
     function deleteAdmin(User $admin) {

@@ -19,11 +19,11 @@ class UsersController extends Controller
     {
         $username = $request->username;
 
-        if(preg_match('/[^A-Za-z0-9]/', $username))
+        if(preg_match('/[^A-Za-z0-9.]/', $username))
             return [
                 "unique" => false,
                 "username" => $this->generateUsernameFromName(
-                    !preg_match('/[^A-Za-z0-9]/', $request->name) ?  $request->name : "", $request->id
+                    preg_match('/[^A-Za-z0-9]/', $request->name) ?  $request->name : "", $request->id
                 )
             ];
 

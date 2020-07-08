@@ -38,7 +38,7 @@
                         <tbody>
                         @foreach($users as $user)
                             <tr>
-                                <th><img width="70" src="{{ $user->picture }}" alt="{{ $user->name }}'s picture"></th>
+                                <td><img width="70" src="{{ $user->picture }}" alt="{{ $user->name }}'s picture"></td>
                                 <td><a href="{{ url("users/$user->username") }}">{{ $user->name }}</a></td>
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->username }}</td>

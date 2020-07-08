@@ -10,6 +10,7 @@ Route::middleware("auth")->group(function() {
     Route::get('/', 'Admin\DashboardController@index');
     Route::resource("users", 'Admin\UsersController');
     Route::resource("admins", 'Admin\AdminsController');
+    Route::resource("masses", 'Admin\MassesController');
 
 });
 

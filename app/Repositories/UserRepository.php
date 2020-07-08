@@ -53,7 +53,12 @@ trait UserRepository
 
     function updateUser(UserRequest $request, User $user)
     {
-        return $user->update($request->all());
+        $attr = $request->all();
+
+        if($request->password == "")
+            $attr = $request->except("password");
+
+        return $user->update($attr);
     }
 
     function deleteUser(User $user) {

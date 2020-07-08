@@ -40,7 +40,7 @@
                         <tbody>
                         @foreach($admins as $admin)
                             <tr>
-                                <th><img width="70" src="{{ $admin->picture }}" alt="{{ $admin->name }}'s picture"></th>
+                                <td><img width="70" src="{{ $admin->picture }}" alt="{{ $admin->name }}'s picture"></td>
                                 <td><a href="{{ url("admins/$admin->username") }}">{{ $admin->name }}</a></td>
                                 <td>{{ $admin->email }}</td>
                                 <td>{{ $admin->getRoleNames()->first() }}</td>

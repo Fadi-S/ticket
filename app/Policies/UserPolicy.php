@@ -9,45 +9,45 @@ class UserPolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(User $user) {}
+    public function viewAny(User $admin) {}
 
-    public function view(User $user, User $model)
+    public function view(User $admin, User $model)
     {
-        return $user->can("users.view") ? true : null;
+        return $admin->can("users.view") ? true : null;
     }
 
-    public function create(User $user)
+    public function create(User $admin)
     {
-        return $user->can("users.create") ? true : null;
+        return $admin->can("users.create") ? true : null;
     }
 
-    public function store(User $user)
+    public function store(User $admin)
     {
-        return $user->can("users.create") ? true : null;
+        return $admin->can("users.create") ? true : null;
     }
 
-    public function edit(User $user, User $model)
+    public function edit(User $admin, User $model)
     {
-        return $user->can("users.edit") ? true : null;
+        return $admin->can("users.edit") ? true : null;
     }
 
-    public function update(User $user, User $model)
+    public function update(User $admin, User $model)
     {
-        return $user->can("users.edit") ? true : null;
+        return $admin->can("users.edit") ? true : null;
     }
 
-    public function delete(User $user, User $model)
+    public function delete(User $admin, User $model)
     {
-        return $user->can("users.delete") ? true : null;
+        return $admin->can("users.delete") ? true : null;
     }
 
-    public function restore(User $user, User $model)
+    public function restore(User $admin, User $model)
     {
-        return $user->can("users.delete") && $user->can("activityLog") ? true : null;
+        return $admin->can("users.delete") && $admin->can("activityLog") ? true : null;
     }
 
-    public function forceDelete(User $user, User $model)
+    public function forceDelete(User $admin, User $model)
     {
-        return $user->can("users.forceDelete") ? true : null;
+        return $admin->can("users.forceDelete") ? true : null;
     }
 }
