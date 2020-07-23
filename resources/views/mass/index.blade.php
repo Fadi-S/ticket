@@ -19,6 +19,7 @@
                         <thead>
                             <tr>
                                 <th>Date</th>
+                                <th>Time</th>
                                 <th>Description</th>
                                 <th>Number of places</th>
                                 <th>Edit</th>
@@ -27,6 +28,7 @@
                         <tfoot>
                             <tr>
                                 <th>Date</th>
+                                <th>Time</th>
                                 <th>Description</th>
                                 <th>Number of places</th>
                                 <th>Edit</th>
@@ -36,8 +38,9 @@
                         <tbody>
                         @foreach($masses as $mass)
                             <tr>
-                                <td></td>
                                 <td><a href="{{ url("masses/$mass->id") }}">{{ $mass->formatted_date }}</a></td>
+                                <td>{{ $mass->start->format("H:i A") }} - {{ $mass->end->format("H:i A") }}</td>
+                                <td>{{ $mass->description }}</td>
                                 <td>{{ $mass->number_of_places }}</td>
                                 <td><a class="btn btn-info" href="{{ url("masses/$mass->id/edit") }}">Edit</a></td>
                             </tr>

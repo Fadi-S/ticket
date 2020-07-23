@@ -11,6 +11,7 @@ Route::middleware("auth")->group(function() {
     Route::resource("users", 'Admin\UsersController');
     Route::resource("admins", 'Admin\AdminsController');
     Route::resource("masses", 'Admin\MassesController');
+    Route::resource("reservations", 'Admin\ReservationsController');
 
 });
 

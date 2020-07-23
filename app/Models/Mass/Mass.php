@@ -9,11 +9,11 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Mass extends Model
 {
-    use SoftDeletes, LogsActivity, MassAttributes;
+    use SoftDeletes, LogsActivity, MassAttributes, MassRelationships;
 
     protected $table = "events";
-    protected $fillable = ["time", "number_of_places", "description"];
-    protected $dates = ['time'];
+    protected $fillable = ["start", "end", "number_of_places", "description"];
+    protected $dates = ['start', 'end'];
     protected $attributes = [
         'type_id' => 1,
     ];

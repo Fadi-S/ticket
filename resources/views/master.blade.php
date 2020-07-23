@@ -124,7 +124,7 @@
             <!-- ### $Sidebar Menu ### -->
             <ul class="sidebar-menu scrollable pos-r">
 
-                <li class="nav-item mT-30 actived">
+                <li class="nav-item mT-30">
                     <a class="sidebar-link" href="{{ url("/") }}">
                 <span class="icon-holder">
                   <i class="c-blue-500 fa fa-home"></i>
@@ -197,7 +197,7 @@
                         <li>
 
                             <a class='sidebar-link' href="{{ url("/masses/create") }}">
-                                <i class="fa fa-plus"></i> Create Event
+                                <i class="fa fa-plus"></i> Create
                             </a>
                         </li>
                         <li>
@@ -206,6 +206,24 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="sidebar-link" href="{{ url("/reservations/create") }}">
+                <span class="icon-holder">
+                  <i class="c-blue-grey-500 fa fa-plus"></i>
+                </span>
+                        <span class="title">Make a Reservation</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="sidebar-link" href="{{ url("/logs") }}">
+                <span class="icon-holder">
+                  <i class="c-yellow-500 fa fa-history"></i>
+                </span>
+                        <span class="title">Activity Log</span>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -216,6 +234,7 @@
         <!-- ### $Topbar ### -->
         <div class="header navbar">
             <div class="header-container">
+
                 <ul class="nav-left">
                     <li>
                         <a id='sidebar-toggle' class="sidebar-toggle" href="javascript:void(0);">
@@ -225,13 +244,14 @@
                     <li class="search-box">
                         <a class="search-toggle no-pdd-right" href="javascript:void(0);">
                             <i class="search-icon fa fa-search pdd-right-10"></i>
-                            <i class="search-icon-close fa fa-close pdd-right-10"></i>
+                            <i class="search-icon-close fa fa-times pdd-right-10"></i>
                         </a>
                     </li>
                     <li class="search-input">
                         <input class="form-control" type="text" placeholder="Search...">
                     </li>
                 </ul>
+
                 <ul class="nav-right">
                     <li class="dropdown">
                         <a href="" class="dropdown-toggle no-after peers fxw-nw ai-c lh-1" data-toggle="dropdown">
@@ -246,7 +266,7 @@
                             <li>
                                 <a href="{{ url("settings") }}" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
                                     <i class="fa fa-cogs mR-10"></i>
-                                    <span>Setting</span>
+                                    <span>Settings</span>
                                 </a>
                             </li>
                             <li>

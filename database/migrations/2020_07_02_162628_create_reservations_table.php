@@ -16,9 +16,9 @@ class CreateReservationsTable extends Migration
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
             $table->integer("event_id");
-            $table->integer("user_id");
             $table->timestamp("reserved_at");
             $table->string("secret");
+            $table->softDeletes();
             $table->timestamps();
         });
 

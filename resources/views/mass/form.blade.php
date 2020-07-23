@@ -11,6 +11,18 @@
 </div>
 
 <div class="form-row">
+    <div class="form-group col-md-6">
+        <label for="start_time">Start Time</label>
+        {!! Form::time("start_time", null, ["class" => "form-control", "id" => "start_time",]) !!}
+    </div>
+
+    <div class="form-group col-md-6">
+        <label for="end_time">End Time</label>
+        {!! Form::time("end_time",  null, ["class" => "form-control", "id" => "end_time",]) !!}
+    </div>
+</div>
+
+<div class="form-row">
     <div class="form-group col-md-12">
         <label for="description">Description (Optional)</label>
         {!! Form::textarea("description", null, ["class" => "form-control", "id" => "description", "placeholder" => "Description"]) !!}
@@ -27,12 +39,11 @@
     <script>
         $(".datePicker").daterangepicker({
             singleDatePicker: true,
-            timePicker: true,
             @if(!old("date"))
-            startDate:  "{{ ($create) ? $date->format("d/m/Y h:i A") : $mass->time->format("d/m/Y h:i A") }}",
+            startDate:  "{{ ($create) ? $start->format("d/m/Y") : $mass->start->format("d/m/Y") }}",
             @endif
             locale: {
-                format: 'DD/MM/YYYY hh:mm A'
+                format: 'DD/MM/YYYY'
             }
         });
     </script>

@@ -16,8 +16,8 @@ class MassesController extends Controller
 
     public function create()
     {
-        $date = Carbon::now();
-        return view("mass.create", compact('date'));
+        $start = Carbon::now();
+        return view("mass.create", compact('start'));
     }
 
     public function store(MassesRequest $request)
@@ -32,8 +32,8 @@ class MassesController extends Controller
 
     public function edit(Mass $mass)
     {
-        $date = Carbon::now();
-        return view("mass.edit", compact('mass', 'date'));
+        $start = Carbon::now();
+        return view("mass.edit", compact('mass', 'start'));
     }
 
     public function update(Mass $mass, MassesRequest $request)

@@ -26,7 +26,8 @@ class MassesRequest extends FormRequest
     {
         return [
             "number_of_places" => "required|numeric|min:1",
-            "time" => "required|date",
+            "start" => "required|date",
+            "end" => "required|date",
         ];
     }
 
@@ -34,7 +35,11 @@ class MassesRequest extends FormRequest
     {
         $data = $this->all();
 
-        $data['time'] = Carbon::createFromFormat("d/m/Y h:i A", $this->date);
+        $date = Carbon::createFromFormat("d/m/Y", $this->date);
+
+        $data['start'] = $date->copy()->hour(explode(":", $this->start_time)[0])->minute(explode(":", $this->start_time)[1]);
+
+        $data['end'] = $date->copy()->hour(explode(":", $this->end_time)[0])->minute(explode(":", $this->end_time)[1]);
 
         $this->getInputSource()->replace($data);
         return parent::getValidatorInstance();
