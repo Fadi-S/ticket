@@ -13,12 +13,12 @@
 <div class="form-row">
     <div class="form-group col-md-6">
         <label for="start_time">Start Time</label>
-        {!! Form::time("start_time", null, ["class" => "form-control", "id" => "start_time",]) !!}
+        {!! Form::time("start_time", $create ? null : (old("start_time") ?? $mass->start->format("H:i")), ["class" => "form-control", "id" => "start_time",]) !!}
     </div>
 
     <div class="form-group col-md-6">
         <label for="end_time">End Time</label>
-        {!! Form::time("end_time",  null, ["class" => "form-control", "id" => "end_time",]) !!}
+        {!! Form::time("end_time",  $create ? null : (old("end_time") ?? $mass->end->format("H:i")), ["class" => "form-control", "id" => "end_time",]) !!}
     </div>
 </div>
 

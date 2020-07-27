@@ -13,7 +13,10 @@ class ReservationRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        if($this->method() == "PATCH")
+            return auth()->user()->can("reservations.edit");
+
+        return $this->method() == "POST";
     }
 
     /**

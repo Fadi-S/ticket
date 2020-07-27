@@ -4,3 +4,5 @@ import "./bootstrap";
 import 'daterangepicker';
 
 import "./index";
+
+window.moment = require('moment');

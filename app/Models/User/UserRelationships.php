@@ -11,7 +11,7 @@ trait UserRelationships
 
     public function reservations()
     {
-        $this->belongsToMany(Reservation::class, "reservation_user", "user_id", "reservation_id");
+        return $this->belongsToMany(Reservation::class, "reservation_user", "reservation_id", "user_id");
     }
 
 }

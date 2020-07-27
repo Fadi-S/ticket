@@ -133,6 +133,18 @@
                     </a>
                 </li>
 
+                @can("reservation.create")
+                <li class="nav-item">
+                    <a class="sidebar-link" href="{{ url("/reservations/create") }}">
+                <span class="icon-holder">
+                  <i class="c-blue-grey-500 fa fa-plus"></i>
+                </span>
+                        <span class="title">Make a Reservation</span>
+                    </a>
+                </li>
+                @endcan
+
+                @can("users.create" || "users.edit" || "users.view")
                 <li class="nav-item dropdown">
                     <a class="dropdown-toggle" href="javascript:void(0);">
                 <span class="icon-holder">
@@ -157,7 +169,9 @@
                         </li>
                     </ul>
                 </li>
+                @endcan
 
+                @can("admins.create" || "admins.edit" || "admins.view")
                 <li class="nav-item dropdown">
                     <a class="dropdown-toggle" href="javascript:void(0);">
                 <span class="icon-holder">
@@ -182,7 +196,9 @@
                         </li>
                     </ul>
                 </li>
+                @endcan
 
+                @can("masses.create" || "masses.edit" || "masses.view")
                 <li class="nav-item dropdown">
                     <a class="dropdown-toggle" href="javascript:void(0);">
                 <span class="icon-holder">
@@ -207,16 +223,36 @@
                         </li>
                     </ul>
                 </li>
+                @endcan
 
-                <li class="nav-item">
-                    <a class="sidebar-link" href="{{ url("/reservations/create") }}">
-                <span class="icon-holder">
-                  <i class="c-blue-grey-500 fa fa-plus"></i>
-                </span>
-                        <span class="title">Make a Reservation</span>
-                    </a>
-                </li>
+                @can("settings.create" || "settings.edit" || "settings.view")
+                    <li class="nav-item dropdown">
+                        <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                      <i class="c-cyan-500 fa fa-cogs"></i>
+                    </span>
+                            <span class="title">Settings</span>
+                            <span class="arrow">
+                      <i class="fa fa-angle-right"></i>
+                    </span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
 
+                                <a class='sidebar-link' href="{{ url("/settings/create") }}">
+                                    <i class="fa fa-plus"></i> Create Setting
+                                </a>
+                            </li>
+                            <li>
+                                <a class='sidebar-link' href="{{ url("/settings") }}">
+                                    <i class="fa fa-eye"></i> View All Settings
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+
+                @can("activityLog")
                 <li class="nav-item">
                     <a class="sidebar-link" href="{{ url("/logs") }}">
                 <span class="icon-holder">
@@ -225,6 +261,8 @@
                         <span class="title">Activity Log</span>
                     </a>
                 </li>
+                @endcan
+
             </ul>
         </div>
     </div>

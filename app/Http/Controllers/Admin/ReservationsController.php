@@ -8,6 +8,7 @@ use App\Models\Event\Event;
 use App\Models\Reservation\Reservation;
 use App\Repositories\ReservationRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\MessageBag;
 
 class ReservationsController extends Controller
 {
@@ -21,14 +22,15 @@ class ReservationsController extends Controller
 
     public function store(ReservationRequest $request)
     {
-        $reservation = $this->makeReservation($request);
+        $messageBag = new MessageBag();
+        $reservation = $this->makeReservation($request, $messageBag);
 
         if($reservation != null)
             flash()->success("Reservation made successfully");
         else
             flash()->error("Couldn't make reservation");
 
-        return redirect("reservations/create");
+        return redirect("reservations/create")->withErrors($messageBag);
     }
 
     public function show(Reservation $reservation)
@@ -43,15 +45,24 @@ class ReservationsController extends Controller
         return view("reservations.edit", compact('reservation', 'users'));
     }
 
-    public function update(Request $request, Reservation $reservation)
+    public function update(ReservationRequest $request, Reservation $reservation)
     {
+        $messageBag = new MessageBag();
 
-        return redirect("reservations/$reservation->id/edit");
+        if($this->editReservation($request, $reservation, $messageBag))
+            flash()->success("Reservation edited successfully");
+        else
+            flash()->error("Couldn't edit this reservation");
+
+        return redirect("reservations/$reservation->id/edit")->withErrors($messageBag);
     }
 
     public function destroy(Reservation $reservation)
     {
+        $this->delete($reservation);
 
-        return redirect("reservations");
+        flash()->success("Reservation Deleted");
+
+        return redirect("masses/" . $reservation->event->id);
     }
 }

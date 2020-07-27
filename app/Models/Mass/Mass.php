@@ -2,6 +2,7 @@
 
 namespace App\Models\Mass;
 
+use App\Models\Event\EventRelationships;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,7 +10,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Mass extends Model
 {
-    use SoftDeletes, LogsActivity, MassAttributes, MassRelationships;
+    use SoftDeletes, LogsActivity, MassAttributes, EventRelationships, MassMethods;
 
     protected $table = "events";
     protected $fillable = ["start", "end", "number_of_places", "description"];

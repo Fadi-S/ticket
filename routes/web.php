@@ -13,5 +13,9 @@ Route::middleware("auth")->group(function() {
     Route::resource("masses", 'Admin\MassesController');
     Route::resource("reservations", 'Admin\ReservationsController');
 
+    Route::resource("settings", 'Admin\SettingsController')->except("show");
+
+    Route::get('/logs', 'Admin\DashboardController@showLogs');
+
 });
 

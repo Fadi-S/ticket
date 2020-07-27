@@ -11,7 +11,7 @@ trait MassRepository
 
     public function getAllMasses($paginate = 100)
     {
-        return Mass::paginate($paginate);
+        return Mass::latest()->paginate($paginate);
     }
 
     public function createMass(MassesRequest $request)

@@ -34,7 +34,7 @@
                         <div class="layer w-100">
                             <div class="peers ai-sb fxw-nw">
                                 <div class="peer">
-                                    <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-red-50 c-red-500">{MOCK DATA}</span>
+                                    <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-red-50 c-red-500">{{ $events }}</span>
                                 </div>
                             </div>
                         </div>

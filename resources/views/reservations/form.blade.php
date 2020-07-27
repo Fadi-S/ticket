@@ -7,7 +7,7 @@
 
     <div class="form-group col-md-6">
         <label for="event">Event</label>
-        {!! Form::select("event", $create ? [] : [$reservation->event->id => $reservation->event->start->format("Y-m-d H:i")], null, ["class" => "form-control", "readonly" => "readonly", "id"=>"event"]) !!}
+        {!! Form::select("event", $create ? [] : [$reservation->event->id => $reservation->event->start->format("d/m/Y h:i A") . " | " . $reservation->event->type->arabic_name], null, ["class" => "form-control", "readonly" => "readonly", "id"=>"event"]) !!}
     </div>
 
 </div>
@@ -31,8 +31,28 @@
     {!! Html::style("css/fullcalendar.min.css") !!}
 
     <script>
-        $(document).ready(function () {
+        let lastSelected;
+        function selectCurrentEvent(startDate, endDate) {
+            let timeString = startDate.format("h:mma");
+            if(startDate.format("m") == 0)
+                timeString = startDate.format("ha");
 
+            if(endDate.format("m") == 0)
+                timeString = timeString + " - " + endDate.format("ha");
+            else
+                timeString = timeString + " - " + endDate.format("h:mma");
+
+            let dateString = startDate.format('YYYY-MM-DD');
+
+            if(lastSelected != null)
+                lastSelected.css({"backgroundColor": "", "color": ""});
+
+            lastSelected = $("td[data-date='" + dateString + "'] a.fc-daygrid-event div:contains('" + timeString + "')")
+                .parent()
+                .css({"backgroundColor": "green", "color":"white"});
+        }
+
+        $(document).ready(function () {
             let calendarEl = document.getElementById('calendar');
             let calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
@@ -45,14 +65,17 @@
 
                     eventInput.find('option').remove().end();
 
-                    let date = new Date(event.event.start)
+                    let date = new Date(event.event.start);
+                    let dateWrapper = moment(date);
 
-                    let month = ("0" + (date.getMonth() + 1)).slice(-2),
-                        day = ("0" + date.getDate()).slice(-2);
+                    let endDate = new Date(event.event.end);
+                    let endDateWrapper = moment(endDate);
 
-                    let time = [date.getFullYear(), month, day].join("-") + " " + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
+                    let datetime = dateWrapper.format("DD/MM/YYYY hh:mm A") + " | " + event.event.title;
 
-                    eventInput.append('<option selected value="' + event.event.id +'">' + time + '</option>');
+                    eventInput.append('<option selected value="' + event.event.id +'">' + datetime + '</option>');
+
+                    selectCurrentEvent(dateWrapper, endDateWrapper);
                 },
                 eventTimeFormat: {
                     hour: 'numeric',
@@ -63,6 +86,14 @@
                 displayEventEnd: true,
             });
             calendar.render();
+
+            @if(!$create)
+                setTimeout(function () {
+                    selectCurrentEvent(
+                        moment(new Date("{{ $reservation->event->start->format("Y-m-d h:i A") }}")),
+                        moment(new Date("{{ $reservation->event->end->format("Y-m-d h:i A") }}")));
+                }, 500);
+            @endif
 
             $('.user').select2({
                 ajax: {
