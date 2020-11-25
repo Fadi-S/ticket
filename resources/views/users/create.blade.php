@@ -1,30 +1,12 @@
-@extends("master")
+<x-master>
+    <x-slot name="title">Create User | Ticket</x-slot>
 
-@section("title")
-    <title>Create User | Ticket</title>
-@endsection
+    <x-card>
+        {!! Form::open(["url" => url("users"), "method" => "POST"]) !!}
 
-@section("content")
+        @include("users.form", ["create" => true, "submit" => "Create User"])
 
-    <div id='mainContent'>
-        <div class="row gap-20 masonry pos-r">
+        {!! Form::close() !!}
+    </x-card>
 
-            <div class="masonry-sizer col-md-6"></div>
-
-            <div class="masonry-item col-md-12">
-                <div class="bgc-white p-20 bd">
-                    <h6 class="c-grey-900">Create User Form</h6>
-                    <div class="mT-30">
-                        {!! Form::open(["url" => url("users"), "method" => "POST"]) !!}
-
-                        @include("users.form", ["create" => true, "submit" => "Create User"])
-
-                        {!! Form::close() !!}
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-@endsection
+</x-master>

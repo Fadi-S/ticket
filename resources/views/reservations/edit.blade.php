@@ -1,30 +1,18 @@
-@extends("master")
+<x-master>
+    <x-slot name="title">Edit Reservation | Ticket</x-slot>
 
-@section("title")
-    <title>Edit Reservation | Ticket</title>
-@endsection
+    <div class="bg-white m-8 rounded-lg">
+        <div class="bg-white p-20">
+            <div class="mT-30">
+                {!! Form::model($reservation, ["url" => url("reservations/$reservation->id/"), "method" => "PATCH"]) !!}
 
-@section("content")
+                @include("reservations.form", ["create" => false, "submit" => "Edit Reservation"])
 
-    <div id='mainContent'>
-        <div class="row gap-20 masonry pos-r">
-
-            <div class="masonry-sizer col-md-6"></div>
-
-            <div class="masonry-item col-md-12">
-                <div class="bgc-white p-20 bd">
-                    <h6 class="c-grey-900">Edit Reservation Form</h6>
-                    <div class="mT-30">
-                        {!! Form::model($reservation, ["url" => url("reservations/$reservation->id/"), "method" => "PATCH"]) !!}
-
-                        @include("reservations.form", ["create" => false, "submit" => "Edit Reservation"])
-
-                        {!! Form::close() !!}
-                    </div>
-                </div>
+                {!! Form::close() !!}
             </div>
-
         </div>
-    </div>
 
-@endsection
+    </div>
+</x-master>
+
+

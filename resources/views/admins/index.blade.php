@@ -1,4 +1,4 @@
-@extends("master")
+@extends("components.master")
 
 @section("title")
     <title>View All admins | Ticket</title>

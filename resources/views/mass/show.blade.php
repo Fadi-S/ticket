@@ -1,4 +1,4 @@
-@extends("master")
+@extends("components.master")
 
 @section("title")
     <title>View {{ $mass->formatted_date }} | Ticket</title>

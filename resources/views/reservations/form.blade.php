@@ -1,28 +1,36 @@
-<div class="form-row">
+<div class="space-y-4">
+    <x-form.group>
+        <div class="flex flex-col w-1/2">
+            <label for="user">Choose Users</label>
+            {!! Form::select("users[]", $create ? [] :$users, $create ? null : $reservation->users()->pluck("id"), [
+            "class" => "w-full user", "multiple"=>"multiple", "id"=>"user"
+        ]) !!}
+        </div>
 
-    <div class="form-group col-md-6">
-        <label for="user">Choose Users</label>
-        {!! Form::select("users[]", $create ? [] : $users, $create ? null : $reservation->users()->pluck("id"), ["class" => "form-control user", "multiple"=>"multiple", "id"=>"user"]) !!}
-    </div>
+        <div class="flex flex-col w-1/2">
+            <label for="event">Event</label>
+            {!! Form::select("event", $create ? [] : [$reservation->event->id => $reservation->event->start->format("d/m/Y h:i A") . " | " . $reservation->event->type->arabic_name], null,
+     ["class" => "bg-white border-2 border-gray-300 h-9 rounded w-full", "readonly" => "readonly", "id"=>"event"]) !!}
+        </div>
+    </x-form.group>
 
-    <div class="form-group col-md-6">
-        <label for="event">Event</label>
-        {!! Form::select("event", $create ? [] : [$reservation->event->id => $reservation->event->start->format("d/m/Y h:i A") . " | " . $reservation->event->type->arabic_name], null, ["class" => "form-control", "readonly" => "readonly", "id"=>"event"]) !!}
-    </div>
+    <div id='calendar'></div>
 
+    <x-button type="submit" class="mx-auto mt-2">
+        <x-slot name="svg">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+            </svg>
+        </x-slot>
+
+        {{ $submit }}
+    </x-button>
 </div>
 
-<div id='calendar'></div>
-
-<br>
-
-<center>
-    <button type="submit" class="btn btn-primary"><i class="fa fa-edit"></i> {{ $submit }}</button>
-</center>
 
 @include("errors.list")
 
-@section("javascript")
+@push("scripts")
 
     {!! Html::script("js/select2.full.min.js") !!}
     {!! Html::style("css/select2.min.css") !!}
@@ -32,24 +40,25 @@
 
     <script>
         let lastSelected;
+
         function selectCurrentEvent(startDate, endDate) {
             let timeString = startDate.format("h:mma");
-            if(startDate.format("m") == 0)
+            if (startDate.format("m") == 0)
                 timeString = startDate.format("ha");
 
-            if(endDate.format("m") == 0)
+            if (endDate.format("m") == 0)
                 timeString = timeString + " - " + endDate.format("ha");
             else
                 timeString = timeString + " - " + endDate.format("h:mma");
 
             let dateString = startDate.format('YYYY-MM-DD');
 
-            if(lastSelected != null)
+            if (lastSelected != null)
                 lastSelected.css({"backgroundColor": "", "color": ""});
 
             lastSelected = $("td[data-date='" + dateString + "'] a.fc-daygrid-event div:contains('" + timeString + "')")
                 .parent()
-                .css({"backgroundColor": "green", "color":"white"});
+                .css({"backgroundColor": "green", "color": "white"});
         }
 
         $(document).ready(function () {
@@ -60,7 +69,7 @@
                 height: 650,
                 expandRows: true,
                 events: '{{ url("api/reservation/events") }}',
-                eventClick: function(event) {
+                eventClick: function (event) {
                     let eventInput = $("#event");
 
                     eventInput.find('option').remove().end();
@@ -73,7 +82,7 @@
 
                     let datetime = dateWrapper.format("DD/MM/YYYY hh:mm A") + " | " + event.event.title;
 
-                    eventInput.append('<option selected value="' + event.event.id +'">' + datetime + '</option>');
+                    eventInput.append('<option selected value="' + event.event.id + '">' + datetime + '</option>');
 
                     selectCurrentEvent(dateWrapper, endDateWrapper);
                 },
@@ -88,11 +97,11 @@
             calendar.render();
 
             @if(!$create)
-                setTimeout(function () {
-                    selectCurrentEvent(
-                        moment(new Date("{{ $reservation->event->start->format("Y-m-d h:i A") }}")),
-                        moment(new Date("{{ $reservation->event->end->format("Y-m-d h:i A") }}")));
-                }, 500);
+            setTimeout(function () {
+                selectCurrentEvent(
+                    moment(new Date("{{ $reservation->event->start->format("Y-m-d h:i A") }}")),
+                    moment(new Date("{{ $reservation->event->end->format("Y-m-d h:i A") }}")));
+            }, 500);
             @endif
 
             $('.user').select2({
@@ -101,7 +110,7 @@
                     dataType: 'json',
                     method: "get",
                     data: function (params) {
-                        return  {
+                        return {
                             search: params.term,
                             type: 'public'
                         }
@@ -118,4 +127,4 @@
         }
     </style>
 
-@endsection
+@endpush

@@ -1,9 +1,10 @@
-@extends("master")
+<x-master>
+    <x-slot name="title">
+        View {{ $user->name }} | Ticket
+    </x-slot>
 
-@section("title")
-    <title>View {{ $user->name }} | Ticket</title>
-@endsection
+    <x-card>
 
-@section("content")
+    </x-card>
 
-@endsection
+</x-master>

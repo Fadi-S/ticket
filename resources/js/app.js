@@ -1,8 +1,7 @@
-import * as $ from 'jquery';
-import "./bootstrap";
+window.jQuery = window.$ = require('jquery');
 
-import 'daterangepicker';
+import 'alpinejs';
 
-import "./index";
+window.Pikaday = require('pikaday');
 
 window.moment = require('moment');

@@ -9,7 +9,7 @@ use Carbon\Carbon;
 trait UserRepository
 {
 
-    function getAllUsers($paginate = 100)
+    function getAllUsers($paginate = 10)
     {
         return User::role("user")->paginate($paginate);
     }

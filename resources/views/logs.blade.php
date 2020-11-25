@@ -1,4 +1,4 @@
-@extends("master")
+@extends("components.master")
 
 @section("title")
     <title>Activity Logs | Ticket</title>

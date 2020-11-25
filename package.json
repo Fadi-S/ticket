@@ -28,6 +28,8 @@
         "@fullcalendar/core": "^5.1.0",
         "@fullcalendar/daygrid": "^5.1.0",
         "@icon/themify-icons": "^1.0.1-alpha.3",
+        "alpinejs": "^2.7.3",
+        "autoprefixer": "^9.8.6",
         "bootstrap": "^4.5.0",
         "bootstrap-datepicker": "^1.9.0",
         "brand-colors": "^2.1.1",
@@ -39,8 +41,11 @@
         "masonry-layout": "^4.2.2",
         "moment": "^2.27.0",
         "perfect-scrollbar": "^1.5.0",
+        "pikaday": "^1.8.2",
         "popper.js": "^1.16.1",
+        "postcss": "^7.0.35",
         "skycons": "^1.0.0",
+        "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.1",
         "themify-icons": "^1.0.0"
     }
 }

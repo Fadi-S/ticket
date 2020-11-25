@@ -77,12 +77,16 @@
       <data directive="@isset" injection="true" prefix="&lt;?php if(isset(" suffix=")): ?&gt;" />
       <data directive="@json" injection="true" prefix="&lt;?php echo json_encode(" suffix=") ?&gt;" />
       <data directive="@lang" injection="true" prefix="&lt;?php echo app('translator')-&gt;get(" suffix="); ?&gt;" />
+      <data directive="@livewire" injection="true" prefix="&lt;?php echo \Livewire\Livewire::mount(" suffix=")-&gt;dom; ?&gt;" />
+      <data directive="@livewireScripts" />
+      <data directive="@livewireStyles" />
       <data directive="@method" injection="true" prefix="&lt;?php echo method_field(" suffix="); ?&gt;" />
       <data directive="@overwrite" />
       <data directive="@parent" />
       <data directive="@php" injection="true" prefix="&lt;?php (" suffix="); ?&gt;" />
       <data directive="@prepend" injection="true" prefix="&lt;?php $__env-&gt;startPrepend(" suffix="); ?&gt;" />
       <data directive="@production" />
+      <data directive="@props" injection="true" prefix="&lt;?php $attributes = $attributes-&gt;exceptProps(" suffix="); ?&gt;" />
       <data directive="@push" injection="true" prefix="&lt;?php $__env-&gt;startPush(" suffix="); ?&gt;" />
       <data directive="@role" injection="true" prefix="&lt;?php if(auth()-&gt;check() &amp;&amp; auth()-&gt;user()-&gt;hasRole(" suffix=")); ?&gt;" />
       <data directive="@section" injection="true" prefix="&lt;?php $__env-&gt;startSection(" suffix="); ?&gt;" />

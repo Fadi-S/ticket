@@ -5,104 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Login</title>
     <link href="{{ url("css/app.css") }}" rel="stylesheet">
-    <style>
-        #loader {
-            transition: all 0.3s ease-in-out;
-            opacity: 1;
-            visibility: visible;
-            position: fixed;
-            height: 100vh;
-            width: 100%;
-            background: #fff;
-            z-index: 90000;
-        }
-
-        #loader.fadeOut {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .spinner {
-            width: 40px;
-            height: 40px;
-            position: absolute;
-            top: calc(50% - 20px);
-            left: calc(50% - 20px);
-            background-color: #333;
-            border-radius: 100%;
-            -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
-            animation: sk-scaleout 1.0s infinite ease-in-out;
-        }
-
-        @-webkit-keyframes sk-scaleout {
-            0% { -webkit-transform: scale(0) }
-            100% {
-                -webkit-transform: scale(1.0);
-                opacity: 0;
-            }
-        }
-
-        @keyframes sk-scaleout {
-            0% {
-                -webkit-transform: scale(0);
-                transform: scale(0);
-            } 100% {
-                  -webkit-transform: scale(1.0);
-                  transform: scale(1.0);
-                  opacity: 0;
-              }
-        }
-    </style>
 </head>
 <body class="app">
-<div id='loader'>
-    <div class="spinner"></div>
-</div>
 
-<script>
-    window.addEventListener('load', function load() {
-        const loader = document.getElementById('loader');
-        setTimeout(function() {
-            loader.classList.add('fadeOut');
-        }, 300);
-    });
-</script>
-<div class="peers ai-s fxw-nw h-100vh">
-    <div class="d-n@sm- peer peer-greed h-100 pos-r bgr-n bgpX-c bgpY-c bgsz-cv" style='background-image: url("{{ url("/images/bg.jpg") }}")'>
-        <div class="pos-a centerXY">
-            <div class="bgc-white bdrs-50p pos-r" style='width: 120px; height: 120px;'>
-                <img class="pos-a centerXY img-fluid" src="{{ url("/images/logo.png") }}" alt="">
-            </div>
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+        <div>
+            <img class="mx-auto h-12 w-auto" src="{{ url("/images/logo.png") }}" alt="Workflow">
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                Sign in to your account
+            </h2>
         </div>
-    </div>
-    <div class="col-12 col-md-4 peer pX-40 pY-80 h-100 bgc-white scrollable pos-r" style='min-width: 320px;'>
-        <h4 class="fw-300 c-grey-900 mB-40">Login</h4>
-        {!! Form::open(['url' => 'login', 'method' => 'post']) !!}
-            <div class="form-group">
-                <label class="text-normal text-dark" for="email">Email</label>
-                {!! Form::email("email", null, ["class" => "form-control", "placeholder" => "Email", "id" => "email"]) !!}
-            </div>
-            <div class="form-group">
-                <label for="password" class="text-normal text-dark">Password</label>
-                {!! Form::password("password", ["class" => "form-control", "placeholder" => "Password", "id" => "password"]) !!}
-            </div>
-            <div class="form-group">
-                <div class="peers ai-c jc-sb fxw-nw">
-                    <div class="peer">
-                        <div class="checkbox checkbox-circle checkbox-info peers ai-c">
-                            <input type="checkbox" id="inputCall1" value="1" name="remember" class="peer" checked>
-                            <label for="inputCall1" class=" peers peer-greed js-sb ai-c">
-                                <span class="peer peer-greed">Remember Me</span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="peer">
-                        <button class="btn btn-primary">Login</button>
-                    </div>
+        <form class="mt-8 space-y-6" action="{{ url('/login') }}" method="POST">
+            @csrf
+
+            <input type="hidden" name="remember" value="true">
+            <div class="rounded-md shadow-sm -space-y-px">
+                <div>
+                    <label for="email-address" class="sr-only">Email address</label>
+                    <input id="email-address" name="email" type="email"
+                           required class="appearance-none rounded-none
+                            relative block w-full px-3 py-2 border
+                             border-gray-300 placeholder-gray-500
+                              text-gray-900 rounded-t-md focus:outline-none
+                               focus:ring-indigo-500 focus:border-indigo-500
+                                focus:z-10 sm:text-sm"
+                           placeholder="Email address" value="{{ old('email') }}">
+                </div>
+                <div>
+                    <label for="password" class="sr-only">Password</label>
+                    <input id="password" name="password" value="{{ old('password') }}"
+                           type="password" required
+                           class="appearance-none rounded-none
+                           relative block w-full px-3 py-2 border
+                            border-gray-300 placeholder-gray-500
+                             text-gray-900 rounded-b-md focus:outline-none
+                              focus:ring-indigo-500 focus:border-indigo-500
+                               focus:z-10 sm:text-sm"
+                           placeholder="Password">
                 </div>
             </div>
-        @include("errors.list")
-            {!! Form::close() !!}
+
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <input id="remember" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                    <label for="remember" class="ml-2 block text-sm text-gray-900">
+                        Remember me
+                    </label>
+                </div>
+            </div>
+
+            <div>
+                <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+            <!-- Heroicon name: lock-closed -->
+            <svg class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+            </svg>
+          </span>
+                    Sign in
+                </button>
+            </div>
+
+            @include("errors.list")
+        </form>
     </div>
 </div>
 

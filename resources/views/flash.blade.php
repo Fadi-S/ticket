@@ -8,6 +8,16 @@
     }
 </style>
 <div style="display: block; position: fixed; right: 15px; bottom: 15px; z-index: 10000;">
+
+    @php
+    $colors = [
+        'success' => 'green',
+        'warning' => 'yellow',
+        'info' => 'blue',
+        'danger' => 'red'
+    ];
+    @endphp
+
     @foreach (session('flash_notification', collect())->toArray() as $message)
         @if ($message['overlay'])
             @include('flash::modal', [
@@ -16,16 +26,24 @@
                 'body'       => $message['message']
             ])
         @else
-            <div id="alert_flash" class="alert alert-{{ $message['level'] }} {{ $message['important'] ? 'alert-important' : '' }}" role="alert">
+            @php($color = $colors[$message['level']])
+
+            <div id="alert_flash" class="alert py-2 px-4
+             bg-{{$color}}-200 text-{{$color}}-800
+             border-{{$color}}-600
+              border {{ $message['important'] ? 'alert-important' : '' }}"
+                 role="alert">
+
+                {!! $message['message'] !!}
+
                 @if ($message['important'])
-                    <button type="button" class="close" data-dismiss="alert" id="closeIMP" aria-hidden="true">&nbsp;&times;</button>
+                    <button type="button" class="close" data-dismiss="alert" id="closeIMP" aria-hidden="true">&times;</button>
                     <script>
                         document.getElementById("closeIMP").addEventListener("click", function() {
                             document.getElementById("alert_flash").classList.add('fadeOut');
                         });
                     </script>
                 @endif
-                {!! $message['message'] !!}
             </div>
         @endif
         <script>

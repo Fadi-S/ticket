@@ -1,21 +1,31 @@
 <?php
 
-Route::get('/login', 'Admin\AuthController@showLoginForm')->name("login");
-Route::post('/login', 'Admin\AuthController@login');
+use App\Http\Controllers\Admin\{AdminsController,
+    AuthController,
+    DashboardController,
+    MassesController,
+    ReservationsController,
+    UsersController};
+use App\Http\Livewire\Users\UserForm;
+
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name("login");
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware("auth")->group(function() {
 
-    Route::get('/logout', 'Admin\AuthController@logout');
+    Route::get('/logout', [AuthController::class, 'logout']);
 
-    Route::get('/', 'Admin\DashboardController@index');
-    Route::resource("users", 'Admin\UsersController');
-    Route::resource("admins", 'Admin\AdminsController');
-    Route::resource("masses", 'Admin\MassesController');
-    Route::resource("reservations", 'Admin\ReservationsController');
+    Route::get('/', [DashboardController::class, 'index']);
 
-    Route::resource("settings", 'Admin\SettingsController')->except("show");
+    Route::get('users/create', UserForm::class);
+    Route::get('users/{user}/edit', UserForm::class);
 
-    Route::get('/logs', 'Admin\DashboardController@showLogs');
+    Route::resource("users", UsersController::class)->except('create', 'edit');
+    Route::resource("admins", AdminsController::class);
+    Route::resource("masses", MassesController::class);
+    Route::resource("reservations", ReservationsController::class);
+
+    Route::get('/logs', [DashboardController::class, 'showLogs']);
 
 });
 

@@ -1,57 +1,55 @@
-@extends("master")
+<x-master>
+    <x-slot name="title">View All users | Ticket</x-slot>
 
-@section("title")
-    <title>View All users | Ticket</title>
-@endsection
+    <x-card>
 
-@section("content")
+        <x-table.table>
+            <x-slot name="head">
+                <tr>
+                    <x-table.th>Name</x-table.th>
+                    <x-table.th>Username</x-table.th>
+                    <x-table.empty-th>Edit</x-table.empty-th>
+                </tr>
+            </x-slot>
 
-    <div id='mainContent'>
-        <div class="row gap-20 masonry pos-r">
+            <x-slot name="body">
 
-            <div class="masonry-sizer col-md-6"></div>
+                @foreach($users as $user)
+                    <tr>
+                        <x-table.td>
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10">
+                                    <img class="h-10 w-10 rounded-full" src="{{ $user->picture }}" alt="{{ $user->name }}'s picture">
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900">
+                                        {{ $user->name }}
+                                    </div>
+                                    <div class="text-sm text-gray-500">
+                                        {{ $user->email }}
+                                    </div>
+                                </div>
+                            </div>
+                        </x-table.td>
 
-            <div class="masonry-item col-md-12">
-                <div class="bgc-white p-20 bd">
-                    <h6 class="c-grey-900">View All Users</h6>
+                        <x-table.td>
+                            <span class="text-gray-800 text-md font-semibold">{{ $user->username }}</span>
+                        </x-table.td>
 
-                    <table class="table table-striped table-bordered dataTable">
-                        <thead>
-                            <tr>
-                                <th>Picture</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Username</th>
-                                <th>Edit</th>
-                            </tr>
-                        </thead>
-                        <tfoot>
-                            <tr>
-                                <th>Picture</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Username</th>
-                                <th>Edit</th>
-                            </tr>
-                        </tfoot>
+                        <x-table.td>
+                            <a class="bg-blue-400 px-4 py-2 hover:bg-blue-500
+                             text-white text-md rounded-lg"
+                               href="{{ url("/users/$user->username/edit") }}">Edit</a>
+                        </x-table.td>
+                    </tr>
+                @endforeach
 
-                        <tbody>
-                        @foreach($users as $user)
-                            <tr>
-                                <td><img width="70" src="{{ $user->picture }}" alt="{{ $user->name }}'s picture"></td>
-                                <td><a href="{{ url("users/$user->username") }}">{{ $user->name }}</a></td>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->username }}</td>
-                                <td><a class="btn btn-info" href="{{ url("users/$user->username/edit") }}">Edit</a></td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+            </x-slot>
 
-                </div>
-            </div>
+        </x-table.table>
 
-        </div>
-    </div>
+        {{ $users->links() }}
 
-@endsection
+    </x-card>
+
+</x-master>

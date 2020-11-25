@@ -78,7 +78,7 @@ trait ReservationRepository
         $eventTime = $event->start;
         $users = User::whereIn("id", $users)->get();
 
-        $maxReservationPerWeek = Settings::where("name", "user_max_reservation_per_week")->first();
+        $maxReservationPerWeek = config('settings.max_reservations_per_week');
         if($maxReservationPerWeek == null)
             return true;
 

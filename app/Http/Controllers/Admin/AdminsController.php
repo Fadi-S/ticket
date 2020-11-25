@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminRequest;
 use App\Models\User\User;
 use App\Repositories\AdminRepository;
+use Spatie\Permission\Models\Role;
 
 class AdminsController extends Controller
 {
@@ -19,7 +20,9 @@ class AdminsController extends Controller
 
     public function create()
     {
-        return view("admins.create");
+        $roles = Role::where("name", "<>", "user")->pluck('name', 'id');
+
+        return view("admins.create", compact('roles'));
     }
 
     public function store(AdminRequest $request)
@@ -39,7 +42,9 @@ class AdminsController extends Controller
 
     public function edit(User $admin)
     {
-        return view("admins.edit", compact('admin'));
+        $roles = Role::where("name", "<>", "user")->pluck('name', 'id');
+
+        return view("admins.edit", compact('admin', 'roles'));
     }
 
     public function update(AdminRequest $request, User $admin)

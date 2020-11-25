@@ -1,11 +1,12 @@
 <?php
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+use App\Http\Controllers\API\ReservationsController;
+use App\Http\Controllers\API\UsersController;
 
-Route::post("/username/generate", 'API\UsersController@generateUsername');
-Route::post("/username/check", 'API\UsersController@checkUsername');
+Route::middleware('auth:api')->get('/user', fn(Request $request) => $request->user());
 
-Route::get("/reservation/users", 'API\ReservationsController@getUsers');
-Route::get("/reservation/events", 'API\ReservationsController@getEvents');
+Route::post("/username/generate", [UsersController::class, 'generateUsername']);
+Route::post("/username/check", [UsersController::class, 'checkUsername']);
+
+Route::get("/reservation/users", [ReservationsController::class, 'getUsers']);
+Route::get("/reservation/events", [ReservationsController::class, 'getEvents']);
