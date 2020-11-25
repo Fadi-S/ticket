@@ -17,27 +17,6 @@ trait AdminRepository
         })->paginate($paginate);
     }
 
-    function createAdmin(AdminRequest $request)
-    {
-        $admin = User::create($request->all());
-
-        $admin->assignRole($request->role);
-
-        return $admin;
-    }
-
-    function updateAdmin(AdminRequest $request, User $admin)
-    {
-        $attr = $request->all();
-
-        if($request->password == "")
-            $attr = $request->except("password");
-
-        $admin->syncRoles([$request->role]);
-
-        return $admin->update($attr);
-    }
-
     function deleteAdmin(User $admin) {
         try {
             return $admin->delete();

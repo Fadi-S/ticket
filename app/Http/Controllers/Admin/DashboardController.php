@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Event\Event;
+use App\Models\Event;
 use App\Models\User\User;
-use Illuminate\Http\Request;
 use Spatie\Activitylog\Models\Activity;
 
 class DashboardController extends Controller
@@ -21,7 +20,7 @@ class DashboardController extends Controller
 
     public function showLogs()
     {
-        $logs = Activity::latest()->get();
+        $logs = Activity::latest()->paginate(100);
 
         return view("logs", compact('logs'));
     }

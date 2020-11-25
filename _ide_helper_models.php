@@ -19,14 +19,14 @@ namespace App\Models\EventType{
  * @property string $arabic_name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EventType\EventType newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EventType\EventType newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EventType\EventType query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EventType\EventType whereArabicName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EventType\EventType whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EventType\EventType whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EventType\EventType whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EventType\EventType whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EventType newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EventType newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EventType query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EventType whereArabicName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EventType whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EventType whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EventType whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EventType whereUpdatedAt($value)
  */
 	class EventType extends \Eloquent {}
 }
@@ -42,19 +42,19 @@ namespace App\Models\Mass{
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Mass\Mass newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Mass\Mass newQuery()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Mass\Mass onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Mass\Mass query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Mass\Mass whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Mass\Mass whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Mass\Mass whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Mass\Mass whereNumberOfPlaces($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Mass\Mass whereTime($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Mass\Mass whereTypeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Mass\Mass whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Mass\Mass withTrashed()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Mass\Mass withoutTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Mass newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Mass newQuery()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Mass onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Mass query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Mass whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Mass whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Mass whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Mass whereNumberOfPlaces($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Mass whereTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Mass whereTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Mass whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Mass withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Mass withoutTrashed()
  */
 	class Mass extends \Eloquent {}
 }
@@ -70,16 +70,16 @@ namespace App\Models\Reservation{
  * @property string $secret
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reservation\Reservation newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reservation\Reservation newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reservation\Reservation query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reservation\Reservation whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reservation\Reservation whereEventId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reservation\Reservation whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reservation\Reservation whereReservedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reservation\Reservation whereSecret($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reservation\Reservation whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reservation\Reservation whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reservation newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reservation newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reservation query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reservation whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reservation whereEventId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reservation whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reservation whereReservedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reservation whereSecret($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reservation whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Reservation whereUserId($value)
  */
 	class Reservation extends \Eloquent {}
 }

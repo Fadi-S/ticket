@@ -6,8 +6,8 @@ namespace App\Repositories;
 
 use App\Http\Requests\ReservationRequest;
 use App\Models\Event\Event;
-use App\Models\Mass\Mass;
-use App\Models\Reservation\Reservation;
+use App\Models\Mass;
+use App\Models\Reservation;
 use App\Models\User\User;
 use App\Settings\Settings;
 use Carbon\Carbon;

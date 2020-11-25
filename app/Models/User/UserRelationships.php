@@ -4,7 +4,7 @@
 namespace App\Models\User;
 
 
-use App\Models\Reservation\Reservation;
+use App\Models\Reservation;
 
 trait UserRelationships
 {

@@ -4,14 +4,16 @@
 namespace App\Repositories;
 
 use App\Http\Requests\MassesRequest;
-use App\Models\Mass\Mass;
+use App\Models\Mass;
 
 trait MassRepository
 {
 
-    public function getAllMasses($paginate = 100)
+    public function getAllMasses($paginate = 10)
     {
-        return Mass::latest()->paginate($paginate);
+        return Mass::latest()
+            ->with('reservations.users')
+            ->paginate($paginate);
     }
 
     public function createMass(MassesRequest $request)

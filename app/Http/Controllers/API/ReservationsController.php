@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Mass\Mass;
+use App\Models\Mass;
 use App\Repositories\ReservationRepository;
 use Illuminate\Http\Request;
 

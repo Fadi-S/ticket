@@ -21,16 +21,6 @@ class UserPolicy
         return $admin->can("users.create") ? true : null;
     }
 
-    public function store(User $admin)
-    {
-        return $admin->can("users.create") ? true : null;
-    }
-
-    public function edit(User $admin, User $model)
-    {
-        return $admin->can("users.edit") ? true : null;
-    }
-
     public function update(User $admin, User $model)
     {
         return $admin->can("users.edit") ? true : null;

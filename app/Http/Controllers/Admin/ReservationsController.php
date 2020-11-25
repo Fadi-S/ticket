@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ReservationRequest;
 use App\Models\Event\Event;
-use App\Models\Reservation\Reservation;
+use App\Models\Reservation;
 use App\Repositories\ReservationRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
