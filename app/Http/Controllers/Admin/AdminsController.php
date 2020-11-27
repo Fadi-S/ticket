@@ -4,15 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User\User;
-use App\Repositories\AdminRepository;
 
 class AdminsController extends Controller
 {
-    use AdminRepository;
 
     public function index()
     {
-        $admins = $this->getAllAdmins();
+        $admins = User::whereHas("roles",
+            fn ($query) => $query->where("name", "<>", "user")
+        )->paginate(10);
+
         return view("admins.index", compact('admins'));
     }
 
@@ -23,7 +24,7 @@ class AdminsController extends Controller
 
     public function destroy(User $admin)
     {
-        if($this->deleteAdmin($admin))
+        if($admin->delete())
             flash()->success("Deleted admin Successfully");
         else
             flash()->error("Error deleting admin");

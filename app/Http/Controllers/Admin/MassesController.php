@@ -5,12 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MassesRequest;
 use App\Models\Mass;
-use App\Repositories\MassRepository;
 use Carbon\Carbon;
 
 class MassesController extends Controller
 {
-    use MassRepository;
 
     public function create()
     {
@@ -23,7 +21,7 @@ class MassesController extends Controller
 
     public function store(MassesRequest $request)
     {
-        if($this->createMass($request))
+        if(Mass::create($request->all()))
             flash()->success("Created mass successfully");
         else
             flash()->error("Error creating mass");
@@ -43,7 +41,7 @@ class MassesController extends Controller
 
     public function update(Mass $mass, MassesRequest $request)
     {
-        if($this->editMass($mass, $request))
+        if($mass->update($request->all()))
             flash()->success("Edited mass successfully");
         else
             flash()->error("Error editing mass");
@@ -53,13 +51,17 @@ class MassesController extends Controller
 
     public function index()
     {
-        $masses = $this->getAllMasses();
+        $masses = Mass::latest()
+            ->with('reservations.user')
+            ->paginate(10);
 
         return view("mass.index", compact('masses'));
     }
 
     public function show(Mass $mass)
     {
+        $mass->load('reservations.user');
+
         return view("mass.show", compact("mass"));
     }
 

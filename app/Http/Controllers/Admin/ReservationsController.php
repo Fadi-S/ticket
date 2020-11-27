@@ -3,34 +3,73 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ReservationRequest;
-use App\Models\Event\Event;
+use App\Models\Event;
 use App\Models\Reservation;
-use App\Repositories\ReservationRepository;
+use App\Models\User\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\MessageBag;
 
 class ReservationsController extends Controller
 {
 
-    use ReservationRepository;
+    public function index()
+    {
+        $reservations = Reservation::latest('reserved_at')
+            ->user()
+            ->with('event', 'user')
+            ->paginate(10);
+
+        return view('reservations.index', compact('reservations'));
+    }
 
     public function create()
     {
         return view("reservations.create");
     }
 
-    public function store(ReservationRequest $request)
+    public function store(Request $request)
     {
-        $messageBag = new MessageBag();
-        $reservation = $this->makeReservation($request, $messageBag);
+        $event = Event::findOrFail($request->event);
+        $users = User::whereIn('id', $request->users)->get();
 
-        if($reservation != null)
-            flash()->success("Reservation made successfully");
-        else
-            flash()->error("Couldn't make reservation");
+        foreach($users as $user) {
+            $success = $user->reserveIn($event);
 
-        return redirect("reservations/create")->withErrors($messageBag);
+            if(! $success)
+                flash()->error("Couldn't reserve at this date for $user->name");
+        }
+
+        if(flash()->messages->isEmpty())
+            flash()->success("Reservation(s) made successfully");
+
+        return redirect("reservations/create");
+    }
+
+    public function edit(Reservation $reservation)
+    {
+        if(!$reservation->of(auth()->user()))
+            $this->authorize('reservations.edit');
+
+        $users = User::addUsernameToName()->pluck("text", "id");
+
+        return view("reservations.edit", compact('reservation', 'users'));
+    }
+
+    public function update(Request $request, Reservation $reservation)
+    {
+        if(!$reservation->of(auth()->user()))
+            $this->authorize('reservations.edit');
+
+        $request->validate(["event" => "required"]);
+
+        $reservation = $reservation->changeEventTo($request->event);
+
+        if(!$reservation) {
+            flash()->error("Couldn't reserve at this date");
+            return response("reservations");
+        }
+
+        flash()->success("Reservation date changed successfully");
+        return redirect("reservations/$reservation->id/edit");
     }
 
     public function show(Reservation $reservation)
@@ -38,31 +77,12 @@ class ReservationsController extends Controller
         return view("reservations.show", compact('reservation'));
     }
 
-    public function edit(Reservation $reservation)
-    {
-        $users = $this->allUsers();
-
-        return view("reservations.edit", compact('reservation', 'users'));
-    }
-
-    public function update(ReservationRequest $request, Reservation $reservation)
-    {
-        $messageBag = new MessageBag();
-
-        if($this->editReservation($request, $reservation, $messageBag))
-            flash()->success("Reservation edited successfully");
-        else
-            flash()->error("Couldn't edit this reservation");
-
-        return redirect("reservations/$reservation->id/edit")->withErrors($messageBag);
-    }
-
     public function destroy(Reservation $reservation)
     {
-        $this->delete($reservation);
+        $reservation->cancel();
 
-        flash()->success("Reservation Deleted");
+        flash()->success("Reservation Canceled");
 
-        return redirect("masses/" . $reservation->event->id);
+        return back();
     }
 }

@@ -1,26 +1,23 @@
 <div class="space-y-6">
     <x-form.group>
-        <div class="flex flex-col w-1/2">
-            <label for="user">Choose Users</label>
-            {!! Form::select("users[]", $create ? [] :$users, $create ? null : $reservation->users()->pluck("id"), [
-            "class" => "w-full user", "multiple"=>"multiple", "id"=>"user"
-        ]) !!}
-        </div>
 
-        <div class="flex flex-col w-1/2">
-            <label for="event">Event</label>
-            {!! Form::select("event", $create ? [] : [$reservation->event->id => $reservation->event->start->format("d/m/Y h:i A") . " | " . $reservation->event->type->arabic_name], null,
-     ["class" => "bg-white border-2 border-gray-300 h-9 rounded w-full", "readonly" => "readonly", "id"=>"event"]) !!}
-        </div>
+        <x-form.select name="users[]" :multiple="true" size="w-1/2"
+                       id="user" :checked="$create ? [] : [$reservation->user->id]"
+                       label="Choose Users"
+                       :options="$create ? [] : $users" />
+
+
+        <x-form.select name="event" size="w-1/2"
+                       label="Event" readonly="readonly" id="event"
+                       :options="$create ? [] : [$reservation->event->id => $reservation->event->start->format('d/m/Y h:i A')
+                       . ' | '. $reservation->event->type->arabic_name]"
+        />
     </x-form.group>
 
     <div id='calendar'></div>
 
     <x-button type="submit" class="mx-auto mt-2">
-        <x-slot name="svg">
-            <x-svg.edit />
-        </x-slot>
-
+        <x-slot name="svg"><x-svg.edit /></x-slot>
         {{ $submit }}
     </x-button>
 
@@ -101,7 +98,7 @@
             }, 500);
             @endif
 
-            $('.user').select2({
+            $('#user').select2({
                 ajax: {
                     url: '{{ url("api/reservation/users") }}',
                     dataType: 'json',
@@ -114,6 +111,10 @@
                     }
                 }
             });
+
+            @if(!$create)
+                $("#user").prop("disabled", true);
+            @endif
 
         });
     </script>

@@ -23,15 +23,13 @@
                               label="Password" placeholder="Password" />
             </x-form.group>
 
-            @if($isAdmin)
-                <x-form.group>
+            <x-form.group>
 
-                    <x-form.select wire:model="role_id" name="role_id"
-                                   id="role_id" size="w-1/2"
-                                   label="Admin Role" :options="$roles" />
+                <x-form.select wire:model="role_id" name="role_id"
+                               id="role_id" size="w-1/2"
+                               label="Admin Role" :options="$roles" />
 
-                </x-form.group>
-            @endif
+            </x-form.group>
 
             <x-button type="submit" class="mx-auto mt-2">
                 <x-slot name="svg">

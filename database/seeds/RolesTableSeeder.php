@@ -18,11 +18,11 @@ class RolesTableSeeder extends Seeder
     {
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
+        Role::create(['name' => 'user']);
+
         $role = Role::create(['name' => 'super-admin']);
         Permission::create(["name" => "*"]);
         $role->givePermissionTo("*");
-
-        Role::create(['name' => 'user']);
 
         $scanner = Role::create(['name' => 'scanner']);
         Permission::create(["name" => "scan"]);

@@ -1,73 +1,71 @@
-@extends("components.master")
+<x-master>
 
-@section("title")
-    <title>View {{ $mass->formatted_date }} | Ticket</title>
-@endsection
+    <x-slot name="title">View {{ $mass->formatted_date }} | Ticket</x-slot>
 
-@section("content")
+    <x-card class="space-y-4">
+        <div class="space-y-2">
+            <h6 class="text-2xl font-semibold text-gray-800">
+                {{ $mass->type->arabic_name }} | {{ $mass->formatted_date }} | {{ $mass->formatted_time }}
+            </h6>
 
-    <div id='mainContent'>
-        <div class="row gap-20 masonry pos-r">
+            <p class="text-sm text-gray-600">
+                Places available: {{ $mass->number_of_places - $mass->reservedPlaces() . ' / ' . $mass->number_of_places}}
+            </p>
+        </div>
 
-            <div class="masonry-sizer col-md-6"></div>
+        <x-table.table>
+            <x-slot name="head">
+                <x-table.th>User</x-table.th>
+                <x-table.th>Reserved At</x-table.th>
+                <x-table.empty-th>Edit</x-table.empty-th>
+                <x-table.empty-th>Delete</x-table.empty-th>
+            </x-slot>
 
-            <div class="masonry-item col-md-12">
-                <div class="bgc-white p-20 bd">
-                    <h6 class="c-grey-900">{{ $mass->type->arabic_name }} | {{ $mass->formatted_date }} | {{ $mass->formatted_time }}</h6>
-
-                    <p>Places available: {{ $mass->number_of_places - $mass->reservedPlaces() }}</p>
-
-                    <div class="row">
-                        @foreach($mass->reservations as $reservation)
-
-                            <div class="col-md-3">
-                                <div class="card">
-                                    <div class="card-header">
-                                        Reservation of: {{ $reservation->users[0]->name }} | Number of People {{ $reservation->users()->count() }}
-                                    </div>
-
-                                    <div class="card-body">
-                                        @foreach($reservation->users as $key => $user)
-
-                                            <div class="mx-auto">
-                                                <img src="{{ $user->picture }}" alt="{{ $user->name }}'s Picture" class="img-thumbnail" width="70">
-                                                &nbsp;
-                                                <a href="{{ url("/users/$user->username") }}">{{ $user->name }} ({{ "@".$user->username }})</a>
-                                            </div>
-
-                                            @if ($key !== array_key_last($reservation->users->toArray()))
-                                                <hr>
-                                            @endif
-
-                                        @endforeach
-                                    </div>
-
-                                    <div class="card-footer">
-                                        <div class="row">
-                                            <a href="{{ url("/reservations/$reservation->id/edit") }}" class="btn btn-info mr-auto">Edit</a>
-
-                                            {!! Form::open(["method" => "DELETE", "url" => url("/reservations/$reservation->id")]) !!}
-
-                                            <a href="" class="btn btn-danger ml-auto"
-                                               onclick="event.preventDefault();event.stopPropagation();
-                                               if(confirm('Are you sure you want to delete this reservation?')) this.parentNode.submit();">
-                                                Delete Reservation
-                                            </a>
-
-                                            {!! Form::close() !!}
-                                        </div>
-                                    </div>
-
+            <x-slot name="body">
+                @foreach($mass->reservations as $reservation)
+                <tr>
+                    <x-table.td>
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 h-10 w-10">
+                                <img class="h-10 w-10 rounded-full" src="{{ $reservation->user->picture }}" alt="{{ $reservation->user->name }}'s picture">
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">
+                                    {{ $reservation->user->name }}
+                                </div>
+                                <div class="text-sm text-gray-500">
+                                    {{ $reservation->user->email }}
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
+                        </div>
+                    </x-table.td>
 
+                    <x-table.td>
+                        {{ $reservation->reserved_at->format('l, d/m/Y h:i a') }}
+                    </x-table.td>
 
-                </div>
-            </div>
+                    <x-table.td>
+                        <a class="bg-blue-400 px-4 py-2 hover:bg-blue-500
+                             text-white text-md rounded-lg"
+                           href="{{ url("/reservations/$reservation->id/edit") }}">Edit</a>
+                    </x-table.td>
 
-        </div>
-    </div>
+                    <x-table.td>
+                        {!! Form::open(["method" => "DELETE", "url" => url("/reservations/$reservation->id")]) !!}
 
-@endsection
+                        <a href="#" class="bg-red-500 px-4 py-2 hover:bg-red-600 text-white text-md rounded-lg"
+                           onclick="event.preventDefault();event.stopPropagation();
+                           if(confirm('Are you sure you want to cancel this reservation?')) this.parentNode.submit();">
+                            Delete Reservation
+                        </a>
+
+                        {!! Form::close() !!}
+                    </x-table.td>
+                </tr>
+            @endforeach
+            </x-slot>
+
+        </x-table.table>
+
+    </x-card>
+</x-master>

@@ -15,14 +15,11 @@ class Event extends Model
     protected $dates = ['start', 'end'];
     protected static $logFillable = true;
 
+    protected $with = ['type'];
+
     public function reservedPlaces()
     {
-        $users_total = 0;
-
-        foreach ($this->reservations as $reservation)
-            $users_total += $reservation->users->count();
-
-        return $users_total;
+        return $this->reservations->count();
     }
 
     public function getFormattedDateAttribute()
@@ -32,7 +29,7 @@ class Event extends Model
 
     public function getFormattedTimeAttribute()
     {
-        return $this->start->format("H:i A") . " - " .$this->end->format("H:i A");
+        return $this->start->format("h:i A") . " - " .$this->end->format("h:i A");
     }
 
     public function type()

@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Event;
+use App\Models\User\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,18 +17,15 @@ class CreateReservationsTable extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->integer("event_id");
-            $table->timestamp("reserved_at");
+            $table->foreignIdFor(Event::class);
+            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class, 'reserved_by');
+            $table->timestamp('registered_at')->nullable();
+            $table->timestamp("reserved_at")->nullable();
+            $table->boolean('is_exception')->default(false);
             $table->string("secret");
             $table->softDeletes();
             $table->timestamps();
-        });
-
-        Schema::create('reservation_user', function (Blueprint $table) {
-            $table->integer("reservation_id");
-            $table->integer("user_id");
-
-            $table->primary(["reservation_id", "user_id"]);
         });
     }
 
@@ -38,6 +37,5 @@ class CreateReservationsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('reservations');
-        Schema::dropIfExists('reservation_user');
     }
 }

@@ -26,9 +26,7 @@ class AuthController extends Controller
 
     protected function attemptLogin(Request $request)
     {
-        $exists = User::whereHas("roles", function ($query) {
-            $query->where("name", "<>", "user");
-        })->where("email", $request->email)->exists();
+        $exists = User::where("email", $request->email)->exists();
 
         if(!$exists)
             return false;

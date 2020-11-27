@@ -12,10 +12,11 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $users = User::role("user")->count();
-        $events = Event::count();
-
-        return view("index", compact('users', 'events'));
+        return view("index", [
+            'users' => User::role("user")->count(),
+            'events' => Event::count(),
+            'maxReservations' => config('settings.max_reservations_per_month'),
+        ]);
     }
 
     public function showLogs()

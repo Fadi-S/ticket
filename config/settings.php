@@ -1,5 +1,12 @@
 <?php
 
+use Carbon\Carbon;
+
 return [
-    'max_reservations_per_week' => 1, // null for unlimited
+    'max_reservations_per_month' => 4, // null for unlimited
+
+    'start_of_week' => Carbon::FRIDAY,
+
+    'allow_for_exceptions' => true,
+    'hours_to_allow_for_exception' => 12,
 ];

@@ -14,27 +14,23 @@ class UserForm extends Component
 
     public User $user;
     public string $password = '';
-    public int $role_id = 3;
+    public int $role_id = 1;
 
     public bool $isCreate = true;
-    public bool $isAdmin = false;
     
     public function mount()
     {
         $this->isCreate = !isset($this->user);
 
-        $this->isAdmin = explode('/', request()->path())[0] == 'admins';
-
         $this->user ??= new User();
 
-        $this->role_id = (!$this->isCreate && $this->isAdmin)
-            ? $this->user->roles[0]->id : 3;
+        $this->role_id = (!$this->isCreate) ? $this->user->roles[0]->id : 1;
     }
 
     public function render()
     {
         return view('livewire.users.user-form', [
-            'roles' => $this->getRoles(),
+            'roles' => Role::pluck('name', 'id'),
         ])->layout('components.master');
     }
 
@@ -51,7 +47,7 @@ class UserForm extends Component
 
         $this->user->save();
 
-        $this->assignRole();
+        $this->user->syncRoles([$this->role_id]);
 
         $this->clearFields();
 
@@ -66,21 +62,6 @@ class UserForm extends Component
         }
     }
 
-    protected function assignRole()
-    {
-        if($this->isAdmin)
-            $this->user->syncRoles([$this->role_id]);
-        else if($this->isCreate)
-            $this->user->assignRole("user");
-    }
-
-    protected function getRoles()
-    {
-        return $this->isAdmin ?
-            Role::where("name", "<>", "user")->pluck('name', 'id')
-            : null;
-    }
-
     protected function rules()
     {
         $rules = [
@@ -88,10 +69,8 @@ class UserForm extends Component
             'user.username' => 'required|unique:users,username',
             'user.email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
+            'role_id' => 'required|exists:roles,id',
         ];
-
-        if($this->isAdmin)
-            $rules['role_id'] = 'required|exists:roles,id';
 
         if(!$this->isCreate) {
             $id = isset($this->user) ? $this->user->id : 0;

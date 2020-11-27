@@ -48,16 +48,14 @@
 
                 <x-navbar.divider/>
 
-                @can("reservation.create")
-                    <x-navbar.link label="Make Reservation" :href="url('/reservations/create')"
-                                   :active="url()->current() == url('/reservations/create')">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                             xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                        </svg>
-                    </x-navbar.link>
-                @endcan
+                <x-navbar.link label="Make Reservation" :href="url('/reservations/create')"
+                               :active="url()->current() == url('/reservations/create')">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                </x-navbar.link>
 
                 <x-navbar.divider/>
 
@@ -100,27 +98,21 @@
                     </x-navbar.list>
                 @endcan
 
-                @can('admins.create' || 'admins.edit' || 'admins.view')
-                <x-navbar.list label="Admins">
-                    <x-slot name="svg">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3
-                            0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5
-                            5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path>
-                        </svg>
-                    </x-slot>
-
-                    <x-navbar.child label="Add Admin" href="{{ url('/admins/create') }}"
-                                    active="{{ url()->current() == url('/admins/create') }}"/>
-
-                    <x-navbar.child label="View Admins" href="{{ url('/admins') }}"
-                                    active="{{ url()->current() == url('/admins') }}"/>
-
-                </x-navbar.list>
-                @endcan
+                <x-navbar.link label="View All Reservations" :href="url('/reservations')"
+                               :active="url()->current() == url('/reservations')">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                              d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0
+                              002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0
+                              10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1
+                               1 0 100-2H6z"
+                              clip-rule="evenodd"></path>
+                    </svg>
+                </x-navbar.link>
 
                 <x-navbar.divider/>
 
+                @can('activityLog')
                 <x-navbar.link label="Activity Log" :href="url('/logs')"
                                :active="url()->current() == url('/logs')">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -130,6 +122,7 @@
                               clip-rule="evenodd"></path>
                     </svg>
                 </x-navbar.link>
+                @endcan
 
             </nav>
         </div>
@@ -167,14 +160,14 @@
                         <div x-show.transition="dropdownOpen"
                              class="absolute right-0 mt-2 w-48 bg-white rounded-md overflow-hidden shadow-xl z-10"
                              style="display: none;">
-                            <a href="{{ url("/admins/" . auth()->user()->username) }}"
+                            <a href="{{ url("/users/" . auth()->user()->username) }}"
                                class="block px-4 py-2 text-sm
-                               {{ url("/admins/" . auth()->user()->username) == url()->current() ? "bg-indigo-600 text-white" : "text-gray-700" }}
+                               {{ url("/users/" . auth()->user()->username) == url()->current() ? "bg-indigo-600 text-white" : "text-gray-700" }}
                                        hover:bg-indigo-600 hover:text-white">Profile</a>
 
-                            <a href="{{ url("/admins/change-password") }}"
+                            <a href="{{ url("/users/change-password") }}"
                                class="block px-4 py-2 text-sm
-                               {{ url("/admins/change-password") == url()->current() ? "bg-indigo-600 text-white" : "text-gray-700" }}
+                               {{ url("/users/change-password") == url()->current() ? "bg-indigo-600 text-white" : "text-gray-700" }}
                                        hover:bg-indigo-600 hover:text-white">Change
                                 Password</a>
 

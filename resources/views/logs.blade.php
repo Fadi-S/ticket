@@ -26,14 +26,16 @@
                         <x-table.td>
                             <strong>{{ ($log->causer) ? $log->causer->name : "System" }}</strong>
                             {{ $log->description }}
-                            <strong>{{ $log->subject["name"] ?? $log->subject["start"] }}</strong>
+                            <strong>{{ $log->subject ? $log->subject["name"] ?? $log->subject["start"] : '' }}</strong>
                             {{ $log->created_at->diffforhumans() }}
                         </x-table.td>
 
                         <x-table.td>
+                            @if($log->description == 'updated')
                             <span>Old: <pre>{{ print_r($log->changes["old"], true) }}</pre></span>
                             <br>
                             <span>New: <pre>{{ print_r($log->changes["attributes"], true) }}</pre></span>
+                            @endif
                         </x-table.td>
 
                         <x-table.td>

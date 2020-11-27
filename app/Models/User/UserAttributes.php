@@ -7,6 +7,18 @@ namespace App\Models\User;
 trait UserAttributes
 {
 
+    public function scopeSearch($query, $search)
+    {
+        return $query->where("name", "like", "%$search%")
+            ->orWhere("username", "like", "%$search%")
+            ->orWhere("email", "like", "%$search%");
+    }
+
+    public function scopeAddUsernameToName($query)
+    {
+        return $query->select("*", \DB::raw("CONCAT(name,' (@',username,')') as text"));
+    }
+
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = bcrypt($password);

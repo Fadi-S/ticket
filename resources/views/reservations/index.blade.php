@@ -1,60 +1,77 @@
-@extends("components.master")
+<x-master>
+    <x-slot name="title">View All Reservations | Ticket</x-slot>
 
-@section("title")
-    <title>View All admins | Ticket</title>
-@endsection
+    <x-card>
 
-@section("content")
+        <x-table.table>
+            <x-slot name="head">
+                <tr>
+                    <x-table.empty-th>Type</x-table.empty-th>
+                    <x-table.th>Time</x-table.th>
+                    <x-table.th>User</x-table.th>
+                    <x-table.th>Reserved At</x-table.th>
+                    <x-table.empty-th>Edit</x-table.empty-th>
+                    <x-table.empty-th>Cancel</x-table.empty-th>
+                </tr>
+            </x-slot>
 
-    <div id='mainContent'>
-        <div class="row gap-20 masonry pos-r">
+            <x-slot name="body">
 
-            <div class="masonry-sizer col-md-6"></div>
+                @foreach($reservations as $reservation)
+                    <tr>
+                        <x-table.td>{{ $reservation->event->type->arabic_name }}</x-table.td>
 
-            <div class="masonry-item col-md-12">
-                <div class="bgc-white p-20 bd">
-                    <h6 class="c-grey-900">View All Admins</h6>
+                        <x-table.td>{{ $reservation->event->formatted_date . ' | ' . $reservation->event->formatted_time }}</x-table.td>
 
-                    <table class="table table-striped table-bordered dataTable">
-                        <thead>
-                            <tr>
-                                <th>Picture</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Role</th>
-                                <th>Username</th>
-                                <th>Edit</th>
-                            </tr>
-                        </thead>
-                        <tfoot>
-                            <tr>
-                                <th>Picture</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Role</th>
-                                <th>Username</th>
-                                <th>Edit</th>
-                            </tr>
-                        </tfoot>
+                        <x-table.td>
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10">
+                                    <img class="h-10 w-10 rounded-full" src="{{ $reservation->user->picture }}"
+                                         alt="{{ $reservation->user->name }}'s picture">
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900">
+                                        {{ $reservation->user->name }}
+                                    </div>
+                                    <div class="text-sm text-gray-500">
+                                        {{ $reservation->user->email }}
+                                    </div>
+                                </div>
+                            </div>
+                        </x-table.td>
 
-                        <tbody>
-                        @foreach($admins as $admin)
-                            <tr>
-                                <td><img width="70" src="{{ $admin->picture }}" alt="{{ $admin->name }}'s picture"></td>
-                                <td><a href="{{ url("admins/$admin->username") }}">{{ $admin->name }}</a></td>
-                                <td>{{ $admin->email }}</td>
-                                <td>{{ $admin->getRoleNames()->first() }}</td>
-                                <td>{{ $admin->username }}</td>
-                                <td><a class="btn btn-info" href="{{ url("admins/$admin->username/edit") }}">Edit</a></td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                        <x-table.td>
+                            {{ $reservation->reserved_at->format('l, d/m/Y h:i a') }}
+                        </x-table.td>
 
-                </div>
-            </div>
+                        <x-table.td>
+                            <a class="bg-blue-400 px-4 py-2 hover:bg-blue-500
+                             text-white text-md rounded-lg"
+                               href="{{ url("/reservations/$reservation->id/edit") }}">Edit</a>
+                        </x-table.td>
 
-        </div>
-    </div>
+                        <x-table.td>
+                            {!! Form::open(["method" => "DELETE", "url" => url("/reservations/$reservation->id")]) !!}
 
-@endsection
+                            <x-button href="#" color="bg-red-500 hover:bg-red-600"
+                               onclick="event.preventDefault();event.stopPropagation();
+                           if(confirm('Are you sure you want to cancel this reservation?')) this.parentNode.submit();">
+                                <x-slot name="svg">
+                                    <x-svg.x />
+                                </x-slot>
+                            </x-button>
+
+                            {!! Form::close() !!}
+                        </x-table.td>
+                    </tr>
+                @endforeach
+
+            </x-slot>
+
+        </x-table.table>
+
+        {{ $reservations->links() }}
+
+    </x-card>
+
+</x-master>
