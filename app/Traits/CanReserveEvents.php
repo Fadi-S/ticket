@@ -3,61 +3,51 @@
 namespace App\Traits;
 
 use App\Helpers\GenerateRandomString;
-use App\Models\Event;
 use App\Models\Reservation;
 use Carbon\Carbon;
 
 trait CanReserveEvents
 {
 
-    public function reserveIn(Event $event)
+    public function reserveIn($event)
     {
-        if($this->alreadyReservedIn($event))
+
+
+        $output = null;
+
+        foreach ($event->conditions() as $condition)
+        {
+            $output = app($condition)->check($event, $this);
+
+            if($output->shouldContinue())
+                continue;
+
+            break;
+        }
+
+        if(is_null($output)) {
+            flash()->error("Something went wrong for $this->name");
+
+            return false;
+        }
+
+        if($output->hasMessage())
+            flash()->error($output->message());
+
+        if($output->isDenied())
             return false;
 
-        $exception = $this->qualifiesForException($event);
-
-        if(!($exception || !$this->reservedFromSoon($event) || $this->reservedByAdmin()))
-            return false;
-
-        $reservation = new Reservation([
-            "event_id" => $event->id,
-            "reserved_at" => Carbon::now(),
-            'is_exception' => $exception,
+        $reservation = new Reservation(
+            array_merge([
+            'event_id' => $event->id,
+            'reserved_at' => Carbon::now(),
             'reserved_by' => \Auth::id(),
-            "secret" => (new GenerateRandomString)->handle(),
-        ]);
+            'secret' => (new GenerateRandomString)->handle(),
+        ], $output->body() ?? []));
 
-        return $this->reservations()->save($reservation);
-    }
+        $this->reservations()->save($reservation);
 
-    public function qualifiesForException(Event $event)
-    {
-        if(!config('settings.allow_for_exceptions'))
-            return false;
-
-        return abs(Carbon::now()->diffInHours($event->start)) <= config('settings.hours_to_allow_for_exception');
-    }
-
-    public function reservedByAdmin()
-    {
-        $user = auth()->user();
-
-        return !$user->hasRole('user') && $user->id != $this->id;
-    }
-
-    public function alreadyReservedIn(Event $event)
-    {
-        return $this->reservations->where('event_id', $event->id)->exists();
-    }
-
-    public function reservedFromSoon(Event $event)
-    {
-        $maxPerMonth = config('settings.max_reservations_per_month');
-        if($maxPerMonth == null)
-            return false;
-
-        return $this->reservationsFromMonth($event->start)->count() >= $maxPerMonth;
+        return $reservation;
     }
 
     public function reservationsFromMonth(Carbon $start)
@@ -66,15 +56,9 @@ trait CanReserveEvents
 
         return $this->reservations()
             ->where('is_exception', false)
-            ->whereHas("event",
-                fn($query) => $query->whereBetween("start", [$start, $start->copy()->addMonth()])
+            ->whereHas('event',
+                fn($query) => $query->whereBetween('start', [$start, $start->copy()->addMonth()])
             );
-    }
-
-    public function reservationsLeft()
-    {
-        return config('settings.max_reservations_per_month')
-            - $this->reservations->where('is_exception', false)->count();
     }
 
 }

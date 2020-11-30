@@ -3,7 +3,7 @@
 use Carbon\Carbon;
 
 return [
-    'max_reservations_per_month' => 4, // null for unlimited
+    'max_reservations_per_month' => 5, // null for unlimited
 
     'start_of_week' => Carbon::FRIDAY,
 

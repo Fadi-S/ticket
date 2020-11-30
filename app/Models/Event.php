@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\MassFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -20,6 +21,11 @@ class Event extends Model
     public function reservedPlaces()
     {
         return $this->reservations->count();
+    }
+
+    public function getReservationsLeftAttribute()
+    {
+        return $this->number_of_places - $this->reservations()->count();
     }
 
     public function getFormattedDateAttribute()
