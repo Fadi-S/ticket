@@ -1,13 +1,12 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Admin\{
-    AuthController,
+use App\Http\Controllers\Admin\{AuthController,
     DashboardController,
+    KiahkController,
     MassesController,
     ReservationsController,
-    UsersController
-};
+    UsersController};
 use App\Http\Livewire\Users\UserForm;
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name("login");
@@ -29,6 +28,8 @@ Route::middleware("auth")->group(function() {
         ->except('create', 'edit');
 
     Route::resource("masses", MassesController::class);
+    Route::resource("kiahk", KiahkController::class);
+
     Route::resource("reservations", ReservationsController::class);
 
     Route::get('/logs', [DashboardController::class, 'showLogs']);

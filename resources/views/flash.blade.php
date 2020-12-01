@@ -11,10 +11,10 @@
 
     @php
     $colors = [
-        'success' => 'green',
-        'warning' => 'yellow',
-        'info' => 'blue',
-        'danger' => 'red'
+        'success' => 'bg-green-200 text-green-800 border-green-600',
+        'warning' => 'bg-yellow-200 text-yellow-800 border-yellow-600',
+        'info' => 'bg-blue-200 text-blue-800 border-blue-600',
+        'danger' => 'bg-red-200 text-red-800 border-red-600'
     ];
     @endphp
 
@@ -29,8 +29,7 @@
             @php($color = $colors[$message['level']])
 
             <div id="alert_flash" class="alert py-2 px-4
-             bg-{{$color}}-200 text-{{$color}}-800
-             border-{{$color}}-600
+             {{ $color }}
               border {{ $message['important'] ? 'alert-important' : '' }}"
                  role="alert">
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\MassesRequest;
+use App\Http\Requests\EventsRequest;
 use App\Models\Mass;
 use Carbon\Carbon;
 
@@ -19,7 +19,7 @@ class MassesController extends Controller
         ]);
     }
 
-    public function store(MassesRequest $request)
+    public function store(EventsRequest $request)
     {
         if(Mass::create($request->all()))
             flash()->success("Created mass successfully");
@@ -39,7 +39,7 @@ class MassesController extends Controller
         ]);
     }
 
-    public function update(Mass $mass, MassesRequest $request)
+    public function update(Mass $mass, EventsRequest $request)
     {
         if($mass->update($request->all()))
             flash()->success("Edited mass successfully");
@@ -64,7 +64,5 @@ class MassesController extends Controller
 
         return view("mass.show", compact("mass"));
     }
-
-
 
 }

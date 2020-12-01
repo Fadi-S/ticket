@@ -46,8 +46,23 @@ class Reservation extends Model
     public function changeEventTo($eventId)
     {
         $event = Event::findOrFail($eventId);
+        $event = app($event->type->model)->find($event->id);
 
         $user = $this->user;
+
+        $this->is_exception = true;
+        $this->save();
+
+        $output = $user->canReserveIn($event);
+
+        if($output->isDenied()) {
+            $this->is_exception = false;
+            $this->save();
+
+            flash()->error($output->message());
+
+            return false;
+        }
 
         $this->cancel();
 

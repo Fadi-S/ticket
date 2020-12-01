@@ -17,6 +17,7 @@ class CreateEventTypesTable extends Migration
             $table->id();
             $table->string("name")->unique();
             $table->string("arabic_name");
+            $table->string('model');
             $table->timestamps();
         });
     }

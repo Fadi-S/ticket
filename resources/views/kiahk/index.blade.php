@@ -1,6 +1,5 @@
-
 <x-master>
-    <x-slot name="title">View All Masses | Ticket</x-slot>
+    <x-slot name="title">View All Kiahk Events | Ticket</x-slot>
 
     <x-card>
 
@@ -17,28 +16,30 @@
 
             <x-slot name="body">
 
-                @foreach($masses as $mass)
+                @foreach($kiahks as $kiahk)
                     <tr>
                         <x-table.td>
-                            <a href="{{ url("masses/$mass->id") }}">{{ $mass->formatted_date }}</a>
+                            <a href="{{ url("kiahk/$kiahk->id") }}">
+                                {{ $kiahk->start->format("l, dS F Y") }}
+                            </a>
                         </x-table.td>
 
                         <x-table.td>
-                            {{ $mass->start->format("h:i A") }} - {{ $mass->end->format("h:i A") }}
+                            {{ $kiahk->start->format("h:i A") }} - {{ $kiahk->end->format("h:i A") }}
                         </x-table.td>
 
                         <x-table.td>
-                            {{ $mass->description }}
+                            {{ $kiahk->description }}
                         </x-table.td>
 
                         <x-table.td>
-                            {{ $mass->reservedPlaces() }} / {{ $mass->number_of_places }}
+                            {{ $kiahk->reservedPlaces() }} / {{ $kiahk->number_of_places }}
                         </x-table.td>
 
                         <x-table.td>
                             <a class="bg-blue-400 px-4 py-2 hover:bg-blue-500
                              text-white text-md rounded-lg"
-                               href="{{ url("/masses/$mass->id/edit") }}">Edit</a>
+                               href="{{ url("/kiahk/$kiahk->id/edit") }}">Edit</a>
                         </x-table.td>
                     </tr>
                 @endforeach
@@ -47,7 +48,7 @@
 
         </x-table.table>
 
-        {{ $masses->links() }}
+        {{ $kiahks->links() }}
 
     </x-card>
 

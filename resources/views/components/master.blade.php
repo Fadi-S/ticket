@@ -79,7 +79,7 @@
                     </x-navbar.list>
                 @endcan
 
-                @can("masses.create" || "masses.edit" || "masses.view")
+                @can("events.create" || "events.edit" || "events.view")
                     <x-navbar.list label="Masses">
 
                         <x-slot name="svg">
@@ -94,6 +94,28 @@
 
                         <x-navbar.child label="View Masses" href="{{ url('/masses') }}"
                                         active="{{ url()->current() == url('/masses') }}"/>
+
+                    </x-navbar.list>
+                @endcan
+
+                @can("events.create" || "events.edit" || "events.view")
+                    <x-navbar.list label="Kiahk">
+
+                        <x-slot name="svg">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                      d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z"
+                                      clip-rule="evenodd"></path>
+                                <path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"></path>
+                            </svg>
+                        </x-slot>
+
+                        <x-navbar.child label="Add Kiahk" href="{{ url('/kiahk/create') }}"
+                                        active="{{ url()->current() == url('/kiahk/create') }}"/>
+
+                        <x-navbar.child label="View Kiahk Events" href="{{ url('/kiahk') }}"
+                                        active="{{ url()->current() == url('/kiahk') }}"/>
 
                     </x-navbar.list>
                 @endcan
@@ -113,15 +135,15 @@
                 <x-navbar.divider/>
 
                 @can('activityLog')
-                <x-navbar.link label="Activity Log" :href="url('/logs')"
-                               :active="url()->current() == url('/logs')">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1
+                    <x-navbar.link label="Activity Log" :href="url('/logs')"
+                                   :active="url()->current() == url('/logs')">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1
                                1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-                              clip-rule="evenodd"></path>
-                    </svg>
-                </x-navbar.link>
+                                  clip-rule="evenodd"></path>
+                        </svg>
+                    </x-navbar.link>
                 @endcan
 
             </nav>

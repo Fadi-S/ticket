@@ -36,23 +36,22 @@
         let lastSelected;
 
         function selectCurrentEvent(startDate, endDate) {
-            let timeString = startDate.format("h:mma");
-            if (startDate.format("m") == 0)
-                timeString = startDate.format("ha");
-
-            if (endDate.format("m") == 0)
-                timeString = timeString + " - " + endDate.format("ha");
-            else
-                timeString = timeString + " - " + endDate.format("h:mma");
-
-            let dateString = startDate.format('YYYY-MM-DD');
-
             if (lastSelected != null)
                 lastSelected.css({"backgroundColor": "", "color": ""});
 
-            lastSelected = $("td[data-date='" + dateString + "'] a.fc-daygrid-event div:contains('" + timeString + "')")
+            lastSelected = $("td[data-date='" + startDate.format('YYYY-MM-DD') + "'] a.fc-daygrid-event div:contains('" + formatDate(startDate) + "')")
+                .add("td[data-date='" + endDate.format('YYYY-MM-DD') + "'] a.fc-daygrid-event div:contains('" + formatDate(endDate) + "')")
                 .parent()
                 .css({"backgroundColor": "green", "color": "white"});
+        }
+
+        function formatDate(date) {
+            let dateString = date.format("h:mma");
+
+            if (date.format("m") === '0')
+                dateString = date.format("ha");
+
+            return dateString;
         }
 
         $(document).ready(function () {

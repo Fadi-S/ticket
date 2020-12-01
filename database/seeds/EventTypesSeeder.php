@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\EventType;
+use App\Models\Kiahk;
+use App\Models\Mass;
 use Illuminate\Database\Seeder;
 
 class EventTypesSeeder extends Seeder
@@ -15,6 +17,13 @@ class EventTypesSeeder extends Seeder
         EventType::create([
             "name" => "Mass",
             "arabic_name" => "قداس",
+            'model' => Mass::class,
+        ]);
+
+        EventType::create([
+            "name" => "Kiahk",
+            "arabic_name" => "كيهك",
+            'model' => Kiahk::class,
         ]);
     }
 }

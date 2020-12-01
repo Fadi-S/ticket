@@ -29,14 +29,11 @@ class ReservationsController extends Controller
     public function store(Request $request)
     {
         $event = Event::findOrFail($request->event);
+        $event = app($event->type->model)->find($event->id);
+
         $users = User::whereIn('id', $request->users)->get();
 
-        foreach($users as $user) {
-            $success = $user->reserveIn($event);
-
-            if(! $success)
-                flash()->error("Couldn't reserve at this date for $user->name");
-        }
+        $users->each->reserveIn($event);
 
         if(flash()->messages->isEmpty())
             flash()->success("Reservation(s) made successfully");
@@ -61,15 +58,13 @@ class ReservationsController extends Controller
 
         $request->validate(["event" => "required"]);
 
-        $reservation = $reservation->changeEventTo($request->event);
+        $newReservation = $reservation->changeEventTo($request->event);
 
-        if(!$reservation) {
-            flash()->error("Couldn't reserve at this date");
-            return response("reservations");
-        }
+        if(!$newReservation)
+            return redirect("reservations/$reservation->id/edit");
 
         flash()->success("Reservation date changed successfully");
-        return redirect("reservations/$reservation->id/edit");
+        return redirect("reservations/$newReservation->id/edit");
     }
 
     public function show(Reservation $reservation)

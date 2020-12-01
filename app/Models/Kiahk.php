@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Reservations\Conditions\{EnoughSpaceInEvent,
     EventDateHasNotPassed,
-    HaveMassTickets,
+    HaveKiahkTickets,
     NotAlreadyReserved,
     QualifiesForException,
     ReservedByAdmin};
@@ -12,32 +12,32 @@ use App\Reservations\EventContract;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Mass extends Event implements EventContract
+class Kiahk extends Event implements EventContract
 {
     use HasFactory;
 
-    protected $attributes = ['type_id' => 1];
+    protected $attributes = ['type_id' => 2];
 
     protected static function booted()
     {
         static::addGlobalScope('event_type',
-            fn (Builder $builder) => $builder->where('type_id', 1)
+            fn (Builder $builder) => $builder->where('type_id', 2)
         );
     }
 
     public function maxReservations(): int
     {
-        return config('settings.max_reservations_per_month');
+        return 1;
     }
 
     public function hoursForException(): int
     {
-        return config('settings.hours_to_allow_for_exception');
+        return 0;
     }
 
     public function allowsException(): bool
     {
-        return config('settings.allow_for_exceptions');
+        return false;
     }
 
     public function conditions()
@@ -48,7 +48,7 @@ class Mass extends Event implements EventContract
             ReservedByAdmin::class,
             EnoughSpaceInEvent::class,
             QualifiesForException::class,
-            HaveMassTickets::class,
+            HaveKiahkTickets::class,
         ];
     }
 }

@@ -22,8 +22,8 @@ class MassFactory extends Factory
     public function definition()
     {
         return [
-            'start' => now()->startOfMonth(),
-            'end' => now()->startOfMonth()->addHours(2),
+            'start' => now()->startOfMonth()->addDays(15),
+            'end' => now()->startOfMonth()->addDays(15)->addHours(2),
             'number_of_places' => 120,
             'type_id' => 1,
         ];
