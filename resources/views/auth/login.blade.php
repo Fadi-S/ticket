@@ -2,70 +2,51 @@
 
     <x-slot name="title">Sign In to Ticket</x-slot>
 
-    <div>
-        <img class="mx-auto h-12 w-auto" src="{{ url("/images/logo.png") }}" alt="Workflow">
-        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
-        </h2>
-    </div>
-    <form class="mt-8 space-y-6" action="{{ url('/login') }}" method="POST">
+    <h2 class="sm:mt-0 mt-2 text-center text-2xl font-bold text-gray-900">
+        Sign in to your account
+    </h2>
+
+    <form class="space-y-6" action="{{ url('/login') }}" method="POST">
         @csrf
+        @honeypot
 
         <input type="hidden" name="remember" value="true">
-        <div class="rounded-md shadow-sm -space-y-px">
-            <div>
-                <label for="email-address" class="sr-only">Email address</label>
-                <input id="email-address" name="email" type="email"
-                       required class="appearance-none rounded-none
-                            relative block w-full px-3 py-2 border
-                             border-gray-300 placeholder-gray-500
-                              text-gray-900 rounded-t-md focus:outline-none
-                               focus:ring-blue-500 focus:border-blue-500
-                                focus:z-10 sm:text-sm"
-                       placeholder="Email address" value="{{ old('email') }}">
-            </div>
-            <div>
-                <label for="password" class="sr-only">Password</label>
-                <input id="password" name="password" value="{{ old('password') }}"
-                       type="password" required
-                       class="appearance-none rounded-none
-                           relative block w-full px-3 py-2 border
-                            border-gray-300 placeholder-gray-500
-                             text-gray-900 rounded-b-md focus:outline-none
-                              focus:ring-blue-500 focus:border-blue-500
-                               focus:z-10 sm:text-sm"
-                       placeholder="Password">
-            </div>
+        <div class="rounded-md shadow-sm space-y-3">
+            <x-form.input-2 label="Email"
+                            id="email" value="{{ old('email') }}"
+                            type="email" required />
+
+            <x-form.input-2 label="Password"
+                            id="password" value="{{ old('password') }}"
+                            type="password" required />
         </div>
 
         <div class="flex items-center justify-between">
-            <div class="text-md">
+            <div class="text-sm w-10/12">
                 <a href="{{ url('/register') }}" class="font-medium text-blue-800 hover:text-blue-700">
                     Sign Up for new account
                 </a>
             </div>
 
 
-            <div class="text-sm">
-                <a href="{{ url('reset') }}" class="font-medium text-blue-600 hover:text-blue-500">
+            <div class="flex justify-end text-sm w-10/12">
+                <a href="{{ url('reset') }}" class="font-medium text-blue-800 hover:text-blue-700">
                     Forgot your password?
                 </a>
             </div>
         </div>
 
-        <div>
-            <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-          <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-            <!-- Heroicon name: lock-closed -->
-            <svg class="h-5 w-5 text-blue-500 group-hover:text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
-            </svg>
-          </span>
-                Sign in
-            </button>
-        </div>
+        <x-button type="submit" class="mx-auto w-full justify-center shadow-lg">
+            <x-slot name="svg">
+                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+                </svg>
+            </x-slot>
 
-        <x-layouts.errors />
+            Sign in
+        </x-button>
+
+        <x-layouts.errors size="w-full" />
     </form>
 
 

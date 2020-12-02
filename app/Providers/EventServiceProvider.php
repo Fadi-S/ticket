@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
+use App\Notifications\SendEmailSpamDetected;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
+use Spatie\Honeypot\Events\SpamDetectedEvent;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -17,6 +18,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        SpamDetectedEvent::class => [
+            SendEmailSpamDetected::class,
         ],
     ];
 

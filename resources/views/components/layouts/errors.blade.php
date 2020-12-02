@@ -1,8 +1,13 @@
+@props([
+    'class' => '',
+    'size' => 'lg:w-1/2 w-full',
+])
+
 @if($errors->any())
     <div class="bg-red-100 border-2
      border-red-200 flex flex-col
       items-center mx-auto px-2 py-4
-       rounded-xl text-red-900 lg:w-1/2 w-full">
+       rounded-xl text-red-900 {{ $class }} {{ $size }}">
 
         <ul class="list-disc mx-auto">
             @foreach($errors->all() as $error)

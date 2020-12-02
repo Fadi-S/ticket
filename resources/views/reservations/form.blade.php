@@ -3,7 +3,7 @@
 
         <x-form.select name="users[]" :multiple="true" size="w-1/2"
                        id="user" :checked="$create ? [] : [$reservation->user->id]"
-                       label="Choose Users"
+                       label="Choose Users" style="width: 100%;"
                        :options="$create ? [] : $users" />
 
 
@@ -60,7 +60,7 @@
                 initialView: 'dayGridMonth',
                 weekNumbers: true,
                 height: 650,
-                expandRows: true,
+                expandRows: false,
                 events: '{{ url("api/reservation/events") }}',
                 eventClick: function (event) {
                     let eventInput = $("#event");
@@ -108,7 +108,8 @@
                             type: 'public'
                         }
                     }
-                }
+                },
+                width: 'resolve'
             });
 
             @if(!$create)

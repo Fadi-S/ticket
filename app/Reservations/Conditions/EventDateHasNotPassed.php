@@ -12,7 +12,7 @@ class EventDateHasNotPassed implements ConditionContract
 
     public function check($event, $user): ConditionOutput
     {
-        return $event->start->greaterThanOrEqualTo(now())
+        return $event->end->greaterThanOrEqualTo(now())
             ? ConditionOutput::undecided()
             : ConditionOutput::deny()->message('This event has passed');
     }

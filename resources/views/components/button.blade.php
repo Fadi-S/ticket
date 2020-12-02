@@ -1,13 +1,13 @@
 @props([
     'class' => null,
-    'color' => 'bg-blue-500 hover:bg-blue-600'
+    'color' => 'bg-blue-500 hover:bg-blue-600 focus:bg-blue-600'
 ])
 
 <button class="flex px-4 py-2 rounded-lg {{ $color }}
- text-white focus:outline-none {{ $class }}"
+        text-white focus:outline-none {{ $class }}"
         {{ $attributes }}>
     @isset($svg)
-        <div class="{{ !$slot ? 'mr-2' : '' }}">
+        <div class="{{ $slot->toHtml() ? 'mr-2' : '' }}">
             {{ $svg }}
         </div>
     @endisset

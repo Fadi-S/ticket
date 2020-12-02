@@ -6,7 +6,7 @@
     <link href="{{ url("/css/app.css") }}" rel="stylesheet" type="text/css">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
 
-    <title>{{ $title ?? env('APP_NAME') }}</title>
+    <title>{{ $title ?? 'Ticket' }}</title>
 
     @livewireScripts
 
@@ -25,7 +25,7 @@
             <a href="{{ url('/') }}">
                 <div class="flex items-center justify-center">
                     <div class="flex items-center m-4">
-                        <img class="rounded-full w-1/4" src="{{ url("images/logo.png") }}" alt="">
+                        <img class="rounded-full w-1/4" src="{{ url("assets/stg_logo.png?w=250") }}" alt="">
                         <span class="w-3/4 text-gray-200 ml-6 text-2xl font-semibold">Ticket</span>
                     </div>
                 </div>

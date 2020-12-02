@@ -17,6 +17,7 @@ class Event extends Model
     protected static $logFillable = true;
 
     protected $with = ['type'];
+    protected $withCount = ['reservations'];
 
     public function reservedPlaces()
     {
@@ -25,7 +26,7 @@ class Event extends Model
 
     public function getReservationsLeftAttribute()
     {
-        return $this->number_of_places - $this->reservations()->count();
+        return $this->number_of_places - $this->reservations_count;
     }
 
     public function getFormattedDateAttribute()
