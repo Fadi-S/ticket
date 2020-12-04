@@ -3,8 +3,8 @@
         View {{ $user->name }} | Ticket
     </x-slot>
 
-    <x-card>
 
-    </x-card>
+
+    <livewire:change-password-form />
 
 </x-master>

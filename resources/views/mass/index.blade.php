@@ -20,7 +20,8 @@
                 @foreach($masses as $mass)
                     <tr>
                         <x-table.td>
-                            <a href="{{ url("masses/$mass->id") }}">{{ $mass->formatted_date }}</a>
+                            <a class="text-blue-500 hover:text-blue-600 underline font-semibold"
+                               href="{{ url("/tickets/?event=$mass->id") }}">{{ $mass->formatted_date }}</a>
                         </x-table.td>
 
                         <x-table.td>

@@ -1,47 +1,46 @@
-@extends('layouts.app')
+<x-layouts.auth>
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+    <x-slot name="title">Reset Password | Ticket</x-slot>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+    @if(session("status"))
+        <x-layouts.success size="w-full mb-4">
+            {{ session("status") }}
+        </x-layouts.success>
+    @endif
 
-                    <form method="POST" action="{{ route('password.email') }}">
-                        @csrf
+    <h2 class="sm:mt-0 mt-2 text-center text-2xl font-bold text-gray-900">
+        Reset Password
+    </h2>
 
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+    <form class="space-y-6" action="{{ route('password.email') }}" method="POST">
+        @csrf
+        @honeypot
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Send Password Reset Link') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+        <div class="rounded-md shadow-sm space-y-3">
+            <x-form.input-2 label="Email"
+                            id="email" value="{{ old('email') }}"
+                            type="email" required/>
         </div>
-    </div>
-</div>
-@endsection
+
+        <div class="text-sm">
+            <a href="{{ url('/login') }}" class="font-medium text-blue-800 hover:text-blue-700">
+                ← Back to sign in page
+            </a>
+        </div>
+
+        <x-button type="submit" class="mx-auto w-full justify-center shadow-lg">
+            <x-slot name="svg">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                </svg>
+            </x-slot>
+
+            Send Password Reset Link
+        </x-button>
+
+        <x-layouts.errors size="w-full"/>
+    </form>
+
+
+</x-layouts.auth>

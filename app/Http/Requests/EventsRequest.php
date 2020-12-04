@@ -28,6 +28,7 @@ class EventsRequest extends FormRequest
             "number_of_places" => "required|numeric|min:1",
             "start" => "required|date",
             "end" => "required|date|after:start",
+            'type_id' => 'nullable',
         ];
     }
 

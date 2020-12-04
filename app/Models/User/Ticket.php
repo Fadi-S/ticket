@@ -23,11 +23,13 @@ class Ticket
             $this->user
                 ->reservations()
                 ->where('is_exception', false)
-                ->whereHas('event',
-                    fn($query) => $query
-                        ->where('type_id', 1)
-                        ->whereBetween('start', [$start, $start->copy()->addMonth()])
-                )->count();
+                ->whereHas('ticket', fn ($query) =>
+                $query->whereHas('event', fn($query) =>
+
+                $query->where('type_id', 1)
+                    ->whereBetween('start', [$start, $start->copy()->addMonth()])
+
+                ))->count();
     }
 
     public function kiahk(Carbon $year=null)
@@ -38,10 +40,12 @@ class Ticket
             $this->user
                 ->reservations()
                 ->where('is_exception', false)
-                ->whereHas('event',
-                    fn($query) => $query
-                        ->where('type_id', 2)
-                        ->whereBetween('start', [$start, $start->copy()->addYear()])
-                )->count();
+                ->whereHas('ticket', fn ($query) =>
+                    $query->whereHas('event', fn($query) =>
+
+                        $query->where('type_id', 2)
+                            ->whereBetween('start', [$start, $start->copy()->addYear()])
+
+                    ))->count();
     }
 }

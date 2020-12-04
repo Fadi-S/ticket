@@ -18,8 +18,8 @@ class DashboardController extends Controller
         return view("index", [
             'users' => User::role("user")->count(),
             'events' => Event::count(),
-            'massTickets' => auth()->user()->tickets()->mass() . ' of ' . (new Mass)->maxReservations(),
-            'kiahkTickets' => auth()->user()->tickets()->kiahk() . ' of ' . (new Kiahk)->maxReservations(),
+            'massTickets' => auth()->user()->tickets()->mass() . ' of ' . (new Mass)->maxReservations() . ' left',
+            'kiahkTickets' => auth()->user()->tickets()->kiahk() . ' of ' . (new Kiahk)->maxReservations() . ' left',
         ]);
     }
 

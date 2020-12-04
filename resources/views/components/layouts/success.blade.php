@@ -1,6 +1,6 @@
-@props(['class' => null])
+@props(['class' => null, 'size' => 'w-full sm:w-9/12 md:w-1/2 lg:w-1/4'])
 
-<div class="bg-white p-4 border w-full sm:w-9/12 md:w-1/2 lg:w-1/4 mx-auto {{ $class }}
+<div class="bg-white p-4 border {{ $size }} mx-auto {{ $class }}
                      rounded-lg shadow-md flex space-x-4 items-center justify-center">
     <svg class="w-6 h-6 text-green-800" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd"

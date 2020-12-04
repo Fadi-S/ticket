@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Models\Mass;
 use App\Models\Reservation;
+use App\Models\Ticket;
 use App\Models\User\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -26,16 +27,17 @@ class MassReservationTest extends TestCase
         $this->user = User::factory()->create();
         $this->user->assignRole('user');
         $this->actingAs($this->user);
+
     }
 
     /** @test */
     function a_user_can_reserve_in_an_event()
     {
-        $mass = Mass::factory()->create();
+        $ticket = Ticket::factory()->create();
 
         $this->assertCount(0, $this->user->reservations);
 
-        $this->user->reserveIn($mass);
+        $this->user->reserveIn($ticket);
 
         $this->assertCount(1, $this->user->refresh()->reservations);
     }
@@ -57,13 +59,13 @@ class MassReservationTest extends TestCase
     /** @test */
     function a_user_cant_reserve_in_the_same_event_twice()
     {
-        $mass = Mass::factory()->create();
+        $ticket = Ticket::factory()->create();
 
-        $this->assertInstanceOf(Reservation::class, $this->user->reserveIn($mass));
+        $this->assertInstanceOf(Reservation::class, $this->user->reserveIn($ticket));
 
         $this->assertEquals(1, $this->user->reservations()->count());
 
-        $this->assertFalse($this->user->reserveIn($mass));
+        $this->assertFalse($this->user->reserveIn($ticket));
     }
 
     /** @test */
@@ -90,9 +92,11 @@ class MassReservationTest extends TestCase
     /** @test */
     function an_admin_reserving_to_user_can_bypass_place_limits()
     {
-        $mass = Mass::factory()->create(['number_of_places' => 1]);
+        $ticket = Ticket::factory()->create([
+            'event_id' => Mass::factory()->create(['number_of_places' => 1])->id
+        ]);
 
-        $this->assertNotFalse($this->user->reserveIn($mass));
+        $this->assertNotFalse($this->user->reserveIn($ticket));
 
         $admin = User::factory()->create();
         $admin->assignRole('super-admin');
@@ -100,19 +104,21 @@ class MassReservationTest extends TestCase
 
         $john = User::factory()->create();
 
-        $this->assertNotFalse($john->reserveIn($mass));
+        $this->assertNotFalse($john->reserveIn($ticket));
     }
 
     /** @test */
     function there_must_be_enough_space_to_reserve_a_ticket_to_user()
     {
-        $mass = Mass::factory()->create(['number_of_places' => 1,]);
+        $ticket = Ticket::factory()->create([
+            'event_id' => Mass::factory()->create(['number_of_places' => 1])->id
+        ]);
 
-        $this->assertNotFalse($this->user->reserveIn($mass));
+        $this->assertNotFalse($this->user->reserveIn($ticket));
 
         $john = User::factory()->create();
 
-        $this->assertFalse($john->reserveIn($mass));
+        $this->assertFalse($john->reserveIn($ticket));
     }
 
     private function reserveInNewEvent(Carbon $time=null)
@@ -122,7 +128,11 @@ class MassReservationTest extends TestCase
             'end' => $time ?? now()->addHours(12),
         ]);
 
-        return $this->user->reserveIn($mass);
+        $ticket = Ticket::factory()->create([
+            'event_id' => $mass->id
+        ]);
+
+        return $this->user->reserveIn($ticket);
     }
 
     private function fillTickets()

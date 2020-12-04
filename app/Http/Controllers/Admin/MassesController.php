@@ -21,7 +21,7 @@ class MassesController extends Controller
 
     public function store(EventsRequest $request)
     {
-        if(Mass::create($request->all()))
+        if(Mass::create($request->validated()))
             flash()->success("Created mass successfully");
         else
             flash()->error("Error creating mass");
@@ -41,7 +41,7 @@ class MassesController extends Controller
 
     public function update(Mass $mass, EventsRequest $request)
     {
-        if($mass->update($request->all()))
+        if($mass->update($request->validated()))
             flash()->success("Edited mass successfully");
         else
             flash()->error("Error editing mass");
@@ -52,7 +52,7 @@ class MassesController extends Controller
     public function index()
     {
         $masses = Mass::latest()
-            ->with('reservations.user')
+            ->with('tickets.reservations.user')
             ->paginate(10);
 
         return view("mass.index", compact('masses'));

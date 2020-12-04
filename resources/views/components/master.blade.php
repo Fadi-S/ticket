@@ -14,24 +14,26 @@
 <body class="app">
 
 <div>
-    <div x-data="{ sidebarOpen: false }" class="flex h-screen bg-gray-200">
-        <div :class="sidebarOpen ? 'block' : 'hidden'" @click="sidebarOpen = false"
+    <div x-data="{ sidebarOpen: true, intentional: false }"
+         x-init="sidebarOpen = document.body.clientWidth > 1024;
+            window.addEventListener('resize', () =>
+                sidebarOpen = intentional ? sidebarOpen : window.innerWidth > 1024
+            );"
+         class="flex h-screen bg-gray-200">
+        <div :class="sidebarOpen ? 'block' : 'hidden'" @click="sidebarOpen = false; intentional=true;"
              class="fixed z-20 inset-0 bg-black opacity-50 transition-opacity lg:hidden"></div>
 
-        <div :class="sidebarOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'"
-             class="fixed z-30 inset-y-0 left-0 w-56 transition duration-300 transform bg-gray-900 overflow-y-auto
-              lg:translate-x-0 lg:static lg:inset-0">
+        <div :class="sidebarOpen ? 'translate-x-0 ease-out lg:translate-x-0 lg:static lg:inset-0' : '-translate-x-full ease-in'"
+             class="fixed z-30 inset-y-0 left-0 w-56 transition duration-150 transform bg-gray-800 overflow-y-auto">
 
             <a href="{{ url('/') }}">
                 <div class="flex items-center justify-center">
                     <div class="flex items-center m-4">
-                        <img class="rounded-full w-1/4" src="{{ url("assets/stg_logo.png?w=250") }}" alt="">
+                        <img class="rounded-full w-1/4" src="{{ url("assets/stg_logo-250.png") }}" alt="">
                         <span class="w-3/4 text-gray-200 ml-6 text-2xl font-semibold">Ticket</span>
                     </div>
                 </div>
             </a>
-
-            <x-navbar.divider/>
 
             <nav class="mt-4 space-y-4">
 
@@ -57,9 +59,14 @@
                     </svg>
                 </x-navbar.link>
 
-                <x-navbar.divider/>
+                <x-navbar.link label="Tickets" :href="url('/tickets')"
+                               :active="url()->current() == url('/tickets')">
+                    <x-svg.ticket />
+                </x-navbar.link>
 
                 @can("users.create" || "users.edit" || "users.view")
+                    <x-navbar.divider/>
+
                     <x-navbar.list label="Users">
 
                         <x-slot name="svg">
@@ -120,21 +127,9 @@
                     </x-navbar.list>
                 @endcan
 
-                <x-navbar.link label="View All Reservations" :href="url('/reservations')"
-                               :active="url()->current() == url('/reservations')">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                              d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0
-                              002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0
-                              10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1
-                               1 0 100-2H6z"
-                              clip-rule="evenodd"></path>
-                    </svg>
-                </x-navbar.link>
-
-                <x-navbar.divider/>
-
                 @can('activityLog')
+                    <x-navbar.divider/>
+
                     <x-navbar.link label="Activity Log" :href="url('/logs')"
                                    :active="url()->current() == url('/logs')">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -146,12 +141,18 @@
                     </x-navbar.link>
                 @endcan
 
+                <x-navbar.divider/>
+
+                <x-navbar.link class="text-red-400 text-lg" label="Logout" :href="url('/logout')">
+                    <x-svg.logout />
+                </x-navbar.link>
+
             </nav>
         </div>
         <div class="flex-1 flex flex-col overflow-hidden">
             <header class="flex justify-between items-center py-4 px-6 bg-white shadow-md">
                 <div class="flex items-center">
-                    <button @click="sidebarOpen = true" class="text-gray-700 focus:outline-none lg:hidden">
+                    <button @click="sidebarOpen = !sidebarOpen; intentional=true;" class="text-gray-700 focus:outline-none">
                         <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M4 6H20M4 12H20M4 18H11" stroke="currentColor" stroke-width="2"
                                   stroke-linecap="round"
@@ -184,23 +185,13 @@
                              style="display: none;">
                             <a href="{{ url("/users/" . auth()->user()->username) }}"
                                class="block px-4 py-2 text-sm
-                               {{ url("/users/" . auth()->user()->username) == url()->current() ? "bg-indigo-600 text-white" : "text-gray-700" }}
-                                       hover:bg-indigo-600 hover:text-white">Profile</a>
-
-                            <a href="{{ url("/users/change-password") }}"
-                               class="block px-4 py-2 text-sm
-                               {{ url("/users/change-password") == url()->current() ? "bg-indigo-600 text-white" : "text-gray-700" }}
-                                       hover:bg-indigo-600 hover:text-white">Change
-                                Password</a>
+                               {{ url("/users/" . auth()->user()->username) == url()->current() ? "bg-gray-200" : "text-gray-700" }}
+                                       hover:bg-gray-200 ">Profile</a>
 
                             <a href="{{ url('logout') }}" class="w-full px-4 py-2 text-sm text-red-500
-                                 hover:bg-red-600 flex items-center justify-start
-                                  hover:text-white focus:outline-none space-x-2">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-                                </svg>
+                                 hover:bg-gray-200 flex items-center justify-start
+                                   focus:outline-none space-x-2">
+                                <x-svg.logout />
                                 <span>Sign Out</span>
                             </a>
                         </div>
@@ -213,18 +204,20 @@
                 {{ $slot ?? "" }}
 
             </main>
-
-            <footer class="bg-white text-gray-400 text-sm py-6 px-2 flex">
+            <footer class="bg-white text-gray-400 text-sm py-4 px-2 hidden md:flex">
                 <span class="mx-auto">Copyright © Fadi Sarwat, StGeorge Sporting 2020</span>
             </footer>
         </div>
     </div>
 </div>
 
+
 <script src="{{ url("js/app.js") }}"></script>
 @include("flash")
 
 @stack("scripts")
+
+@stack('modals')
 
 @livewireStyles
 </body>

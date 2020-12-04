@@ -15,8 +15,13 @@ class UserForm extends Component
     public User $user;
     public string $password = '';
     public int $role_id = 1;
-
     public bool $isCreate = true;
+
+    public bool $redirect = false;
+
+    protected $queryString = [
+        'redirect' => ['except' => false],
+    ];
     
     public function mount()
     {
@@ -47,11 +52,14 @@ class UserForm extends Component
 
         $this->user->save();
 
-        $this->user->syncRoles([$this->role_id]);
+        $this->user->syncRoles([(auth()->user()->isAdmin()) ? $this->role_id : 1]);
 
         $this->clearFields();
 
         session()->flash('success', 'User Saved Successfully');
+
+        if($this->redirect)
+            $this->dispatchBrowserEvent('closeTab');
     }
 
     protected function clearFields()

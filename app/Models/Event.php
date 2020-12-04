@@ -17,16 +17,26 @@ class Event extends Model
     protected static $logFillable = true;
 
     protected $with = ['type'];
-    protected $withCount = ['reservations'];
 
     public function reservedPlaces()
     {
-        return $this->reservations->count();
+        $count = 0;
+
+        foreach ($this->tickets as $ticket)
+            $count += $ticket->reservations_count;
+
+        return $count;
     }
 
     public function getReservationsLeftAttribute()
     {
-        return $this->number_of_places - $this->reservations_count;
+        $count = 0;
+        $this->load('tickets');
+
+        foreach ($this->tickets as $ticket)
+            $count += $ticket->reservations_count;
+
+        return $this->number_of_places - $count;
     }
 
     public function getFormattedDateAttribute()
@@ -36,7 +46,7 @@ class Event extends Model
 
     public function getFormattedTimeAttribute()
     {
-        return $this->start->format("h:i A") . " - " .$this->end->format("h:i A");
+        return $this->start->format("h:i A") . " -> " .$this->end->format("h:i A");
     }
 
     public function type()
@@ -44,8 +54,18 @@ class Event extends Model
         return $this->belongsTo(EventType::class, "type_id");
     }
 
-    public function reservations()
+    public function tickets()
     {
-        return $this->hasMany(Reservation::class, "event_id");
+        return $this->hasMany(Ticket::class, 'event_id');
+    }
+
+    public function hasPassed()
+    {
+        return $this->start->lte(now());
+    }
+
+    public function specific()
+    {
+        return app($this->type->model)->find($this->id);
     }
 }

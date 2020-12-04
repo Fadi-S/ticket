@@ -5,7 +5,9 @@
 
     <div class="m-4 grid items-start grid-cols-4 gap-4">
 
-        <x-data-card color="bg-indigo-400">
+
+        <x-data-card onclick="window.location.href='tickets?type=1'" color="bg-indigo-400"
+                     class="cursor-pointer transform transition duration-150 hover:scale-95 focus:scale-95">
             <x-slot name="svg">
                 <x-svg.ticket />
             </x-slot>
@@ -14,7 +16,9 @@
             <div class="text-gray-500">Mass reservations left in {{ \Carbon\Carbon::now()->monthName }}</div>
         </x-data-card>
 
-        <x-data-card color="bg-blue-400">
+
+        <x-data-card onclick="window.location.href ='tickets?type=2'" color="bg-blue-400"
+                     class="cursor-pointer transform transition duration-150 hover:scale-95 focus:scale-95">
             <x-slot name="svg">
                 <x-svg.ticket />
             </x-slot>

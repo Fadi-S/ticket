@@ -51,7 +51,7 @@ class KiahkController extends Controller
     public function index()
     {
         $kiahks = Kiahk::latest()
-            ->with('reservations.user')
+            ->with('tickets.reservations.user')
             ->paginate(10);
 
         return view("kiahk.index", compact('kiahks'));

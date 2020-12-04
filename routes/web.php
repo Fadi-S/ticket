@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ChangePasswordController;
+use App\Http\Controllers\TicketsController;
+use App\Http\Livewire\ChangePasswordForm;
 use App\Http\Controllers\Admin\{AuthController,
     DashboardController,
     KiahkController,
@@ -11,16 +13,11 @@ use Intervention\Image\ImageManagerStatic as Image;
 use App\Http\Livewire\Users\UserForm;
 use Spatie\Honeypot\ProtectAgainstSpam;
 
-Route::middleware(ProtectAgainstSpam::class)->group(function() {
-    Route::get('/login', [AuthController::class, 'showLoginForm'])->name("login");
-    Route::post('/login', [AuthController::class, 'login']);
-
-    Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name("register");
-    Route::post('/register', [RegisterController::class, 'register']);
-});
+Route::middleware(ProtectAgainstSpam::class)
+    ->group(fn() => Auth::routes());
 
 Route::get('/assets/{image}', function ($image) {
-    $width = request('w');
+    $width = request('w') ?? 200;
     $height = request('h');
 
     return Image::make(public_path("/images/$image"))
@@ -43,7 +40,11 @@ Route::middleware("auth")->group(function() {
     Route::resource("masses", MassesController::class);
     Route::resource("kiahk", KiahkController::class);
 
-    Route::resource("reservations", ReservationsController::class);
+    Route::resource("reservations", ReservationsController::class)
+        ->except(['show', 'index']);
+
+    Route::resource("tickets", TicketsController::class)
+        ->only(['show', 'index', 'edit', 'update', 'destroy']);
 
     Route::get('/logs', [DashboardController::class, 'showLogs']);
 });

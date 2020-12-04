@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -12,35 +13,33 @@ class Reservation extends Model
     use SoftDeletes, LogsActivity;
 
     protected $guarded = [];
-    protected $dates = ['reserved_at', 'registered_at'];
+    protected $dates = ['registered_at'];
     protected $casts = ['is_exception' => 'boolean'];
+    protected $with = ['user'];
 
     protected static $logFillable = true;
-
-    public function scopeUser($query)
-    {
-        if(auth()->user()->hasRole('user'))
-            $query->where('user_id', \Auth::id())->orWhere('reserved_by', \Auth::id());
-    }
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function reservedBy()
+    public function ticket()
     {
-        return $this->belongsTo(User::class, 'reserved_by');
+        return $this->belongsTo(Ticket::class);
     }
 
     public function event()
     {
-        return $this->belongsTo(Event::class, "event_id");
+        return ($this->ticket) ? $this->ticket->event : null;
     }
 
     public function cancel()
     {
         $this->delete();
+
+        if($this->ticket->refresh()->reservations_count == 0)
+            $this->ticket->delete();
     }
 
     public function changeEventTo($eventId)
@@ -71,6 +70,9 @@ class Reservation extends Model
 
     public function of($user)
     {
-        return $this->reservedBy->id == $user->id || $this->user->id == $user->id;
+        if($user->isAdmin())
+            return true;
+
+        return $this->ticket->reservedBy->id == $user->id || $this->user->id == $user->id;
     }
 }

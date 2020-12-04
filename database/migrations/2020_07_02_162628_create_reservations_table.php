@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Event;
+use App\Models\Ticket;
 use App\Models\User\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -17,13 +18,10 @@ class CreateReservationsTable extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Event::class);
             $table->foreignIdFor(User::class);
-            $table->foreignIdFor(User::class, 'reserved_by');
+            $table->foreignIdFor(Ticket::class);
             $table->timestamp('registered_at')->nullable();
-            $table->timestamp("reserved_at")->nullable();
             $table->boolean('is_exception')->default(false);
-            $table->string("secret");
             $table->softDeletes();
             $table->timestamps();
         });

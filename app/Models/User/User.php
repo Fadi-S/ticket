@@ -2,10 +2,8 @@
 
 namespace App\Models\User;
 
-use App\Helpers\GenerateRandomString;
 use App\Models\Reservation;
 use App\Traits\Slugable;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -24,7 +22,6 @@ class User extends Authenticatable
 
     protected $hidden = ['password', 'remember_token'];
     protected $casts = ['email_verified_at' => 'datetime'];
-    protected $with = ['reservations'];
     protected $fillable = ['name', 'email', 'password', 'username', 'picture'];
 
     public function __construct(array $attributes = [])
@@ -45,9 +42,9 @@ class User extends Authenticatable
         return new Ticket($this);
     }
 
-    public function reserveIn($event)
+    public function reserveIn($ticket)
     {
-        $output = $this->canReserveIn($event);
+        $output = $this->canReserveIn($ticket->event->specific());
 
         if(is_null($output)) {
             flash()->error("Something went wrong for $this->name");
@@ -63,10 +60,7 @@ class User extends Authenticatable
 
         $reservation = new Reservation(
             array_merge([
-                'event_id' => $event->id,
-                'reserved_at' => Carbon::now(),
-                'reserved_by' => \Auth::id(),
-                'secret' => (new GenerateRandomString)->handle(),
+                'ticket_id' => $ticket->id
             ], $output->body() ?? []));
 
         $this->reservations()->save($reservation);
@@ -89,5 +83,15 @@ class User extends Authenticatable
         }
 
         return $output;
+    }
+
+    public function isAdmin()
+    {
+        return ! $this->hasRole('user');
+    }
+
+    public function isUser()
+    {
+        return $this->hasRole('user');
     }
 }

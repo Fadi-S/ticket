@@ -10,7 +10,6 @@
                     <x-table.th>Time</x-table.th>
                     <x-table.th>User</x-table.th>
                     <x-table.th>Reserved At</x-table.th>
-                    <x-table.empty-th>Edit</x-table.empty-th>
                     <x-table.empty-th>Cancel</x-table.empty-th>
                 </tr>
             </x-slot>
@@ -41,27 +40,24 @@
                         </x-table.td>
 
                         <x-table.td>
-                            {{ $reservation->reserved_at->format('l, d/m/Y h:i a') }}
+                            {{ $reservation->ticket->reserved_at->format('l, d/m/Y h:i a') }}
                         </x-table.td>
 
                         <x-table.td>
-                            <a class="bg-blue-400 px-4 py-2 hover:bg-blue-500
-                             text-white text-md rounded-lg"
-                               href="{{ url("/reservations/$reservation->id/edit") }}">Edit</a>
-                        </x-table.td>
+                            @if(! $reservation->ticket->event->hasPassed())
+                                {!! Form::open(["method" => "DELETE", "url" => url("/reservations/$reservation->id")]) !!}
 
-                        <x-table.td>
-                            {!! Form::open(["method" => "DELETE", "url" => url("/reservations/$reservation->id")]) !!}
+                                <x-button href="#" color="bg-red-500 hover:bg-red-600"
+                                   onclick="event.preventDefault();event.stopPropagation();
+                               if(confirm('Are you sure you want to cancel this reservation?')) this.parentNode.submit();">
+                                    <x-slot name="svg">
+                                        <x-svg.x />
+                                    </x-slot>
+                                </x-button>
 
-                            <x-button href="#" color="bg-red-500 hover:bg-red-600"
-                               onclick="event.preventDefault();event.stopPropagation();
-                           if(confirm('Are you sure you want to cancel this reservation?')) this.parentNode.submit();">
-                                <x-slot name="svg">
-                                    <x-svg.x />
-                                </x-slot>
-                            </x-button>
+                                {!! Form::close() !!}
+                            @endif
 
-                            {!! Form::close() !!}
                         </x-table.td>
                     </tr>
                 @endforeach

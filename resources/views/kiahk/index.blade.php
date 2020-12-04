@@ -19,9 +19,8 @@
                 @foreach($kiahks as $kiahk)
                     <tr>
                         <x-table.td>
-                            <a href="{{ url("kiahk/$kiahk->id") }}">
-                                {{ $kiahk->start->format("l, dS F Y") }}
-                            </a>
+                            <a class="text-blue-500 hover:text-blue-600 underline font-semibold"
+                               href="{{ url("/tickets/?event=$kiahk->id") }}">{{ $kiahk->start->format("l, dS F Y") }}</a>
                         </x-table.td>
 
                         <x-table.td>

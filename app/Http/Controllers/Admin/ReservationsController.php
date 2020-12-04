@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\GenerateRandomString;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\Reservation;
+use App\Models\Ticket;
 use App\Models\User\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ReservationsController extends Controller
@@ -13,9 +16,7 @@ class ReservationsController extends Controller
 
     public function index()
     {
-        $reservations = Reservation::latest('reserved_at')
-            ->user()
-            ->with('event', 'user')
+        $reservations = Reservation::with('ticket.event', 'user')
             ->paginate(10);
 
         return view('reservations.index', compact('reservations'));
@@ -23,20 +24,54 @@ class ReservationsController extends Controller
 
     public function create()
     {
-        return view("reservations.create");
+        $users = User::addUsernameToName()->pluck("text", "id");
+
+        return view("reservations.create", compact('users'));
     }
 
     public function store(Request $request)
     {
-        $event = Event::findOrFail($request->event);
-        $event = app($event->type->model)->find($event->id);
+        $event = Event::findOrFail($request->event)->specific();
 
         $users = User::whereIn('id', $request->users)->get();
 
-        $users->each->reserveIn($event);
+        if(!auth()->user()->isAdmin()) {
+            if ($users->count() > $event->reservations_left) {
+                flash()->error('There is not enough space');
 
-        if(flash()->messages->isEmpty())
+                return redirect("reservations/create");
+            }
+        }
+
+        $users->each(function ($user) use($event) {
+            $output = $user->canReserveIn($event);
+
+            if(is_null($output)) {
+                flash()->error("Something went wrong for $user->name");
+
+                return;
+            }
+
+            if($output->hasMessage())
+                flash()->error($output->message());
+        });
+
+        if(flash()->messages->isNotEmpty())
+            return redirect("reservations/create");
+
+        $ticket = Ticket::create([
+            'event_id' => $event->id,
+            'reserved_at' => Carbon::now(),
+            'reserved_by' => \Auth::id(),
+            'secret' => (new GenerateRandomString)->handle(),
+        ]);
+
+        $users->each->reserveIn($ticket);
+
+        if(flash()->messages->isEmpty()) {
             flash()->success("Reservation(s) made successfully");
+            return redirect("tickets?event=$event->id");
+        }
 
         return redirect("reservations/create");
     }
