@@ -49,7 +49,7 @@
                                 </x-table.td>
 
                                 <x-table.td>
-                                    @if(!$ticket->event->hasPassed())
+                                    @if(!$ticket->event->hasPassed() && $reservation->of(auth()->user()))
                                         <x-button color="bg-red-500 hover:bg-red-600" x-data="{  }"
                                                   @click="$dispatch('open', { reservationId: {{ $reservation->id }} })">
                                             <x-slot name="svg">

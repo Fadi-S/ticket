@@ -21,8 +21,8 @@ class User extends Authenticatable
     protected static $logFillable = true;
 
     protected $hidden = ['password', 'remember_token'];
-    protected $casts = ['email_verified_at' => 'datetime'];
-    protected $fillable = ['name', 'email', 'password', 'username', 'picture'];
+    protected $casts = ['email_verified_at' => 'datetime', 'gender' => 'boolean'];
+    protected $fillable = ['name', 'email', 'password', 'username', 'picture', 'gender'];
 
     public function __construct(array $attributes = [])
     {

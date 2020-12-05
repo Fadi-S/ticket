@@ -25,11 +25,5 @@ class RolesTableSeeder extends Seeder
         $role = Role::create(['name' => 'super-admin']);
         Permission::create(["name" => "*"]);
         $role->givePermissionTo("*");
-
-        $scanner = Role::create(['name' => 'scanner']);
-        Permission::create(["name" => "scan"]);
-        Permission::create(["name" => "backend"]);
-        $scanner->givePermissionTo("scan");
-        $scanner->givePermissionTo("backend");
     }
 }

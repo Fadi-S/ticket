@@ -1,6 +1,7 @@
 <button class="flex items-center py-2 px-4 bg-opacity-25 text-gray-100 w-full focus:outline-none"
         type="button"
-        x-data="{isOpen: false}" @click="isOpen = !isOpen">
+        x-data="{isOpen: false, id: Math.random()}"
+        @click="isOpen = !isOpen; if(isOpen) $dispatch('close-all', { except: id });">
 
     <div class="flex-col w-full">
         <div class="justify-between flex items-center w-full hover:text-gray-400">
@@ -18,12 +19,10 @@
             </svg>
         </div>
 
-        <div x-show="isOpen" style="display: none;"
+        <div @close-all.window="isOpen=$event.detail.except == id" x-show="isOpen" style="display: none;"
              x-transition:enter="transition transform duration-200"
              x-transition:enter-start="scale-50 opacity-0"
              x-transition:enter-end="scale-100 opacity-100"
-             x-transition:leave="transition transform duration-100"
-             x-transition:leave-end="scale-50 opacity-0"
              class="bg-white rounded-lg mt-4 shadow-lg px-2 py-2 space-y-2 w-full">
             {{ $slot }}
         </div>

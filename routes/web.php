@@ -1,8 +1,6 @@
 <?php
 
-use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\TicketsController;
-use App\Http\Livewire\ChangePasswordForm;
 use App\Http\Controllers\Admin\{AuthController,
     DashboardController,
     KiahkController,
@@ -14,7 +12,7 @@ use App\Http\Livewire\Users\UserForm;
 use Spatie\Honeypot\ProtectAgainstSpam;
 
 Route::middleware(ProtectAgainstSpam::class)
-    ->group(fn() => Auth::routes());
+    ->group(fn() => Auth::routes(['verify' => true]));
 
 Route::get('/assets/{image}', function ($image) {
     $width = request('w') ?? 200;

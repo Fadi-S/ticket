@@ -16,6 +16,7 @@ class UserForm extends Component
     public string $password = '';
     public int $role_id = 1;
     public bool $isCreate = true;
+    public int $gender = 1;
 
     public bool $redirect = false;
 
@@ -30,6 +31,8 @@ class UserForm extends Component
         $this->user ??= new User();
 
         $this->role_id = (!$this->isCreate) ? $this->user->roles[0]->id : 1;
+
+        $this->gender = (!$this->isCreate) ? $this->user->gender : 1;
     }
 
     public function render()
@@ -41,11 +44,20 @@ class UserForm extends Component
 
     public function updatedUserName($name) { $this->user->username = User::makeSlug($name, $this->user->id); }
 
+    public function updatedGender($gender)
+    {
+        $this->validateOnly('gender');
+
+        $this->user->gender = (bool) $gender;
+    }
+
     public function save()
     {
         $this->authorize($this->isCreate ? 'create' : 'update', $this->user);
 
         $this->validate();
+
+        $this->user->gender = (bool) $this->gender;
 
         if($this->password)
             $this->user->password = $this->password;
@@ -76,6 +88,7 @@ class UserForm extends Component
             'user.name' => 'required',
             'user.username' => 'required|unique:users,username',
             'user.email' => 'required|email|unique:users,email',
+            'gender' => 'required|in:0,1',
             'password' => 'required|min:6',
             'role_id' => 'required|exists:roles,id',
         ];

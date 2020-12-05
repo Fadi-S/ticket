@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string("fcm_token")->nullable();
             $table->string("picture")->nullable();
+            $table->boolean('gender')->default(true);
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

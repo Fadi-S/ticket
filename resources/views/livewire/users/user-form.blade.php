@@ -25,13 +25,16 @@
                               label="Password" placeholder="Password" />
             </x-form.group>
 
-            @if(auth()->user()->isAdmin())
-                <x-form.group>
-                    <x-form.select wire:model="role_id" name="role_id"
-                                   id="role_id" size="md:w-1/2 w-full"
-                                   label="Admin Role" :options="$roles" />
-                </x-form.group>
-            @endif
+            <x-form.group>
+                @if(auth()->user()->isAdmin())
+                <x-form.select wire:model="role_id" name="role_id"
+                               id="role_id" size="md:w-1/2 w-full"
+                               label="Role" :options="$roles" />
+                @endif
+
+                <x-form.gender-switch :livewire="true" name="gender" id="gender" label="Gender" />
+            </x-form.group>
+
 
             <x-button type="submit" class="mx-auto mt-2">
                 <x-slot name="svg">

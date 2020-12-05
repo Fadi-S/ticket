@@ -11,7 +11,7 @@
         @honeypot
 
         <input type="hidden" name="remember" value="true">
-        <div class="rounded-md shadow-sm space-y-3">
+        <div class="space-y-3">
 
             <x-form.input-2 label="Name"
                             id="name" value="{{ old('name') }}"
@@ -32,6 +32,8 @@
             <x-form.input-2 label="Confirm Password"
                             id="password_confirmation" value="{{ old('password_confirmation') }}"
                             type="password" required />
+
+            <x-form.gender-switch name="gender" id="gender" label="Gender" />
         </div>
 
         <div class="flex items-center justify-between">
