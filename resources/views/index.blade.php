@@ -24,7 +24,9 @@
             </x-slot>
 
             <h4 class="text-2xl font-semibold text-gray-700">{{ $kiahkTickets }}</h4>
-            <div class="text-gray-500">Kiahk reservations left</div>
+            <div class="text-gray-500">Kiahk reservations left till
+                {{ auth()->user()->tickets()->currentKiahkStartDate()->addDays(10)->format('l d/m/Y') }}
+            </div>
         </x-data-card>
 
         @if(auth()->user()->hasRole('super-admin'))

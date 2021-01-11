@@ -1,5 +1,13 @@
 <x-card class="">
 
+    <x-slot name="title">
+        View your tickets
+    </x-slot>
+
+    <div class="mb-4 w-full xl:w-1/3 lg:w-1/2 mx-auto">
+        <x-form.input autocomplete="off" wire:model="search" name="search" id="search" label="Search" />
+    </div>
+
     <div class="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-4">
         @if($eventModel)
             <div class="col-span-3">

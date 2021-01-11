@@ -51,7 +51,8 @@ class MassesController extends Controller
 
     public function index()
     {
-        $masses = Mass::latest()
+        $masses = Mass::orderBy('start')
+            ->whereDate('end', '>=', now())
             ->with('tickets.reservations.user')
             ->paginate(10);
 

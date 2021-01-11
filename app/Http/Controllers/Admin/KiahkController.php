@@ -50,7 +50,8 @@ class KiahkController extends Controller
 
     public function index()
     {
-        $kiahks = Kiahk::latest()
+        $kiahks = Kiahk::orderBy('start')
+            ->whereDate('end', '>=', now())
             ->with('tickets.reservations.user')
             ->paginate(10);
 

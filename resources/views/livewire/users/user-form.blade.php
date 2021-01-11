@@ -5,36 +5,34 @@
         @csrf
 
         <div class="space-y-6">
-            <x-form.group>
-                <x-form.input wire:model="user.name" type="text"
-                              size="md:w-1/2 w-full" name="name" id="name"
+            <div class="grid lg:grid-cols-2 grid-cols-1 gap-4">
+                <x-form.input wire:model="user.name" required type="text"
+                              size="w-full" name="name" id="name"
                               label="Name"  placeholder="Name" />
 
-                <x-form.input wire:model="user.username" type="text"
-                              size="md:w-1/2 w-full" name="username" id="username"
-                              label="Username" placeholder="Username" />
-            </x-form.group>
+                @if($isCreate)
+                    <x-form.input wire:model="user.username" required type="text"
+                                  size="w-full" name="username" id="username"
+                                  label="Username" placeholder="Username" />
+                @endif
 
-            <x-form.group>
-                <x-form.input wire:model="user.email" type="email"
-                              size="md:w-1/2 w-full" name="email" id="email"
+                <x-form.input wire:model="user.email" required type="email"
+                              size="w-full" name="email" id="email"
                               label="Email" placeholder="Email" />
 
-                <x-form.input wire:model="password" type="password"
-                              size="md:w-1/2 w-full" name="password" id="password"
-                              label="Password" placeholder="Password" />
-            </x-form.group>
-
-            <x-form.group>
+                @if($isCreate || (auth()->user()->isAdmin() && !$user->isSignedIn()))
+                    <x-form.input wire:model="password" type="password"
+                                  size="w-full" name="password" id="password"
+                                  label="Password" placeholder="Password" />
+                @endif
                 @if(auth()->user()->isAdmin())
-                <x-form.select wire:model="role_id" name="role_id"
-                               id="role_id" size="md:w-1/2 w-full"
-                               label="Role" :options="$roles" />
+                    <x-form.select wire:model="role_id" name="role_id"
+                                   id="role_id" size="w-full"
+                                   label="Role" :options="$roles" />
                 @endif
 
                 <x-form.gender-switch :livewire="true" name="gender" id="gender" label="Gender" />
-            </x-form.group>
-
+            </div>
 
             <x-button type="submit" class="mx-auto mt-2">
                 <x-slot name="svg">

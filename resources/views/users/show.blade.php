@@ -3,7 +3,7 @@
         View {{ $user->name }} | Ticket
     </x-slot>
 
-
+    <livewire:users.user-form :user="$user" />
 
     <livewire:change-password-form />
 

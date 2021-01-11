@@ -18,7 +18,7 @@
             <x-slot name="body">
 
                 @foreach($masses as $mass)
-                    <tr>
+                    <tr class="{{ now()->between($mass->start, $mass->end) ? 'bg-green-200' : '' }}">
                         <x-table.td>
                             <a class="text-blue-500 hover:text-blue-600 underline font-semibold"
                                href="{{ url("/tickets/?event=$mass->id") }}">{{ $mass->formatted_date }}</a>

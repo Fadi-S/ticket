@@ -37,7 +37,7 @@
 
             <nav class="mt-4 space-y-4">
 
-                <x-navbar.link label="Dashboard" :href="url('/')"
+                <x-navbar.link label="Home" :href="url('/')"
                                :active="url()->current() == url('/')">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -61,7 +61,7 @@
 
                 <x-navbar.link label="Tickets" :href="url('/tickets')"
                                :active="url()->current() == url('/tickets')">
-                    <x-svg.ticket />
+                    <x-svg.ticket/>
                 </x-navbar.link>
 
                 @can("users.create" || "users.edit" || "users.view")
@@ -77,16 +77,20 @@
                             </svg>
                         </x-slot>
 
-                        <x-navbar.child label="Add User" href="{{ url('/users/create') }}"
+                        @can("users.create")
+                            <x-navbar.child label="Add User" href="{{ url('/users/create') }}"
                                         active="{{ url()->current() == url('/users/create') }}"/>
+                        @endcan
 
-                        <x-navbar.child label="View Users" href="{{ url('/users') }}"
+                        @can("users.view")
+                            <x-navbar.child label="View Users" href="{{ url('/users') }}"
                                         active="{{ url()->current() == url('/users') }}"/>
+                        @endcan
 
                     </x-navbar.list>
                 @endcan
 
-                @can("events.create" || "events.edit" || "events.view")
+                @can("tickets.view")
                     <x-navbar.list label="Masses">
 
                         <x-slot name="svg">
@@ -96,8 +100,10 @@
                             </svg>
                         </x-slot>
 
+                        @can("events.create")
                         <x-navbar.child label="Add Mass" href="{{ url('/masses/create') }}"
                                         active="{{ url()->current() == url('/masses/create') }}"/>
+                        @endcan
 
                         <x-navbar.child label="View Masses" href="{{ url('/masses') }}"
                                         active="{{ url()->current() == url('/masses') }}"/>
@@ -105,15 +111,17 @@
                     </x-navbar.list>
                 @endcan
 
-                @can("events.create" || "events.edit" || "events.view")
+                @can("tickets.view")
                     <x-navbar.list label="Kiahk">
 
                         <x-slot name="svg">
-                            <x-svg.christmas />
+                            <x-svg.christmas/>
                         </x-slot>
 
+                        @can("events.create")
                         <x-navbar.child label="Add Kiahk" href="{{ url('/kiahk/create') }}"
                                         active="{{ url()->current() == url('/kiahk/create') }}"/>
+                        @endcan
 
                         <x-navbar.child label="View Kiahk Events" href="{{ url('/kiahk') }}"
                                         active="{{ url()->current() == url('/kiahk') }}"/>
@@ -137,8 +145,8 @@
 
                 <x-navbar.divider/>
 
-                <x-navbar.link class="text-red-400 text-lg" label="Logout" :href="url('/logout')">
-                    <x-svg.logout />
+                <x-navbar.link class="text-red-400 text-lg" label="Sign Out" :href="url('/logout')">
+                    <x-svg.logout/>
                 </x-navbar.link>
 
             </nav>
@@ -146,11 +154,12 @@
         <div class="flex-1 flex flex-col overflow-hidden">
             <header class="flex justify-between items-center py-4 px-6 bg-white shadow-md">
                 <div class="flex items-center">
-                    <button @click="sidebarOpen = !sidebarOpen; intentional=true;" class="text-gray-700 focus:outline-none">
-                        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M4 6H20M4 12H20M4 18H11" stroke="currentColor" stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"></path>
+                    <button @click="sidebarOpen = !sidebarOpen; intentional=true;"
+                            class="text-gray-700 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
                     </button>
                 </div>
@@ -185,7 +194,7 @@
                             <a href="{{ url('logout') }}" class="w-full px-4 py-2 text-sm text-red-500
                                  hover:bg-gray-200 flex items-center justify-start
                                    focus:outline-none space-x-2">
-                                <x-svg.logout />
+                                <x-svg.logout/>
                                 <span>Sign Out</span>
                             </a>
                         </div>

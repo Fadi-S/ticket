@@ -64,7 +64,7 @@
             let calendarEl = document.getElementById('calendar');
             let calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: window.innerWidth > 768 ? 'dayGridMonth' : 'timeGridWeek',
-                slotMinTime: '06:00:00',
+                slotMinTime: '17:00:00',
                 allDaySlot: false,
                 weekNumbers: true,
                 height: 650,

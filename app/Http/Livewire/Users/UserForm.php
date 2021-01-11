@@ -42,7 +42,10 @@ class UserForm extends Component
         ])->layout('components.master');
     }
 
-    public function updatedUserName($name) { $this->user->username = User::makeSlug($name, $this->user->id); }
+    public function updatedUserName($name) {
+        if($this->isCreate)
+            $this->user->username = User::makeSlug($name, $this->user->id);
+    }
 
     public function updatedGender($gender)
     {
@@ -53,7 +56,8 @@ class UserForm extends Component
 
     public function save()
     {
-        $this->authorize($this->isCreate ? 'create' : 'update', $this->user);
+        if(!$this->user->isSignedIn())
+            $this->authorize($this->isCreate ? 'create' : 'update', $this->user);
 
         $this->validate();
 
@@ -98,7 +102,7 @@ class UserForm extends Component
 
             $rules['password'] = 'nullable|min:6';
             $rules['user.username'] =  [
-                'required',
+                'nullable',
                 Rule::unique('users', 'username')->ignore($id),
             ];
             $rules['user.email'] = [

@@ -17,7 +17,7 @@
             <x-slot name="body">
 
                 @foreach($kiahks as $kiahk)
-                    <tr>
+                    <tr class="{{ now()->between($kiahk->start, $kiahk->end) ? 'bg-green-200' : '' }}">
                         <x-table.td>
                             <a class="text-blue-500 hover:text-blue-600 underline font-semibold"
                                href="{{ url("/tickets/?event=$kiahk->id") }}">{{ $kiahk->start->format("l, dS F Y") }}</a>

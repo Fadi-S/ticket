@@ -19,6 +19,7 @@ class Tickets extends Component
 
     protected $listeners = [
         'cancelReservation' => 'cancelReservation',
+        'refresh' => 'render',
     ];
 
     protected $queryString = [
@@ -41,22 +42,27 @@ class Tickets extends Component
     {
         if(!$reservation->ticket->event->hasPassed() && $reservation->of(auth()->user()))
             $reservation->cancel();
+
+        $this->emitSelf('refresh');
     }
 
     public function cancel(Ticket $ticket)
     {
-        if(!$ticket->event->hasPassed())
+        if(!$ticket->event->hasPassed() && $ticket->of(auth()->user()))
             $ticket->cancel();
+
+        $this->emitSelf('refresh');
     }
 
     private function getTickets()
     {
         return Ticket::with('event', 'reservations')
-            ->when($this->event || $this->type,
+            ->whereHas('reservations', fn($query) =>
+                $query->whereHas('user', fn($query) => $query->search($this->search))
+            )->when($this->event || $this->type,
                 fn($query) => $query->whereHas('event',
                     fn($query) => $query->whereId($this->event)->orWhere('type_id', $this->type)
                 )
-            )->user()
-            ->paginate(12);
+            )->user()->paginate(12);
     }
 }

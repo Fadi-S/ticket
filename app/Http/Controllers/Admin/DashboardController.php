@@ -25,7 +25,7 @@ class DashboardController extends Controller
 
     public function showLogs()
     {
-        $logs = Activity::latest()->paginate(100);
+        $logs = Activity::latest()->paginate(10);
 
         return view("logs", compact('logs'));
     }
