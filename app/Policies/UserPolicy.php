@@ -9,10 +9,17 @@ class UserPolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(User $admin) {}
+    public function viewAny(User $admin)
+    {
+        return $admin->can("users.view") ? true : null;
+    }
 
     public function view(User $admin, User $model)
     {
+        if($admin->isUser()) {
+            return $model->isSignedIn() ? true : null;
+        }
+
         return $admin->can("users.view") ? true : null;
     }
 
@@ -23,6 +30,10 @@ class UserPolicy
 
     public function update(User $admin, User $model)
     {
+        if($admin->isUser()) {
+            return $model->isSignedIn() ? true : null;
+        }
+
         return $admin->can("users.edit") ? true : null;
     }
 

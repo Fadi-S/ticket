@@ -25,22 +25,22 @@ class Mass extends Event implements EventContract
         );
     }
 
-    public function maxReservations(): int
+    static public function maxReservations(): int
     {
         return config('settings.max_reservations_per_month');
     }
 
-    public function hoursForException(): int
+    static public function hoursForException(): int
     {
         return config('settings.hours_to_allow_for_exception');
     }
 
-    public function allowsException(): bool
+    static public function allowsException(): bool
     {
         return config('settings.allow_for_exceptions');
     }
 
-    public function conditions()
+    static public function conditions()
     {
         return [
             EventDateHasNotPassed::class,

@@ -16,19 +16,6 @@
             <div class="text-gray-500">Mass reservations left in {{ \Carbon\Carbon::now()->monthName }}</div>
         </x-data-card>
 
-
-        <x-data-card onclick="window.location.href ='tickets?type=2'" color="bg-blue-400"
-                     class="cursor-pointer transform transition duration-150 hover:scale-95 focus:scale-95">
-            <x-slot name="svg">
-                <x-svg.ticket />
-            </x-slot>
-
-            <h4 class="text-2xl font-semibold text-gray-700">{{ $kiahkTickets }}</h4>
-            <div class="text-gray-500">Kiahk reservations left till
-                {{ auth()->user()->tickets()->currentKiahkStartDate()->addDays(10)->format('l d/m/Y') }}
-            </div>
-        </x-data-card>
-
         @if(auth()->user()->hasRole('super-admin'))
             <x-data-card color="bg-blue-400">
                 <x-slot name="svg">
@@ -45,7 +32,7 @@
                 </x-slot>
 
                 <h4 class="text-2xl font-semibold text-gray-700">{{ $events }}</h4>
-                <div class="text-gray-500">Total Events</div>
+                <div class="text-gray-500">Total Upcoming Events</div>
             </x-data-card>
         @endif
     </div>

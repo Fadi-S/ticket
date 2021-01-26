@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\TicketReserved;
 use App\Helpers\GenerateRandomString;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
@@ -65,6 +66,8 @@ class ReservationsController extends Controller
             'reserved_by' => \Auth::id(),
             'secret' => (new GenerateRandomString)->handle(),
         ]);
+
+        TicketReserved::dispatch();
 
         $users->each->reserveIn($ticket);
 

@@ -25,22 +25,22 @@ class Kiahk extends Event implements EventContract
         );
     }
 
-    public function maxReservations(): int
+    static public function maxReservations(): int
     {
         return 1;
     }
 
-    public function hoursForException(): int
+    static public function hoursForException(): int
     {
         return 0;
     }
 
-    public function allowsException(): bool
+    static public function allowsException(): bool
     {
         return false;
     }
 
-    public function conditions()
+    static public function conditions()
     {
         return [
             EventDateHasNotPassed::class,

@@ -25,6 +25,10 @@
                             id="email" value="{{ old('email') }}"
                             type="email" required />
 
+            <x-form.input-2 label="Phone"
+                            id="phone" value="{{ old('phone') }}"
+                            type="phone" required />
+
             <x-form.input-2 label="Password"
                             id="password" value="{{ old('password') }}"
                             type="password" required />

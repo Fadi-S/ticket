@@ -11,7 +11,22 @@ trait UserAttributes
     {
         return $query->where("name", "like", "%$search%")
             ->orWhere("username", "like", "%$search%")
+            ->orWhere("phone", "like", "%$search%")
             ->orWhere("email", "like", "%$search%");
+    }
+
+    public function scopeAreFriends($query)
+    {
+        if($this->isAdmin())
+            return;
+
+        $query->whereHas("friends",
+            fn($query) => $query->where('confirmed_at', '<>', null)
+                ->where(function($query) {
+                    $query->where('friend_id', $this->id)
+                        ->orWhere('user_id', $this->id);
+                })
+        );
     }
 
     public function scopeAddUsernameToName($query)
@@ -22,6 +37,17 @@ trait UserAttributes
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = bcrypt($password);
+    }
+
+    public function setPhoneAttribute($phone)
+    {
+        if(!$phone)
+            return;
+
+        if(!str_starts_with($phone, '2'))
+            $phone = '2' . $phone;
+
+        $this->attributes['phone'] = $phone;
     }
 
     public function setNameAttribute($name)

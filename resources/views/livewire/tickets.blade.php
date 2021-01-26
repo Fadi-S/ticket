@@ -9,19 +9,22 @@
     </div>
 
     <div class="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-4">
-        @if($eventModel)
-            <div class="col-span-3">
-                <div class="mb-2 flex flex-col text-gray-800">
-                    <div class="font-semibold">{{ $eventModel->start->format('l, d/m/Y') }}</div>
+        <div class="col-span-3">
+            @if($event)
+                <div class="col-span-3">
+                    <div class="mb-2 flex flex-col text-gray-800">
+                        <div class="font-semibold">{{ $this->eventModel->start->format('l, d/m/Y') }}</div>
 
-                    <div class="font-semibold">{{ $eventModel->formatted_time }}</div>
+                        <div class="font-semibold">{{ $this->eventModel->formatted_time }}</div>
 
-                    <div class="font-bold text-sm text-gray-700">{{ $eventModel->type->arabic_name }}</div>
+                        <div class="font-bold text-sm text-gray-700">{{ $this->eventModel->type->arabic_name }}</div>
+                    </div>
                 </div>
-            </div>
-        @endif
+            @endif
+        </div>
+
         @forelse($tickets as $ticket)
-            <div class="bg-gray-100 shadow-inner rounded-lg p-4 col-span-1 overflow-x-hidden">
+            <div id="ticket-{{ $ticket->id }}" class="bg-gray-100 shadow-inner rounded-lg p-4 col-span-1 overflow-x-hidden">
                 @if(!$event)
                     <h3 class="mb-2 w-full flex flex-col text-gray-800">
                         <div class="font-semibold">{{ $ticket->event->start->format('l, d/m/Y') }}</div>
@@ -35,10 +38,9 @@
                         <x-table.th>User</x-table.th>
                         <x-table.empty-th>Cancel</x-table.empty-th>
                     </x-slot>
-
                     <x-slot name="body">
                         @foreach($ticket->reservations as $reservation)
-                            <tr>
+                            <tr id="reservation-{{ $reservation->id }}">
                                 <x-table.td>
                                     <div class="flex items-center">
                                         <div class="flex-shrink-0 h-10 w-10">
@@ -81,17 +83,14 @@
                            class="text-blue-500 underline">View All tickets</a>
                     </span>
                 @else
-                    <span>You have no{{ $typeModel ? ' '.strtolower($typeModel->name) : '' }} tickets!
+                    <span>You have no{{ $type ? ' '.strtolower($this->typeModel->name) : '' }} tickets!
                         <a href="{{ url('reservations/create') }}"
                            class="text-blue-500 underline">Make a Reservation</a>
                     </span>
                 @endif
             </p>
         @endforelse
-    </div>
 
-    <div class="mt-2">
-        {{ $tickets->links() }}
     </div>
 
     @push('modals')

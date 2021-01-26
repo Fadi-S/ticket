@@ -8,20 +8,24 @@
             <div class="grid lg:grid-cols-2 grid-cols-1 gap-4">
                 <x-form.input wire:model="user.name" required type="text"
                               size="w-full" name="name" id="name"
-                              label="Name"  placeholder="Name" />
+                              label="Name *"  placeholder="Name" />
 
                 @if($isCreate)
-                    <x-form.input wire:model="user.username" required type="text"
+                    <x-form.input wire:model.lazy="user.username" required type="text"
                                   size="w-full" name="username" id="username"
-                                  label="Username" placeholder="Username" />
+                                  label="Username *" placeholder="Username" />
                 @endif
 
-                <x-form.input wire:model="user.email" required type="email"
+                <x-form.input wire:model.lazy="user.email" type="email"
                               size="w-full" name="email" id="email"
                               label="Email" placeholder="Email" />
 
+                <x-form.input wire:model.lazy="user.phone" type="phone"
+                              size="w-full" name="phone" id="phone"
+                              label="Phone Number" placeholder="Phone Number" />
+
                 @if($isCreate || (auth()->user()->isAdmin() && !$user->isSignedIn()))
-                    <x-form.input wire:model="password" type="password"
+                    <x-form.input wire:model.lazy="password" type="password"
                                   size="w-full" name="password" id="password"
                                   label="Password" placeholder="Password" />
                 @endif

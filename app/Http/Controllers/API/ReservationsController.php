@@ -16,8 +16,10 @@ class ReservationsController extends Controller
         return [
             "results" =>
                 User::search($request->search)
-                ->addUsernameToName()
-                ->get('text', 'id'),
+                    ->when($request->user()->isUser(),
+                        fn($query) => $query->whereIn('id', $request->user()->friends()->get()->pluck('id'))
+                    )->addUsernameToName()
+                    ->get('text', 'id'),
         ];
     }
 

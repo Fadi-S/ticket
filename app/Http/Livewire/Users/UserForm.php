@@ -28,6 +28,9 @@ class UserForm extends Component
     {
         $this->isCreate = !isset($this->user);
 
+        if(!$this->isCreate)
+            $this->authorize('update', $this->user);
+
         $this->user ??= new User();
 
         $this->role_id = (!$this->isCreate) ? $this->user->roles[0]->id : 1;
@@ -70,6 +73,9 @@ class UserForm extends Component
 
         $this->user->syncRoles([(auth()->user()->isAdmin()) ? $this->role_id : 1]);
 
+        if(auth()->user()->isUser())
+            auth()->user()->addFriend($this->user, true);
+
         $this->clearFields();
 
         session()->flash('success', 'User Saved Successfully');
@@ -91,7 +97,16 @@ class UserForm extends Component
         $rules = [
             'user.name' => 'required',
             'user.username' => 'required|unique:users,username',
-            'user.email' => 'required|email|unique:users,email',
+            'user.email' => [
+                Rule::requiredUnless(!! $this->user->phone),
+                'email',
+                'unique:users,email',
+            ],
+            'user.phone' => [
+                Rule::requiredUnless(!! $this->user->email),
+                'regex:/(2?01)[0-9]{9}/',
+                'unique:users,phone',
+            ],
             'gender' => 'required|in:0,1',
             'password' => 'required|min:6',
             'role_id' => 'required|exists:roles,id',
@@ -106,8 +121,15 @@ class UserForm extends Component
                 Rule::unique('users', 'username')->ignore($id),
             ];
             $rules['user.email'] = [
-                'required',
+                'email',
                 Rule::unique('users', 'email')->ignore($id),
+                Rule::requiredUnless(!! $this->user->phone),
+            ];
+
+            $rules['user.phone'] = [
+                'regex:/(2?01)[0-9]{9}/',
+                Rule::unique('users', 'phone')->ignore($id),
+                Rule::requiredUnless(!! $this->user->phone),
             ];
         }
 

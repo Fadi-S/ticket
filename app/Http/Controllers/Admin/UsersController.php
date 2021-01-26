@@ -10,6 +10,8 @@ class UsersController extends Controller
 
     public function index()
     {
+        $this->authorize('viewAny', User::class);
+
         $users = User::paginate(10);
 
         return view("users.index", compact('users'));
@@ -17,11 +19,15 @@ class UsersController extends Controller
 
     public function show(User $user)
     {
+        $this->authorize('view', $user);
+
         return view("users.show", compact('user'));
     }
 
     public function destroy(User $user)
     {
+        $this->authorize('delete', $user);
+
         if($user->delete())
             flash()->success("Deleted User Successfully");
         else

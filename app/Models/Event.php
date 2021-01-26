@@ -18,6 +18,11 @@ class Event extends Model
 
     protected $with = ['type'];
 
+    public function scopeUpcoming($query)
+    {
+        return $query->whereDate('end', '>=', now());
+    }
+
     public function reservedPlaces()
     {
         $count = 0;

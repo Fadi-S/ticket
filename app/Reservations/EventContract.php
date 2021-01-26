@@ -5,11 +5,11 @@ namespace App\Reservations;
 
 interface EventContract
 {
-    public function maxReservations() : int;
+    static public function maxReservations() : int;
 
-    public function hoursForException() : int;
+    static public function hoursForException() : int;
 
-    public function allowsException() : bool;
+    static public function allowsException() : bool;
 
-    public function conditions();
+    static public function conditions();
 }

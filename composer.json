@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.4.9",
+        "php": "^7.4.9|^8.0",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -20,6 +20,7 @@
         "laravel/ui": "^3.0",
         "laravelcollective/html": "^6.2",
         "livewire/livewire": "^2.3",
+        "pusher/pusher-php-server": "^4.1",
         "spatie/laravel-activitylog": "^3.16",
         "spatie/laravel-honeypot": "^3.0",
         "spatie/laravel-permission": "^3.17"

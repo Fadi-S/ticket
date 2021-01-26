@@ -19,7 +19,10 @@ class Ticket
     {
         $start = ($month ?? now())->startOfMonth();
 
-        $left = (new Mass)->maxReservations() -
+        if(is_null(Mass::maxReservations()))
+            return -1;
+
+        $left = Mass::maxReservations() -
             $this->user
                 ->reservations()
                 ->where('is_exception', false)
@@ -38,7 +41,7 @@ class Ticket
     {
         $startOfKiahk = $this->currentKiahkStartDate($date);
 
-        $left = (new Kiahk)->maxReservations() -
+        $left = Kiahk::maxReservations() -
             $this->user
                 ->reservations()
                 ->where('is_exception', false)

@@ -17,10 +17,12 @@ class Ticket extends Model
     public function scopeUser($query)
     {
         if(auth()->user()->isUser()) {
+
             $query->where('reserved_by', \Auth::id())
                 ->orWhereHas('reservations',
-                    fn($query) => $query->where('user_id', auth()->id())
+                    fn($query) => $query->where('user_id', \Auth::id())
                 );
+
         }
     }
 
@@ -41,10 +43,7 @@ class Ticket extends Model
 
     public function of($user)
     {
-        if($user->isAdmin())
-            return true;
-
-        return $this->reservedBy->id == $user->id;
+        return $user->isAdmin() ?: $this->reservedBy->id == $user->id;
     }
 
     public function cancel()

@@ -2,6 +2,7 @@
 
 namespace App\Models\User;
 
+use App\Models\Friendship;
 use App\Models\Reservation;
 use App\Traits\Slugable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,7 +23,7 @@ class User extends Authenticatable
 
     protected $hidden = ['password', 'remember_token'];
     protected $casts = ['email_verified_at' => 'datetime', 'gender' => 'boolean'];
-    protected $fillable = ['name', 'email', 'password', 'username', 'picture', 'gender'];
+    protected $fillable = ['name', 'email', 'password', 'username', 'picture', 'gender', 'phone'];
 
     public function __construct(array $attributes = [])
     {
@@ -37,7 +38,7 @@ class User extends Authenticatable
         return $this->hasMany(Reservation::class);
     }
 
-    public function tickets()
+    public function tickets() : Ticket
     {
         return new Ticket($this);
     }
@@ -63,6 +64,15 @@ class User extends Authenticatable
                 'ticket_id' => $ticket->id
             ], $output->body() ?? []));
 
+        if($this->email) {
+            \Mail::raw("Hello {$this->name}, \n\nYou have a reservation in "
+                . $ticket->event->start->format('l, dS F Y') . "'s " . $ticket->event->type->name,
+
+                fn($message) => $message->to($this->email)
+                    ->subject($ticket->event->type->name . ' Reservation Invoice')
+            );
+        }
+
         $this->reservations()->save($reservation);
 
         return $reservation;
@@ -85,17 +95,66 @@ class User extends Authenticatable
         return $output;
     }
 
-    public function isAdmin()
+    public function addFriend($user, $forceConfirm=false)
+    {
+        if($this->isFriendsWith($user))
+            return;
+
+        $friendship = Friendship::create();
+
+        $user->friendships()->save($friendship);
+        $this->friendships()->save($friendship);
+
+        if($forceConfirm)
+            $this->confirmFriend($user);
+
+    }
+
+    public function confirmFriend($user)
+    {
+        $this->friendships()
+            ->whereHas('users', fn($query) => $query->where('id', $user->id))
+            ->update(['confirmed_at' => now()]);
+    }
+
+    public function friends($withUnconfirmed=false)
+    {
+        $friendships = $this->friendships()
+            ->when(!$withUnconfirmed,
+                fn($query) => $query->where('friendships.confirmed_at', '<>', null)
+            )->pluck('id');
+
+        return \DB::table('users')
+            ->where('users.id', '<>', $this->id)
+            ->join('friendship_user', 'users.id', '=', 'friendship_user.user_id')
+            ->join('friendships', 'friendship_user.friendship_id', '=', 'friendships.id')
+            ->whereIn('friendships.id', $friendships)
+            ->select('users.*');
+    }
+
+    public function friendships()
+    {
+        return $this->belongsToMany(Friendship::class, 'friendship_user', 'user_id', 'friendship_id');
+    }
+
+    public function isFriendsWith($user) : bool
+    {
+        return $this->friends(true)
+            ->where('users.id', $user->id)
+            ->exists();
+    }
+
+    public function isAdmin() : bool
     {
         return $this->hasRole('super-admin');
     }
 
-    public function isUser()
+    public function isUser() : bool
     {
         return $this->hasRole('user');
     }
 
-    public function isSignedIn()
+    public function isSignedIn() : bool
     {
         return $this->id == \Auth::id();
     }

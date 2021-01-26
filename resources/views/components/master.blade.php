@@ -208,7 +208,8 @@
 
             </main>
             <footer class="bg-white text-gray-400 text-sm py-4 px-2 hidden md:flex">
-                <span class="mx-auto">Copyright © Fadi Sarwat, StGeorge Sporting 2020</span>
+                <span class="mx-auto">
+                    Copyright © <a class="text-blue-300 text-underline" href="https://fadisarwat.dev">Fadi Sarwat</a>, StGeorge Sporting 2021</span>
             </footer>
         </div>
     </div>

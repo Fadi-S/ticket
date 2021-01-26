@@ -8,6 +8,7 @@
                 <tr>
                     <x-table.th>Name</x-table.th>
                     <x-table.th>Username</x-table.th>
+                    <x-table.th>Number</x-table.th>
                     <x-table.th>Role</x-table.th>
                     <x-table.empty-th>Edit</x-table.empty-th>
                 </tr>
@@ -35,6 +36,10 @@
 
                         <x-table.td>
                             <span class="text-gray-800 text-md font-semibold">{{ $user->username }}</span>
+                        </x-table.td>
+
+                        <x-table.td>
+                            <span class="text-gray-800 text-md font-semibold">{{ $user->phone }}</span>
                         </x-table.td>
 
                         <x-table.td>
