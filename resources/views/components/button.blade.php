@@ -4,6 +4,7 @@
 ])
 
 <button class="flex px-4 py-2 rounded-lg {{ $color }}
+        transition-colors duration-200 ease-in
         text-white focus:outline-none {{ $class }}"
         {{ $attributes }}>
     @isset($svg)
