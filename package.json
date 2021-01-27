@@ -49,6 +49,7 @@
         "pusher-js": "^7.0.2",
         "skycons": "^1.0.0",
         "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.1",
-        "themify-icons": "^1.0.0"
+        "themify-icons": "^1.0.0",
+        "turbolinks": "^5.2.0"
     }
 }

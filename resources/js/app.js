@@ -37,4 +37,6 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-window.firebase = firebase;
+
+if(window.firebase == null)
+    window.firebase = firebase;

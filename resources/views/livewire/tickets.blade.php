@@ -73,7 +73,7 @@
             </div>
 
         @empty
-            <p class="font-bold text-gray-600 text-md mx-auto col-span-4 flex justify-center">
+            <p class="font-bold text-gray-600 text-md mx-auto col-span-12 flex justify-center">
                 <x-svg.ticket class="text-gray-500 mr-2"/>
                 @if($event)
                     <span>You have no tickets at this event!

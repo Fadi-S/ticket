@@ -8,6 +8,8 @@
 
     <title>{{ $title ?? 'Ticket' }}</title>
 
+    <script src="{{ url("js/turbo.js") }}"></script>
+
     @livewireScripts
 
 </head>
@@ -50,7 +52,7 @@
 
                 <x-navbar.divider/>
 
-                <x-navbar.link label="Make Reservation" :href="url('/reservations/create')"
+                <x-navbar.link label="Make Reservation" data-turbolinks="false" :href="url('/reservations/create')"
                                :active="url()->current() == url('/reservations/create')">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                          xmlns="http://www.w3.org/2000/svg">
