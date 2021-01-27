@@ -15,18 +15,10 @@ trait UserAttributes
             ->orWhere("email", "like", "%$search%");
     }
 
-    public function scopeAreFriends($query)
+    public function scopeHasFriends($query)
     {
-        if($this->isAdmin())
-            return;
-
-        $query->whereHas("friends",
-            fn($query) => $query->where('confirmed_at', '<>', null)
-                ->where(function($query) {
-                    $query->where('friend_id', $this->id)
-                        ->orWhere('user_id', $this->id);
-                })
-        );
+        $query->whereIn('id', auth()->user()->friends()->get()->pluck('id'))
+            ->orWhere('id', auth()->id());
     }
 
     public function scopeAddUsernameToName($query)

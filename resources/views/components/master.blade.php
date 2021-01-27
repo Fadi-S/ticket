@@ -111,23 +111,25 @@
                     </x-navbar.list>
                 @endcan
 
-                @can("tickets.view")
-                    <x-navbar.list label="Kiahk">
+                @if(false)
+                    @can("tickets.view")
+                        <x-navbar.list label="Kiahk">
 
-                        <x-slot name="svg">
-                            <x-svg.christmas/>
-                        </x-slot>
+                            <x-slot name="svg">
+                                <x-svg.christmas/>
+                            </x-slot>
 
-                        @can("events.create")
-                        <x-navbar.child label="Add Kiahk" href="{{ url('/kiahk/create') }}"
-                                        active="{{ url()->current() == url('/kiahk/create') }}"/>
-                        @endcan
+                            @can("events.create")
+                            <x-navbar.child label="Add Kiahk" href="{{ url('/kiahk/create') }}"
+                                            active="{{ url()->current() == url('/kiahk/create') }}"/>
+                            @endcan
 
-                        <x-navbar.child label="View Kiahk Events" href="{{ url('/kiahk') }}"
-                                        active="{{ url()->current() == url('/kiahk') }}"/>
+                            <x-navbar.child label="View Kiahk Events" href="{{ url('/kiahk') }}"
+                                            active="{{ url()->current() == url('/kiahk') }}"/>
 
-                    </x-navbar.list>
-                @endcan
+                        </x-navbar.list>
+                    @endcan
+                @endif
 
                 @can('activityLog')
                     <x-navbar.divider/>

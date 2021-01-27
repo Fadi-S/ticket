@@ -6,7 +6,7 @@
 
         <div class="space-y-6">
             <div class="grid lg:grid-cols-2 grid-cols-1 gap-4">
-                <x-form.input wire:model="user.name" required type="text"
+                <x-form.input wire:model.lazy="user.name" required type="text"
                               size="w-full" name="name" id="name"
                               label="Name *"  placeholder="Name" />
 
@@ -24,11 +24,12 @@
                               size="w-full" name="phone" id="phone"
                               label="Phone Number" placeholder="Phone Number" />
 
-                @if($isCreate || (auth()->user()->isAdmin() && !$user->isSignedIn()))
+                @if(auth()->user()->isAdmin() && ($isCreate || !$user->isSignedIn()))
                     <x-form.input wire:model.lazy="password" type="password"
                                   size="w-full" name="password" id="password"
                                   label="Password" placeholder="Password" />
                 @endif
+
                 @if(auth()->user()->isAdmin())
                     <x-form.select wire:model="role_id" name="role_id"
                                    id="role_id" size="w-full"

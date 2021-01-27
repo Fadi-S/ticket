@@ -23,12 +23,12 @@ class UserForm extends Component
     protected $queryString = [
         'redirect' => ['except' => false],
     ];
-    
+
     public function mount()
     {
         $this->isCreate = !isset($this->user);
 
-        if(!$this->isCreate)
+        if (!$this->isCreate)
             $this->authorize('update', $this->user);
 
         $this->user ??= new User();
@@ -45,8 +45,9 @@ class UserForm extends Component
         ])->layout('components.master');
     }
 
-    public function updatedUserName($name) {
-        if($this->isCreate)
+    public function updatedUserName($name)
+    {
+        if ($this->isCreate)
             $this->user->username = User::makeSlug($name, $this->user->id);
     }
 
@@ -54,39 +55,39 @@ class UserForm extends Component
     {
         $this->validateOnly('gender');
 
-        $this->user->gender = (bool) $gender;
+        $this->user->gender = (bool)$gender;
     }
 
     public function save()
     {
-        if(!$this->user->isSignedIn())
+        if (!$this->user->isSignedIn())
             $this->authorize($this->isCreate ? 'create' : 'update', $this->user);
 
         $this->validate();
 
-        $this->user->gender = (bool) $this->gender;
+        $this->user->gender = (bool)$this->gender;
 
-        if($this->password)
+        if (auth()->user()->isAdmin() && $this->password)
             $this->user->password = $this->password;
 
         $this->user->save();
 
         $this->user->syncRoles([(auth()->user()->isAdmin()) ? $this->role_id : 1]);
 
-        if(auth()->user()->isUser())
+        if (auth()->user()->isUser())
             auth()->user()->addFriend($this->user, true);
 
         $this->clearFields();
 
         session()->flash('success', 'User Saved Successfully');
 
-        if($this->redirect)
+        if ($this->redirect)
             $this->dispatchBrowserEvent('closeTab');
     }
 
     protected function clearFields()
     {
-        if($this->isCreate) {
+        if ($this->isCreate) {
             $this->user = new User();
             $this->password = '';
         }
@@ -98,38 +99,41 @@ class UserForm extends Component
             'user.name' => 'required',
             'user.username' => 'required|unique:users,username',
             'user.email' => [
-                Rule::requiredUnless(!! $this->user->phone),
+                Rule::requiredIf(!$this->user->phone),
                 'email',
                 'unique:users,email',
             ],
             'user.phone' => [
-                Rule::requiredUnless(!! $this->user->email),
+                Rule::requiredIf(!$this->user->email),
                 'regex:/(2?01)[0-9]{9}/',
                 'unique:users,phone',
             ],
             'gender' => 'required|in:0,1',
-            'password' => 'required|min:6',
+            'password' => [
+                Rule::requiredIf( $this->role_id != 1),
+                'min:6',
+            ],
             'role_id' => 'required|exists:roles,id',
         ];
 
-        if(!$this->isCreate) {
+        if (!$this->isCreate) {
             $id = isset($this->user) ? $this->user->id : 0;
 
             $rules['password'] = 'nullable|min:6';
-            $rules['user.username'] =  [
-                'nullable',
+            $rules['user.username'] = [
+                Rule::requiredIf($this->role_id != 1),
                 Rule::unique('users', 'username')->ignore($id),
             ];
             $rules['user.email'] = [
                 'email',
                 Rule::unique('users', 'email')->ignore($id),
-                Rule::requiredUnless(!! $this->user->phone),
+                Rule::requiredIf(!$this->user->phone),
             ];
 
             $rules['user.phone'] = [
                 'regex:/(2?01)[0-9]{9}/',
                 Rule::unique('users', 'phone')->ignore($id),
-                Rule::requiredUnless(!! $this->user->phone),
+                Rule::requiredIf(!$this->user->phone),
             ];
         }
 

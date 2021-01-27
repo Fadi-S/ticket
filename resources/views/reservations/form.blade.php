@@ -69,7 +69,7 @@
                 weekNumbers: true,
                 height: 650,
                 expandRows: false,
-                events: '{{ url("api/reservation/events") }}',
+                events: '{{ url("ajax/reservation/events") }}',
                 eventTimeFormat: {
                     hour: 'numeric',
                     minute: '2-digit',
@@ -111,7 +111,7 @@
 
             $('#user').select2({
                 ajax: {
-                    url: '{{ url("api/reservation/users") }}',
+                    url: '{{ url("ajax/reservation/users") }}',
                     dataType: 'json',
                     method: "get",
                     data: function (params) {

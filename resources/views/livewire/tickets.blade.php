@@ -8,26 +8,24 @@
         <x-form.input autocomplete="off" wire:model="search" name="search" id="search" label="Search" />
     </div>
 
-    <div class="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-4">
-        <div class="col-span-3">
+    <div class="grid grid-cols-12 gap-4">
+        <div class="col-span-12">
             @if($event)
-                <div class="col-span-3">
-                    <div class="mb-2 flex flex-col text-gray-800">
-                        <div class="font-semibold">{{ $this->eventModel->start->format('l, d/m/Y') }}</div>
+                <div class="mb-2 flex flex-col text-gray-800">
+                    <div class="font-semibold">{{ $this->eventModel->start->format('l, dS \o\f F Y') }}</div>
 
-                        <div class="font-semibold">{{ $this->eventModel->formatted_time }}</div>
+                    <div class="font-semibold">{{ $this->eventModel->formatted_time }}</div>
 
-                        <div class="font-bold text-sm text-gray-700">{{ $this->eventModel->type->arabic_name }}</div>
-                    </div>
+                    <div class="font-bold text-sm text-gray-700">{{ $this->eventModel->type->arabic_name }}</div>
                 </div>
             @endif
         </div>
 
         @forelse($tickets as $ticket)
-            <div id="ticket-{{ $ticket->id }}" class="bg-gray-100 shadow-inner rounded-lg p-4 col-span-1 overflow-x-hidden">
+            <div id="ticket-{{ $ticket->id }}" class="bg-gray-100 shadow-inner rounded-lg p-4 col-span-12 md:col-span-6 xl:col-span-4 overflow-x-hidden">
                 @if(!$event)
                     <h3 class="mb-2 w-full flex flex-col text-gray-800">
-                        <div class="font-semibold">{{ $ticket->event->start->format('l, d/m/Y') }}</div>
+                        <div class="font-semibold">{{ $ticket->event->start->format('l, dS \o\f F Y') }}</div>
                         <div class="font-semibold">{{ $ticket->event->formatted_time }}</div>
 
                         <span class="font-bold text-sm text-gray-700">{{ $ticket->event->type->arabic_name }}</span>

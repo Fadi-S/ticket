@@ -13,18 +13,23 @@ class ReservationsController extends Controller
 
     function getUsers(Request $request)
     {
+        if(! $request->user())
+            return ["results" => []];
+
         return [
             "results" =>
                 User::search($request->search)
-                    ->when($request->user()->isUser(),
-                        fn($query) => $query->whereIn('id', $request->user()->friends()->get()->pluck('id'))
-                    )->addUsernameToName()
+                    ->when($request->user()->isUser(), fn($query) => $query->hasFriends())
+                    ->addUsernameToName()
                     ->get('text', 'id'),
         ];
     }
 
     function getEvents(Request $request)
     {
+        if(! $request->user())
+            return [];
+
         $start = Carbon::parse($request->start);
         $end =  Carbon::parse($request->end);
 

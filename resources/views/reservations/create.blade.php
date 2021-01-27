@@ -2,11 +2,11 @@
     <x-slot name="title">Make Reservation | Ticket</x-slot>
 
     <x-card>
-        {!! Form::open(["url" => url("reservations"), "method" => "POST"]) !!}
+        <form action="{{ url('/reservations') }}" method="POST">
+            @csrf
 
-        @include("reservations.form", ["create" => true, "submit" => "Make Reservation"])
-
-        {!! Form::close() !!}
+            @include("reservations.form", ["create" => true, "submit" => "Make Reservation"])
+        </form>
     </x-card>
 
 </x-master>

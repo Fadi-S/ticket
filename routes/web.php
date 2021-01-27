@@ -12,7 +12,14 @@ use App\Http\Livewire\Users\UserForm;
 use Spatie\Honeypot\ProtectAgainstSpam;
 
 Route::middleware(ProtectAgainstSpam::class)
-    ->group(fn() => Auth::routes(['verify' => true]));
+    ->group(function () {
+        Route::get('password/forgot', fn() => view('auth.forgot'));
+        Route::get('password/phone', fn() => view('auth.phone'));
+
+        Auth::routes(['verify' => true]);
+    });
+
+
 
 Route::get('/assets/{image}', function ($image) {
     $width = request('w') ?? 200;
@@ -45,4 +52,7 @@ Route::middleware("auth")->group(function() {
         ->only(['show', 'index', 'edit', 'update', 'destroy']);
 
     Route::get('/logs', [DashboardController::class, 'showLogs']);
+
+    Route::get("ajax/reservation/users", [\App\Http\Controllers\API\ReservationsController::class, 'getUsers']);
+    Route::get("ajax/reservation/events", [\App\Http\Controllers\API\ReservationsController::class, 'getEvents']);
 });

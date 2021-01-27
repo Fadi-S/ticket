@@ -25,7 +25,7 @@ class ReservationsController extends Controller
 
     public function create()
     {
-        $users = User::addUsernameToName()->pluck("text", "id");
+        $users = User::hasFriends()->addUsernameToName()->pluck("text", "id");
 
         return view("reservations.create", compact('users'));
     }

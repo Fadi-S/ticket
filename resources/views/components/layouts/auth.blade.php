@@ -30,5 +30,6 @@
 @livewireStyles
 
 <script src="{{ url("js/app.js") }}"></script>
+@stack('scripts')
 </body>
 </html>

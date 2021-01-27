@@ -30,7 +30,7 @@
 
 
             <div class="flex justify-end text-sm w-10/12">
-                <a href="{{ url('/password/reset') }}" class="font-medium text-blue-800 hover:text-blue-700">
+                <a href="{{ url('password/forgot') }}" class="font-medium text-blue-800 hover:text-blue-700">
                     Forgot your password?
                 </a>
             </div>
