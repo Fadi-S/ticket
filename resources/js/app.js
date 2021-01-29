@@ -26,7 +26,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAnlZ_bP0GMRy2NTVLqU4tNZQ-J_hYS_xg",
+    apiKey: "AIzaSyCqK6oY8UojsnLzUAzUKEOSvCTYbcgkgVU",
     authDomain: "ticket-0.firebaseapp.com",
     databaseURL: "https://ticket-0.firebaseio.com",
     projectId: "ticket-0",

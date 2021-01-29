@@ -14,26 +14,35 @@ class ForgotPasswordController extends Controller
     public function sendVerificationCode(Request $request)
     {
         $this->validate($request, [
-            'phone' => 'regex:/(01)[0-9]{9}/|exists:users',
+            'phone' => 'required',
+            'regex:/(01)[0-9]{9}/',
+            'exists:users',
         ]);
 
         $phone = $request->phone;
         $reCaptcha = $request->reCaptcha;
 
-        if(!str_starts_with('+2', $phone))
-            $phone = '+2' . $phone;
+        preg_match('/(?P<number>(01)[0-9]{9})/', $phone, $matches);
+        $phone = '+2' . $matches['number'];
 
         $api = new GoogleAPI();
 
         $response = $api->sendVerificationCode($phone, $reCaptcha);
 
-        \DB::table('phone_verifications')
-            ->where('phone', $phone)
-            ->delete();
+        if(isset($response['sessionInfo'])) {
 
-        \DB::table('phone_verifications')->insert([
-            'phone' => $phone,
-            'reCaptcha' => $response['sessionInfo'],
-        ]);
+            \DB::table('phone_verifications')
+                ->where('phone', $phone)
+                ->delete();
+
+            \DB::table('phone_verifications')->insert([
+                'phone' => $phone,
+                'reCaptcha' => $response['sessionInfo'],
+            ]);
+
+            return ['message' => 'success'];
+        }
+
+        return response($response, 400);
     }
 }
