@@ -13,13 +13,13 @@
     @endisset
     <div class="mt-1" x-data="{ value: @if($livewire) @entangle('gender').defer @else 1 @endif }">
         <div class="{{ $class }} select-none bg-blue-200
-         w-28 h-10 rounded-full cursor-pointer flex flex-row justify-center items-center"
+         w-28 h-10 rounded-full cursor-pointer flex flex-row justify-center items-center transition-all"
              :class="((!!value) ? 'bg-blue-200' : 'bg-pink-200')" @click="value = ((!value) ? 1 : 0);">
 
-            <div class="font-bold w-full flex flex-row justify-center items-center"
+            <div class="font-bold w-full flex flex-row justify-center items-center transition-all"
                  :class="((!!value) ? 'text-blue-800' : 'text-pink-800')">
 
-                    <svg class="h-6 w-6 transform duration-300" :class="!value ? 'rotate-135' : ''"
+                    <svg class="h-6 w-6 transform duration-300 transition-all" :class="!value ? 'rotate-135' : ''"
                          fill="currentColor" xmlns="http://www.w3.org/2000/svg"
                          xmlns:xlink="http://www.w3.org/1999/xlink">
                         <path d="M9 9c1.29 0 2.5.41 3.47 1.11L17.58 5H13V3h8v8h-2V6.41l-5.11

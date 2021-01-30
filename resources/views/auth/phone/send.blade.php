@@ -8,8 +8,14 @@
         </x-layouts.success>
     @endif
 
+    @if(session("error"))
+        <x-layouts.error size="w-full mb-4">
+            {{ session("error") }}
+        </x-layouts.error>
+    @endif
+
     <h2 class="sm:mt-0 mt-2 text-center text-2xl font-bold text-gray-900">
-        Reset Password
+        Send code to phone
     </h2>
 
     <form class="space-y-6" action="{{ url('/password/phone') }}" method="POST">
@@ -71,8 +77,6 @@
                         'method': 'POST',
                         'data': {reCaptcha: reCaptcha, phone: $('#phone').val()},
                         'success': function (response) {
-                            document.getElementById('button-container').__x.$data.loading = false;
-
                             window.location.href = '{{ url("/password/verify") }}';
                         },
                         'error': function(response) {

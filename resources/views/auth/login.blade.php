@@ -12,9 +12,9 @@
 
         <input type="hidden" name="remember" value="true">
         <div class="rounded-md shadow-sm space-y-3">
-            <x-form.input-2 label="Email"
+            <x-form.input-2 label="Email, Phone or Username"
                             id="email" value="{{ old('email') }}"
-                            type="email" required />
+                            type="text" required />
 
             <x-form.input-2 label="Password"
                             id="password" value="{{ old('password') }}"

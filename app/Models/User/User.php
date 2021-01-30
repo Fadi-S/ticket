@@ -100,14 +100,15 @@ class User extends Authenticatable
         if($this->isFriendsWith($user))
             return;
 
-        $friendship = Friendship::create();
+        $friendship = Friendship::create([
+            'sender_id' => $this->id,
+        ]);
 
         $user->friendships()->save($friendship);
         $this->friendships()->save($friendship);
 
         if($forceConfirm)
             $this->confirmFriend($user);
-
     }
 
     public function confirmFriend($user)
@@ -124,8 +125,7 @@ class User extends Authenticatable
                 fn($query) => $query->where('friendships.confirmed_at', '<>', null)
             )->pluck('id');
 
-        return \DB::table('users')
-            ->where('users.id', '<>', $this->id)
+        return User::where('users.id', '<>', $this->id)
             ->join('friendship_user', 'users.id', '=', 'friendship_user.user_id')
             ->join('friendships', 'friendship_user.friendship_id', '=', 'friendships.id')
             ->whereIn('friendships.id', $friendships)

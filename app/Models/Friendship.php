@@ -17,4 +17,8 @@ class Friendship extends Model
         return $this->belongsToMany(User::class, 'friendship_user', 'friendship_id', 'user_id');
     }
 
+    public function sender()
+    {
+        return $this->belongsTo(User::class, 'sender_id');
+    }
 }

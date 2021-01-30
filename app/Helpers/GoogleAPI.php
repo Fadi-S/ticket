@@ -52,7 +52,7 @@ class GoogleAPI {
         $result = curl_exec($ch);
         curl_close($ch);
 
-        return json_decode($result, true);
+        return isset(json_decode($result, true)['idToken']);
     }
 
 }

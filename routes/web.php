@@ -3,6 +3,8 @@
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\TicketsController;
+use App\Http\Livewire\Friends;
+use App\Http\Livewire\ResetPasswordByPhone;
 use App\Http\Controllers\Admin\{AuthController,
     DashboardController,
     KiahkController,
@@ -16,10 +18,14 @@ use Spatie\Honeypot\ProtectAgainstSpam;
 Route::middleware(ProtectAgainstSpam::class)
     ->group(function () {
         Route::get('password/forgot', fn() => view('auth.forgot'));
-        Route::get('password/phone', fn() => view('auth.phone.send'));
+        Route::get('password/phone', function () {
+            if(session()->has('phone'))
+                return redirect('/password/verify');
+
+            return view('auth.phone.send');
+        });
         Route::post('password/phone', [ForgotPasswordController::class, 'sendVerificationCode']);
-        Route::get('password/verify', fn() => view('auth.phone.verify'));
-        Route::post('password/verify', [ResetPasswordController::class, 'confirmVerificationCode']);
+        Route::get('password/verify', ResetPasswordByPhone::class);
 
         Auth::routes(['verify' => true]);
     });
@@ -60,4 +66,6 @@ Route::middleware("auth")->group(function() {
 
     Route::get("ajax/reservation/users", [\App\Http\Controllers\API\ReservationsController::class, 'getUsers']);
     Route::get("ajax/reservation/events", [\App\Http\Controllers\API\ReservationsController::class, 'getEvents']);
+
+    Route::get('/friends', Friends::class);
 });

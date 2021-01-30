@@ -1,22 +1,22 @@
-<x-master>
-    <x-slot name="title">View All users | Ticket</x-slot>
+<div>
 
+    <x-slot name="title">
+        Friends | Ticket
+    </x-slot>
 
     <x-card>
+
         <x-table.table>
             <x-slot name="head">
                 <tr>
                     <x-table.th>Name</x-table.th>
-                    <x-table.th>Username</x-table.th>
-                    <x-table.th>Number</x-table.th>
-                    <x-table.th>Role</x-table.th>
-                    <x-table.empty-th>Edit</x-table.empty-th>
+                    <x-table.th>Handle</x-table.th>
                 </tr>
             </x-slot>
 
             <x-slot name="body">
 
-                @foreach($users as $user)
+                @foreach($friends as $user)
                     <tr>
                         <x-table.td>
                             <div class="flex items-center">
@@ -35,21 +35,7 @@
                         </x-table.td>
 
                         <x-table.td>
-                            <span class="text-gray-800 text-md font-semibold">{{ $user->username }}</span>
-                        </x-table.td>
-
-                        <x-table.td>
-                            <span class="text-gray-800 text-md font-semibold">{{ $user->phone }}</span>
-                        </x-table.td>
-
-                        <x-table.td>
-                            <span class="text-gray-800 text-md font-semibold">{{ $user->roles[0]->name }}</span>
-                        </x-table.td>
-
-                        <x-table.td>
-                            <a class="bg-blue-400 px-4 py-2 hover:bg-blue-500
-                             text-white text-md rounded-lg"
-                               href="{{ url("/users/$user->username/edit") }}">Edit</a>
+                            <span class="text-gray-800 text-md font-semibold">{{ '@' . $user->username }}</span>
                         </x-table.td>
                     </tr>
                 @endforeach
@@ -58,8 +44,7 @@
 
         </x-table.table>
 
-        {{ $users->links() }}
+        {{ $friends->links() }}
 
     </x-card>
-
-</x-master>
+</div>

@@ -12,7 +12,7 @@ window.Pusher = require('pusher-js');
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: 'ticket_7612241942',
+    key: process.env.MIX_PUSHER_APP_KEY,
     wsHost: 'sockets.fadisarwat.dev',
     wsPort: 443,
     wssPort: 443,
@@ -26,7 +26,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCqK6oY8UojsnLzUAzUKEOSvCTYbcgkgVU",
+    apiKey: process.env.MIX_GOOGLE_API_TOKEN,
     authDomain: "ticket-0.firebaseapp.com",
     databaseURL: "https://ticket-0.firebaseio.com",
     projectId: "ticket-0",

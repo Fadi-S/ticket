@@ -10,7 +10,7 @@ trait UserAttributes
     public function scopeSearch($query, $search)
     {
         return $query->where("name", "like", "%$search%")
-            ->orWhere("username", "like", "%$search%")
+            ->orWhere('username', 'like', "%$search%")
             ->orWhere("phone", "like", "%$search%")
             ->orWhere("email", "like", "%$search%");
     }
@@ -36,10 +36,20 @@ trait UserAttributes
         if(!$phone)
             return;
 
-        if(!str_starts_with($phone, '2'))
-            $phone = '2' . $phone;
+        preg_match('/(?P<number>(01)[0-9]{9})/', $phone, $matches);
+        $phone = '+2' . $matches['number'];
 
         $this->attributes['phone'] = $phone;
+    }
+
+    public function getPhoneAttribute($phone)
+    {
+        if(!$phone)
+            return null;
+
+        preg_match('/(?P<number>(01)[0-9]{9})/', $phone, $matches);
+
+        return '+2' . $matches['number'];
     }
 
     public function setNameAttribute($name)

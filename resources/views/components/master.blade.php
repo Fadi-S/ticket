@@ -9,9 +9,8 @@
     <title>{{ $title ?? 'Ticket' }}</title>
 
     <script src="{{ url("js/turbo.js") }}"></script>
-
     @livewireScripts
-
+    <script src="{{ url("js/app.js") }}"></script>
 </head>
 <body class="app">
 
@@ -39,8 +38,7 @@
 
             <nav class="mt-4 space-y-4">
 
-                <x-navbar.link label="Home" :href="url('/')"
-                               :active="url()->current() == url('/')">
+                <x-navbar.link label="Home" :href="url('/')">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path
                                 d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0
@@ -52,8 +50,7 @@
 
                 <x-navbar.divider/>
 
-                <x-navbar.link label="Make Reservation" data-turbolinks="false" :href="url('/reservations/create')"
-                               :active="url()->current() == url('/reservations/create')">
+                <x-navbar.link label="Make Reservation" data-turbolinks="false" :href="url('/reservations/create')">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                          xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -80,13 +77,11 @@
                         </x-slot>
 
                         @can("users.create")
-                            <x-navbar.child label="Add User" href="{{ url('/users/create') }}"
-                                        active="{{ url()->current() == url('/users/create') }}"/>
+                            <x-navbar.child label="Add User" href="{{ url('/users/create') }}"/>
                         @endcan
 
                         @can("users.view")
-                            <x-navbar.child label="View Users" href="{{ url('/users') }}"
-                                        active="{{ url()->current() == url('/users') }}"/>
+                            <x-navbar.child label="View Users" href="{{ url('/users') }}"/>
                         @endcan
 
                     </x-navbar.list>
@@ -103,12 +98,10 @@
                         </x-slot>
 
                         @can("events.create")
-                        <x-navbar.child label="Add Mass" href="{{ url('/masses/create') }}"
-                                        active="{{ url()->current() == url('/masses/create') }}"/>
+                            <x-navbar.child label="Add Mass" href="{{ url('/masses/create') }}"/>
                         @endcan
 
-                        <x-navbar.child label="View Masses" href="{{ url('/masses') }}"
-                                        active="{{ url()->current() == url('/masses') }}"/>
+                        <x-navbar.child label="View Masses" href="{{ url('/masses') }}"/>
 
                     </x-navbar.list>
                 @endcan
@@ -122,22 +115,30 @@
                             </x-slot>
 
                             @can("events.create")
-                            <x-navbar.child label="Add Kiahk" href="{{ url('/kiahk/create') }}"
-                                            active="{{ url()->current() == url('/kiahk/create') }}"/>
+                                <x-navbar.child label="Add Kiahk" href="{{ url('/kiahk/create') }}"/>
                             @endcan
 
-                            <x-navbar.child label="View Kiahk Events" href="{{ url('/kiahk') }}"
-                                            active="{{ url()->current() == url('/kiahk') }}"/>
+                            <x-navbar.child label="View Kiahk Events" href="{{ url('/kiahk') }}"/>
 
                         </x-navbar.list>
                     @endcan
                 @endif
 
+                @if(auth()->user()->isUser())
+                    <x-navbar.link label="Friends" :href="url('/friends')">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4
+                            4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0
+                             00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004
+                             15v3H1v-3a3 3 0 013.75-2.906z"></path>
+                        </svg>
+                    </x-navbar.link>
+                @endif
+
                 @can('activityLog')
                     <x-navbar.divider/>
 
-                    <x-navbar.link label="Activity Log" :href="url('/logs')"
-                                   :active="url()->current() == url('/logs')">
+                    <x-navbar.link label="Activity Log" :href="url('/logs')">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
                                   d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1
@@ -190,7 +191,7 @@
                         <div x-show.transition="dropdownOpen"
                              class="absolute right-0 mt-2 w-48 bg-white rounded-md overflow-hidden shadow-xl z-10"
                              style="display: none;">
-                            <a href="{{ url("/users/" . auth()->user()->username) }}"
+                            <a href="{{ url("/users/" . auth()->user()->username) }}" data-turbolinks="false"
                                class="block px-4 py-2 text-sm
                                {{ url("/users/" . auth()->user()->username) == url()->current() ? "bg-gray-200" : "text-gray-700" }}
                                        hover:bg-gray-200 ">Profile</a>
@@ -220,7 +221,6 @@
 </div>
 
 
-<script src="{{ url("js/app.js") }}"></script>
 @include("flash")
 
 @stack("scripts")

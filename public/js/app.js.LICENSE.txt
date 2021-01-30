@@ -5,7 +5,7 @@
  */
 
 /*!
- * Pusher JavaScript Library v7.0.2
+ * Pusher JavaScript Library v7.0.3
  * https://pusher.com/
  *
  * Copyright 2020, Pusher
@@ -119,7 +119,5 @@ and limitations under the License.
  */
 
 //! moment.js
-
-//! moment.js language configuration
 
 //! moment.js locale configuration
