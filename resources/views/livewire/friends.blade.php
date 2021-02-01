@@ -16,7 +16,7 @@
 
             <x-slot name="body">
 
-                @foreach($friends as $user)
+                @forelse($friends as $user)
                     <tr>
                         <x-table.td>
                             <div class="flex items-center">
@@ -38,7 +38,16 @@
                             <span class="text-gray-800 text-md font-semibold">{{ '@' . $user->username }}</span>
                         </x-table.td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <x-table.td colspan="2">
+                            You have no friends yet,
+                            <button type="button" class="text-blue-500 underline">
+                                Add Friend
+                            </button>
+                        </x-table.td>
+                    </tr>
+                @endforelse
 
             </x-slot>
 

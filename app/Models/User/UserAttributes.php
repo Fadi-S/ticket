@@ -37,19 +37,10 @@ trait UserAttributes
             return;
 
         preg_match('/(?P<number>(01)[0-9]{9})/', $phone, $matches);
-        $phone = '+2' . $matches['number'];
+        if(isset($matches['number']))
+            $phone = '+2' . $matches['number'];
 
         $this->attributes['phone'] = $phone;
-    }
-
-    public function getPhoneAttribute($phone)
-    {
-        if(!$phone)
-            return null;
-
-        preg_match('/(?P<number>(01)[0-9]{9})/', $phone, $matches);
-
-        return '+2' . $matches['number'];
     }
 
     public function setNameAttribute($name)

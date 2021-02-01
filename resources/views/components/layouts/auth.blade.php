@@ -7,10 +7,10 @@
     <title>{{ $title ?? 'Sign In to Ticket' }}</title>
     <link href="{{ url("css/app.css") }}" rel="stylesheet">
     <script src="{{ url("js/turbo.js") }}"></script>
+
+    @livewireStyles
+
 </head>
-
-@livewireScripts
-
 <body class="app">
 
 <div class="min-h-screen flex items-center justify-center bg-gray-200 py-12 px-4 sm:px-6 lg:px-8">
@@ -29,9 +29,9 @@
     </div>
 </div>
 
-@livewireStyles
 
-<script src="{{ url("js/app.js") }}"></script>
+@livewireScripts
+<script src="{{ url("js/app.js") }}" data-turbolinks-eval="false" data-turbo-eval="false"></script>
 @stack('scripts')
 </body>
 </html>

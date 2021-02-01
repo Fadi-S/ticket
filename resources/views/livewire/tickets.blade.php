@@ -12,7 +12,7 @@
         <div class="col-span-12">
             @if($event)
                 <div class="mb-2 flex flex-col text-gray-800">
-                    <div class="font-semibold">{{ $this->eventModel->start->format('l, dS \o\f F Y') }}</div>
+                    <div class="font-semibold">{{ $this->eventModel->start->format('l, jS \o\f F Y') }}</div>
 
                     <div class="font-semibold">{{ $this->eventModel->formatted_time }}</div>
 
@@ -25,7 +25,7 @@
             <div id="ticket-{{ $ticket->id }}" class="bg-gray-100 shadow-inner rounded-lg p-4 col-span-12 md:col-span-6 xl:col-span-4 overflow-x-hidden">
                 @if(!$event)
                     <h3 class="mb-2 w-full flex flex-col text-gray-800">
-                        <div class="font-semibold">{{ $ticket->event->start->format('l, dS \o\f F Y') }}</div>
+                        <div class="font-semibold">{{ $ticket->event->start->format('l, jS \o\f F Y') }}</div>
                         <div class="font-semibold">{{ $ticket->event->formatted_time }}</div>
 
                         <span class="font-bold text-sm text-gray-700">{{ $ticket->event->type->arabic_name }}</span>
@@ -83,7 +83,7 @@
                 @else
                     <span>You have no{{ $type ? ' '.strtolower($this->typeModel->name) : '' }} tickets!
                         <a href="{{ url('reservations/create') }}"
-                           class="text-blue-500 underline">Make a Reservation</a>
+                           class="text-blue-500 underline" data-turbolinks="false">Make a Reservation</a>
                     </span>
                 @endif
             </p>

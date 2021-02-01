@@ -1,12 +1,10 @@
-window.jQuery = window.$ = require('jquery');
-
 import 'alpinejs';
+import './turbo-livewire';
+import Echo from "laravel-echo";
+import firebase from "firebase/app";
+import "firebase/auth";
 
 window.Pikaday = require('pikaday');
-
-window.moment = require('moment');
-
-import Echo from "laravel-echo";
 
 window.Pusher = require('pusher-js');
 
@@ -21,9 +19,6 @@ window.Echo = new Echo({
     forceTLS: true,
     disableStats: false,
 });
-
-import firebase from "firebase/app";
-import "firebase/auth";
 
 const firebaseConfig = {
     apiKey: process.env.MIX_GOOGLE_API_TOKEN,

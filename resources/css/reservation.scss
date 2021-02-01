@@ -1,0 +1,10 @@
+@import "~select2/dist/css/select2.css";
+@import "~fullcalendar/main.css";
+
+.fc-daygrid-event, .fc-list-event {
+  cursor: pointer;
+}
+
+.fc-event-main {
+  cursor: pointer;
+}

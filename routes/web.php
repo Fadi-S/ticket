@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Auth\ResetPasswordController;
+
 use App\Http\Controllers\TicketsController;
 use App\Http\Livewire\Friends;
 use App\Http\Livewire\ResetPasswordByPhone;
@@ -18,14 +17,7 @@ use Spatie\Honeypot\ProtectAgainstSpam;
 Route::middleware(ProtectAgainstSpam::class)
     ->group(function () {
         Route::get('password/forgot', fn() => view('auth.forgot'));
-        Route::get('password/phone', function () {
-            if(session()->has('phone'))
-                return redirect('/password/verify');
-
-            return view('auth.phone.send');
-        });
-        Route::post('password/phone', [ForgotPasswordController::class, 'sendVerificationCode']);
-        Route::get('password/verify', ResetPasswordByPhone::class);
+        Route::get('password/phone', ResetPasswordByPhone::class);
 
         Auth::routes(['verify' => true]);
     });

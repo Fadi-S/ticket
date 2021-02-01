@@ -18,6 +18,8 @@ class Reservation extends Model
     protected $with = ['user'];
 
     protected static $logFillable = true;
+    protected static $logOnlyDirty = true;
+    protected static $submitEmptyLogs = false;
 
     public function user()
     {

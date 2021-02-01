@@ -20,6 +20,8 @@ class User extends Authenticatable
         UserAttributes, LogsActivity, Slugable, HasFactory;
 
     protected static $logFillable = true;
+    protected static $logOnlyDirty = true;
+    protected static $submitEmptyLogs = false;
 
     protected $hidden = ['password', 'remember_token'];
     protected $casts = ['email_verified_at' => 'datetime', 'gender' => 'boolean'];
@@ -66,7 +68,7 @@ class User extends Authenticatable
 
         if($this->email) {
             \Mail::raw("Hello {$this->name}, \n\nYou have a reservation in "
-                . $ticket->event->start->format('l, dS F Y') . "'s " . $ticket->event->type->name,
+                . $ticket->event->start->format('l, jS \o\f F') . "'s " . $ticket->event->type->name,
 
                 fn($message) => $message->to($this->email)
                     ->subject($ticket->event->type->name . ' Reservation Invoice')

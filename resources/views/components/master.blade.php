@@ -9,8 +9,7 @@
     <title>{{ $title ?? 'Ticket' }}</title>
 
     <script src="{{ url("js/turbo.js") }}"></script>
-    @livewireScripts
-    <script src="{{ url("js/app.js") }}"></script>
+    @livewireStyles
 </head>
 <body class="app">
 
@@ -50,7 +49,8 @@
 
                 <x-navbar.divider/>
 
-                <x-navbar.link label="Make Reservation" data-turbolinks="false" :href="url('/reservations/create')">
+                <x-navbar.link label="Make Reservation" :href="url('/reservations/create')"
+                    data-turbolinks="false">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                          xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -191,7 +191,7 @@
                         <div x-show.transition="dropdownOpen"
                              class="absolute right-0 mt-2 w-48 bg-white rounded-md overflow-hidden shadow-xl z-10"
                              style="display: none;">
-                            <a href="{{ url("/users/" . auth()->user()->username) }}" data-turbolinks="false"
+                            <a href="{{ url("/users/" . auth()->user()->username) }}"
                                class="block px-4 py-2 text-sm
                                {{ url("/users/" . auth()->user()->username) == url()->current() ? "bg-gray-200" : "text-gray-700" }}
                                        hover:bg-gray-200 ">Profile</a>
@@ -220,6 +220,8 @@
     </div>
 </div>
 
+@livewireScripts
+<script src="{{ url("js/app.js") }}" data-turbolinks-eval="false" data-turbo-eval="false"></script>
 
 @include("flash")
 
@@ -227,6 +229,5 @@
 
 @stack('modals')
 
-@livewireStyles
 </body>
 </html>
