@@ -19,6 +19,10 @@ class MakeReservation extends Component
     public $search = '';
     public bool $searching = false;
 
+    protected $listeners = [
+        'set:event' => 'setEvent'
+    ];
+
     public function mount()
     {
         $this->users = collect();
@@ -26,6 +30,11 @@ class MakeReservation extends Component
         if(auth()->user()->isUser()) {
             $this->users->push(auth()->user());
         }
+    }
+
+    public function setEvent($id)
+    {
+        $this->event = $id;
     }
 
     public function render()
@@ -37,33 +46,38 @@ class MakeReservation extends Component
 
     public function save()
     {
+        $this->validate([
+            'users' => [
+                'required',
+                'filled',
+            ],
+            'event' => [
+                'exists:events,id'
+            ]
+        ]);
+
         $event = Event::findOrFail($this->event)->specific();
 
         $users = User::whereIn('id', $this->users->pluck('id'))->get();
-
-        if(!auth()->user()->isAdmin()) {
-            if ($users->count() > $event->reservations_left) {
-                flash()->error('There is not enough space');
-
-                return redirect("reservations/create");
-            }
-        }
 
         $users->each(function ($user) use($event) {
             $output = $user->canReserveIn($event);
 
             if(is_null($output)) {
-                flash()->error("Something went wrong for $user->name");
+                session()->flash('error', "Something went wrong for $user->name");
+                $this->dispatchBrowserEvent('open', "Something went wrong for $user->name");
 
                 return;
             }
 
-            if($output->hasMessage())
-                flash()->error($output->message());
+            if($output->hasMessage()) {
+                session()->flash('error', $output->message());
+                $this->dispatchBrowserEvent('open', $output->message());
+            }
         });
 
-        if(flash()->messages->isNotEmpty())
-            return redirect("reservations/create");
+        if(session()->has('error'))
+            return;
 
         $ticket = Ticket::create([
             'event_id' => $event->id,
@@ -72,16 +86,12 @@ class MakeReservation extends Component
             'secret' => (new GenerateRandomString)->handle(),
         ]);
 
-        TicketReserved::dispatch();
-
         $users->each->reserveIn($ticket);
 
-        if(flash()->messages->isEmpty()) {
-            flash()->success("Reservation(s) made successfully");
-            return redirect("tickets?event=$event->id");
-        }
+        TicketReserved::dispatch();
 
-        return redirect("reservations/create");
+        flash()->success("Reservation(s) made successfully");
+        redirect("tickets?event=$event->id");
     }
 
     public function getSearchedUsers()

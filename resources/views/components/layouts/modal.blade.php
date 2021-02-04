@@ -3,7 +3,7 @@
     'defaultState' => 'false',
 ])
 
-<div x-data="{ open: {{ $defaultState }}, details:{} }" x-init="
+<div x-data="{ open: {{ $defaultState }}, details:{}, message: '' }" x-init="
   () => document.body.classList.add('overflow-hidden');
   $watch('open', value => {
     if (value === true) { document.body.classList.add('overflow-hidden') }

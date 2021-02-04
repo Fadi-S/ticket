@@ -9,6 +9,10 @@ trait UserAttributes
 
     public function scopeSearch($query, $search)
     {
+        if(str_starts_with($search, '~')) {
+            return $query->where("id", ltrim($search, '~'));
+        }
+
         return $query->where("name", 'like', "%$search%")
             ->orWhere('username', 'like', "%$search%")
             ->orWhere("phone", "like", "%$search%")

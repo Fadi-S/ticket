@@ -82,7 +82,7 @@
                     </span>
                 @else
                     <span>You have no{{ $type ? ' '.strtolower($this->typeModel->name) : '' }} tickets!
-                        <a href="{{ url('reservations/create') }}"
+                        <a href="{{ url('/reserve') }}"
                            class="text-blue-500 underline" data-turbolinks="false">Make a Reservation</a>
                     </span>
                 @endif

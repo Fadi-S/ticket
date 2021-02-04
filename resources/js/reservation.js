@@ -2,7 +2,6 @@ import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 window.jQuery = window.$ = require('jquery');
-require('select2');
 
 window.moment = require('moment');
 
@@ -53,19 +52,13 @@ document.addEventListener('turbolinks:load', () => {
         },
         displayEventEnd: true,
         eventClick(event) {
-            let eventInput = $("#event");
-
-            eventInput.find('option').remove().end();
-
             let date = new Date(event.event.start);
             let dateWrapper = window.moment(date);
 
             let endDate = new Date(event.event.end);
             let endDateWrapper = window.moment(endDate);
 
-            let datetime = dateWrapper.format("DD/MM/YYYY hh:mm A") + " | " + event.event.title;
-
-            eventInput.append('<option selected value="' + event.event.id + '">' + datetime + '</option>');
+            window.livewire.emit('set:event', event.event.id);
 
             currentEvent = event;
 
@@ -73,25 +66,6 @@ document.addEventListener('turbolinks:load', () => {
         },
     });
     calendar.render();
-
-    window.$('#user').select2({
-        ajax: {
-            url: '/ajax/reservation/users',
-            dataType: 'json',
-            method: "get",
-            data: params => ({
-                search: params.term,
-                type: 'public'
-            })
-        },
-        width: 'resolve',
-        language: {
-            noResults: () =>
-                '<a class="cursor w-full hover:bg-gray-200 focus:outline-none" ' +
-                'href="/users/create?redirect=1" target="_blank">This user is not found, Click here to create it</a>',
-        },
-        escapeMarkup: (markup) => markup,
-    });
 
     window.addEventListener('resize', () => {
         let newView = window.innerWidth > 1024 ? 'dayGridMonth' : 'timeGridWeek';
