@@ -23,27 +23,13 @@
     <x-layouts.errors />
 </div>
 
+@push('header')
+    <meta name="turbolinks-visit-control" content="reload">
+@endpush
+
 @push("scripts")
 
-    <script src="{{ mix('/js/reservation.js') }}"></script>
+    <script defer src="{{ mix('/js/reservation.js') }}"></script>
     <link href="{{ mix('/css/reservation.css') }}" rel="stylesheet" />
 
-    <script>
-        $(document).on('turbolinks:load', function () {
-
-            @if(!$create)
-            setTimeout(function () {
-                selectCurrentEvent(
-                    moment(new Date("{{ $reservation->event->start->format("Y-m-d h:i A") }}")),
-                    moment(new Date("{{ $reservation->event->end->format("Y-m-d h:i A") }}")),
-                    null
-                );
-            }, 500);
-            @endif
-
-            @if(!$create)
-                $("#user").prop("disabled", true);
-            @endif
-        });
-    </script>
 @endpush

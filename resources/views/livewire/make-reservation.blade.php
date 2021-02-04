@@ -1,0 +1,196 @@
+<div>
+    <x-slot name="title">Make Reservation | Ticket</x-slot>
+
+    <x-card>
+        <form wire:submit.prevent="save" action="{{ url('/reservations') }}" method="POST">
+            @csrf
+
+            <div class="space-y-6">
+
+                <div x-data="{ searching: @entangle('searching') }"
+                     @click.away="searching=false"
+                     @keydown.escape="searching=false"
+                     class="max-w-xl">
+                    <label id="listbox-label" class="block text-sm font-medium text-gray-700">
+                        Search Users
+                    </label>
+                    <div class="mt-1 relative">
+                        <div>
+                            <input type="text" @focus="searching=true"
+                                   wire:model="search"
+                                   @input="searching = ($event.target.value !== '')"
+                                   name="user-search" id="user-search"
+                                   class="relative w-full bg-white border border-gray-300 rounded-md
+                             shadow-sm pl-3 pr-5 py-2 text-left focus:outline-none
+                              focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm
+                                   focus:outline-none block w-full sm:text-sm rounded-md"
+                                   placeholder="Search">
+                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                <svg class="w-6 h-6 text-gray-400" fill="currentColor"
+                                     viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                          d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                          clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div x-show="searching" style="display: none;"
+                             x-transition:enter="transition ease-in duration-100"
+                             x-transition:enter-start="opacity-0"
+                             x-transition:enter-end="opacity-100"
+                             x-transition:leave="transition ease-in duration-100"
+                             x-transition:leave-start="opacity-100"
+                             x-transition:leave-end="opacity-0"
+                                class="absolute mt-1 w-full rounded-md bg-white shadow-lg">
+                            <ul x-ref="listbox" tabindex="-1" role="listbox"
+                                aria-labelledby="listbox-label"
+                                class="max-h-60 rounded-md py-1 text-base ring-1
+                                 ring-black ring-opacity-5 overflow-auto z-50
+                                 bg-white
+                                 focus:outline-none sm:text-sm">
+
+                                @forelse($usersSearched as $user)
+                                    @php
+                                        $selected = in_array($user->id, $users->pluck('id')->toArray());
+                                    @endphp
+
+                                    <li x-state:on="Highlighted" id="user-search-{{ $user->id }}"
+                                        x-state:off="Not Highlighted"
+                                        wire:click="toggleUser('{{ $user->username }}')"
+                                        role="option"
+                                        class="group cursor-default z-10
+                                         select-none relative py-2 pl-3 pr-9
+                                        {{ $selected ? 'bg-indigo-600' : 'hover:text-white hover:bg-indigo-400 bg-white' }}
+                                        text-gray-900">
+                                        <div class="flex">
+                                            <span class="mr-2
+                                        {{ $selected ? 'font-bold text-indigo-200' : 'font-normal group-hover:text-indigo-200 text-gray-500' }}
+                                                    truncate">
+                                                {{ $user->id }}
+                                            </span>
+                                            <span class="{{ $selected ? 'font-bold text-white' : 'font-normal group-hover:text-white' }} truncate">
+                                              {{ $user->name }}
+                                            </span>
+                                            <span class="ml-2
+                                            {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500' }}
+                                             truncate">
+                                                {{ '@' . $user->username }}
+                                            </span>
+                                            <span class="ml-2
+                                             {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500' }}
+                                             truncate">
+                                                {{ $user->phone }}
+                                            </span>
+                                            <span class="ml-2
+                                             {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500' }}
+                                             truncate">
+                                                {{ $user->national_id }}
+                                            </span>
+                                        </div>
+
+                                        @if($selected)
+                                            <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-white">
+                                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                                 fill="currentColor" aria-hidden="true">
+                                              <path fill-rule="evenodd"
+                                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                    clip-rule="evenodd"/>
+                                            </svg>
+                                          </span>
+                                        @endif
+
+                                    </li>
+
+                                @empty
+                                    <li x-state:on="Highlighted"
+                                        x-state:off="Not Highlighted"
+                                        id="listbox-item-0" role="option"
+                                        class="cursor-default select-none relative py-2 pl-3 pr-9 text-gray-900">
+                                        <div class="flex">
+                                            <span class="font-normal truncate">
+                                              No User found with search {{ $search }}
+                                            </span>
+                                        </div>
+
+                                    </li>
+                                @endforelse
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                @if($users->isNotEmpty())
+                    <x-table.table class="w-full"
+                                   wire:loading.class="opacity-75" wire:target="addUser">
+                        <x-slot name="head">
+                            <tr>
+                                <x-table.th>ID</x-table.th>
+                                <x-table.th>Name</x-table.th>
+                                <x-table.th>Username</x-table.th>
+                                <x-table.th>National ID</x-table.th>
+                                <x-table.th>Email</x-table.th>
+                                <x-table.th>Phone</x-table.th>
+                                <x-table.th></x-table.th>
+                            </tr>
+                        </x-slot>
+                        <x-slot name="body">
+                            @foreach($users as $user)
+                                <tr id="user-selected-{{ $user['id'] }}">
+                                    <x-table.td>{{ $user['id'] }}</x-table.td>
+                                    <x-table.td>{{ $user['name'] }}</x-table.td>
+                                    <x-table.td>{{ '@' . $user['username'] }}</x-table.td>
+                                    <x-table.td>{{ $user['national_id'] ?? '-' }}</x-table.td>
+                                    <x-table.td>{{ $user['email'] ?? '-' }}</x-table.td>
+                                    <x-table.td>{{ $user['phone'] ?? '' }}</x-table.td>
+                                    <x-table.td>
+                                        <x-button type="button" color="rounded-full bg-red-500 hover:bg-red-600"
+                                                  wire:click="removeUser('{{ $user['id'] }}')">
+                                            <x-slot name="svg">
+                                                <x-svg.x/>
+                                            </x-slot>
+                                        </x-button>
+                                    </x-table.td>
+                                </tr>
+                            @endforeach
+                        </x-slot>
+                    </x-table.table>
+                @endif
+
+                <x-form.group class="sr-only">
+
+                    <x-form.select wire:model="event" name="event" size="md:w-1/2 w-full" class="md:mt-0"
+                                   label="Event" id="event"
+                                   :options="[]"/>
+                </x-form.group>
+
+                <div wire:ignore id='calendar' class="z-0"></div>
+
+                <x-button type="submit" class="mx-auto mt-2">
+                    <x-slot name="svg">
+                        <x-svg.edit wire:loading.remove wire:target="save"/>
+
+                        <x-svg.spinner wire:loading wire:target="save"/>
+                    </x-slot>
+                    Make Reservation
+                </x-button>
+
+                <x-layouts.errors/>
+            </div>
+
+            @push('header')
+                <meta name="turbolinks-visit-control" content="reload">
+            @endpush
+
+            @push("scripts")
+
+                <script defer src="{{ mix('/js/reservation.js') }}"></script>
+                <link href="{{ mix('/css/reservation.css') }}" rel="stylesheet"/>
+
+            @endpush
+
+        </form>
+    </x-card>
+
+</div>

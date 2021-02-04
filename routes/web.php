@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\TicketsController;
 use App\Http\Livewire\Friends;
+use App\Http\Livewire\MakeReservation;
 use App\Http\Livewire\ResetPasswordByPhone;
 use App\Http\Controllers\Admin\{AuthController,
     DashboardController,
@@ -35,7 +36,7 @@ Route::get('/assets/{image}', function ($image) {
 
 Route::middleware("auth")->group(function() {
 
-    Route::get('/logout', [AuthController::class, 'logout']);
+    Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::get('/', [DashboardController::class, 'index']);
 
@@ -53,6 +54,8 @@ Route::middleware("auth")->group(function() {
 
     Route::resource("tickets", TicketsController::class)
         ->only(['show', 'index', 'edit', 'update', 'destroy']);
+
+    Route::get('/reserve', MakeReservation::class);
 
     Route::get('/logs', [DashboardController::class, 'showLogs']);
 

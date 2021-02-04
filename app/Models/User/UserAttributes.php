@@ -9,9 +9,11 @@ trait UserAttributes
 
     public function scopeSearch($query, $search)
     {
-        return $query->where("name", "like", "%$search%")
+        return $query->where("name", 'like', "%$search%")
             ->orWhere('username', 'like', "%$search%")
             ->orWhere("phone", "like", "%$search%")
+            ->orWhere("national_id", "like", "%$search%")
+            ->orWhere("id", $search)
             ->orWhere("email", "like", "%$search%");
     }
 

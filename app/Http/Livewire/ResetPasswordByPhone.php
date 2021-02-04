@@ -20,22 +20,23 @@ class ResetPasswordByPhone extends Component
         'phone.regex' => 'This phone number is invalid.',
     ];
 
+    private string $phoneKey = 'reset.phone';
+    private string $stateKey = 'reset.state';
+
     public function mount()
     {
-        if(!session()->has('reset.state'))
-            session()->put('reset.state', 0);
-
-        $this->phone = session('phone');
+        if(!session()->has($this->stateKey) || !session($this->phoneKey))
+            session()->put($this->stateKey, 0);
     }
 
     public function render()
     {
         return view('livewire.reset-password-by-phone', [
-            'state' => session('reset.state'),
+            'state' => session($this->stateKey),
         ])->layout('components.layouts.auth');
     }
 
-    public function sendCode()
+    public function send()
     {
         $this->validate([
             'phone' => 'required'
@@ -73,21 +74,21 @@ class ResetPasswordByPhone extends Component
             'reCaptcha' => $response['sessionInfo'],
         ]);
 
-        session()->put('phone', $this->phone);
-        session()->put('reset.state', 1);
+        session()->put($this->phoneKey, $this->phone);
+        session()->put($this->stateKey, 1);
 
         session()->flash('status', "Verification code sent to $this->phone");
     }
 
-    public function confirmCode()
+    public function confirm()
     {
-        if (session('reset.state') !== 1)
+        if (session($this->stateKey) !== 1)
             return;
 
         $api = new GoogleAPI();
 
         $sessionInfo = \DB::table('phone_verifications')
-            ->where('phone', $this->phone)
+            ->where('phone', session($this->phoneKey))
             ->first()
             ->reCaptcha;
 
@@ -98,19 +99,17 @@ class ResetPasswordByPhone extends Component
         }
 
         \DB::table('phone_verifications')
-            ->where('phone', $this->phone)
+            ->where('phone', session($this->phoneKey))
             ->delete();
-
-        session()->remove('phone');
 
         session()->flash('status', "Success");
 
-        session()->put('reset.state', 2);
+        session()->put($this->stateKey, 2);
     }
 
     public function resetPassword()
     {
-        if (session('reset.state') !== 2)
+        if (session($this->stateKey) !== 2)
             return;
 
         $this->validate([
@@ -120,13 +119,15 @@ class ResetPasswordByPhone extends Component
             ]
         ]);
 
-        $user = User::where('phone', $this->phone)->first();
+        $user = User::where('phone', session($this->phoneKey))->first();
 
         $user->password = $this->password;
+        $user->save();
 
         auth()->login($user, true);
 
-        session()->forget('reset.state');
+        session()->forget($this->stateKey);
+        session()->forget($this->phoneKey);
 
         flash()->success('Password Reset Successfully');
 

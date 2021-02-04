@@ -4,7 +4,12 @@
 .active {
     @apply bg-gray-500 bg-opacity-25 text-blue-700;
 }
+.turbolinks-progress-bar {
+    height: 3px;
+    @apply bg-blue-700;
+}
 
 @tailwind utilities;
 
 @import '~pikaday/css/pikaday.css';
+

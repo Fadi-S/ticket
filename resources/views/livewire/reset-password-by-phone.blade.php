@@ -25,7 +25,7 @@
 
     <div class="mb-6">
         @if($state == 0)
-            <form class="space-y-6" action="#" method="POST" wire:submit.prevent="sendCode">
+            <form class="space-y-6" action="#" method="POST" wire:submit.prevent="send">
                 @csrf
 
                 <div>
@@ -50,11 +50,11 @@
 
                 <x-button :disabled="is_null($reCaptcha)" type="submit" class="mx-auto w-full justify-center shadow-lg">
                     <x-slot name="svg">
-                        <svg wire:loading.remove wire:target="sendCode" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <svg wire:loading.remove wire:target="send" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
                         </svg>
 
-                        <x-svg.spinner wire:loading wire:target="sendCode" />
+                        <x-svg.spinner wire:loading wire:target="send" />
                     </x-slot>
 
                     Send Code
@@ -75,22 +75,22 @@
         @endif
 
         @if($state == 1)
-            <form class="space-y-6" action="#" method="POST" wire:submit.prevent="confirmCode">
+            <form class="space-y-6" action="#" method="POST" wire:submit.prevent="confirm">
                 @csrf
-                <x-form.input-2 label="Code" wire:model="code" autocomplete="off"
+                <x-form.input-2 label="Code" wire:model.defer="code" autocomplete="off"
                                 placeholder="Verification Code"
                                 id="code" type="text" required />
 
                 <x-button id="reset-button" type="submit"
                           class="mx-auto w-full justify-center shadow-lg">
                     <x-slot name="svg">
-                        <svg wire:loading.remove wire:target="confirmCode" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <svg wire:loading.remove wire:target="confirm" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
                                   d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                                   clip-rule="evenodd"></path>
                         </svg>
 
-                        <x-svg.spinner wire:loading wire:target="confirmCode" />
+                        <x-svg.spinner wire:loading wire:target="confirm" />
                     </x-slot>
 
                     Confirm Code
@@ -101,10 +101,10 @@
         @if($state == 2)
             <form class="space-y-6" action="#" method="POST" wire:submit.prevent="resetPassword">
                 @csrf
-                <x-form.input-2 label="New Password" wire:model="password" placeholder="New Password"
+                <x-form.input-2 label="New Password" wire:model.defer="password" placeholder="New Password"
                                 id="password" type="password" required />
 
-                <x-form.input-2 label="Confirm New Password" wire:model="password_confirmation"
+                <x-form.input-2 label="Confirm New Password" wire:model.defer="password_confirmation"
                                 placeholder="Confirm New Password"
                                 id="password_confirmation" type="password" required />
 

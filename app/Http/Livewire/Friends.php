@@ -6,6 +6,8 @@ use Livewire\Component;
 
 class Friends extends Component
 {
+    public bool $showModal = false;
+
     public function render()
     {
         return view('livewire.friends', [
@@ -13,5 +15,10 @@ class Friends extends Component
             'requests' => auth()->user()
                 ->friends(true)->get(),
         ])->layout('components.master');
+    }
+
+    public function openFriendModal()
+    {
+        $this->showModal = true;
     }
 }

@@ -5,9 +5,11 @@
         <x-table.table>
             <x-slot name="head">
                 <tr>
+                    <x-table.th>ID</x-table.th>
                     <x-table.th>Name</x-table.th>
                     <x-table.th>Username</x-table.th>
                     <x-table.th>Number</x-table.th>
+                    <x-table.th>National ID</x-table.th>
                     <x-table.th>Role</x-table.th>
                     <x-table.empty-th>Edit</x-table.empty-th>
                 </tr>
@@ -17,6 +19,10 @@
 
                 @foreach($users as $user)
                     <tr>
+                        <x-table.td>
+                            <span class="text-gray-800 text-md font-semibold">{{ $user->id }}</span>
+                        </x-table.td>
+
                         <x-table.td>
                             <div class="flex items-center">
                                 <div class="flex-shrink-0 h-10 w-10">
@@ -39,6 +45,10 @@
 
                         <x-table.td>
                             <span class="text-gray-800 text-md font-semibold">{{ $user->phone }}</span>
+                        </x-table.td>
+
+                        <x-table.td>
+                            <span class="text-gray-800 text-md font-semibold">{{ $user->national_id }}</span>
                         </x-table.td>
 
                         <x-table.td>

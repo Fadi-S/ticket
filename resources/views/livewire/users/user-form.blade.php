@@ -41,6 +41,10 @@
                               size="w-full" name="phone" id="phone"
                               label="Phone Number" placeholder="Phone Number" />
 
+                <x-form.input wire:model.lazy="user.national_id" type="text"
+                              size="w-full" name="national_id" id="national_id"
+                              label="National ID" placeholder="National ID" />
+
                 @if(auth()->user()->isAdmin() && ($isCreate || !$user->isSignedIn()))
                     <x-form.input wire:model.lazy="password" type="password"
                                   size="w-full" name="password" id="password"

@@ -84,6 +84,19 @@ class AuthenticationTest extends TestCase
         ]);
     }*/
 
+    /** @test */
+    function national_id_must_be_valid()
+    {
+        $this->registerUser(['national_id' => '55464891455458'])
+             ->assertSessionHasErrors('national_id');
+
+        $this->registerUser(['national_id' => '35464891455874'])
+            ->assertSessionHasErrors('national_id');
+
+        $this->registerUser(['national_id' => '25464891455984'])
+            ->assertSessionHasErrors('national_id');
+    }
+
     /**
      * @test
      * @dataProvider fields
@@ -125,6 +138,7 @@ class AuthenticationTest extends TestCase
         return $this->post('/register', array_merge([
             'name' => 'John Doe',
             'email' => 'test@example.com',
+            'national_id' => '30204250201612',
             'password' => '123456',
             'password_confirmation' => '123456',
             'phone' => '01273315870',
@@ -137,6 +151,7 @@ class AuthenticationTest extends TestCase
         return [
             ['email', 'unique'],
             ['phone', 'unique'],
+            ['national_id', 'unique'],
             ['username', 'unique'],
             ['name', 'not_unique'],
         ];

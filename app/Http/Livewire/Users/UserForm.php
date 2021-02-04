@@ -99,14 +99,19 @@ class UserForm extends Component
             'user.name' => 'required',
             'user.username' => 'required|unique:users,username',
             'user.email' => [
-                Rule::requiredIf(!$this->user->phone),
+                'nullable',
                 'email',
                 'unique:users,email',
             ],
             'user.phone' => [
-                Rule::requiredIf(!$this->user->email),
-                'regex:/(2?01)[0-9]{9}/',
+                'nullable',
+                'regex:/((\+2|2)?01)[0-9]{9}/',
                 'unique:users,phone',
+            ],
+            'user.national_id' => [
+                'nullable',
+                'regex:/(3|2)[0-9]{13}/',
+                'unique:users,national_id',
             ],
             'gender' => 'required|in:0,1',
             'password' => [
@@ -125,15 +130,21 @@ class UserForm extends Component
                 Rule::unique('users', 'username')->ignore($id),
             ];
             $rules['user.email'] = [
+                'nullable',
                 'email',
                 Rule::unique('users', 'email')->ignore($id),
-                Rule::requiredIf(!$this->user->phone),
             ];
 
             $rules['user.phone'] = [
-                'regex:/(2?01)[0-9]{9}/',
+                'nullable',
+                'regex:/((\+2|2)?01)[0-9]{9}/',
                 Rule::unique('users', 'phone')->ignore($id),
-                Rule::requiredIf(!$this->user->phone),
+            ];
+
+            $rules['user.national_id'] = [
+                'nullable',
+                'regex:/(3|2)[0-9]{13}/',
+                Rule::unique('users', 'national_id')->ignore($id),
             ];
         }
 

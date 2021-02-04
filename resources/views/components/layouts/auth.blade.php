@@ -21,7 +21,7 @@
                 <img class="absolute h-full object-cover object-top sm:object-center w-full" src="{{ url("/images/stgeorge_bg-500.jpg") }}" alt="Saint George">
             </div>
 
-            <div class="m-4 sm:w-1/2 sm:my-auto my-4">
+            <div class="m-4 sm:w-1/2 sm:my-auto my-4 py-6">
                 {{ $slot }}
             </div>
 

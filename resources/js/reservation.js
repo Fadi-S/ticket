@@ -33,7 +33,8 @@ function formatDate(date) {
     return dateString;
 }
 
-$(document).on('turbolinks:load', function () {
+document.addEventListener('turbolinks:load', () => {
+
     let calendarEl = document.getElementById('calendar');
     let calendar = new Calendar(calendarEl, {
         plugins: [ dayGridPlugin, timeGridPlugin ],
@@ -51,7 +52,7 @@ $(document).on('turbolinks:load', function () {
             meridiem: 'short'
         },
         displayEventEnd: true,
-        eventClick: function (event) {
+        eventClick(event) {
             let eventInput = $("#event");
 
             eventInput.find('option').remove().end();
@@ -73,17 +74,15 @@ $(document).on('turbolinks:load', function () {
     });
     calendar.render();
 
-    $('#user').select2({
+    window.$('#user').select2({
         ajax: {
             url: '/ajax/reservation/users',
             dataType: 'json',
             method: "get",
-            data: function (params) {
-                return {
-                    search: params.term,
-                    type: 'public'
-                }
-            }
+            data: params => ({
+                search: params.term,
+                type: 'public'
+            })
         },
         width: 'resolve',
         language: {
@@ -94,7 +93,7 @@ $(document).on('turbolinks:load', function () {
         escapeMarkup: (markup) => markup,
     });
 
-    window.addEventListener('resize', function () {
+    window.addEventListener('resize', () => {
         let newView = window.innerWidth > 1024 ? 'dayGridMonth' : 'timeGridWeek';
 
         if(newView !== calendar.view.type)

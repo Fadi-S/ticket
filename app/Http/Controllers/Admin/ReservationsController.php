@@ -67,7 +67,7 @@ class ReservationsController extends Controller
             'secret' => (new GenerateRandomString)->handle(),
         ]);
 
-        TicketReserved::dispatch();
+        // TicketReserved::dispatch();
 
         $users->each->reserveIn($ticket);
 

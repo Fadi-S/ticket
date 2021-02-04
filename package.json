@@ -34,6 +34,7 @@
         "alpinejs": "^2.8.0",
         "brand-colors": "^2.1.1",
         "chart.js": "^2.9.4",
+        "choices.js": "^9.0.1",
         "datatables": "^1.10.18",
         "daterangepicker": "^3.1.0",
         "firebase": "^8.2.4",
@@ -49,6 +50,7 @@
         "select2": "^4.1.0-rc.0",
         "skycons": "^1.0.0",
         "themify-icons": "^1.0.0",
+        "tom-select": "^1.1.1",
         "turbolinks": "^5.2.0"
     }
 }

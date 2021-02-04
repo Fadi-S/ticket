@@ -10,6 +10,8 @@
 
     <script src="{{ url("js/turbo.js") }}"></script>
     @livewireStyles
+
+    @stack('header')
 </head>
 <body class="app">
 
@@ -49,8 +51,7 @@
 
                 <x-navbar.divider/>
 
-                <x-navbar.link label="Make Reservation" :href="url('/reservations/create')"
-                    data-turbolinks="false">
+                <x-navbar.link label="Make Reservation" :href="url('/reserve')">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                          xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -150,9 +151,15 @@
 
                 <x-navbar.divider/>
 
-                <x-navbar.link class="text-red-400 text-lg" label="Sign Out" :href="url('/logout')">
-                    <x-svg.logout/>
-                </x-navbar.link>
+                <form action="{{ url('/logout') }}" method="POST">
+                    @csrf
+
+                    <x-navbar.link type="submit" :button="true"
+                                   class="text-red-400 text-lg"
+                                   label="Sign Out">
+                        <x-svg.logout/>
+                    </x-navbar.link>
+                </form>
 
             </nav>
         </div>
@@ -166,6 +173,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                   d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
+                        <span class="material-icons sr-only">Menu Button</span>
                     </button>
                 </div>
 
@@ -196,12 +204,17 @@
                                {{ url("/users/" . auth()->user()->username) == url()->current() ? "bg-gray-200" : "text-gray-700" }}
                                        hover:bg-gray-200 ">Profile</a>
 
-                            <a href="{{ url('logout') }}" class="w-full px-4 py-2 text-sm text-red-500
+                            <form method="POST" action="{{ url('logout') }}">
+                                @csrf
+
+                                <button type="submit" class="w-full px-4 py-2 text-sm text-red-500
                                  hover:bg-gray-200 flex items-center justify-start
                                    focus:outline-none space-x-2">
-                                <x-svg.logout/>
-                                <span>Sign Out</span>
-                            </a>
+                                    <x-svg.logout/>
+                                    <span>Sign Out</span>
+                                </button>
+                            </form>
+
                         </div>
                     </div>
                 </div>
@@ -214,7 +227,7 @@
             </main>
             <footer class="bg-white text-gray-400 text-sm py-4 px-2 hidden md:flex">
                 <span class="mx-auto">
-                    Copyright © <a class="text-blue-300 text-underline" href="https://fadisarwat.dev">Fadi Sarwat</a>, StGeorge Sporting 2021</span>
+                    Copyright © <a class="text-blue-500 text-underline" href="https://fadisarwat.dev">Fadi Sarwat</a>, StGeorge Sporting 2021</span>
             </footer>
         </div>
     </div>
