@@ -7,6 +7,7 @@
                 <tr>
                     <x-table.th>ID</x-table.th>
                     <x-table.th>Name</x-table.th>
+                    <x-table.th>Arabic Name</x-table.th>
                     <x-table.th>Username</x-table.th>
                     <x-table.th>Number</x-table.th>
                     <x-table.th>National ID</x-table.th>
@@ -40,6 +41,10 @@
                         </x-table.td>
 
                         <x-table.td>
+                            <span class="text-gray-800 text-md font-semibold">{{ $user->arabic_name }}</span>
+                        </x-table.td>
+
+                        <x-table.td>
                             <span class="text-gray-800 text-md font-semibold">{{ $user->username }}</span>
                         </x-table.td>
 
@@ -52,7 +57,7 @@
                         </x-table.td>
 
                         <x-table.td>
-                            <span class="text-gray-800 text-md font-semibold">{{ $user->roles[0]->name }}</span>
+                            <span class="text-gray-800 text-md font-semibold">{{ isset($user->roles[0]) ? $user->roles[0]->name : 'user' }}</span>
                         </x-table.td>
 
                         <x-table.td>

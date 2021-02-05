@@ -7,10 +7,10 @@
 
             <div class="space-y-6">
 
-                <div x-data="{ searching: @entangle('searching') }"
+                <div x-data="{ searching: @entangle('searching'), focusing: '0' }"
                      @click.away="searching=false"
                      @keydown.escape="searching=false"
-                     class="max-w-xl">
+                     class="max-w-2xl mx-auto">
                     <label id="listbox-label" class="block text-sm font-medium text-gray-700">
                         Search Users
                     </label>
@@ -19,7 +19,7 @@
                             <input type="text" @focus="searching=true"
                                    @blur="searching=false"
                                    wire:model="search"
-                                   dir="auto"
+                                   dir="auto" autocomplete="off"
                                    @input="searching = ($event.target.value !== '')"
                                    name="user-search" id="user-search"
                                    class="relative w-full bg-white border border-gray-300 rounded-md
@@ -71,8 +71,12 @@
                                                     truncate">
                                                 {{ $user->id }}
                                             </span>
-                                            <span class="{{ $selected ? 'font-bold text-white' : 'font-normal group-hover:text-white' }} truncate">
+                                            <span :class="focusing === 'user-search-{{ $user->id }}' ? '' : ''"
+                                                    class="{{ $selected ? 'font-bold text-white' : 'font-normal group-hover:text-white' }} truncate">
                                               {{ $user->name }}
+                                            </span>
+                                            <span class="{{ $selected ? 'font-bold text-white' : 'font-normal group-hover:text-white' }} truncate">
+                                              {{ $user->arabic_name }}
                                             </span>
                                             <span class="ml-2
                                             {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500' }}
@@ -93,12 +97,7 @@
 
                                         @if($selected)
                                             <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-white">
-                                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                 fill="currentColor" aria-hidden="true">
-                                              <path fill-rule="evenodd"
-                                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                                    clip-rule="evenodd"/>
-                                            </svg>
+                                                <x-svg.check />
                                           </span>
                                         @endif
 
@@ -111,7 +110,7 @@
                                         class="cursor-default select-none relative py-2 pl-3 pr-9 text-gray-900">
                                         <div class="flex">
                                             <span class="font-normal truncate">
-                                              No User matches search {{ $search }}
+                                              No users match search {{ $search }}
                                             </span>
                                         </div>
 
@@ -125,11 +124,12 @@
 
                 @if($users->isNotEmpty())
                     <x-table.table class="w-full"
-                                   wire:loading.class="opacity-75" wire:target="addUser">
+                                   wire:loading.class="opacity-50" wire:target="toggleUser, removeUser">
                         <x-slot name="head">
                             <tr>
                                 <x-table.th>ID</x-table.th>
                                 <x-table.th>Name</x-table.th>
+                                <x-table.th>Arabic Name</x-table.th>
                                 <x-table.th>Username</x-table.th>
                                 <x-table.th>National ID</x-table.th>
                                 <x-table.th>Email</x-table.th>
@@ -142,6 +142,7 @@
                                 <tr id="user-selected-{{ $user['id'] }}">
                                     <x-table.td>{{ $user['id'] }}</x-table.td>
                                     <x-table.td>{{ $user['name'] }}</x-table.td>
+                                    <x-table.td>{{ $user['arabic_name'] }}</x-table.td>
                                     <x-table.td>{{ '@' . $user['username'] }}</x-table.td>
                                     <x-table.td>{{ $user['national_id'] ?? '-' }}</x-table.td>
                                     <x-table.td>{{ $user['email'] ?? '-' }}</x-table.td>

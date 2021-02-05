@@ -14,6 +14,7 @@ class UserFactory extends Factory {
     {
         return [
             'name' => $this->faker->name,
+            'arabic_name' => "اسم العربي",
             'email' => $this->faker->unique()->safeEmail,
             'username' => User::makeSlug($this->faker->unique()->name),
             'national_id' => rand(2, 3)

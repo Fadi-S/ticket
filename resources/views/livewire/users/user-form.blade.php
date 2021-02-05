@@ -27,6 +27,13 @@
                               size="w-full" name="name" id="name"
                               label="Name *"  placeholder="Name" />
 
+                <x-form.input wire:model.lazy="user.arabic_name"
+                              required type="text"
+                              size="w-full" name="arabic_name"
+                              id="arabic_name"
+                              dir="rtl"
+                              label="Name in arabic *"  placeholder="الأسم بالعربية" />
+
                 @if(auth()->user()->isAdmin())
                     <x-form.input wire:model.lazy="user.username" required type="text"
                                   size="w-full" name="username" id="username"

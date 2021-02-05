@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Users;
 
+use App\Helpers\StandardRegex;
 use App\Models\User\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Validation\Rule;
@@ -33,7 +34,7 @@ class UserForm extends Component
 
         $this->user ??= new User();
 
-        $this->role_id = (!$this->isCreate) ? $this->user->roles[0]->id : 1;
+        $this->role_id = (!$this->isCreate && isset($this->user->roles[0])) ? $this->user->roles[0]->id : 1;
 
         $this->gender = (!$this->isCreate) ? $this->user->gender : 1;
     }
@@ -97,6 +98,7 @@ class UserForm extends Component
     {
         $rules = [
             'user.name' => 'required',
+            'user.arabic_name' => 'required',
             'user.username' => 'required|unique:users,username',
             'user.email' => [
                 'nullable',
@@ -105,12 +107,12 @@ class UserForm extends Component
             ],
             'user.phone' => [
                 'nullable',
-                'regex:/((\+2|2)?01)[0-9]{9}/',
+                'regex:/' . StandardRegex::PHONE_NUMBER . '/',
                 'unique:users,phone',
             ],
             'user.national_id' => [
                 'nullable',
-                'regex:/(3|2)[0-9]{13}/',
+                'regex:/' . StandardRegex::NATIONAL_ID . '/',
                 'unique:users,national_id',
             ],
             'gender' => 'required|in:0,1',
@@ -137,13 +139,13 @@ class UserForm extends Component
 
             $rules['user.phone'] = [
                 'nullable',
-                'regex:/((\+2|2)?01)[0-9]{9}/',
+                'regex:/' . StandardRegex::PHONE_NUMBER . '/',
                 Rule::unique('users', 'phone')->ignore($id),
             ];
 
             $rules['user.national_id'] = [
                 'nullable',
-                'regex:/(3|2)[0-9]{13}/',
+                'regex:/' . StandardRegex::NATIONAL_ID . '/',
                 Rule::unique('users', 'national_id')->ignore($id),
             ];
         }

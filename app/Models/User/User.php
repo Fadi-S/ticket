@@ -25,7 +25,7 @@ class User extends Authenticatable
 
     protected $hidden = ['password', 'remember_token'];
     protected $casts = ['email_verified_at' => 'datetime', 'gender' => 'boolean'];
-    protected $fillable = ['name', 'email', 'password', 'username', 'picture', 'gender', 'phone', 'national_id'];
+    protected $fillable = ['name', 'arabic_name', 'email', 'password', 'username', 'picture', 'gender', 'phone', 'national_id'];
 
     public function __construct(array $attributes = [])
     {

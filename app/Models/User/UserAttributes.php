@@ -13,8 +13,13 @@ trait UserAttributes
             return $query->where("id", ltrim($search, '~'));
         }
 
+        if(str_starts_with($search, '@')) {
+            return $query->where("username", 'LIKE', '%' . ltrim($search, '@') . '%');
+        }
+
         return $query->where("name", 'like', "%$search%")
             ->orWhere('username', 'like', "%$search%")
+            ->orWhere('arabic_name', 'like', "%$search%")
             ->orWhere("phone", "like", "%$search%")
             ->orWhere("national_id", "like", "%$search%")
             ->orWhere("id", $search)

@@ -17,8 +17,8 @@
                             id="name" value="{{ old('name') }}"
                             type="text" required />
 
-            <x-form.input-2 label="Username"
-                            id="username" value="{{ old('username') }}"
+            <x-form.input-2 label="الأسم بالعربية" dir="rtl"
+                            id="arabic_name" value="{{ old('arabic_name') }}"
                             type="text" required />
 
             <x-form.input-2 label="Email"
