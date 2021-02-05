@@ -46,6 +46,11 @@ class UserForm extends Component
         ])->layout('components.master');
     }
 
+    public function updatedUserPhone($phone)
+    {
+        $this->user->phone = $phone;
+    }
+
     public function updatedUserName($name)
     {
         if ($this->isCreate)
@@ -78,9 +83,12 @@ class UserForm extends Component
         if (auth()->user()->isUser() && !$this->user->isSignedIn())
             auth()->user()->addFriend($this->user, true);
 
+        $this->emit('user-created', $this->user->username);
+
         $this->clearFields();
 
         session()->flash('success', 'User Saved Successfully');
+
 
         if ($this->redirect)
             $this->dispatchBrowserEvent('closeTab');

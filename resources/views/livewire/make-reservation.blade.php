@@ -109,8 +109,15 @@
                                         id="listbox-item-0" role="option"
                                         class="cursor-default select-none relative py-2 pl-3 pr-9 text-gray-900">
                                         <div class="flex">
-                                            <span class="font-normal truncate">
+                                            <span class="font-normal truncate" x-data="{  }">
                                               No users match search {{ $search }}
+                                                <x-button type="button" @click="$dispatch('openuser')"
+                                                          color="bg-green-500 hover:bg-green-600">
+                                                    <x-slot name="svg">
+                                                        <x-svg.add class="w-6 w-6" />
+                                                    </x-slot>
+                                                    Create New User
+                                                </x-button>
                                             </span>
                                         </div>
 
@@ -205,6 +212,14 @@
                             </x-button>
                         </div>
 
+
+                    </x-slot>
+                </x-layouts.modal>
+
+                <x-layouts.modal size="sm:max-w-5xl" @openUser.window="open=true" @closeUser.window="open=false">
+                    <x-slot name="dialog">
+
+                        <livewire:users.user-form />
 
                     </x-slot>
                 </x-layouts.modal>

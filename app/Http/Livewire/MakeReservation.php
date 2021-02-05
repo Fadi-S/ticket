@@ -20,7 +20,8 @@ class MakeReservation extends Component
     public bool $searching = false;
 
     protected $listeners = [
-        'set:event' => 'setEvent'
+        'set:event' => 'setEvent',
+        'user-created' => 'userCreated'
     ];
 
     public function mount()
@@ -116,5 +117,12 @@ class MakeReservation extends Component
         } else {
             $this->removeUser($user->id);
         }
+    }
+
+    public function userCreated(User $user)
+    {
+        $this->dispatchBrowserEvent('closeuser');
+
+        $this->users->push($user);
     }
 }

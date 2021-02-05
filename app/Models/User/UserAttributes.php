@@ -44,14 +44,19 @@ trait UserAttributes
 
     public function setPhoneAttribute($phone)
     {
-        if(!$phone)
+        if(!$phone || $phone == '') {
+            $this->attributes['phone'] = '';
             return;
+        }
 
         preg_match('/(?P<number>(01)[0-9]{9})/', $phone, $matches);
-        if(isset($matches['number']))
+        if(isset($matches['number'])) {
             $phone = '+2' . $matches['number'];
 
-        $this->attributes['phone'] = $phone;
+            $this->attributes['phone'] = $phone;
+        }else {
+            $this->attributes['phone'] = $phone;
+        }
     }
 
     public function setNameAttribute($name)
