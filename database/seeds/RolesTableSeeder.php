@@ -29,5 +29,10 @@ class RolesTableSeeder extends Seeder
         $kashafa = Role::create(['name' => 'kashafa']);
         Permission::create(["name" => "tickets.view"]);
         $kashafa->givePermissionTo("tickets.view");
+
+        $agent = Role::create(['name' => 'agent']);
+        Permission::create(["name" => "tickets.view"]);
+        Permission::create(["name" => "users.*"]);
+        $agent->givePermissionTo("tickets.view", "users.*");
     }
 }
