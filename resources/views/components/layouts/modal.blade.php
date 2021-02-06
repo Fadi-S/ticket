@@ -1,7 +1,7 @@
 @props([
     'force' => false,
     'defaultState' => 'false',
-    'size' => 'sm:max-w-xl',
+    'size' => 'sm:max-w-xl rounded-lg sm:w-full',
 ])
 
 <div x-data="{ open: {{ $defaultState }}, details:{}, message: '' }" x-init="
@@ -9,7 +9,7 @@
   $watch('open', value => {
     if (value === true) { document.body.classList.add('overflow-hidden') }
     else { document.body.classList.remove('overflow-hidden') }
-  });" x-show="open" style="display: none;" class="fixed z-10 inset-0 overflow-y-auto" {{ $attributes }}>
+  });" x-show="open" style="display: none;" class="fixed z-50 inset-0 overflow-y-auto" {{ $attributes }}>
     <div class="flex items-end justify-center min-h-screen @if(!isset($dialog)) pt-4 px-4 pb-20 @endif text-center sm:block sm:p-0">
 
         <div x-show="open" x-description="Background overlay, show/hide based on modal state."
@@ -30,8 +30,8 @@
              x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
              x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
 
-             class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl
-                      transform transition-all sm:my-8 sm:align-middle {{ $size }} sm:w-full"
+             class="inline-block align-bottom bg-white text-left overflow-hidden shadow-xl
+                      transform transition-all sm:my-8 sm:align-middle {{ $size }}"
              role="dialog" aria-modal="true" aria-labelledby="modal-headline">
 
             @isset($dialog)

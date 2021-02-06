@@ -45,7 +45,7 @@ trait UserAttributes
     public function setPhoneAttribute($phone)
     {
         if(!$phone || $phone == '') {
-            $this->attributes['phone'] = '';
+            $this->attributes['phone'] = null;
             return;
         }
 

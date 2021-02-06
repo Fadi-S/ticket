@@ -17,7 +17,6 @@ class MakeReservation extends Component
     public Collection $users;
 
     public $search = '';
-    public bool $searching = false;
 
     protected $listeners = [
         'set:event' => 'setEvent',

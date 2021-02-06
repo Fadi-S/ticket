@@ -7,9 +7,9 @@
 
             <div class="space-y-6">
 
-                <div x-data="{ searching: @entangle('searching'), focusing: '0' }"
+                <div x-data="{ searching: false, focusing: '0' }"
                      @click.away="searching=false"
-                     @keydown.escape="searching=false"
+                     @keydown.escape="searching=false; document.querySelector('#user-search').blur()"
                      class="max-w-2xl mx-auto">
                     <label id="listbox-label" class="block text-sm font-medium text-gray-700">
                         Search Users
@@ -17,7 +17,6 @@
                     <div class="mt-1 relative">
                         <div>
                             <input type="text" @focus="searching=true"
-                                   @blur="searching=false"
                                    wire:model="search"
                                    dir="auto" autocomplete="off"
                                    @input="searching = ($event.target.value !== '')"
@@ -71,7 +70,7 @@
                                                     truncate">
                                                 {{ $user->id }}
                                             </span>
-                                            <span :class="focusing === 'user-search-{{ $user->id }}' ? '' : ''"
+                                            <span
                                                     class="{{ $selected ? 'font-bold text-white' : 'font-normal group-hover:text-white' }} truncate">
                                               {{ $user->name }}
                                             </span>
@@ -107,18 +106,21 @@
                                     <li x-state:on="Highlighted"
                                         x-state:off="Not Highlighted"
                                         id="listbox-item-0" role="option"
-                                        class="cursor-default select-none relative py-2 pl-3 pr-9 text-gray-900">
+                                        class="cursor-default select-none bg-white relative py-2 pl-3 pr-9 text-gray-900 z-10">
                                         <div class="flex">
-                                            <span class="font-normal truncate" x-data="{  }">
-                                              No users match search {{ $search }}
+                                            <div class="font-normal truncate flex flex-col
+                                            space-y-2 md:space-y-0
+                                            md:flex-row md:justify-between
+                                             w-full items-center" x-data="{  }">
+                                                <span>No users match search {{ $search }}</span>
                                                 <x-button type="button" @click="$dispatch('openuser')"
                                                           color="bg-green-500 hover:bg-green-600">
                                                     <x-slot name="svg">
-                                                        <x-svg.add class="w-6 w-6" />
+                                                        <x-svg.add />
                                                     </x-slot>
                                                     Create New User
                                                 </x-button>
-                                            </span>
+                                            </div>
                                         </div>
 
                                     </li>
@@ -197,10 +199,24 @@
                             Couldn't reserve in this event
                         </h3>
                         <div class="mt-2">
-                            <p class="text-sm text-gray-500" x-text="message">
-
-                            </p>
+                            <p class="text-sm text-gray-500" x-text="message"></p>
                         </div>
+                    </x-slot>
+
+                    <x-slot name="footer">
+                        <div class="space-x-2 flex flex-row-reverse">
+                            <x-button class="mx-2" type="button" @click="open = false;"
+                                      color="bg-white text-gray-700 hover:bg-gray-50 border border-gray-400">
+                                Close
+                            </x-button>
+                        </div>
+                    </x-slot>
+                </x-layouts.modal>
+
+                <x-layouts.modal :force="true" size="w-full rounded-none sm:rounded-lg md:max-w-2xl
+                 lg:max-w-4xl my-2 sm:max-w-xl" @openUser.window="open=true" @closeUser.window="open=false">
+                    <x-slot name="dialog">
+                        <livewire:users.user-form />
                     </x-slot>
 
                     <x-slot name="footer">
@@ -208,19 +224,9 @@
 
                             <x-button class="mx-2" type="button" @click="open = false;"
                                       color="bg-white text-gray-700 hover:bg-gray-50 border border-gray-400">
-                                Close
+                                Cancel
                             </x-button>
                         </div>
-
-
-                    </x-slot>
-                </x-layouts.modal>
-
-                <x-layouts.modal size="sm:max-w-5xl" @openUser.window="open=true" @closeUser.window="open=false">
-                    <x-slot name="dialog">
-
-                        <livewire:users.user-form />
-
                     </x-slot>
                 </x-layouts.modal>
             @endpush

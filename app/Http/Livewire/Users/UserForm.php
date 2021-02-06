@@ -46,11 +46,6 @@ class UserForm extends Component
         ])->layout('components.master');
     }
 
-    public function updatedUserPhone($phone)
-    {
-        $this->user->phone = $phone;
-    }
-
     public function updatedUserName($name)
     {
         if ($this->isCreate)
