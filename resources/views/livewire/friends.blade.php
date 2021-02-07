@@ -53,9 +53,9 @@
                     <tr>
                         <x-table.td colspan="2">
                             You have no friends yet,
-                            <button type="button" class="text-blue-500 underline focus:outline-none">
+                            <x-button type="button" @click="$dispatch('open')">
                                 Add Friend
-                            </button>
+                            </x-button>
                         </x-table.td>
                     </tr>
                 @endforelse
@@ -67,5 +67,31 @@
         {{ $friends->links() }}
 
     </x-card>
+
+    <x-layouts.modal @open.window="open=true" @close.window="open=false">
+        <x-slot name="dialog">
+            <x-card>
+
+                <form wire:submit.prevent="addFriend" method="POST">
+                    @csrf
+
+                    <x-form.input autocomplete="off"
+                                  name="search" id="search"
+                                  label="Add Friend" wire:model="search" />
+
+                    <x-button type="submit" color="bg-green-500 hover:bg-green-600 focus:bg-green-600">
+                        <x-slot name="svg">
+                            <x-svg.add wire:loading.remove wire:target="addFriend" />
+
+                            <x-svg.spinner wire:loading wire:target="addFriend" />
+                        </x-slot>
+
+                        Add
+                    </x-button>
+                </form>
+
+            </x-card>
+        </x-slot>
+    </x-layouts.modal>
 
 </div>

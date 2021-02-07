@@ -7,7 +7,7 @@ namespace App\Models\User;
 trait UserAttributes
 {
 
-    public function scopeSearch($query, $search)
+    public function scopeSearch($query, $search, $strict=false)
     {
         if(str_starts_with($search, '~')) {
             return $query->where("id", ltrim($search, '~'));
@@ -17,13 +17,21 @@ trait UserAttributes
             return $query->where("username", 'LIKE', '%' . ltrim($search, '@') . '%');
         }
 
-        return $query->where("name", 'like', "%$search%")
-            ->orWhere('username', 'like', "%$search%")
-            ->orWhere('arabic_name', 'like', "%$search%")
-            ->orWhere("phone", "like", "%$search%")
-            ->orWhere("national_id", "like", "%$search%")
-            ->orWhere("id", $search)
-            ->orWhere("email", "like", "%$search%");
+        if(!$strict) {
+            $search = "%$search%";
+        }
+
+        return $query->where("name", 'like', $search)
+            ->orWhere('username', 'like', $search)
+            ->orWhere('arabic_name', 'like', $search)
+            ->orWhere("phone", "like", $search)
+            ->orWhere("national_id", "like", $search)
+            ->orWhere("email", "like", $search);
+    }
+
+    public function scopeStrictSearch($query, $search)
+    {
+        $query->search($search, true);
     }
 
     public function scopeHasFriends($query)

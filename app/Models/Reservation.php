@@ -72,9 +72,9 @@ class Reservation extends Model
 
     public function of($user)
     {
-        if($user->isAdmin())
+        if($user->can('tickets.*'))
             return true;
 
-        return $this->ticket->reservedBy->id == $user->id || $this->user->id == $user->id;
+        return $this->ticket->reservedBy->id == $user->id || $this->user_id == $user->id;
     }
 }

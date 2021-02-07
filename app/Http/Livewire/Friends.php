@@ -2,11 +2,14 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\User\User;
 use Livewire\Component;
 
 class Friends extends Component
 {
     public bool $showModal = false;
+
+    public $search;
 
     public function render()
     {
@@ -20,5 +23,14 @@ class Friends extends Component
     public function openFriendModal()
     {
         $this->showModal = true;
+    }
+
+    public function addFriend()
+    {
+        $user = User::strictSearch($this->search)->first();
+
+        $this->dispatchBrowserEvent('close');
+
+        $this->search = '';
     }
 }

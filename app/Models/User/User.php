@@ -74,14 +74,14 @@ class User extends Authenticatable
                 'ticket_id' => $ticket->id
             ], $output->body() ?? []));
 
-        if($this->email) {
+        /*if($this->email) {
             \Mail::raw("Hello {$this->name}, \n\nYou have a reservation in "
                 . $ticket->event->start->format('l, jS \o\f F') . "'s " . $ticket->event->type->name,
 
                 fn($message) => $message->to($this->email)
                     ->subject($ticket->event->type->name . ' Reservation Invoice')
             );
-        }
+        }*/
 
         $this->reservations()->save($reservation);
 

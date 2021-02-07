@@ -9,6 +9,7 @@ use App\Models\Ticket;
 use App\Models\User\User;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 class MakeReservation extends Component
@@ -88,9 +89,9 @@ class MakeReservation extends Component
 
         $users->each->reserveIn($ticket);
 
-        TicketReserved::dispatch();
+        TicketReserved::dispatch($ticket);
 
-        flash()->success("Reservation(s) made successfully");
+        flash()->success(Str::plural('Reservation', $users->count()) . " made successfully");
         redirect("tickets?event=$event->id");
     }
 

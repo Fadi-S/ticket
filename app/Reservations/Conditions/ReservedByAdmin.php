@@ -12,9 +12,7 @@ class ReservedByAdmin implements ConditionContract
 
     public function check($event, $user): ConditionOutput
     {
-        $admin = auth()->user();
-
-        return $admin->hasRole('super-admin') && $admin->id != $user->id
+        return auth()->user()->can('reservations.bypass') && !$user->isSignedIn()
             ? ConditionOutput::allow()
             : ConditionOutput::undecided();
     }

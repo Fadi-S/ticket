@@ -13,13 +13,18 @@ class TicketReserved implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $eventId;
+    public $reserved;
 
     /**
      * Create a new event instance.
-     *
+     * @param Ticket $ticket
      */
-    public function __construct()
+    public function __construct(Ticket $ticket)
     {
+        $this->eventId = $ticket->event_id;
+
+        $this->reserved = $ticket->event->reservedPlaces();
     }
 
     /**

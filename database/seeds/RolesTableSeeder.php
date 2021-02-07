@@ -31,8 +31,9 @@ class RolesTableSeeder extends Seeder
         $kashafa->givePermissionTo("tickets.view");
 
         $agent = Role::create(['name' => 'agent']);
-        Permission::create(["name" => "tickets.view"]);
+        Permission::create(["name" => "tickets.*"]);
         Permission::create(["name" => "users.*"]);
-        $agent->givePermissionTo("tickets.view", "users.*");
+        Permission::create(["name" => "reservations.bypass"]);
+        $agent->givePermissionTo("tickets.*", "users.*", 'reservations.bypass');
     }
 }
