@@ -113,7 +113,7 @@
                                             md:flex-row md:justify-between
                                              w-full items-center" x-data="{  }">
                                                 <span>No users match search {{ $search }}</span>
-                                                <x-button type="button" @click="$dispatch('openuser')"
+                                                <x-button id="open-user-btn" type="button" @click="$dispatch('openuser')"
                                                           color="bg-green-500 hover:bg-green-600">
                                                     <x-slot name="svg">
                                                         <x-svg.add />
@@ -213,7 +213,7 @@
                     </x-slot>
                 </x-layouts.modal>
 
-                <x-layouts.modal :force="true" size="w-full rounded-none sm:rounded-lg md:max-w-2xl
+                <x-layouts.modal id="user-form-modal" :force="true" size="w-full rounded-none sm:rounded-lg md:max-w-2xl
                  lg:max-w-4xl my-2 sm:max-w-xl" @openUser.window="open=true" @closeUser.window="open=false">
                     <x-slot name="dialog">
                         <livewire:users.user-form />

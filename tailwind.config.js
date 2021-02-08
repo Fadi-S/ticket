@@ -6,6 +6,7 @@ module.exports = {
         content: [
             './storage/framework/views/*.php',
             './resources/views/**/*.blade.php',
+            './resources/resources/js/*.js',
         ]
     },
     darkMode: 'media', // or 'media' or 'class'

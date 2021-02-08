@@ -1,38 +1,65 @@
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
-window.jQuery = window.$ = require('jquery');
-
-window.moment = require('moment');
 
 let lastSelected;
 let currentEvent;
 
-function selectCurrentEvent(startDate, endDate, element) {
-    if (lastSelected != null)
-        lastSelected.css({"backgroundColor": ''});
 
-    if(element != null) {
-        lastSelected = $(element);
-    }else {
-        lastSelected = $("td[data-date='" + startDate.format('YYYY-MM-DD') + "'] a.fc-daygrid-event div:contains('" + formatDate(startDate) + "')")
-            .add("td[data-date='" + endDate.format('YYYY-MM-DD') + "'] a.fc-daygrid-event div:contains('" + formatDate(endDate) + "')")
-            .parent();
+function contains(selector, text) {
+    let elements = document.querySelectorAll(selector);
+    return [].filter.call(elements, function(element){
+        return RegExp(text).test(element.textContent);
+    });
+}
+
+function selectCurrentEvent(startDate, endDate, element) {
+    if (lastSelected != null) {
+        lastSelected.style.backgroundColor = '';
+        lastSelected.style.color = '';
     }
 
-    lastSelected.css({"backgroundColor":  "#82ffa2"});
+    if(element != null) {
+        lastSelected = element;
+    }else {
+        lastSelected = contains("td[data-date='" + startDate.toISOString().split('T')[0] + "'] a.fc-daygrid-event div", formatDate(startDate) + " -")[0]?.parentElement;
+
+        if(lastSelected == null)
+            lastSelected = contains("td[data-date='" + startDate.toISOString().split('T')[0] + "'] a.fc-timegrid-event div", formatDate(startDate) + " -")[0];
+
+        if(lastSelected == null)
+            return;
+    }
+
+    lastSelected.classList.add('transition-colors', 'duration-150');
+    lastSelected.style.backgroundColor = '#129406';
+    lastSelected.style.color = 'white';
 }
 
 function formatDate(date) {
-    let dateString = date.format("h:mma");
+    let hours = date.getHours();
+    let a = 'am';
 
-    if (date.format("m") === '0')
-        dateString = date.format("ha");
+    if(hours > 12) {
+        hours -= 12;
+        a = 'pm';
+    }
+    let minutes = "0" + date.getUTCMinutes();
+    minutes = minutes.substr(minutes.length-2);
+
+    let dateString = hours.toString() + ":" + minutes + a;
+
+    if (date.getUTCMinutes() === 0)
+        dateString = hours.toString() + a;
 
     return dateString;
 }
 
 document.addEventListener('turbolinks:load', () => {
+
+    let startDate;
+    let endDate;
+    let element;
 
     let calendarEl = document.getElementById('calendar');
     let calendar = new Calendar(calendarEl, {
@@ -52,26 +79,37 @@ document.addEventListener('turbolinks:load', () => {
         },
         displayEventEnd: true,
         eventClick(event) {
-            let date = new Date(event.event.start);
-            let dateWrapper = window.moment(date);
+            startDate = new Date(event.event.start);
 
-            let endDate = new Date(event.event.end);
-            let endDateWrapper = window.moment(endDate);
+            endDate = new Date(event.event.end);
 
             window.livewire.emit('set:event', event.event.id);
 
             currentEvent = event;
 
-            selectCurrentEvent(dateWrapper, endDateWrapper, event.el);
+            element = event.el;
+            selectCurrentEvent(startDate, endDate, element);
         },
+        eventSourceSuccess() {
+            if(startDate != null)
+                selectCurrentEvent(startDate, endDate, element);
+        }
     });
     calendar.render();
+
+    Echo.channel('tickets')
+        .listen('TicketReserved', e => calendar.refetchEvents());
 
     window.addEventListener('resize', () => {
         let newView = window.innerWidth > 1024 ? 'dayGridMonth' : 'timeGridWeek';
 
-        if(newView !== calendar.view.type)
+        if(newView !== calendar.view.type) {
             calendar.changeView(newView);
+
+            if(startDate != null)
+                selectCurrentEvent(startDate, endDate, null);
+        }
+
     });
 
 });

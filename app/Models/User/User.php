@@ -161,7 +161,7 @@ class User extends Authenticatable
 
     public function isUser() : bool
     {
-        return $this->hasRole('user');
+        return $this->hasRole('user') ? true : $this->roles->isEmpty();
     }
 
     public function isSignedIn() : bool

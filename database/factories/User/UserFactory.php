@@ -13,10 +13,10 @@ class UserFactory extends Factory {
     public function definition()
     {
         return [
-            'name' => $this->faker->name,
+            'name' => $name = $this->faker->name,
             'arabic_name' => "اسم العربي",
             'email' => $this->faker->unique()->safeEmail,
-            'username' => User::makeSlug($this->faker->unique()->name),
+            'username' => User::makeSlug($name),
             'national_id' => rand(2, 3)
                 . $this->faker->randomNumber(6)
                 . $this->faker->randomNumber(7),
