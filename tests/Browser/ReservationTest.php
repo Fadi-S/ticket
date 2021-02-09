@@ -31,42 +31,54 @@ class ReservationTest extends DuskTestCase
     }
 
     /** @test */
-    function can_search_for_users()
+    function can_search_for_friends()
     {
-        $fadi = User::factory()->create(['name' => 'Fadi Sarwat', 'username' => 'fadisarwat']);
+        $this->browse(function (Browser $browser) {
 
-        $user = User::factory()->create();
-        $user->addFriend($fadi, true);
+            $user = User::factory()->create();
 
-        $this->actingAs($user);
+            $fadi = User::factory()->create(['name' => 'Hello World', 'username' => 'fadisarwat']);
 
-        Livewire::test(MakeReservation::class)
-            ->assertDontSee('Create New User')
-
-            ->set('search', 'fadi')
-            ->assertSee('Fadi Sarwat')
-
-            ->set('search', 'hfdskjfhdsk')
-            ->assertSee('Create New User')
-            ->assertDontSee('Fadi Sarwat')
-
-            ->set('search', "~$fadi->id")
-            ->assertSee('Fadi Sarwat')
-
-            ->set('search', "@$fadi->username")
-            ->assertSee('Fadi Sarwat');
-
-        $this->browse(function (Browser $browser) use($user) {
-
-            dump($user);
+            $user->addFriend($fadi, true);
 
             $browser->loginAs($user)
                 ->visit('/reserve')
                 ->assertDontSee('Create New User')
-                ->type('user-search', 'fadi')
-                ->assertSee('Fadi Sarwat')
+
+                ->type('user-search', 'Hello')
+                ->waitForText($fadi->name)
+                ->assertSee($fadi->name)
+
+                ->type('user-search', "~$fadi->id")
+                ->waitForText($fadi->name)
+                ->assertSee($fadi->name)
+
+                ->type('user-search', "@$fadi->username")
+                ->waitForText($fadi->name)
+                ->assertSee($fadi->name)
+
                 ->type('user-search', 'fdfsddsfgsdfgf')
                 ->waitForText('Create New User')
+                ->assertSee('Create New User');
+        });
+
+    }
+
+    /** @test */
+    function a_user_cant_search_for_non_friends()
+    {
+        $this->browse(function (Browser $browser) {
+            $user = User::factory()->create();
+
+            User::factory()->count(5)->create();
+
+            $fadi = User::factory()->create(['name' => 'Fadi Sarwat', 'username' => 'fadisarwat']);
+
+            $browser->loginAs($user)
+                ->visit('/reserve')
+
+                ->type('user-search', 'Fadi')
+                ->waitFor('#open-user-btn')
                 ->assertSee('Create New User');
         });
     }

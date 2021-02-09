@@ -1,6 +1,8 @@
 <div>
     <x-slot name="title">Verify Phone Number | Ticket</x-slot>
 
+    <script src="{{ mix('/js/firebase.js') }}"></script>
+
     @if(session("status"))
         <x-layouts.success size="w-full mb-4">
             {{ session("status") }}

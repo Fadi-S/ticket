@@ -7,7 +7,7 @@
 
             <div class="space-y-6">
 
-                <div x-data="{ searching: false, focusing: '0' }"
+                <div x-data="{ searching: false }"
                      @click.away="searching=false"
                      @keydown.escape="searching=false; document.querySelector('#user-search').blur()"
                      class="max-w-2xl mx-auto">
@@ -65,31 +65,32 @@
                                         {{ $selected ? 'bg-indigo-600' : 'hover:text-white hover:bg-indigo-400 bg-white' }}
                                         text-gray-900">
                                         <div class="flex">
-                                            <span class="mr-2
-                                        {{ $selected ? 'font-bold text-indigo-200' : 'font-normal group-hover:text-indigo-200 text-gray-500' }}
-                                                    truncate">
+
+                                            <span class="mr-2 truncate
+                                                {{ $selected ? 'font-bold text-indigo-200' : 'font-normal group-hover:text-indigo-200 text-gray-500' }}">
                                                 {{ $user->id }}
                                             </span>
-                                            <span
-                                                    class="{{ $selected ? 'font-bold text-white' : 'font-normal group-hover:text-white' }} truncate">
+
+                                            <span class="{{ $selected ? 'font-bold text-white' : 'font-normal group-hover:text-white' }} truncate">
                                               {{ $user->name }}
                                             </span>
+
                                             <span class="{{ $selected ? 'font-bold text-white' : 'font-normal group-hover:text-white' }} truncate">
                                               {{ $user->arabic_name }}
                                             </span>
-                                            <span class="ml-2
-                                            {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500' }}
-                                             truncate">
+
+                                            <span class="ml-2 truncate
+                                            {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500' }}">
                                                 {{ '@' . $user->username }}
                                             </span>
-                                            <span class="ml-2
-                                             {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500' }}
-                                             truncate">
+
+                                            <span class="ml-2 truncate
+                                             {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500' }}">
                                                 {{ $user->phone }}
                                             </span>
-                                            <span class="ml-2
-                                             {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500' }}
-                                             truncate">
+
+                                            <span class="ml-2 truncate
+                                             {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500' }}">
                                                 {{ $user->national_id }}
                                             </span>
                                         </div>
@@ -105,7 +106,7 @@
                                 @empty
                                     <li x-state:on="Highlighted"
                                         x-state:off="Not Highlighted"
-                                        id="listbox-item-0" role="option"
+                                        id="user-search-0" role="option"
                                         class="cursor-default select-none bg-white relative py-2 pl-3 pr-9 text-gray-900 z-10">
                                         <div class="flex">
                                             <div class="font-normal truncate flex flex-col
