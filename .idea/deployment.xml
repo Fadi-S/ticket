@@ -13,6 +13,7 @@
             <excludedPath local="true" path="$PROJECT_DIR$/storage" />
             <excludedPath local="true" path="$PROJECT_DIR$/.env" />
             <excludedPath local="true" path="$PROJECT_DIR$/bootstrap/cache" />
+            <excludedPath local="true" path="$PROJECT_DIR$/database/dusk_database.sqlite" />
           </excludedPaths>
         </serverdata>
       </paths>

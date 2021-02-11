@@ -51,6 +51,7 @@ class AuthenticationTest extends TestCase
 
         Livewire::test(UserForm::class)
             ->set('user.name', 'John Doe')
+            ->set('user.arabic_name', 'جون دو')
             ->assertSet('user.username', User::makeSlug('John Doe'))
             ->set('user.email', 'test@example.com')
             ->set('gender', 1)
@@ -59,30 +60,6 @@ class AuthenticationTest extends TestCase
 
         $this->assertEquals(3, User::count());
     }
-
-    /** @test */
-    /*function a_user_can_claim_an_account_created_by_another_user()
-    {
-        $user = User::factory()->create();
-        $user->assignRole('user');
-        $this->actingAs($user);
-
-        Livewire::test(UserForm::class)
-            ->set('user.name', 'John Doe')
-            ->assertSet('user.username', User::makeSlug('John Doe'))
-            ->set('user.email', 'test@example.com')
-            ->set('gender', 1)
-            ->call('save')
-            ->assertSee('User Saved Successfully');
-
-        $this->assertEquals(3, User::count());
-
-        auth()->logout();
-
-        $this->post('/claim', [
-            'email' => 'test@example.com',
-        ]);
-    }*/
 
     /** @test */
     function national_id_must_be_valid()
@@ -137,12 +114,13 @@ class AuthenticationTest extends TestCase
     {
         return $this->post('/register', array_merge([
             'name' => 'John Doe',
+            'arabic_name' => 'جون دو',
             'email' => 'test@example.com',
             'national_id' => '30204250201612',
             'password' => '123456',
+            'gender' => 1,
             'password_confirmation' => '123456',
             'phone' => '01273315870',
-            'username' => 'john',
         ], $attributes));
     }
 
@@ -152,8 +130,8 @@ class AuthenticationTest extends TestCase
             ['email', 'unique'],
             ['phone', 'unique'],
             ['national_id', 'unique'],
-            ['username', 'unique'],
             ['name', 'not_unique'],
+            ['arabic_name', 'not_unique'],
         ];
     }
 }

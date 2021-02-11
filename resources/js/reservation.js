@@ -57,6 +57,10 @@ function selectCurrentEvent(date, element=null) {
 
 document.addEventListener('turbolinks:load', () => {
 
+    if(!document.getElementById('calendar')) {
+        return;
+    }
+
     let startDate;
 
     let calendar = new Calendar(document.getElementById('calendar'), {
