@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -21,7 +21,7 @@
             window.addEventListener('resize', () =>
                 sidebarOpen = intentional ? sidebarOpen : window.innerWidth > 1024
             );"
-         class="flex h-screen bg-gray-200">
+         class="flex h-screen bg-gray-200 rtl:bg-gray-600">
         <div :class="sidebarOpen ? 'block' : 'hidden'" @click="sidebarOpen = false; intentional=true;"
              class="fixed z-20 inset-0 bg-black opacity-50 transition-opacity lg:hidden"></div>
 
@@ -32,14 +32,14 @@
                 <div class="flex items-center justify-center">
                     <div class="flex items-center m-4">
                         <img class="rounded-full w-1/4" src="{{ url("assets/stg_logo-250.png") }}" alt="">
-                        <span class="w-3/4 text-gray-200 ml-6 text-2xl font-semibold">Ticket</span>
+                        <span class="w-3/4 text-gray-200 ltr:ml-6 rtl:mr-6 text-2xl font-semibold">Ticket</span>
                     </div>
                 </div>
             </a>
 
             <nav class="mt-4 space-y-4">
 
-                <x-navbar.link label="Home" :href="url('/')">
+                <x-navbar.link label="{{ __('Home') }}" :href="url('/')">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path
                                 d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0
@@ -51,7 +51,7 @@
 
                 <x-navbar.divider/>
 
-                <x-navbar.link label="Make Reservation" :href="url('/reserve')">
+                <x-navbar.link label="{{ __('Make Reservation') }}" :href="url('/reserve')">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                          xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -59,7 +59,7 @@
                     </svg>
                 </x-navbar.link>
 
-                <x-navbar.link label="Tickets" :href="url('/tickets')"
+                <x-navbar.link label="{{ __('Tickets') }}" :href="url('/tickets')"
                                :active="url()->current() == url('/tickets')">
                     <x-svg.ticket/>
                 </x-navbar.link>
@@ -67,7 +67,7 @@
                 @can("users.create" || "users.edit" || "users.view")
                     <x-navbar.divider/>
 
-                    <x-navbar.list label="Users">
+                    <x-navbar.list label="{{ __('Users') }}">
 
                         <x-slot name="svg">
                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
@@ -78,18 +78,18 @@
                         </x-slot>
 
                         @can("users.create")
-                            <x-navbar.child label="Add User" href="{{ url('/users/create') }}"/>
+                            <x-navbar.child label="{{ __('Add User') }}" href="{{ url('/users/create') }}"/>
                         @endcan
 
                         @can("users.view")
-                            <x-navbar.child label="View Users" href="{{ url('/users') }}"/>
+                            <x-navbar.child label="{{ __('View Users') }}" href="{{ url('/users') }}"/>
                         @endcan
 
                     </x-navbar.list>
                 @endcan
 
                 @can("tickets.view")
-                    <x-navbar.list label="Masses">
+                    <x-navbar.list label="{{ __('Masses') }}">
 
                         <x-slot name="svg">
                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
@@ -99,34 +99,52 @@
                         </x-slot>
 
                         @can("events.create")
-                            <x-navbar.child label="Add Mass" href="{{ url('/masses/create') }}"/>
+                            <x-navbar.child label="{{ __('Add Mass') }}" href="{{ url('/masses/create') }}"/>
                         @endcan
 
-                        <x-navbar.child label="View Masses" href="{{ url('/masses') }}"/>
+                        <x-navbar.child label="{{ __('View Masses') }}" href="{{ url('/masses') }}"/>
+
+                    </x-navbar.list>
+                @endcan
+
+                @can("tickets.view")
+                    <x-navbar.list label="{{ __('Vespers') }}">
+
+                        <x-slot name="svg">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                            </svg>
+                        </x-slot>
+
+                        @can("events.create")
+                            <x-navbar.child label="{{ __('Add Vesper') }}" href="{{ url('/vespers/create') }}"/>
+                        @endcan
+
+                        <x-navbar.child label="{{ __('View Vespers') }}" href="{{ url('/vespers') }}"/>
 
                     </x-navbar.list>
                 @endcan
 
                 @if(false)
                     @can("tickets.view")
-                        <x-navbar.list label="Kiahk">
+                        <x-navbar.list label="{{ __('Kiahk') }}">
 
                             <x-slot name="svg">
                                 <x-svg.christmas/>
                             </x-slot>
 
                             @can("events.create")
-                                <x-navbar.child label="Add Kiahk" href="{{ url('/kiahk/create') }}"/>
+                                <x-navbar.child label="{{ __('Add Kiahk') }}" href="{{ url('/kiahk/create') }}"/>
                             @endcan
 
-                            <x-navbar.child label="View Kiahk Events" href="{{ url('/kiahk') }}"/>
+                            <x-navbar.child label="{{ __('View Kiahk Events') }}" href="{{ url('/kiahk') }}"/>
 
                         </x-navbar.list>
                     @endcan
                 @endif
 
                 @if(auth()->user()->isUser())
-                    <x-navbar.link label="Friends" :href="url('/friends')">
+                    <x-navbar.link label="{{ __('Friends') }}" :href="url('/friends')">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4
                             4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0
@@ -139,7 +157,7 @@
                 @can('activityLog')
                     <x-navbar.divider/>
 
-                    <x-navbar.link label="Activity Log" :href="url('/logs')">
+                    <x-navbar.link label="{{ __('Activity Log') }}" :href="url('/logs')">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
                                   d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1
@@ -156,7 +174,7 @@
 
                     <x-navbar.link type="submit" :button="true"
                                    class="text-red-400 text-lg"
-                                   label="Sign Out">
+                                   label="{{ __('Sign Out') }}">
                         <x-svg.logout/>
                     </x-navbar.link>
                 </form>
@@ -182,8 +200,8 @@
                     <div x-data="{ dropdownOpen: false }" class="relative">
                         <button @click="dropdownOpen = ! dropdownOpen"
                                 class="flex items-center justify-center space-x-2 focus:outline-none">
-                            <div class="text-gray-700 font-light text-sm">
-                                {{ auth()->user()->name }}
+                            <div class="text-gray-700 font-light text-sm rtl:ml-2 font-semibold">
+                                {{ auth()->user()->locale_name }}
                             </div>
                             <div class="relative block h-10 w-10 border border-gray-400 overflow-hidden rounded-full">
                                 <img class="h-full w-full object-cover"
@@ -197,12 +215,15 @@
                              style="display: none;"></div>
 
                         <div x-show.transition="dropdownOpen"
-                             class="absolute right-0 mt-2 w-48 bg-white rounded-md overflow-hidden shadow-xl z-10"
+                             class="absolute ltr:right-0 rtl:left-0 mt-2 w-48 bg-white rounded-md overflow-hidden shadow-xl z-10"
                              style="display: none;">
                             <a href="{{ url("/users/" . auth()->user()->username) }}"
                                class="block px-4 py-2 text-sm
                                {{ url("/users/" . auth()->user()->username) == url()->current() ? "bg-gray-200" : "text-gray-700" }}
-                                       hover:bg-gray-200 ">Profile</a>
+                                       hover:bg-gray-200 ">{{ __('Profile') }}</a>
+
+                            <a href="{{ url('/lang') }}" data-turbolinks="false"
+                               class="block px-4 py-2 text-sm hover:bg-gray-200 ">{{ __('اللغة العربية') }}</a>
 
                             <form method="POST" action="{{ url('logout') }}">
                                 @csrf
@@ -211,7 +232,7 @@
                                  hover:bg-gray-200 flex items-center justify-start
                                    focus:outline-none space-x-2">
                                     <x-svg.logout/>
-                                    <span>Sign Out</span>
+                                    <span>{{ __('Sign Out') }}</span>
                                 </button>
                             </form>
 

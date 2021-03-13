@@ -11,15 +11,6 @@ use Tests\DuskTestCase;
 
 class ReservationTest extends DuskTestCase
 {
-    use DatabaseMigrations;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->seed();
-    }
-
     /** @test */
     function it_loads_component()
     {
@@ -34,10 +25,9 @@ class ReservationTest extends DuskTestCase
     function can_search_for_friends()
     {
         $this->browse(function (Browser $browser) {
-
             $user = User::factory()->create();
 
-            $fadi = User::factory()->create(['name' => 'Hello World', 'username' => 'fadisarwat']);
+            $fadi = User::factory()->create(['name' => 'Hello World', 'username' => 'fadi.sarwat']);
 
             $user->addFriend($fadi, true);
 

@@ -36,6 +36,12 @@ abstract class DuskTestCase extends BaseTestCase
         return $app;
     }
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+    }
+
     /**
      * Create the RemoteWebDriver instance.
      *

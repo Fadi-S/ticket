@@ -5,7 +5,7 @@
     </x-slot>
 
     <div class="mb-4 w-full xl:w-1/3 lg:w-1/2 mx-auto">
-        <x-form.input autocomplete="off" wire:model="search" name="search" id="search" label="Search" />
+        <x-form.input autocomplete="off" wire:model="search" name="search" id="search" label="{{ __('Search') }}" />
     </div>
 
     <div class="grid grid-cols-12 gap-4">
@@ -33,7 +33,7 @@
                 @endif
                 <x-table.table class="w-full">
                     <x-slot name="head">
-                        <x-table.th>User</x-table.th>
+                        <x-table.th>{{ __('User') }}</x-table.th>
                         <x-table.empty-th>Cancel</x-table.empty-th>
                     </x-slot>
                     <x-slot name="body">
@@ -76,14 +76,14 @@
             <p class="font-bold text-gray-600 text-md mx-auto col-span-12 flex justify-center">
                 <x-svg.ticket class="text-gray-500 mr-2"/>
                 @if($event)
-                    <span>You have no tickets at this event!
+                    <span>{{ __('You have no tickets at this event!') }}
                         <a href="{{ url('tickets') }}"
-                           class="text-blue-500 underline">View All tickets</a>
+                           class="text-blue-500 underline">{{ __('View All tickets') }}</a>
                     </span>
                 @else
-                    <span>You have no{{ $type ? ' '.strtolower($this->typeModel->name) : '' }} tickets!
+                    <span>{{ __('You have no:type tickets!', ['type' => $type ? ' '.strtolower($this->typeModel->name) : '']) }}
                         <a href="{{ url('/reserve') }}"
-                           class="text-blue-500 underline" data-turbolinks="false">Make a Reservation</a>
+                           class="text-blue-500 underline" data-turbolinks="false">{{ __('Make Reservation') }}</a>
                     </span>
                 @endif
             </p>

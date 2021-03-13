@@ -8,46 +8,46 @@
             <div class="grid lg:grid-cols-2 grid-cols-1 gap-4">
                 <x-form.input wire:model.lazy="user.name" required type="text"
                               size="w-full" name="name" id="name"
-                              label="Name *"  placeholder="Name" />
+                              label="{{ __('Name') }} *"  placeholder="{{ __('Name') }}" />
 
                 <x-form.input wire:model.lazy="user.arabic_name"
                               required type="text"
                               size="w-full" name="arabic_name"
                               id="arabic_name"
                               dir="rtl"
-                              label="Name in arabic *"  placeholder="الأسم بالعربية" />
+                              label="{{ __('Name in arabic') }} *"  placeholder="{{ __('Name in arabic') }}" />
 
                 @if(auth()->user()->isAdmin())
                     <x-form.input wire:model.lazy="user.username" required type="text"
                                   size="w-full" name="username" id="username"
-                                  label="Username *" placeholder="Username" />
+                                  label="{{ __('Username') }} *" placeholder="{{ __('Username') }}" />
                 @endif
 
                 <x-form.input wire:model.lazy="user.email" type="email"
                               size="w-full" name="email" id="email"
-                              label="Email" placeholder="Email" />
+                              label="{{ __('Email') }}" placeholder="{{ __('Email') }}" />
 
                 <x-form.input wire:model.lazy="user.phone" type="phone"
                               size="w-full" name="phone" id="phone"
-                              label="Phone Number" placeholder="Phone Number" />
+                              label="{{ __('Phone') }}" placeholder="{{ __('Phone') }}" />
 
                 <x-form.input wire:model.lazy="user.national_id" type="text"
                               size="w-full" name="national_id" id="national_id"
-                              label="National ID" placeholder="National ID" />
+                              label="{{ __('National ID') }}" placeholder="{{ __('National ID') }}" />
 
                 @if(auth()->user()->isAdmin() && ($isCreate || !$user->isSignedIn()))
                     <x-form.input wire:model.lazy="password" type="password"
                                   size="w-full" name="password" id="password"
-                                  label="Password" placeholder="Password" />
+                                  label="{{ __('Password') }}" placeholder="{{ __('Password') }}" />
                 @endif
 
                 @if(auth()->user()->isAdmin() && !$user->isSignedIn())
                     <x-form.select wire:model="role_id" name="role_id"
                                    id="role_id" size="w-full"
-                                   label="Role" :options="$roles" />
+                                   label="{{ __('Role') }}" :options="$roles" />
                 @endif
 
-                <x-form.gender-switch :livewire="true" name="gender" id="gender" label="Gender" />
+                <x-form.gender-switch :livewire="true" name="gender" id="gender" label="{{ __('Gender') }}" />
             </div>
 
             <x-button type="submit" class="mx-auto mt-2">
@@ -57,7 +57,7 @@
                     <x-svg.edit wire:loading.remove wire:target="save" />
                 </x-slot>
 
-                Save
+                {{ __('Save') }}
             </x-button>
 
             @if(session()->has('success'))

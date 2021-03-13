@@ -24,7 +24,8 @@
         "spatie/laravel-activitylog": "^3.16",
         "spatie/laravel-honeypot": "^3.0",
         "spatie/laravel-permission": "^3.17",
-        "ext-curl": "*"
+        "ext-curl": "*",
+      "ext-intl": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.7",

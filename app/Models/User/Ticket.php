@@ -2,8 +2,10 @@
 
 namespace App\Models\User;
 
+use App\Models\Baskha;
 use App\Models\Kiahk;
 use App\Models\Mass;
+use App\Models\Vesper;
 use Carbon\Carbon;
 
 class Ticket
@@ -74,5 +76,49 @@ class Ticket
         }
 
         return $startOfKiahk;
+    }
+
+    public function vesper(Carbon $date=null)
+    {
+        $start = ($date ?? now())->startOfMonth();
+
+        if(is_null(Vesper::maxReservations()))
+            return -1;
+
+        $left = Vesper::maxReservations() -
+            $this->user
+                ->reservations()
+                ->where('is_exception', false)
+                ->whereHas('ticket', fn ($query) =>
+                $query->whereHas('event', fn($query) =>
+
+                $query->where('type_id', 4)
+                    ->whereBetween('start', [$start, $start->copy()->addMonth()])
+
+                ))->count();
+
+        return $left >= 0 ? $left : 0;
+    }
+
+    public function baskha(Carbon $date=null)
+    {
+        $start = ($date ?? now())->startOfMonth();
+
+        if(is_null(Baskha::maxReservations()))
+            return -1;
+
+        $left = Baskha::maxReservations() -
+            $this->user
+                ->reservations()
+                ->where('is_exception', false)
+                ->whereHas('ticket', fn ($query) =>
+                $query->whereHas('event', fn($query) =>
+
+                $query->where('type_id', 3)
+                    ->whereBetween('start', [$start, $start->copy()->addMonth()])
+
+                ))->count();
+
+        return $left >= 0 ? $left : 0;
     }
 }

@@ -12,7 +12,7 @@
                      @keydown.escape="searching=false; document.querySelector('#user-search').blur()"
                      class="max-w-2xl mx-auto">
                     <label id="listbox-label" class="block text-sm font-medium text-gray-700">
-                        Search Users
+                        {{ __("Search Users") }}
                     </label>
                     <div class="mt-1 relative">
                         <div>
@@ -25,7 +25,7 @@
                              shadow-sm pl-3 pr-5 py-2 text-left focus:outline-none
                               focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm
                                    focus:outline-none block w-full sm:text-sm rounded-md"
-                                   placeholder="Search">
+                                   placeholder="{{ __("Search") }}">
                             <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                 <svg class="w-6 h-6 text-gray-400" fill="currentColor"
                                      viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -113,13 +113,13 @@
                                             space-y-2 md:space-y-0
                                             md:flex-row md:justify-between
                                              w-full items-center" x-data="{  }">
-                                                <span>No users match search {{ $search }}</span>
+                                                <span>{{ __("No users match search :search", ['search' => $search]) }}</span>
                                                 <x-button id="open-user-btn" type="button" @click="$dispatch('openuser')"
                                                           color="bg-green-500 hover:bg-green-600">
                                                     <x-slot name="svg">
                                                         <x-svg.add />
                                                     </x-slot>
-                                                    Create New User
+                                                    {{ __("Create New User") }}
                                                 </x-button>
                                             </div>
                                         </div>
@@ -137,13 +137,13 @@
                                    wire:loading.class="opacity-50" wire:target="toggleUser, removeUser">
                         <x-slot name="head">
                             <tr>
-                                <x-table.th>ID</x-table.th>
-                                <x-table.th>Name</x-table.th>
-                                <x-table.th>Arabic Name</x-table.th>
-                                <x-table.th>Username</x-table.th>
-                                <x-table.th>National ID</x-table.th>
-                                <x-table.th>Email</x-table.th>
-                                <x-table.th>Phone</x-table.th>
+                                <x-table.th>{{ __("ID") }}</x-table.th>
+                                <x-table.th>{{ __("Name") }}</x-table.th>
+                                <x-table.th>{{ __("Arabic Name") }}</x-table.th>
+                                <x-table.th>{{ __("Username") }}</x-table.th>
+                                <x-table.th>{{ __("National ID") }}</x-table.th>
+                                <x-table.th>{{ __("Email") }}</x-table.th>
+                                <x-table.th>{{ __("Phone") }}</x-table.th>
                                 <x-table.th></x-table.th>
                             </tr>
                         </x-slot>
@@ -179,7 +179,7 @@
 
                         <x-svg.spinner wire:loading wire:target="save"/>
                     </x-slot>
-                    Make Reservation
+                    {{ __("Make Reservation") }}
                 </x-button>
 
                 <x-layouts.errors/>
@@ -197,7 +197,7 @@
 
                     <x-slot name="body">
                         <h3  class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
-                            Couldn't reserve in this event
+                            {{ __("Couldn't reserve in this event") }}
                         </h3>
                         <div class="mt-2">
                             <p class="text-sm text-gray-500" x-text="message"></p>
@@ -208,7 +208,7 @@
                         <div class="space-x-2 flex flex-row-reverse">
                             <x-button class="mx-2" type="button" @click="open = false;"
                                       color="bg-white text-gray-700 hover:bg-gray-50 border border-gray-400">
-                                Close
+                                {{ __("Close") }}
                             </x-button>
                         </div>
                     </x-slot>
@@ -225,7 +225,7 @@
 
                             <x-button class="mx-2" type="button" @click="open = false;"
                                       color="bg-white text-gray-700 hover:bg-gray-50 border border-gray-400">
-                                Cancel
+                                {{ __("Cancel") }}
                             </x-button>
                         </div>
                     </x-slot>
@@ -237,6 +237,10 @@
             @endpush
 
             @push("scripts")
+
+                <script>
+                    window.locale = '{{ app()->getLocale() }}';
+                </script>
 
                 <script defer src="{{ mix('/js/reservation.js') }}"></script>
                 <link href="{{ mix('/css/reservation.css') }}" rel="stylesheet"/>

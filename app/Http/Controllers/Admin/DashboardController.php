@@ -15,11 +15,14 @@ class DashboardController extends Controller
 
     public function index()
     {
+        $num = app()->make('num');
+        $tickets = auth()->user()->tickets();
+
         return view("index", [
             'users' => User::role("user")->count(),
             'events' => Event::upcoming()->count(),
-            'massTickets' => auth()->user()->tickets()->mass() . ' of ' . Mass::maxReservations() . ' left',
-            'kiahkTickets' => auth()->user()->tickets()->kiahk() . ' of ' . Kiahk::maxReservations() . ' left',
+            'massTickets' => __(':number of :from left', ['number' => $num->format($tickets->mass()), 'from' => $num->format(Mass::maxReservations())]),
+            'kiahkTickets' => __(':number of :from left', ['number' => $num->format($tickets->kiahk()), 'from' => $num->format(Kiahk::maxReservations())]),
         ]);
     }
 

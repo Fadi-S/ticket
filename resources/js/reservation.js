@@ -1,6 +1,7 @@
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import arLocale from '@fullcalendar/core/locales/ar';
 
 let lastSelected;
 
@@ -63,8 +64,12 @@ document.addEventListener('turbolinks:load', () => {
 
     let startDate;
 
-    let calendar = new Calendar(document.getElementById('calendar'), {
+    let locale = window.locale ?? 'en';
+
+    window.calendar = new Calendar(document.getElementById('calendar'), {
         plugins: [ dayGridPlugin, timeGridPlugin ],
+        locales: [arLocale],
+        locale: locale,
         initialView: window.innerWidth > 768 ? 'dayGridMonth' : 'timeGridWeek',
         slotMinTime: '06:00:00',
         allDaySlot: false,

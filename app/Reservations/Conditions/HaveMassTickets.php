@@ -13,7 +13,7 @@ class HaveMassTickets implements ConditionContract
     {
         $name = $user->isSignedIn() ? 'You don\'t' : "$user->name doesn't";
 
-        return $user->tickets()->mass($event->start) <= 0
+        return $user->tickets()->mass($event->start) == 0
             ? ConditionOutput::deny()->message("$name have a ticket")
             : ConditionOutput::allow();
     }

@@ -61,10 +61,13 @@ module.exports = {
     variants: {
         extend: {
             opacity: ['disabled'],
+            margin: ['responsive', 'direction'],
+            inset: ['responsive', 'direction'],
         },
     },
 
     plugins: [
         require('@tailwindcss/forms'),
+        require('tailwindcss-dir')(),
     ],
 };

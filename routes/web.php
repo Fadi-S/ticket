@@ -5,15 +5,13 @@ use App\Http\Controllers\TicketsController;
 use App\Http\Livewire\Friends;
 use App\Http\Livewire\MakeReservation;
 use App\Http\Livewire\ResetPasswordByPhone;
-use App\Http\Controllers\Admin\{AuthController,
-    DashboardController,
-    KiahkController,
-    MassesController,
-    ReservationsController,
-    UsersController};
+use App\Http\Controllers\Admin\{AuthController, DashboardController, KiahkController, MassesController, ReservationsController, UsersController, VespersController};
 use Intervention\Image\ImageManagerStatic as Image;
 use App\Http\Livewire\Users\UserForm;
 use Spatie\Honeypot\ProtectAgainstSpam;
+
+
+Route::fallback(fn() => response()->view('errors.404', [], 404));
 
 Route::middleware(ProtectAgainstSpam::class)
     ->group(function () {
@@ -22,8 +20,6 @@ Route::middleware(ProtectAgainstSpam::class)
 
         Auth::routes(['verify' => true]);
     });
-
-
 
 Route::get('/assets/{image}', function ($image) {
     $width = request('w') ?? 200;
@@ -48,6 +44,7 @@ Route::middleware("auth")->group(function() {
 
     Route::resource("masses", MassesController::class);
     Route::resource("kiahk", KiahkController::class);
+    Route::resource("vespers", VespersController::class);
 
     Route::resource("reservations", ReservationsController::class)
         ->except(['show', 'index']);
@@ -63,4 +60,13 @@ Route::middleware("auth")->group(function() {
     Route::get("ajax/reservation/events", [\App\Http\Controllers\API\ReservationsController::class, 'getEvents']);
 
     Route::get('/friends', Friends::class);
+
+    Route::get('lang', function () {
+        $user = auth()->user();
+        $user->locale = app()->currentLocale() === 'ar' ? 'en' : 'ar';
+        Cookie::forever('locale', $user->locale);
+        $user->save();
+
+        return back();
+    });
 });
