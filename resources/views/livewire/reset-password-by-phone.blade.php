@@ -17,11 +17,11 @@
 
     <h2 class="sm:mt-0 mt-2 text-center text-2xl font-bold text-gray-900">
         @if($state == 0)
-            Send code to phone
+        {{ __('Send code to phone') }}
         @elseif($state == 1)
-            Verification Code sent to {{ session('phone') }}
+            {{ __('Verification Code sent to :phone', ['phone' => session('reset.phone') ]) }}
         @elseif($state == 2)
-            Reset Password
+        {{ __('Reset Password') }}
         @endif
     </h2>
 
@@ -32,14 +32,16 @@
 
                 <div>
                     <label for="phone" class="block text-sm font-medium text-gray-700">
-                        Phone Number
+                        {{ __('Phone') }}
                     </label>
                     <div class="mt-1 flex rounded-md shadow-sm">
-                <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
-                  +2
-                </span>
+                        <span class="inline-flex items-center px-3
+                        ltr:rounded-l-md rtl:rounded-r-md border rtl:border-l-0 ltr:border-r-0
+                        border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+                          +2
+                        </span>
                         <input type="text" wire:model="phone" name="phone" id="phone" required value="{{ old('phone') }}"
-                               class="flex-1 min-w-0 block w-full px-3 py-2 border rounded-none rounded-r-md
+                               class="flex-1 min-w-0 block w-full px-3 py-2 border rounded-none rtl:rounded-l-md ltr:rounded-r-md
                         focus:outline-none focus:border-blue-500 p-2 focus:border-3 block sm:text-sm border-gray-300 h-10"
                                placeholder="01000000000">
                     </div>
@@ -59,7 +61,7 @@
                         <x-svg.spinner wire:loading wire:target="send" />
                     </x-slot>
 
-                    Send Code
+                    {{ __('Send Code') }}
                 </x-button>
             </form>
             @push('scripts')
@@ -79,8 +81,8 @@
         @if($state == 1)
             <form class="space-y-6" action="#" method="POST" wire:submit.prevent="confirm">
                 @csrf
-                <x-form.input-2 label="Code" wire:model.defer="code" autocomplete="off"
-                                placeholder="Verification Code"
+                <x-form.input-2 label="{{ __('Verification Code') }}" wire:model.defer="code" autocomplete="off"
+                                placeholder="{{ __('Verification Code') }}"
                                 id="code" type="text" required />
 
                 <x-button id="reset-button" type="submit"
@@ -95,7 +97,7 @@
                         <x-svg.spinner wire:loading wire:target="confirm" />
                     </x-slot>
 
-                    Confirm Code
+                    {{ __('Confirm Code') }}
                 </x-button>
             </form>
         @endif
@@ -103,11 +105,11 @@
         @if($state == 2)
             <form class="space-y-6" action="#" method="POST" wire:submit.prevent="resetPassword">
                 @csrf
-                <x-form.input-2 label="New Password" wire:model.defer="password" placeholder="New Password"
+                <x-form.input-2 dir="ltr" label="{{ __('New Password') }}" wire:model.defer="password" placeholder="{{ __('New Password') }}"
                                 id="password" type="password" required />
 
-                <x-form.input-2 label="Confirm New Password" wire:model.defer="password_confirmation"
-                                placeholder="Confirm New Password"
+                <x-form.input-2 dir="ltr" label="{{ __('Confirm New Password') }}" wire:model.defer="password_confirmation"
+                                placeholder="{{ __('Confirm New Password') }}"
                                 id="password_confirmation" type="password" required />
 
                 <x-button id="reset-button" type="submit"
@@ -122,7 +124,7 @@
                         <x-svg.spinner wire:loading wire:target="resetPassword" />
                     </x-slot>
 
-                    Change Password
+                    {{ __('Change Password') }}
                 </x-button>
             </form>
         @endif

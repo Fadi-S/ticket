@@ -3,7 +3,7 @@
     <x-slot name="title">Sign In to Ticket</x-slot>
 
     <h2 class="sm:mt-0 mt-2 text-center text-2xl font-bold text-gray-900">
-        Sign in to your account
+        {{ __('Sign in to your account') }}
     </h2>
 
     <form class="space-y-6" action="{{ url('/login') }}" method="POST">
@@ -12,11 +12,11 @@
 
         <input type="hidden" name="remember" value="true">
         <div class="rounded-md shadow-sm space-y-3">
-            <x-form.input-2 label="Email, Phone or Username"
+            <x-form.input-2 label="{{ __('Email, Phone or Username') }}" dir="ltr"
                             id="email" value="{{ old('email') }}"
                             type="text" required />
 
-            <x-form.input-2 label="Password"
+            <x-form.input-2 label="{{ __('Password') }}" dir="ltr"
                             id="password" value="{{ old('password') }}"
                             type="password" required />
         </div>
@@ -24,14 +24,14 @@
         <div class="flex items-center justify-between">
             <div class="text-sm w-10/12">
                 <a href="{{ url('/register') }}" class="font-medium text-blue-800 hover:text-blue-700">
-                    Sign Up for new account
+                    {{ __('Sign Up for new account') }}
                 </a>
             </div>
 
 
             <div class="flex justify-end text-sm w-10/12">
                 <a href="{{ url('password/forgot') }}" class="font-medium text-blue-800 hover:text-blue-700">
-                    Forgot your password?
+                    {{ __('Forgot your password?') }}
                 </a>
             </div>
         </div>
@@ -43,7 +43,7 @@
                 </svg>
             </x-slot>
 
-            Sign in
+            {{ __('Sign In') }}
         </x-button>
 
         <x-layouts.errors size="w-full" />

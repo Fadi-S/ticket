@@ -63,6 +63,9 @@ module.exports = {
             opacity: ['disabled'],
             margin: ['responsive', 'direction'],
             inset: ['responsive', 'direction'],
+            translate: ['responsive', 'direction'],
+            borderRadius: ['responsive', 'direction'],
+            borderWidth: ['responsive', 'direction'],
         },
     },
 

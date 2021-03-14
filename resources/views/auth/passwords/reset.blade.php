@@ -3,7 +3,7 @@
     <x-slot name="title">Reset Password | Ticket</x-slot>
 
     <h2 class="sm:mt-0 mt-2 text-center text-2xl font-bold text-gray-900">
-        Reset your password
+        {{ __('Reset your password') }}
     </h2>
 
     <form class="space-y-6" action="{{ route('password.update') }}" method="POST">
@@ -13,15 +13,15 @@
         <input type="hidden" name="token" value="{{ $token }}">
 
         <div class="rounded-md shadow-sm space-y-3">
-            <x-form.input-2 label="Email"
+            <x-form.input-2 label="{{ __('Email') }}"
                             id="email" value="{{ old('email') }}"
                             type="email" required/>
 
-            <x-form.input-2 label="Password"
+            <x-form.input-2 label="{{ __('Password') }}"
                             id="password"
                             type="password" required/>
 
-            <x-form.input-2 label="Confirm Password"
+            <x-form.input-2 label="{{ __('Confirm Password') }}"
                             id="password_confirmation"
                             type="password" required/>
         </div>
@@ -36,7 +36,7 @@
                 </svg>
             </x-slot>
 
-            Reset Password
+            {{ __('Reset Password') }}
         </x-button>
 
         <x-layouts.errors size="w-full"/>

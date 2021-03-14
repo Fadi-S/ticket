@@ -28,7 +28,7 @@
                         <rect x="0" y="0" width="24" height="24" fill="rgba(0, 0, 0, 0)"/>
                     </svg>
 
-                    <span x-text="((!!value) ? 'Male' : 'Female')"></span>
+                    <span x-text="((!!value) ? '{{ __('Male') }}' : '{{ __('Female') }}')"></span>
             </div>
 
         </div>

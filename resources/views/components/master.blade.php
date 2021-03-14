@@ -25,8 +25,13 @@
         <div :class="sidebarOpen ? 'block' : 'hidden'" @click="sidebarOpen = false; intentional=true;"
              class="fixed z-20 inset-0 bg-black opacity-50 transition-opacity lg:hidden"></div>
 
-        <div :class="sidebarOpen ? 'translate-x-0 ease-out lg:translate-x-0 lg:static lg:inset-0' : '-translate-x-full ease-in'"
-             class="fixed z-30 inset-y-0 left-0 w-56 transition duration-150 transform bg-gray-800 overflow-y-auto">
+        <div :class="sidebarOpen
+          ? 'translate-x-0 ease-out lg:translate-x-0 lg:static lg:inset-0'
+          : 'ltr:-translate-x-full rtl:translate-x-full ease-in'"
+
+             class="fixed z-30 inset-y-0 rtl:right-0 ltr:left-0 w-56
+              transition duration-150 transform
+               bg-gray-800 overflow-y-auto">
 
             <a href="{{ url('/') }}">
                 <div class="flex items-center justify-center">

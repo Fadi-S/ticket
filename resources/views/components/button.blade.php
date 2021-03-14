@@ -9,7 +9,7 @@
         text-white focus:outline-none {{ $class }}" {{ $disabled ? 'disabled="disabled"' : '' }}
         {{ $attributes }}>
     @isset($svg)
-        <div class="{{ $slot->toHtml() ? 'mr-2' : '' }}">
+        <div class="{{ $slot->toHtml() ? 'ltr:mr-2 rtl:ml-2' : '' }}">
             {{ $svg }}
         </div>
     @endisset

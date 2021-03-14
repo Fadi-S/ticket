@@ -5,7 +5,7 @@
     <div x-data="{ selected: 0 }">
         <fieldset>
             <legend id="radiogroup-label" class="sr-only">
-                Reset Password Using
+                {{ __('Reset Password Using...') }}
             </legend>
             <ul class="space-y-4" role="radiogroup" aria-labelledby="radiogroup-label">
                 <li @click="selected=0" id="radiogroup-option-0" tabindex="0" role="radio" aria-checked="true"
@@ -14,10 +14,10 @@
                         <div class="flex items-center">
                             <div class="text-sm">
                                 <p class="font-medium text-gray-900">
-                                    Reset Account By Phone Number
+                                    {{ __('Reset Account By Phone Number') }}
                                 </p>
                                 <div class="text-gray-500">
-                                    <p class="sm:inline">You will receive a verification code to your phone number</p>
+                                    <p class="sm:inline">{{ __('You will receive a verification code to your phone number') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -41,10 +41,10 @@
                         <div class="flex items-center">
                             <div class="text-sm">
                                 <p class="font-medium text-gray-900">
-                                    Reset Account By Email
+                                    {{ __('Reset Account By Email') }}
                                 </p>
                                 <div class="text-gray-500">
-                                    <p class="sm:inline">You will receive a verification to your email</p>
+                                    <p class="sm:inline">{{ __('You will receive a verification to your email') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -71,7 +71,7 @@
                 </svg>
             </x-slot>
 
-            Continue
+            {{ __('Continue') }}
         </x-button>
     </div>
 
