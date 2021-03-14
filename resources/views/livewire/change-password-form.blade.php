@@ -18,7 +18,7 @@
     <div>
         @if($shown)
             <x-card>
-                <h2 class="font-bold text-2xl mb-6 text-gray-800">{{ __('Change Password Form') }}</h2>
+                <h2 class="font-bold text-2xl mb-6 text-gray-800 dark:text-gray-200">{{ __('Change Password Form') }}</h2>
 
                 <form method="POST" action="#" wire:submit.prevent="change">
                     @csrf

@@ -5,14 +5,14 @@
         <x-table.table>
             <x-slot name="head">
                 <tr>
-                    <x-table.th>ID</x-table.th>
-                    <x-table.th>Name</x-table.th>
-                    <x-table.th>Arabic Name</x-table.th>
-                    <x-table.th>Username</x-table.th>
-                    <x-table.th>Number</x-table.th>
-                    <x-table.th>National ID</x-table.th>
-                    <x-table.th>Role</x-table.th>
-                    <x-table.empty-th>Edit</x-table.empty-th>
+                    <x-table.th>{{ __('ID') }}</x-table.th>
+                    <x-table.th>{{ __('Name') }}</x-table.th>
+                    <x-table.th>{{ __('Arabic Name') }}</x-table.th>
+                    <x-table.th>{{ __('Username') }}</x-table.th>
+                    <x-table.th>{{ __('Phone') }}</x-table.th>
+                    <x-table.th>{{ __('National ID') }}</x-table.th>
+                    <x-table.th>{{ __('Role') }}</x-table.th>
+                    <x-table.empty-th>{{ __('Edit') }}</x-table.empty-th>
                 </tr>
             </x-slot>
 
@@ -21,7 +21,7 @@
                 @foreach($users as $user)
                     <tr>
                         <x-table.td>
-                            <span class="text-gray-800 text-md font-semibold">{{ $user->id }}</span>
+                            <span class="text-gray-800 dark:text-gray-200 text-md font-semibold">{{ $user->id }}</span>
                         </x-table.td>
 
                         <x-table.td>
@@ -30,10 +30,10 @@
                                     <img class="h-10 w-10 rounded-full" src="{{ $user->picture }}" alt="{{ $user->name }}'s picture">
                                 </div>
                                 <div class="ml-4">
-                                    <div class="text-sm font-medium text-gray-900">
+                                    <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
                                         {{ $user->name }}
                                     </div>
-                                    <div class="text-sm text-gray-500">
+                                    <div class="text-sm text-gray-500 dark:text-gray-400">
                                         {{ $user->email }}
                                     </div>
                                 </div>
@@ -41,29 +41,30 @@
                         </x-table.td>
 
                         <x-table.td>
-                            <span class="text-gray-800 text-md font-semibold">{{ $user->arabic_name }}</span>
+                            <span class="text-gray-800 dark:text-gray-200 text-md font-semibold">{{ $user->arabic_name }}</span>
                         </x-table.td>
 
                         <x-table.td>
-                            <span class="text-gray-800 text-md font-semibold">{{ $user->username }}</span>
+                            <span class="text-gray-800 dark:text-gray-200 text-md font-semibold">{{ $user->username }}</span>
                         </x-table.td>
 
                         <x-table.td>
-                            <span class="text-gray-800 text-md font-semibold">{{ $user->phone }}</span>
+                            <span class="text-gray-800 dark:text-gray-200 text-md font-semibold">{{ $user->phone }}</span>
                         </x-table.td>
 
                         <x-table.td>
-                            <span class="text-gray-800 text-md font-semibold">{{ $user->national_id }}</span>
+                            <span class="text-gray-800 dark:text-gray-200 text-md font-semibold">{{ $user->national_id }}</span>
                         </x-table.td>
 
                         <x-table.td>
-                            <span class="text-gray-800 text-md font-semibold">{{ isset($user->roles[0]) ? $user->roles[0]->name : 'user' }}</span>
+                            <span class="text-gray-800 dark:text-gray-200 text-md font-semibold">{{ isset($user->roles[0]) ? $user->roles[0]->name : 'user' }}</span>
                         </x-table.td>
 
                         <x-table.td>
-                            <a class="bg-blue-400 px-4 py-2 hover:bg-blue-500
+                            <a class="bg-blue-400 hover:bg-blue-500
+                            px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700
                              text-white text-md rounded-lg"
-                               href="{{ url("/users/$user->username/edit") }}">Edit</a>
+                               href="{{ url("/users/$user->username/edit") }}">{{ __('Edit') }}</a>
                         </x-table.td>
                     </tr>
                 @endforeach

@@ -1,8 +1,10 @@
 <?php
 
+use App\Models\Baskha;
 use App\Models\EventType;
 use App\Models\Kiahk;
 use App\Models\Mass;
+use App\Models\Vesper;
 use Illuminate\Database\Seeder;
 
 class EventTypesSeeder extends Seeder
@@ -24,6 +26,18 @@ class EventTypesSeeder extends Seeder
             "name" => "Kiahk",
             "arabic_name" => "كيهك",
             'model' => Kiahk::class,
+        ]);
+
+        EventType::create([
+            "name" => "Baskha",
+            "arabic_name" => "بصخة",
+            'model' => Baskha::class,
+        ]);
+
+        EventType::create([
+            "name" => "Vesper",
+            "arabic_name" => "عشية",
+            'model' => Vesper::class,
         ]);
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+<html lang="{{ app()->getLocale() }}" dir="{{ $dir }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -13,15 +13,18 @@
 
     @stack('header')
 </head>
-<body class="app">
+<body class="app no-scrollbar {{ $isDark ? 'dark' : '' }}"
+      :class="{'dark': dark}"
+      x-data="{ dark: '{{ $isDark }}' }"
+      @dark.window="dark = $event.detail.enable">
 
-<div>
+<div class="dark:text-white">
     <div x-data="{ sidebarOpen: true, intentional: false }"
          x-init="sidebarOpen = document.body.clientWidth > 1024;
             window.addEventListener('resize', () =>
                 sidebarOpen = intentional ? sidebarOpen : window.innerWidth > 1024
             );"
-         class="flex h-screen bg-gray-200 rtl:bg-gray-600">
+         class="flex h-screen bg-gray-200 dark:bg-gray-800 transition-colors duration-500">
         <div :class="sidebarOpen ? 'block' : 'hidden'" @click="sidebarOpen = false; intentional=true;"
              class="fixed z-20 inset-0 bg-black opacity-50 transition-opacity lg:hidden"></div>
 
@@ -30,8 +33,8 @@
           : 'ltr:-translate-x-full rtl:translate-x-full ease-in'"
 
              class="fixed z-30 inset-y-0 rtl:right-0 ltr:left-0 w-56
-              transition duration-150 transform
-               bg-gray-800 overflow-y-auto">
+              transition-all duration-150 transform
+              bg-gray-800 dark:bg-gray-900 overflow-y-auto">
 
             <a href="{{ url('/') }}">
                 <div class="flex items-center justify-center">
@@ -187,10 +190,12 @@
             </nav>
         </div>
         <div class="flex-1 flex flex-col overflow-hidden">
-            <header class="flex justify-between items-center py-4 px-6 bg-white shadow-md">
+            <header class="flex justify-between items-center py-4 px-6 bg-white
+            transition-colors duration-500
+             dark:bg-gray-700 shadow-md">
                 <div class="flex items-center">
                     <button @click="sidebarOpen = !sidebarOpen; intentional=true;"
-                            class="text-gray-700 focus:outline-none">
+                            class="text-gray-700 dark:text-gray-200 focus:outline-none">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                              xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -202,10 +207,14 @@
 
                 <div class="flex items-center">
 
+                    <div class="mx-4">
+                        <x-form.night-switch />
+                    </div>
+
                     <div x-data="{ dropdownOpen: false }" class="relative">
                         <button @click="dropdownOpen = ! dropdownOpen"
                                 class="flex items-center justify-center space-x-2 focus:outline-none">
-                            <div class="text-gray-700 font-light text-sm rtl:ml-2 font-semibold">
+                            <div class="text-gray-700 dark:text-white font-light text-sm rtl:ml-2 font-semibold">
                                 {{ auth()->user()->locale_name }}
                             </div>
                             <div class="relative block h-10 w-10 border border-gray-400 overflow-hidden rounded-full">
@@ -220,21 +229,26 @@
                              style="display: none;"></div>
 
                         <div x-show.transition="dropdownOpen"
-                             class="absolute ltr:right-0 rtl:left-0 mt-2 w-48 bg-white rounded-md overflow-hidden shadow-xl z-10"
+                             class="absolute ltr:right-0 rtl:left-0 mt-2 w-48
+                              bg-white dark:bg-gray-600
+                              rounded-md overflow-hidden shadow-xl z-10"
                              style="display: none;">
+
                             <a href="{{ url("/users/" . auth()->user()->username) }}"
                                class="block px-4 py-2 text-sm
-                               {{ url("/users/" . auth()->user()->username) == url()->current() ? "bg-gray-200" : "text-gray-700" }}
-                                       hover:bg-gray-200 ">{{ __('Profile') }}</a>
+                               {{ url("/users/" . auth()->user()->username) == url()->current() ? "bg-gray-200 dark:bg-gray-800" : "text-gray-700 dark:text-white" }}
+                                       hover:bg-gray-200 dark:hover:bg-gray-800">{{ __('Profile') }}</a>
 
                             <a href="{{ url('/lang') }}" data-turbolinks="false"
-                               class="block px-4 py-2 text-sm hover:bg-gray-200 ">{{ __('اللغة العربية') }}</a>
+                               class="block px-4 py-2 text-sm hover:bg-gray-200 dark:hover:bg-gray-800 dark:text-white">{{ __('اللغة العربية') }}</a>
 
                             <form method="POST" action="{{ url('logout') }}">
                                 @csrf
 
-                                <button type="submit" class="w-full px-4 py-2 text-sm text-red-500
-                                 hover:bg-gray-200 flex items-center justify-start
+                                <button type="submit" class="w-full px-4 py-2 text-sm
+                                 text-red-500 dark:text-red-400
+                                 hover:bg-gray-200 dark:hover:bg-gray-800
+                                 flex items-center justify-start
                                    focus:outline-none space-x-2">
                                     <x-svg.logout/>
                                     <span>{{ __('Sign Out') }}</span>
@@ -251,9 +265,11 @@
                 {{ $slot ?? "" }}
 
             </main>
-            <footer class="bg-white text-gray-400 text-sm py-4 px-2 hidden md:flex">
+            <footer class="bg-white dark:bg-gray-800 text-gray-400
+            transition-colors duration-500
+             dark:text-gray-200 text-sm py-4 px-2 hidden md:flex">
                 <span class="mx-auto">
-                    Copyright © <a class="text-blue-500 text-underline" href="https://fadisarwat.dev">Fadi Sarwat</a>, StGeorge Sporting 2021</span>
+                    Copyright © <a class="text-blue-500 dark:text-blue-300 text-underline" href="https://fadisarwat.dev">Fadi Sarwat</a>, StGeorge Sporting 2021</span>
             </footer>
         </div>
     </div>

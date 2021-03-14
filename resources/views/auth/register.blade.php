@@ -2,7 +2,8 @@
 
     <x-slot name="title">{{ __('Create a new account') }}</x-slot>
 
-    <h2 class="sm:mt-0 mt-2 text-center text-2xl font-bold text-gray-900">
+    <h2 class="sm:mt-0 mt-2 text-center text-2xl font-bold text-gray-900
+     dark:text-gray-100">
         {{ __('Create a new account') }}
     </h2>
 
@@ -46,7 +47,9 @@
 
         <div class="flex items-center justify-between">
             <div class="text-md">
-                <a href="{{ url('/login') }}" class="font-medium text-blue-800 hover:text-blue-700">
+                <a href="{{ url('/login') }}"
+                   class="font-medium dark:text-blue-400 dark:hover:text-blue-300
+                   text-blue-800 hover:text-blue-700">
                     {{ __('Already have an account? Sign in') }}
                 </a>
             </div>

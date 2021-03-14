@@ -6,11 +6,11 @@
         <x-table.table>
             <x-slot name="head">
                 <tr>
-                    <x-table.th>Date</x-table.th>
-                    <x-table.th>Time</x-table.th>
-                    <x-table.th>Description</x-table.th>
-                    <x-table.th>Number of places</x-table.th>
-                    <x-table.empty-th>Edit</x-table.empty-th>
+                    <x-table.th>{{ __('Date') }}</x-table.th>
+                    <x-table.th>{{ __('Time') }}</x-table.th>
+                    <x-table.th>{{ __('Description') }}</x-table.th>
+                    <x-table.th>{{ __('Number of Places') }}</x-table.th>
+                    <x-table.empty-th>{{ __('Edit') }}</x-table.empty-th>
                 </tr>
             </x-slot>
 
@@ -36,9 +36,10 @@
                         </x-table.td>
 
                         <x-table.td>
-                            <a class="bg-blue-400 px-4 py-2 hover:bg-blue-500
+                            <a class="bg-blue-400 hover:bg-blue-500
+                            px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700
                              text-white text-md rounded-lg"
-                               href="{{ url("/vespers/$vesper->id/edit") }}">Edit</a>
+                               href="{{ url("/vespers/$vesper->id/edit") }}">{{ __('Edit') }}</a>
                         </x-table.td>
                     </tr>
                 @endforeach

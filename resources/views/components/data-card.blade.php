@@ -10,7 +10,7 @@
         <a href="{{ $href }}">
     @endif
 
-        <div class="flex h-full items-center px-5 py-6 shadow-sm rounded-md bg-white">
+        <div class="flex h-full items-center px-5 py-6 shadow-sm rounded-md bg-white dark:bg-gray-700">
             <div class="p-3 rounded-full {{ $color }} bg-opacity-75">
 
                 {{ $svg }}

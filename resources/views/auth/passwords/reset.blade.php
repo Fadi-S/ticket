@@ -2,7 +2,7 @@
 
     <x-slot name="title">Reset Password | Ticket</x-slot>
 
-    <h2 class="sm:mt-0 mt-2 text-center text-2xl font-bold text-gray-900">
+    <h2 class="sm:mt-0 mt-2 text-center text-2xl font-bold text-gray-900 dark:text-gray-100">
         {{ __('Reset your password') }}
     </h2>
 

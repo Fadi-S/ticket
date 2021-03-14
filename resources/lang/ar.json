@@ -1,7 +1,7 @@
 {
   "Profile": "حسابي",
   "Home": "الرئيسية",
-  "Make Reservation": "إحجز",
+  "Make Reservation": "الحجز",
   "Tickets": "الحجوزات",
   "Users": "المستخدمين",
   "Add User": "أضف مستخدم",
@@ -77,5 +77,14 @@
   "Verification Code sent to :phone": "لقد تم ارسال رسالة التأكيد إلي :phone",
   "Send Code": "ارسل الرسالة",
   "Verification Code": "الرقم التأكيدي",
-  "Confirm Code": "تأكيد"
+  "Confirm Code": "تأكيد",
+  "Date": "التاريخ",
+  "Time": "الوقت",
+  "Description": "الوصف",
+  "Number of Places": "عدد الأشخاص",
+  "Start Time": "وقت البداية",
+  "End Time": "وقت النهاية",
+  "Create Event": "تسجيل",
+  "Edit Event": "تسجيل",
+  "Edit": "تعديل"
 }

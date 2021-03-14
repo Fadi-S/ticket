@@ -11,24 +11,24 @@
     <div class="grid grid-cols-12 gap-4">
         <div class="col-span-12">
             @if($event)
-                <div class="mb-2 flex flex-col text-gray-800">
+                <div class="mb-2 flex flex-col text-gray-800 dark:text-gray-200">
                     <div class="font-semibold">{{ $this->eventModel->start->format('l, jS \o\f F Y') }}</div>
 
                     <div class="font-semibold">{{ $this->eventModel->formatted_time }}</div>
 
-                    <div class="font-bold text-sm text-gray-700">{{ $this->eventModel->type->arabic_name }}</div>
+                    <div class="font-bold text-sm text-gray-700 dark:text-gray-300">{{ $this->eventModel->type->arabic_name }}</div>
                 </div>
             @endif
         </div>
 
         @forelse($tickets as $ticket)
-            <div id="ticket-{{ $ticket->id }}" class="bg-gray-100 shadow-inner rounded-lg p-4 col-span-12 md:col-span-6 xl:col-span-4 overflow-x-hidden">
+            <div id="ticket-{{ $ticket->id }}" class="bg-gray-100 dark:bg-gray-800 shadow-inner rounded-lg p-4 col-span-12 md:col-span-6 xl:col-span-4 overflow-x-hidden">
                 @if(!$event)
-                    <h3 class="mb-2 w-full flex flex-col text-gray-800">
+                    <h3 class="mb-2 w-full flex flex-col text-gray-800 dark:text-gray-200">
                         <div class="font-semibold">{{ $ticket->event->start->format('l, jS \o\f F Y') }}</div>
                         <div class="font-semibold">{{ $ticket->event->formatted_time }}</div>
 
-                        <span class="font-bold text-sm text-gray-700">{{ $ticket->event->type->arabic_name }}</span>
+                        <span class="font-bold text-sm text-gray-700 dark:text-gray-300">{{ $ticket->event->type->arabic_name }}</span>
                     </h3>
                 @endif
                 <x-table.table class="w-full">
@@ -46,10 +46,10 @@
                                                  alt="{{ $reservation->user->name }}'s picture">
                                         </div>
                                         <div class="ml-4">
-                                            <div class="text-sm font-medium text-gray-900">
+                                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
                                                 {{ $reservation->user->name }}
                                             </div>
-                                            <div class="text-sm text-gray-500">
+                                            <div class="text-sm text-gray-500 dark:text-gray-400">
                                                 {{ $reservation->user->email }}
                                             </div>
                                         </div>
@@ -73,8 +73,8 @@
             </div>
 
         @empty
-            <p class="font-bold text-gray-600 text-md mx-auto col-span-12 flex justify-center">
-                <x-svg.ticket class="text-gray-500 mr-2"/>
+            <p class="font-bold text-gray-600 dark:text-gray-300 text-md mx-auto col-span-12 flex justify-center">
+                <x-svg.ticket class="text-gray-500 dark:text-gray-300 mx-2"/>
                 @if($event)
                     <span>{{ __('You have no tickets at this event!') }}
                         <a href="{{ url('tickets') }}"

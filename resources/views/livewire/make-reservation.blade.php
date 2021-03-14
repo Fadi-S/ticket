@@ -22,6 +22,9 @@
                                    @input="searching = ($event.target.value !== '')"
                                    name="user-search" id="user-search"
                                    class="relative w-full bg-white border border-gray-300 rounded-md
+                                   dark:bg-gray-600 dark:border-gray-500
+                                    dark:placeholder-gray-400 transition-colors duration-500
+                                    dark:text-white
                              shadow-sm pl-3 pr-5 py-2 text-left focus:outline-none
                               focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm
                                    focus:outline-none block w-full sm:text-sm rounded-md"
@@ -66,30 +69,30 @@
                                         text-gray-900">
                                         <div class="flex">
 
-                                            <span class="mr-2 truncate
+                                            <span class="mx-2 truncate
                                                 {{ $selected ? 'font-bold text-indigo-200' : 'font-normal group-hover:text-indigo-200 text-gray-500' }}">
                                                 {{ $user->id }}
                                             </span>
 
-                                            <span class="{{ $selected ? 'font-bold text-white' : 'font-normal group-hover:text-white' }} truncate">
+                                            <span class="{{ $selected ? 'font-bold text-white' : 'font-normal group-hover:text-white' }} mx-2 truncate">
                                               {{ $user->name }}
                                             </span>
 
-                                            <span class="{{ $selected ? 'font-bold text-white' : 'font-normal group-hover:text-white' }} truncate">
+                                            <span class="{{ $selected ? 'font-bold text-white' : 'font-normal group-hover:text-white' }} mx-2 truncate">
                                               {{ $user->arabic_name }}
                                             </span>
 
-                                            <span class="ml-2 truncate
+                                            <span class="mx-2 truncate
                                             {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500' }}">
                                                 {{ '@' . $user->username }}
                                             </span>
 
-                                            <span class="ml-2 truncate
+                                            <span class="mx-2 truncate
                                              {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500' }}">
                                                 {{ $user->phone }}
                                             </span>
 
-                                            <span class="ml-2 truncate
+                                            <span class="mx-2 truncate
                                              {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500' }}">
                                                 {{ $user->national_id }}
                                             </span>
@@ -133,7 +136,7 @@
                 </div>
 
                 @if($users->isNotEmpty())
-                    <x-table.table class="w-full"
+                    <x-table.table class="w-full" dir="{{ $dir }}"
                                    wire:loading.class="opacity-50" wire:target="toggleUser, removeUser">
                         <x-slot name="head">
                             <tr>

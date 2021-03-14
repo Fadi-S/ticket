@@ -5,7 +5,11 @@
         <label for="{{ $id }}">{{ $label }}</label>
     @endisset
 
-    <input class="mt-1 focus:outline-none focus:border-blue-500 p-2 focus:border-3
+    <input class="mt-1 focus:outline-none
+    dark:bg-gray-600 dark:border-gray-500
+    dark:placeholder-gray-400 transition-colors duration-500
+    focus:border-blue-500 p-2 focus:border-3
+    dark:text-white
      block w-full sm:text-sm border-gray-300 rounded-md h-10 border {{ $class }}"
            id="{{ $id }}" value="{{ old($attributes['name']) ?? $value }}" {{ $attributes }} />
 

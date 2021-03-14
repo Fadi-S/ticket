@@ -1,26 +1,25 @@
 <div class="space-y-6">
 
-    <x-form.group>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
         <x-form.input required type="text" :value="!$create ? $event->start->format('d/m/Y') : null"
                       id="date" name="date" autocomplete="off"
-                      label="Date" class="datePicker"
-                      size="md:w-1/2 w-full"
+                      label="{{ __('Date') }}" class="datePicker"
+                      size="col-span-1"
                       placeholder="DD/MM/YYYY" />
 
-        <x-form.input required type="number" id="places" :value="$create ? 100 : $event->number_of_places"
-                      name="number_of_places" label="Number of Places"
-                      size="md:w-1/2 w-full" min="1" placeholder="Number Of Places" />
-    </x-form.group>
+        <x-form.input required type="number" id="places" :value="$create ? 150 : $event->number_of_places"
+                      name="number_of_places" label="{{ __('Number of Places') }}" class="col-span-1"
+                      size="col-span-1" min="1" placeholder="{{ __('Number of Places') }}" />
 
-    <x-form.group>
-
-        <x-form.input required type="time" id="start_time" name="start_time" label="Start Time" size="md:w-1/2 w-full"
+        <x-form.input required type="time" id="start_time" name="start_time"
+                      label="{{ __('Start Time') }}" size="col-span-1"
                       :value="$create ? null : $event->start->format('H:i')" />
 
-        <x-form.input required type="time" id="end_time" name="end_time" label="End Time" size="md:w-1/2 w-full"
+        <x-form.input required type="time" id="end_time" name="end_time"
+                      label="{{ __('End Time') }}" size="col-span-1"
                       :value="$create ? null : $event->end->format('H:i')" />
-    </x-form.group>
+    </div>
 
     <x-button type="submit" class="mx-auto mt-2">
         <x-slot name="svg">

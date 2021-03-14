@@ -15,7 +15,7 @@
         </x-layouts.error>
     @endif
 
-    <h2 class="sm:mt-0 mt-2 text-center text-2xl font-bold text-gray-900">
+    <h2 class="sm:mt-0 mt-2 text-center text-2xl font-bold text-gray-900 dark:text-gray-100">
         @if($state == 0)
         {{ __('Send code to phone') }}
         @elseif($state == 1)
@@ -36,12 +36,18 @@
                     </label>
                     <div class="mt-1 flex rounded-md shadow-sm">
                         <span class="inline-flex items-center px-3
-                        ltr:rounded-l-md rtl:rounded-r-md border rtl:border-l-0 ltr:border-r-0
+                        ltr:rounded-l-md rtl:rounded-r-md border
+                         rtl:border-l-0 ltr:border-r-0
+                         dark:bg-gray-600 dark:border-gray-500 transition-colors
+                         duration-500 dark:text-gray-200
                         border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
                           +2
                         </span>
                         <input type="text" wire:model="phone" name="phone" id="phone" required value="{{ old('phone') }}"
-                               class="flex-1 min-w-0 block w-full px-3 py-2 border rounded-none rtl:rounded-l-md ltr:rounded-r-md
+                               class="flex-1 min-w-0 block w-full px-3 py-2 border
+                               dark:bg-gray-600 dark:border-gray-500
+                                dark:placeholder-gray-400 transition-colors duration-500
+                               rounded-none rtl:rounded-l-md ltr:rounded-r-md
                         focus:outline-none focus:border-blue-500 p-2 focus:border-3 block sm:text-sm border-gray-300 h-10"
                                placeholder="01000000000">
                     </div>

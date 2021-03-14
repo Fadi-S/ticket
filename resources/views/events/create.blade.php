@@ -4,7 +4,7 @@
     <x-card>
         {!! Form::open(["url" => url($url), "method" => "POST"]) !!}
 
-        @include("events.form", ["create" => true, "submit" => "Create Event"])
+        @include("events.form", ["create" => true, "submit" => __('Create Event')])
 
         {!! Form::close() !!}
     </x-card>

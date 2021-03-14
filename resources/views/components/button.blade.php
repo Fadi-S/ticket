@@ -1,6 +1,8 @@
 @props([
     'class' => null,
-    'color' => 'bg-blue-500 hover:bg-blue-600 focus:bg-blue-600',
+    'color' => 'bg-blue-500 dark:bg-blue-800
+     hover:bg-blue-600 dark:hover:bg-blue-900
+      focus:bg-blue-600 dark:focus:bg-blue-900',
     'disabled' => false,
 ])
 

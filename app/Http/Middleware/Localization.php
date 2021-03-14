@@ -18,10 +18,11 @@ class Localization
      */
     public function handle(Request $request, Closure $next)
     {
-        app()->setLocale($request->user('web')->locale ?? \Cookie::get('locale') ?? 'ar');
+        app()->setLocale($locale = $request->user('web')->locale ?? \Cookie::get('locale') ?? 'ar');
 
         $number = \NumberFormatter::create(app()->getLocale(), \NumberFormatter::DECIMAL);
         View::share('num', $number);
+        View::share('dir', $locale === 'ar' ? 'rtl' : 'ltr');
         App::singleton('num', fn() => $number);
 
         return $next($request);

@@ -2,7 +2,7 @@
 
     <x-slot name="title">Sign In to Ticket</x-slot>
 
-    <h2 class="sm:mt-0 mt-2 text-center text-2xl font-bold text-gray-900">
+    <h2 class="sm:mt-0 mt-2 text-center text-2xl font-bold text-gray-900 dark:text-gray-100">
         {{ __('Sign in to your account') }}
     </h2>
 
@@ -23,14 +23,18 @@
 
         <div class="flex items-center justify-between">
             <div class="text-sm w-10/12">
-                <a href="{{ url('/register') }}" class="font-medium text-blue-800 hover:text-blue-700">
+                <a href="{{ url('/register') }}"
+                   class="font-medium dark:text-blue-400 dark:hover:text-blue-300
+                    text-blue-800 hover:text-blue-700">
                     {{ __('Sign Up for new account') }}
                 </a>
             </div>
 
 
             <div class="flex justify-end text-sm w-10/12">
-                <a href="{{ url('password/forgot') }}" class="font-medium text-blue-800 hover:text-blue-700">
+                <a href="{{ url('password/forgot') }}"
+                   class="font-medium dark:text-blue-400 dark:hover:text-blue-300
+                    text-blue-800 hover:text-blue-700">
                     {{ __('Forgot your password?') }}
                 </a>
             </div>

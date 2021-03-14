@@ -9,7 +9,7 @@ module.exports = {
             './resources/resources/js/*.js',
         ]
     },
-    darkMode: 'media', // or 'media' or 'class'
+    darkMode: 'class', // or 'media' or 'class'
     theme: {
         extend: {
             fontFamily: {
@@ -60,12 +60,14 @@ module.exports = {
 
     variants: {
         extend: {
-            opacity: ['disabled'],
+            opacity: ['disabled', 'dark'],
             margin: ['responsive', 'direction'],
             inset: ['responsive', 'direction'],
             translate: ['responsive', 'direction'],
+            rotate: ['responsive', 'direction'],
             borderRadius: ['responsive', 'direction'],
             borderWidth: ['responsive', 'direction'],
+            textAlign: ['responsive', 'direction'],
         },
     },
 
