@@ -18,7 +18,7 @@
       x-data="{ dark: '{{ $isDark }}' }"
       @dark.window="dark = $event.detail.enable">
 
-<div class="dark:text-white">
+<div class="dark:text-white no-scrollbar">
     <div x-data="{ sidebarOpen: true, intentional: false }"
          x-init="sidebarOpen = document.body.clientWidth > 1024;
             window.addEventListener('resize', () =>
@@ -59,7 +59,7 @@
 
                 <x-navbar.divider/>
 
-                <x-navbar.link label="{{ __('Make Reservation') }}" :href="url('/reserve')">
+                <x-navbar.link label="{{ __('Make Reservation') }}" data-turbolinks="false" :href="url('/reserve')">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                          xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -189,7 +189,7 @@
 
             </nav>
         </div>
-        <div class="flex-1 flex flex-col overflow-hidden">
+        <div class="flex-1 flex flex-col overflow-hidden no-scrollbar">
             <header class="flex justify-between items-center py-4 px-6 bg-white
             transition-colors duration-500
              dark:bg-gray-700 shadow-md">
@@ -260,7 +260,7 @@
                 </div>
             </header>
 
-            <main class="flex-1 overflow-y-auto">
+            <main class="flex-1 overflow-y-auto no-scrollbar">
 
                 {{ $slot ?? "" }}
 

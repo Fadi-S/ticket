@@ -4,11 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventsRequest;
+use App\Models\Event;
 use App\Models\Vesper;
 use Carbon\Carbon;
 
 class VespersController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(Event::class, 'vesper');
+    }
+
     public function create()
     {
         $start = Carbon::now();

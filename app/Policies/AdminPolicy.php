@@ -50,4 +50,9 @@ class AdminPolicy
     {
         return $admin->can("admins.forceDelete") ? true : null;
     }
+
+    public function viewActivityLog(User $admin)
+    {
+        return $admin->can("activityLog") ? true : null;
+    }
 }

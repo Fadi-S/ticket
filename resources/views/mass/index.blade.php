@@ -16,7 +16,9 @@
                     <x-table.th>{{ __('Time') }}</x-table.th>
                     <x-table.th>{{ __('Description') }}</x-table.th>
                     <x-table.th>{{ __('Number of Places') }}</x-table.th>
-                    <x-table.empty-th>{{ __('Edit') }}</x-table.empty-th>
+                    @can('events.edit')
+                        <x-table.empty-th>{{ __('Edit') }}</x-table.empty-th>
+                    @endcan
                 </tr>
             </x-slot>
 
@@ -41,12 +43,14 @@
                         <x-table.td x-text="(events[{{$mass->id}}]) ? events[{{$mass->id}}].reservedPlaces + ' / ' + events[{{$mass->id}}].numberOfPlaces : ''">
                         </x-table.td>
 
-                        <x-table.td>
-                            <a class="bg-blue-400 px-4 py-2 hover:bg-blue-500
-                            dark:bg-blue-600 dark:hover:bg-blue-700
-                             text-white text-md rounded-lg"
-                               href="{{ url("/masses/$mass->id/edit") }}">{{ __('Edit') }}</a>
-                        </x-table.td>
+                        @can('events.edit')
+                            <x-table.td>
+                                <a class="bg-blue-400 px-4 py-2 hover:bg-blue-500
+                                dark:bg-blue-600 dark:hover:bg-blue-700
+                                 text-white text-md rounded-lg"
+                                   href="{{ url("/masses/$mass->id/edit") }}">{{ __('Edit') }}</a>
+                            </x-table.td>
+                        @endcan
                     </tr>
                 @endforeach
 

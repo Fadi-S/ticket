@@ -10,7 +10,9 @@
                     <x-table.th>{{ __('Time') }}</x-table.th>
                     <x-table.th>{{ __('Description') }}</x-table.th>
                     <x-table.th>{{ __('Number of Places') }}</x-table.th>
-                    <x-table.empty-th>{{ __('Edit') }}</x-table.empty-th>
+                    @can('events.edit')
+                        <x-table.empty-th>{{ __('Edit') }}</x-table.empty-th>
+                    @endcan
                 </tr>
             </x-slot>
 
@@ -35,12 +37,14 @@
                             {{ $vesper->reservedPlaces() }} / {{ $vesper->number_of_places }}
                         </x-table.td>
 
-                        <x-table.td>
-                            <a class="bg-blue-400 hover:bg-blue-500
-                            px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700
-                             text-white text-md rounded-lg"
-                               href="{{ url("/vespers/$vesper->id/edit") }}">{{ __('Edit') }}</a>
-                        </x-table.td>
+                        @can('events.edit')
+                            <x-table.td>
+                                <a class="bg-blue-400 hover:bg-blue-500
+                                px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700
+                                 text-white text-md rounded-lg"
+                                   href="{{ url("/vespers/$vesper->id/edit") }}">{{ __('Edit') }}</a>
+                            </x-table.td>
+                        @endcan
                     </tr>
                 @endforeach
 

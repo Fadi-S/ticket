@@ -4,11 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventsRequest;
+use App\Models\Event;
 use App\Models\Mass;
 use Carbon\Carbon;
 
 class MassesController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(Event::class, 'mass');
+    }
 
     public function create()
     {
@@ -41,6 +47,7 @@ class MassesController extends Controller
 
     public function update(Mass $mass, EventsRequest $request)
     {
+
         if($mass->update($request->validated()))
             flash()->success("Edited mass successfully");
         else

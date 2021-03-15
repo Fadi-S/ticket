@@ -46,12 +46,12 @@
                              x-transition:leave="transition ease-in duration-100"
                              x-transition:leave-start="opacity-100"
                              x-transition:leave-end="opacity-0"
-                                class="absolute mt-1 w-full rounded-md bg-white shadow-lg">
+                                class="absolute mt-1 w-full rounded-md bg-white dark:bg-gray-700 shadow-lg">
                             <ul x-ref="listbox" tabindex="-1" role="listbox"
                                 aria-labelledby="listbox-label"
-                                class="max-h-60 rounded-md py-1 text-base ring-1
+                                class="max-h-60 rounded-md py-1 text-base ring-1 no-scrollbar
                                  ring-black ring-opacity-5 overflow-auto z-50
-                                 bg-white
+                                 bg-white dark:bg-gray-700 transition-colors duration-500
                                  focus:outline-none sm:text-sm">
 
                                 @forelse($usersSearched as $user)
@@ -65,41 +65,43 @@
                                         role="option"
                                         class="group cursor-default z-10
                                          select-none relative py-2 pl-3 pr-9
-                                        {{ $selected ? 'bg-indigo-600' : 'hover:text-white hover:bg-indigo-400 bg-white' }}
+                                        {{ $selected ? 'bg-indigo-600' : 'hover:text-white hover:bg-indigo-400
+                                                                            bg-white dark:hover:bg-indigo-600 dark:bg-gray-700
+                                                                             transition-colors duration-500' }}
                                         text-gray-900">
                                         <div class="flex">
 
                                             <span class="mx-2 truncate
-                                                {{ $selected ? 'font-bold text-indigo-200' : 'font-normal group-hover:text-indigo-200 text-gray-500' }}">
+                                                {{ $selected ? 'font-bold text-indigo-200' : 'font-normal group-hover:text-indigo-200 text-gray-500 dark:text-gray-200' }}">
                                                 {{ $user->id }}
                                             </span>
 
-                                            <span class="{{ $selected ? 'font-bold text-white' : 'font-normal group-hover:text-white' }} mx-2 truncate">
+                                            <span class="{{ $selected ? 'font-bold text-white' : 'font-normal group-hover:text-white dark:text-gray-200' }} mx-2 truncate">
                                               {{ $user->name }}
                                             </span>
 
-                                            <span class="{{ $selected ? 'font-bold text-white' : 'font-normal group-hover:text-white' }} mx-2 truncate">
+                                            <span class="{{ $selected ? 'font-bold text-white' : 'font-normal group-hover:text-white dark:text-gray-200' }} mx-2 truncate">
                                               {{ $user->arabic_name }}
                                             </span>
 
                                             <span class="mx-2 truncate
-                                            {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500' }}">
+                                            {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500 dark:text-gray-200' }}">
                                                 {{ '@' . $user->username }}
                                             </span>
 
                                             <span class="mx-2 truncate
-                                             {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500' }}">
+                                             {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500 dark:text-gray-200' }}">
                                                 {{ $user->phone }}
                                             </span>
 
                                             <span class="mx-2 truncate
-                                             {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500' }}">
+                                             {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500 dark:text-gray-200' }}">
                                                 {{ $user->national_id }}
                                             </span>
                                         </div>
 
                                         @if($selected)
-                                            <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-white">
+                                          <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-white">
                                                 <x-svg.check />
                                           </span>
                                         @endif

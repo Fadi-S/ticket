@@ -4,11 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventsRequest;
+use App\Models\Event;
 use App\Models\Kiahk;
 use Carbon\Carbon;
 
 class KiahkController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Event::class, 'kiahk');
+    }
+
     public function create()
     {
         $start = Carbon::now();

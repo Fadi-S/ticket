@@ -27,7 +27,7 @@
                               size="w-full" name="email" id="email"
                               label="{{ __('Email') }}" placeholder="{{ __('Email') }}" />
 
-                <x-form.input wire:model.lazy="user.phone" type="phone"
+                <x-form.input wire:model.lazy="user.phone" type="text" dir="ltr"
                               size="w-full" name="phone" id="phone"
                               label="{{ __('Phone') }}" placeholder="{{ __('Phone') }}" />
 

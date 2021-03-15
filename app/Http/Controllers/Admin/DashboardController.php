@@ -28,6 +28,8 @@ class DashboardController extends Controller
 
     public function showLogs()
     {
+        $this->authorize('viewActivityLog');
+
         $logs = Activity::latest()->paginate(10);
 
         return view("logs", compact('logs'));
