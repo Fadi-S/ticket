@@ -33,7 +33,7 @@
           : 'ltr:-translate-x-full rtl:translate-x-full ease-in'"
 
              class="fixed z-30 inset-y-0 rtl:right-0 ltr:left-0 w-56
-              transition-all duration-150 transform
+              transition-all duration-150 transform h-screen
               bg-gray-800 dark:bg-gray-900 overflow-y-auto">
 
             <a href="{{ url('/') }}">
@@ -49,8 +49,7 @@
 
                 <x-navbar.link label="{{ __('Home') }}" :href="url('/')">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                                d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0
                             001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0
                             001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001
                             1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
@@ -260,7 +259,7 @@
                 </div>
             </header>
 
-            <main class="flex-1 overflow-y-auto no-scrollbar">
+            <main class="overflow-y-auto no-scrollbar">
 
                 {{ $slot ?? "" }}
 

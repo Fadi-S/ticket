@@ -84,7 +84,7 @@
                                               {{ $user->arabic_name }}
                                             </span>
 
-                                            <span class="mx-2 truncate
+                                            <span class="mx-2 truncate hidden md:block
                                             {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500 dark:text-gray-200' }}">
                                                 {{ '@' . $user->username }}
                                             </span>
@@ -94,7 +94,7 @@
                                                 {{ $user->phone }}
                                             </span>
 
-                                            <span class="mx-2 truncate
+                                            <span class="mx-2 truncate hidden md:block
                                              {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500 dark:text-gray-200' }}">
                                                 {{ $user->national_id }}
                                             </span>
@@ -145,11 +145,11 @@
                                 <x-table.th>{{ __("ID") }}</x-table.th>
                                 <x-table.th>{{ __("Name") }}</x-table.th>
                                 <x-table.th>{{ __("Arabic Name") }}</x-table.th>
-                                <x-table.th>{{ __("Username") }}</x-table.th>
+                                <x-table.th class="hidden md:block">{{ __("Username") }}</x-table.th>
                                 <x-table.th>{{ __("National ID") }}</x-table.th>
-                                <x-table.th>{{ __("Email") }}</x-table.th>
+                                <x-table.th class="hidden md:block">{{ __("Email") }}</x-table.th>
                                 <x-table.th>{{ __("Phone") }}</x-table.th>
-                                <x-table.th></x-table.th>
+                                <x-table.empty-th>Remove User</x-table.empty-th>
                             </tr>
                         </x-slot>
                         <x-slot name="body">
@@ -158,9 +158,9 @@
                                     <x-table.td>{{ $user['id'] }}</x-table.td>
                                     <x-table.td>{{ $user['name'] }}</x-table.td>
                                     <x-table.td>{{ $user['arabic_name'] }}</x-table.td>
-                                    <x-table.td>{{ '@' . $user['username'] }}</x-table.td>
+                                    <x-table.td class="hidden md:block">{{ '@' . $user['username'] }}</x-table.td>
                                     <x-table.td>{{ $user['national_id'] ?? '-' }}</x-table.td>
-                                    <x-table.td>{{ $user['email'] ?? '-' }}</x-table.td>
+                                    <x-table.td class="hidden md:block">{{ $user['email'] ?? '-' }}</x-table.td>
                                     <x-table.td>{{ $user['phone'] ?? '' }}</x-table.td>
                                     <x-table.td>
                                         <x-button type="button" color="rounded-full bg-red-500 hover:bg-red-600"

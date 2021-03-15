@@ -2,6 +2,7 @@
     <x-slot name="title">View All users | Ticket</x-slot>
 
     <x-card>
+
         <x-table.table>
             <x-slot name="head">
                 <tr>
