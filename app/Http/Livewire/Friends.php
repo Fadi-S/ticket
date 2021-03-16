@@ -29,6 +29,12 @@ class Friends extends Component
     {
         $user = User::strictSearch($this->search)->first();
 
+        if(!$user) {
+            flash()->error('Hello');
+        }
+
+        flash()->success('Hello');
+
         $this->dispatchBrowserEvent('close');
 
         $this->search = '';

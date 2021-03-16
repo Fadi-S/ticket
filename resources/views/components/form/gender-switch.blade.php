@@ -8,9 +8,6 @@
 
 
 <div class="flex flex-col">
-    @isset($label)
-        <label for="{{ $id }}">{{ $label }}</label>
-    @endisset
     <div class="mt-1" x-data="{ value: @if($livewire) @entangle('gender').defer @else 1 @endif }">
         <div class="{{ $class }} select-none bg-blue-200
          w-28 h-10 rounded-full cursor-pointer flex flex-row justify-center

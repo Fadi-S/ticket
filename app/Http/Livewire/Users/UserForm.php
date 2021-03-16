@@ -82,7 +82,7 @@ class UserForm extends Component
 
         $this->clearFields();
 
-        session()->flash('success', 'User Saved Successfully');
+        session()->flash('success', __('User Saved Successfully'));
 
 
         if ($this->redirect)
@@ -113,11 +113,11 @@ class UserForm extends Component
                 'regex:/' . StandardRegex::PHONE_NUMBER . '/',
                 'unique:users,phone',
             ],
-            'user.national_id' => [
+            /*'user.national_id' => [
                 'nullable',
                 'regex:/' . StandardRegex::NATIONAL_ID . '/',
                 'unique:users,national_id',
-            ],
+            ],*/
             'gender' => 'required|in:0,1',
             'password' => [
                 Rule::requiredIf( $this->role_id != 1),
@@ -146,11 +146,11 @@ class UserForm extends Component
                 Rule::unique('users', 'phone')->ignore($id),
             ];
 
-            $rules['user.national_id'] = [
+            /*$rules['user.national_id'] = [
                 'nullable',
                 'regex:/' . StandardRegex::NATIONAL_ID . '/',
                 Rule::unique('users', 'national_id')->ignore($id),
-            ];
+            ];*/
         }
 
         return $rules;

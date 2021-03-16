@@ -44,7 +44,7 @@ class RegisterController extends Controller
             'arabic_name' => ['required', 'string', 'max:191'],
             'email' => ['required', 'string', 'email', 'max:191', 'unique:users'],
             'phone' => ['required', 'string', 'regex:/' . StandardRegex::PHONE_NUMBER . '/', 'unique:users'],
-            'national_id' => ['required', 'regex:/' . StandardRegex::NATIONAL_ID . '/', 'unique:users'],
+            'national_id' => ['nullable', 'regex:/' . StandardRegex::NATIONAL_ID . '/', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
     }
@@ -62,7 +62,7 @@ class RegisterController extends Controller
             'arabic_name' => $data['arabic_name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
-            'national_id' => $data['national_id'],
+            'national_id' => isset($data['national_id']) ? $data['national_id'] : null,
             'username' => User::makeSlug($data['name']),
             'password' => $data['password'],
         ]);

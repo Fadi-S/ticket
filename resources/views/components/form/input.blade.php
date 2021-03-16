@@ -2,7 +2,7 @@
 
 <div class="flex flex-col {{ $size }}">
     @isset($label)
-        <label for="{{ $id }}">{{ $label }}</label>
+        <label for="{{ $id }}" class="dark:text-white">{{ $label }}</label>
     @endisset
 
     <input class="mt-1 focus:outline-none

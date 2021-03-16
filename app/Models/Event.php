@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Database\Factories\MassFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -72,5 +73,26 @@ class Event extends Model
     public function specific()
     {
         return app($this->type->model)->find($this->id);
+    }
+
+    public function eventOrderInDay()
+    {
+        $order = [
+            1 => 'أول',
+            2 => 'ثاني',
+            3 => 'تالث',
+            4 => 'رابع',
+            5 => 'خامس',
+            6 => 'سادس',
+        ];
+
+        $eventsCount = Event::whereBetween('start', [$this->start->startOfDay(), $this->start])
+            ->where('type_id', $this->type_id)
+            ->count();
+
+        if(!in_array($eventsCount, array_keys($order)))
+            return '';
+
+        return $order[$eventsCount];
     }
 }

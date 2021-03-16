@@ -89,7 +89,7 @@ class MakeReservation extends Component
 
         $users->each->reserveIn($ticket);
 
-        TicketReserved::dispatch($ticket);
+        // TicketReserved::dispatch($ticket);
 
         flash()->success(Str::plural('Reservation', $users->count()) . " made successfully");
         redirect("tickets?event=$event->id");

@@ -3,6 +3,7 @@
     "/js/turbo.js": "/js/turbo.js",
     "/js/reservation.js": "/js/reservation.js",
     "/js/firebase.js": "/js/firebase.js",
+    "/js/print.js": "/js/print.js",
     "/css/app.css": "/css/app.css",
     "/css/reservation.css": "/css/reservation.css"
 }

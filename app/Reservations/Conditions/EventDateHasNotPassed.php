@@ -14,6 +14,6 @@ class EventDateHasNotPassed implements ConditionContract
     {
         return $event->end->greaterThanOrEqualTo(now())
             ? ConditionOutput::undecided()
-            : ConditionOutput::deny()->message('This event has passed');
+            : ConditionOutput::deny()->message(__('This event has passed'));
     }
 }

@@ -60,13 +60,19 @@ Route::middleware("auth")->group(function() {
     Route::get("ajax/reservation/events", [\App\Http\Controllers\API\ReservationsController::class, 'getEvents']);
 
     Route::get('/friends', Friends::class);
+});
 
-    Route::get('lang', function () {
+Route::get('lang/{locale}', function ($locale) {
+    if(!in_array($locale, array_keys(app()->make('locales'))))
+        abort(404);
+
+    if(auth()->check()) {
         $user = auth()->user();
-        $user->locale = app()->currentLocale() === 'ar' ? 'en' : 'ar';
-        Cookie::forever('locale', $user->locale);
+        $user->locale = $locale;
         $user->save();
+    }
 
-        return back();
-    });
+    setcookie('locale', $locale, time()+60*60*24*365*10, '/');
+
+    return back();
 });

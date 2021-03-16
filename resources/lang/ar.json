@@ -1,4 +1,6 @@
 {
+  "ltr": "rtl",
+
   "Profile": "حسابي",
   "Home": "الرئيسية",
   "Make Reservation": "الحجز",
@@ -87,5 +89,15 @@
   "Create Event": "تسجيل",
   "Edit Event": "تسجيل",
   "Edit": "تعديل",
-  "Oops! this page :url isn't found here": "هذه الصفحة :url غير موجودة"
+  "Oops! this page :url isn't found here": "هذه الصفحة :url غير موجودة",
+  "User Saved Successfully": "تم تسجيل المستخدم بنجاح",
+  "No places left in this event": "لا يوجد مكان",
+  "This event has passed": "هذه المناسبة انتهت",
+  ":name have a ticket": ":name تذكرة",
+  "You don't": "ليس لديك",
+  ":name doesn't": ":name ليس لديه/ها",
+  "You are": "لقد حجزت",
+  ":name is": "لقد حجز :name",
+  ":name already reserved in this event": ":name بالفعل في هذه المناسبة",
+  "Print/Export as PDF": "طباعة"
 }

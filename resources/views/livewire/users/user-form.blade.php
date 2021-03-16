@@ -31,9 +31,9 @@
                               size="w-full" name="phone" id="phone"
                               label="{{ __('Phone') }}" placeholder="{{ __('Phone') }}" />
 
-                <x-form.input wire:model.lazy="user.national_id" type="text"
-                              size="w-full" name="national_id" id="national_id"
-                              label="{{ __('National ID') }}" placeholder="{{ __('National ID') }}" />
+{{--                <x-form.input wire:model.lazy="user.national_id" type="text"--}}
+{{--                              size="w-full" name="national_id" id="national_id"--}}
+{{--                              label="{{ __('National ID') }}" placeholder="{{ __('National ID') }}" />--}}
 
                 @if(auth()->user()->isAdmin() && ($isCreate || !$user->isSignedIn()))
                     <x-form.input wire:model.lazy="password" type="password"

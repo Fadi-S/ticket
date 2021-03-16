@@ -11,10 +11,10 @@ class HaveMassTickets implements ConditionContract
 
     public function check($event, $user): ConditionOutput
     {
-        $name = $user->isSignedIn() ? 'You don\'t' : "$user->name doesn't";
+        $name = $user->isSignedIn() ? __("You don't") : __(":name doesn't", ['name' => $user->locale_name]);
 
         return $user->tickets()->mass($event->start) == 0
-            ? ConditionOutput::deny()->message("$name have a ticket")
+            ? ConditionOutput::deny()->message(__(":name have a ticket", ['name' => $name]))
             : ConditionOutput::allow();
     }
 }

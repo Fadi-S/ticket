@@ -13,7 +13,7 @@
 
     @stack('header')
 </head>
-<body class="app no-scrollbar {{ $isDark ? 'dark' : '' }}"
+<body class="app no-scrollbar {{ $isDark ? 'dark' : '' }}" id="app"
       :class="{'dark': dark}"
       x-data="{ dark: '{{ $isDark }}' }"
       @dark.window="dark = $event.detail.enable">
@@ -23,16 +23,18 @@
          x-init="sidebarOpen = document.body.clientWidth > 1024;
             window.addEventListener('resize', () =>
                 sidebarOpen = intentional ? sidebarOpen : window.innerWidth > 1024
-            );"
+            );
+             $refs.sidebar.classList.remove('ltr:-translate-x-full', 'rtl:translate-x-full', 'lg:rtl:translate-x-0', 'lg:ltr:translate-x-0');"
          class="flex h-screen bg-gray-200 dark:bg-gray-800 transition-colors duration-500">
         <div :class="sidebarOpen ? 'block' : 'hidden'" @click="sidebarOpen = false; intentional=true;"
              class="fixed z-20 inset-0 bg-black opacity-50 transition-opacity lg:hidden"></div>
 
-        <div :class="sidebarOpen
+        <div x-ref="sidebar" :class="sidebarOpen
           ? 'translate-x-0 ease-out lg:translate-x-0 lg:static lg:inset-0'
           : 'ltr:-translate-x-full rtl:translate-x-full ease-in'"
 
              class="fixed z-30 inset-y-0 rtl:right-0 ltr:left-0 w-56
+             ltr:-translate-x-full rtl:translate-x-full lg:rtl:translate-x-0 lg:ltr:translate-x-0
               transition-all duration-150 transform h-screen
               bg-gray-800 dark:bg-gray-900 overflow-y-auto">
 
@@ -206,11 +208,13 @@
 
                 <div class="flex items-center">
 
-                    <div class="mx-4">
+                    <x-language-dropdown />
+
+                    <div class="mx-2">
                         <x-form.night-switch />
                     </div>
 
-                    <div x-data="{ dropdownOpen: false }" class="relative">
+                    <div x-data="{ dropdownOpen: false }" class="relative mx-2">
                         <button @click="dropdownOpen = ! dropdownOpen"
                                 class="flex items-center justify-center space-x-2 focus:outline-none">
                             <div class="text-gray-700 dark:text-white font-light text-sm rtl:ml-2 font-semibold">
@@ -238,9 +242,6 @@
                                {{ url("/users/" . auth()->user()->username) == url()->current() ? "bg-gray-200 dark:bg-gray-800" : "text-gray-700 dark:text-white" }}
                                        hover:bg-gray-200 dark:hover:bg-gray-800">{{ __('Profile') }}</a>
 
-                            <a href="{{ url('/lang') }}" data-turbolinks="false"
-                               class="block px-4 py-2 text-sm hover:bg-gray-200 dark:hover:bg-gray-800 dark:text-white">{{ __('اللغة العربية') }}</a>
-
                             <form method="POST" action="{{ url('logout') }}">
                                 @csrf
 
@@ -259,7 +260,7 @@
                 </div>
             </header>
 
-            <main class="overflow-y-auto no-scrollbar">
+            <main class="flex-1 overflow-y-auto no-scrollbar">
 
                 {{ $slot ?? "" }}
 

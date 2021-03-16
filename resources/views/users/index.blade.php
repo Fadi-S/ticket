@@ -50,7 +50,7 @@
                         </x-table.td>
 
                         <x-table.td>
-                            <span class="text-gray-800 dark:text-gray-200 text-md font-semibold">{{ $user->phone }}</span>
+                            <span dir="ltr" class="text-gray-800 dark:text-gray-200 text-md font-semibold">{{ $user->phone }}</span>
                         </x-table.td>
 
                         <x-table.td>

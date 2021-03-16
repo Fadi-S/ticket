@@ -18,13 +18,50 @@ class Localization
      */
     public function handle(Request $request, Closure $next)
     {
-        app()->setLocale($locale = $request->user('web')->locale ?? \Cookie::get('locale') ?? 'ar');
+        $locales = $this->locales();
+        $user = $request->user();
+        $cookieLocale = isset($_COOKIE['locale']) ? $_COOKIE['locale'] : null;
 
-        $number = \NumberFormatter::create(app()->getLocale(), \NumberFormatter::DECIMAL);
-        View::share('num', $number);
-        View::share('dir', $locale === 'ar' ? 'rtl' : 'ltr');
+        if($user && $cookieLocale && $this->isValidLocale($cookieLocale) && $user->locale !== $cookieLocale) {
+            $user->locale = $cookieLocale;
+            $user->save();
+        }
+
+        $locale = $user->locale ?? $cookieLocale ?? 'ar';
+
+        if(! $this->isValidLocale($locale)) {
+            $locale = 'ar';
+        }
+
+        app()->setLocale($locale);
+        View::share('dir', __('ltr'));
+
+        $number = \NumberFormatter::create($locale, \NumberFormatter::DECIMAL);
         App::singleton('num', fn() => $number);
+        View::share('num', $number);
+
+        App::singleton('locales', fn() => $locales);
+        \View::share('locales', $locales);
 
         return $next($request);
+    }
+
+    public function locales() : array
+    {
+        return [
+            'ar' => [
+                'name' => 'اللغة العربية',
+                'logo' => asset('/images/flags/egypt.svg'),
+            ],
+            'en' => [
+                'name' => 'English',
+                'logo' => asset('/images/flags/usa.svg'),
+            ],
+        ];
+    }
+
+    public function isValidLocale($locale) : bool
+    {
+        return in_array($locale, array_keys( $this->locales() ));
     }
 }

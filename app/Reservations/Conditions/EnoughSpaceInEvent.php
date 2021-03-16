@@ -15,6 +15,6 @@ class EnoughSpaceInEvent implements ConditionContract
         return $event->reservationsLeft >= 1
             ? ConditionOutput::undecided()
             : ConditionOutput::deny()
-                ->message('No places left in this event');
+                ->message(__('No places left in this event'));
     }
 }

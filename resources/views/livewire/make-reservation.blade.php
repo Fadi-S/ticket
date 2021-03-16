@@ -89,7 +89,7 @@
                                                 {{ '@' . $user->username }}
                                             </span>
 
-                                            <span class="mx-2 truncate
+                                            <span dir="ltr" class="mx-2 truncate
                                              {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500 dark:text-gray-200' }}">
                                                 {{ $user->phone }}
                                             </span>
@@ -138,16 +138,15 @@
                 </div>
 
                 @if($users->isNotEmpty())
-                    <x-table.table class="w-full" dir="{{ $dir }}"
-                                   wire:loading.class="opacity-50" wire:target="toggleUser, removeUser">
+                    <x-table.table wire:loading.class="opacity-50" wire:target="toggleUser, removeUser">
                         <x-slot name="head">
                             <tr>
                                 <x-table.th>{{ __("ID") }}</x-table.th>
                                 <x-table.th>{{ __("Name") }}</x-table.th>
                                 <x-table.th>{{ __("Arabic Name") }}</x-table.th>
-                                <x-table.th class="hidden md:block">{{ __("Username") }}</x-table.th>
+                                <x-table.th class="hidden md:table-cell">{{ __("Username") }}</x-table.th>
                                 <x-table.th>{{ __("National ID") }}</x-table.th>
-                                <x-table.th class="hidden md:block">{{ __("Email") }}</x-table.th>
+                                <x-table.th class="hidden md:table-cell">{{ __("Email") }}</x-table.th>
                                 <x-table.th>{{ __("Phone") }}</x-table.th>
                                 <x-table.empty-th>Remove User</x-table.empty-th>
                             </tr>
@@ -158,10 +157,10 @@
                                     <x-table.td>{{ $user['id'] }}</x-table.td>
                                     <x-table.td>{{ $user['name'] }}</x-table.td>
                                     <x-table.td>{{ $user['arabic_name'] }}</x-table.td>
-                                    <x-table.td class="hidden md:block">{{ '@' . $user['username'] }}</x-table.td>
+                                    <x-table.td class="hidden md:table-cell">{{ '@' . $user['username'] }}</x-table.td>
                                     <x-table.td>{{ $user['national_id'] ?? '-' }}</x-table.td>
-                                    <x-table.td class="hidden md:block">{{ $user['email'] ?? '-' }}</x-table.td>
-                                    <x-table.td>{{ $user['phone'] ?? '' }}</x-table.td>
+                                    <x-table.td class="hidden md:table-cell">{{ $user['email'] ?? '-' }}</x-table.td>
+                                    <x-table.td dir="ltr">{{ $user['phone'] ?? '' }}</x-table.td>
                                     <x-table.td>
                                         <x-button type="button" color="rounded-full bg-red-500 hover:bg-red-600"
                                                   wire:click="removeUser('{{ $user['id'] }}')">
@@ -201,11 +200,11 @@
                     </x-slot>
 
                     <x-slot name="body">
-                        <h3  class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+                        <h3  class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100" id="modal-headline">
                             {{ __("Couldn't reserve in this event") }}
                         </h3>
                         <div class="mt-2">
-                            <p class="text-sm text-gray-500" x-text="message"></p>
+                            <p class="text-sm text-gray-500 dark:text-gray-300" x-text="message"></p>
                         </div>
                     </x-slot>
 
@@ -229,7 +228,7 @@
                         <div class="space-x-2 flex flex-row-reverse">
 
                             <x-button class="mx-2" type="button" @click="open = false;"
-                                      color="bg-white text-gray-700 hover:bg-gray-50 border border-gray-400">
+                                      color="bg-white dark:bg-gray-300 bg:text-gray-900 text-gray-700 hover:bg-gray-50 border border-gray-400">
                                 {{ __("Cancel") }}
                             </x-button>
                         </div>

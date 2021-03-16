@@ -30,9 +30,9 @@
                             id="phone" value="{{ old('phone') }}"
                             type="phone" required />
 
-            <x-form.input-2 label="{{ __('National ID') }}"
-                            id="national_id" value="{{ old('national_id') }}"
-                            type="text" required />
+{{--            <x-form.input-2 label="{{ __('National ID') }}"--}}
+{{--                            id="national_id" value="{{ old('national_id') }}"--}}
+{{--                            type="text" required />--}}
 
             <x-form.input-2 label="{{ __('Password') }}"
                             id="password" value="{{ old('password') }}"
