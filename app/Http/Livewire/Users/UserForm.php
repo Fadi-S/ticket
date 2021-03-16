@@ -15,6 +15,7 @@ class UserForm extends Component
 
     public User $user;
     public string $password = '';
+    public string $tempUsername = '';
     public int $role_id = 1;
     public bool $isCreate = true;
     public int $gender = 1;
@@ -37,6 +38,8 @@ class UserForm extends Component
         $this->role_id = (!$this->isCreate && isset($this->user->roles[0])) ? $this->user->roles[0]->id : 1;
 
         $this->gender = (!$this->isCreate) ? $this->user->gender : 1;
+
+        $this->tempUsername = (!$this->isCreate) ? $this->user->username : 1;
     }
 
     public function render()
@@ -49,7 +52,12 @@ class UserForm extends Component
     public function updatedUserName($name)
     {
         if ($this->isCreate)
-            $this->user->username = User::makeSlug($name, $this->user->id);
+            $this->tempUsername = User::makeSlug($name, $this->user->id);
+    }
+
+    public function updatedTempUsername($username)
+    {
+        $this->tempUsername = User::replaceInvalidCharacters($username);
     }
 
     public function updatedGender($gender)
@@ -70,6 +78,8 @@ class UserForm extends Component
 
         if (auth()->user()->isAdmin() && $this->password)
             $this->user->password = $this->password;
+
+        $this->user->username = User::replaceInvalidCharacters($this->tempUsername);
 
         $this->user->save();
 
@@ -102,7 +112,7 @@ class UserForm extends Component
         $rules = [
             'user.name' => 'required',
             'user.arabic_name' => 'required',
-            'user.username' => 'required|unique:users,username',
+            'tempUsername' => 'required|unique:users,username',
             'user.email' => [
                 'nullable',
                 'email',
@@ -130,8 +140,8 @@ class UserForm extends Component
             $id = isset($this->user) ? $this->user->id : 0;
 
             $rules['password'] = 'nullable|min:6';
-            $rules['user.username'] = [
-                Rule::requiredIf($this->role_id != 1),
+            $rules['tempUsername'] = [
+                'required',
                 Rule::unique('users', 'username')->ignore($id),
             ];
             $rules['user.email'] = [

@@ -56,7 +56,7 @@ class AuthenticationTest extends TestCase
             ->set('user.email', 'test@example.com')
             ->set('gender', 1)
             ->call('save')
-        ->assertSee('User Saved Successfully');
+        ->assertSee(__('User Saved Successfully'));
 
         $this->assertEquals(3, User::count());
     }
@@ -129,7 +129,6 @@ class AuthenticationTest extends TestCase
         return [
             ['email', 'unique'],
             ['phone', 'unique'],
-            ['national_id', 'unique'],
             ['name', 'not_unique'],
             ['arabic_name', 'not_unique'],
         ];

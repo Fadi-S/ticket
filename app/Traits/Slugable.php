@@ -16,7 +16,7 @@ trait Slugable
         return static::$slug;
     }
 
-    public static function isUnique($username, $ignoreId)
+    public static function isUnique($username, $ignoreId) : bool
     {
         $reflection = new \ReflectionClass(get_class());
         $model = $reflection->newInstance();
@@ -24,22 +24,28 @@ trait Slugable
         return !$model->withTrashed()->where([[static::$slug, $username], ["id", "<>", $ignoreId]])->exists();
     }
 
-    public static function makeSlug($string, $ignoreId=0, $iteration=0)
+    public static function replaceInvalidCharacters($slug) : string
     {
-        $slug = trim($string);
+        $slug = trim($slug);
         $slug = mb_strtolower($slug, 'UTF-8');
 
         $slug = preg_replace("/[^a-z0-9_\s\-ءاآؤئبپتثجچحخدذرزژسشىصضطظعغفقكکگلمنوهیأيةإ]/u", '', $slug);
 
-        $slug = preg_replace("/[\s\-_]+/", ' ', $slug);
+        // $slug = preg_replace("/[\s\-_]+/", ' ', $slug);
 
         $slug = mb_substr($slug, 0, 180, 'utf-8');
 
-        if(static::$separatorRequired) {
-            $slug = preg_replace("/[\s_]/", static::$separator, $slug);
-        }else {
-            $slug = preg_replace("/[\s_]/", (!! rand(0, 1)) ? static::$separator : '', $slug);
-        }
+        if(static::$separatorRequired)
+            $slug = preg_replace("/[\s]/", static::$separator, $slug);
+        else
+            $slug = preg_replace("/[\s]/", (!! rand(0, 1)) ? static::$separator : '', $slug);
+
+        return $slug;
+    }
+
+    public static function makeSlug($string, $ignoreId=0, $iteration=0) : string
+    {
+        $slug = self::replaceInvalidCharacters($string);
 
         if(!! $iteration) {
             if(static::$separatorRequired)

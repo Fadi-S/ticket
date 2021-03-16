@@ -80,6 +80,11 @@ trait UserAttributes
         return app()->getLocale() === 'ar' ? $this->arabic_name : $this->name;
     }
 
+    public function getSmartNameAttribute($arabicName)
+    {
+        return $arabicName ?? $this->name;
+    }
+
     public function getPictureAttribute($picture)
     {
         if(is_null($picture) || $picture == '' || !\Storage::exists("public/photos/$picture"))

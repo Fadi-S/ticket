@@ -18,7 +18,7 @@
                               label="{{ __('Name in arabic') }} *"  placeholder="{{ __('Name in arabic') }}" />
 
                 @if(auth()->user()->isAdmin())
-                    <x-form.input wire:model.lazy="user.username" required type="text"
+                    <x-form.input wire:model.lazy="tempUsername" required type="text"
                                   size="w-full" name="username" id="username"
                                   label="{{ __('Username') }} *" placeholder="{{ __('Username') }}" />
                 @endif

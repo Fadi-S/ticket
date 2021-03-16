@@ -99,5 +99,8 @@
   "You are": "لقد حجزت",
   ":name is": "لقد حجز :name",
   ":name already reserved in this event": ":name بالفعل في هذه المناسبة",
-  "Print/Export as PDF": "طباعة"
+  "Print/Export as PDF": "طباعة",
+  "Cancel Reservation": "الغاء الحجز",
+  "Are you sure you want to Cancel your reservation?": "هل أنت متأكد انك تريد إلغاء الحجز؟",
+  "You might not be able to reserve again.": "قد لا تتمكن من الحجز مرة اخري"
 }

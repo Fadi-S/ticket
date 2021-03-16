@@ -48,7 +48,7 @@
                                     @foreach($list as $user)
                                         <li style="vertical-align: top;
                                          border: #ef8c82 solid thin;
-                                          margin: 5px 0; padding: 2px 0;">{{ $user->locale_name }}</li>
+                                          margin: 5px 0; padding: 2px 0;">{{ $user->smart_name }}</li>
                                     @endforeach
                                 </ul>
                             </td>
@@ -78,7 +78,8 @@
         </div>
 
         @forelse($tickets as $ticket)
-            <div id="ticket-{{ $ticket->id }}" class="bg-gray-100 dark:bg-gray-800 shadow-inner rounded-lg p-4 col-span-12 md:col-span-6 xl:col-span-4 overflow-x-hidden">
+            <div id="ticket-{{ $ticket->id }}" class="bg-gray-100 dark:bg-gray-800 shadow-inner transition-colors duration-500
+            rounded-lg p-4 col-span-12 md:col-span-6 xl:col-span-4 overflow-x-hidden">
                 @if(!$event)
                     <h3 class="mb-2 w-full flex flex-col text-gray-800 dark:text-gray-200">
                         <div class="font-semibold" dir="ltr">{{ $ticket->event->start->format('l, jS \o\f F Y') }}</div>
@@ -158,13 +159,13 @@
             </x-slot>
 
             <x-slot name="body">
-                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
-                    Cancel Reservation
+                <h3 class="text-lg rtl:text-right mx-2 leading-6 font-medium text-gray-900 dark:text-gray-100" id="modal-headline">
+                    {{ __('Cancel Reservation') }}
                 </h3>
                 <div class="mt-2">
-                    <p class="text-sm text-gray-500">
-                        Are you sure you want to Cancel your reservation?
-                        You might not be able to reserve again.
+                    <p class="text-sm text-gray-500 dark:text-gray-300">
+                        {{ __('Are you sure you want to Cancel your reservation?') }}
+                        {{ __('You might not be able to reserve again.') }}
                     </p>
                 </div>
             </x-slot>
@@ -173,12 +174,12 @@
                 <div class="space-x-2 flex flex-row-reverse">
                     <x-button type="button" @click="open = false; Livewire.emit('cancelReservation', details.reservationId);" class="ml-2"
                               color="bg-red-600 hover:bg-red-700 text-white">
-                        Cancel Reservation
+                        {{ __('Cancel Reservation') }}
                     </x-button>
 
                     <x-button class="mx-2" type="button" @click="open = false;"
                               color="bg-white text-gray-700 hover:bg-gray-50 border border-gray-400">
-                        Close
+                        {{ __('Close') }}
                     </x-button>
                 </div>
 
