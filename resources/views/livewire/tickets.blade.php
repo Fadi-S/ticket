@@ -72,7 +72,7 @@
 
                     <div class="font-semibold" dir="ltr">{{ $this->eventModel->formatted_time }}</div>
 
-                    <div class="font-bold text-sm text-gray-700 dark:text-gray-300">{{ $this->eventModel->type->arabic_name }}</div>
+                    <div class="font-bold text-sm text-gray-700 dark:text-gray-300">{{ $this->eventModel->type->arabic_name }} {{ $this->eventModel->eventOrderInDay() }}</div>
                 </div>
             @endif
         </div>

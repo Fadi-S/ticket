@@ -5,6 +5,7 @@ namespace App\Models\User;
 use App\Helpers\CanReserveInEvents;
 use App\Helpers\HasFriends;
 use App\Traits\Slugable;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -14,7 +15,7 @@ use Spatie\Activitylog\Traits\CausesActivity;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasLocalePreference
 {
     use Notifiable, SoftDeletes, HasApiTokens, HasRoles, CausesActivity,
         UserAttributes, LogsActivity, Slugable, HasFactory, HasFriends, CanReserveInEvents;
@@ -56,5 +57,10 @@ class User extends Authenticatable
     public function isSignedIn() : bool
     {
         return $this->id == \Auth::id();
+    }
+
+    public function preferredLocale()
+    {
+        return $this->locale ?? config('app.locale');
     }
 }

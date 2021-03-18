@@ -2,23 +2,25 @@
 
 namespace App\Notifications;
 
+use App\Models\Ticket;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ReservationMade extends Notification
+class ReservationConfirmed extends Notification
 {
     use Queueable;
 
+    public Ticket $ticket;
+
     /**
-     * Create a new notification instance.
-     *
-     * @return void
+     * Create a new Notification instance.
+     * @param Ticket $ticket
      */
-    public function __construct()
+    public function __construct(Ticket $ticket)
     {
-        //
+        $this->ticket = $ticket;
     }
 
     /**
@@ -40,10 +42,19 @@ class ReservationMade extends Notification
      */
     public function toMail($notifiable)
     {
+        $eventType = $this->ticket->event->type->locale_name;
+
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->subject(__(':type Reservation Invoice', ['type' => $eventType]))
+
+                    ->greeting(__('Hello :name,', ['name' => $notifiable->locale_name]))
+
+                    ->line(__('You have reserved in the :type day :date', [
+                        'type' => $eventType,
+                        'date' => $this->ticket->event->start->format('d/m/Y h:i a')
+                    ]))
+
+                    ->line(__('Thank You'));
     }
 
     /**

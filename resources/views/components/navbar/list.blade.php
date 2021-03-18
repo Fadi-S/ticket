@@ -23,7 +23,7 @@
              x-transition:enter="transition transform duration-200"
              x-transition:enter-start="scale-50 opacity-0"
              x-transition:enter-end="scale-100 opacity-100"
-             class="bg-white rounded-lg mt-4 shadow-lg px-2 py-2 space-y-2 w-full">
+             class="bg-white dark:bg-gray-600 transition-colors duration-500 rounded-lg mt-4 shadow-lg px-2 py-2 space-y-2 w-full">
             {{ $slot }}
         </div>
     </div>

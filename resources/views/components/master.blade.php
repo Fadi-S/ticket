@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="{{ url("/css/app.css") }}" rel="stylesheet" type="text/css">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
+    <link rel="manifest" href="manifest.json">
 
     <title>{{ $title ?? 'Ticket' }}</title>
 
@@ -36,7 +37,7 @@
              class="fixed z-30 inset-y-0 rtl:right-0 ltr:left-0 w-56
              ltr:-translate-x-full rtl:translate-x-full lg:rtl:translate-x-0 lg:ltr:translate-x-0
               transition-all duration-150 transform h-screen
-              bg-gray-800 dark:bg-gray-900 overflow-y-auto">
+              bg-gray-800 dark:bg-gray-900 overflow-y-auto no-scrollbar">
 
             <a href="{{ url('/') }}">
                 <div class="flex items-center justify-center">
@@ -265,7 +266,7 @@
                 {{ $slot ?? "" }}
 
             </main>
-            <footer class="bg-white dark:bg-gray-800 text-gray-400
+            <footer class="bg-gray-200 dark:bg-gray-800 text-gray-500
             transition-colors duration-500
              dark:text-gray-200 text-sm py-4 px-2 hidden md:flex">
                 <span class="mx-auto">

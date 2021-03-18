@@ -27,10 +27,10 @@ class Localization
             $user->save();
         }
 
-        $locale = $user->locale ?? $cookieLocale ?? 'ar';
+        $locale = $user->locale ?? $cookieLocale ?? config('app.locale');
 
         if(! $this->isValidLocale($locale)) {
-            $locale = 'ar';
+            $locale = config('app.locale');
         }
 
         app()->setLocale($locale);

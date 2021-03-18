@@ -44,7 +44,7 @@ class Tickets extends Component
         $males = collect(isset($genders[1]) ? $genders[1] : [])
             ->sortBy(fn($user) => $user->locale_name);
 
-        $females = collect(isset($genders[1]) ? $genders[0] : [])
+        $females = collect(isset($genders[0]) ? $genders[0] : [])
             ->sortBy(fn($user) => $user->locale_name);
 
         return [

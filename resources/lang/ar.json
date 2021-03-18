@@ -33,7 +33,7 @@
   "Username": "إسم المستخدم",
   "National ID": "الرقم القومي",
   "Email": "الإيميل",
-  "Phone": "رقم التيليفون",
+  "Phone": "رقم التليفون",
   "Password": "كلمة السر",
   "Old Password": "كلمة السر القديمة",
   "New Password": "كلمة السر الجديدة",
@@ -102,5 +102,16 @@
   "Print/Export as PDF": "طباعة",
   "Cancel Reservation": "الغاء الحجز",
   "Are you sure you want to Cancel your reservation?": "هل أنت متأكد انك تريد إلغاء الحجز؟",
-  "You might not be able to reserve again.": "قد لا تتمكن من الحجز مرة اخري"
+  "You might not be able to reserve again.": "قد لا تتمكن من الحجز مرة اخري",
+  ":type Reservation Invoice": "استعلام عن حجز :type",
+  "Hello :name,": "مرحباً :name،",
+  "Thank you!": "شكراً لك",
+  "You have reserved in the :type day :date": "لقد حجزت في :type يوم :date",
+  "Reserved at": "وقت الحجز",
+  "Event": "المناسبة",
+  "Number Of People": "عدد الأفراد",
+  "No reservations in the last week": "لا حجوزات في الأسبوع السابق",
+  "View All Reservations by this agent": "اعرض كل الحجوزات",
+  "This account made no reservations": "لا حجوزات",
+  "Table of reservations": "جدول الحجوزات"
 }

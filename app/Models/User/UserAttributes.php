@@ -80,9 +80,9 @@ trait UserAttributes
         return app()->getLocale() === 'ar' ? $this->arabic_name : $this->name;
     }
 
-    public function getSmartNameAttribute($arabicName)
+    public function getSmartNameAttribute()
     {
-        return $arabicName ?? $this->name;
+        return $this->arabic_name ?? $this->name;
     }
 
     public function getPictureAttribute($picture)

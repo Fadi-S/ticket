@@ -6,7 +6,7 @@
 
     <div class="flex items-center justify-center h-full">
         <h1 class="text-2xl">
-            Oops! this page <span class="font-bold">/{{ request()->path() }}</span> isn't found here
+            {!! __('Oops! this page :url isn\'t found here', ['url' => '<span class="font-bold">'. request()->path() . '</span>']) !!}
         </h1>
     </div>
 </x-dynamic-component>

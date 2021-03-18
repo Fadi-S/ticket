@@ -32,7 +32,23 @@ function setCookie(cname, value, expiryInDays) {
     document.cookie = cname + "=" + value + ";" + expires + ";path=/";
 }
 
-function getCookie(cname) {
+if ('serviceWorker' in navigator) {
+
+    window.addEventListener('load', () => {
+
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, err => {
+                console.log('ServiceWorker registration failed: ', err);
+            });
+
+    });
+
+}
+
+/*function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
     let ca = decodedCookie.split(';');
@@ -46,4 +62,4 @@ function getCookie(cname) {
         }
     }
     return "";
-}
+}*/

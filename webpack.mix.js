@@ -16,6 +16,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/reservation.js', 'public/js')
     .js('resources/js/firebase.js', 'public/js')
     .js('resources/js/print.js', 'public/js')
+    .js('resources/js/service-worker.js', 'public')
     .postCss('resources/css/app.css', 'public/css', [
         require('tailwindcss'),
     ])

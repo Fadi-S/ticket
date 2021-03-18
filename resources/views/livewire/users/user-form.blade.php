@@ -28,7 +28,7 @@
                               label="{{ __('Email') }}" placeholder="{{ __('Email') }}" />
 
                 <x-form.input wire:model.lazy="user.phone" type="text" dir="ltr"
-                              size="w-full" name="phone" id="phone"
+                              size="w-full" name="phone" id="phone" required
                               label="{{ __('Phone') }}" placeholder="{{ __('Phone') }}" />
 
 {{--                <x-form.input wire:model.lazy="user.national_id" type="text"--}}

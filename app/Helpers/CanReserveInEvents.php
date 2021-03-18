@@ -4,14 +4,21 @@
 namespace App\Helpers;
 
 
+use App\Jobs\SendEmail;
 use App\Models\Reservation;
 use App\Models\User\Ticket;
+use App\Notifications\ReservationConfirmed;
 
 trait CanReserveInEvents
 {
     public function reservations()
     {
         return $this->hasMany(Reservation::class);
+    }
+
+    public function reservedTickets()
+    {
+        return $this->hasMany(\App\Models\Ticket::class, 'reserved_by');
     }
 
     public function tickets() : Ticket
@@ -40,14 +47,9 @@ trait CanReserveInEvents
                 'ticket_id' => $ticket->id
             ], $output->body() ?? []));
 
-        /*if($this->email) {
-            \Mail::raw("Hello {$this->name}, \n\nYou have a reservation in "
-                . $ticket->event->start->format('l, jS \o\f F') . "'s " . $ticket->event->type->name,
-
-                fn($message) => $message->to($this->email)
-                    ->subject($ticket->event->type->name . ' Reservation Invoice')
-            );
-        }*/
+        if($this->email) {
+            SendEmail::dispatch(new ReservationConfirmed($ticket), $this);
+        }
 
         $this->reservations()->save($reservation);
 

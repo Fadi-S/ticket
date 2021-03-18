@@ -39,7 +39,7 @@ class UserForm extends Component
 
         $this->gender = (!$this->isCreate) ? $this->user->gender : 1;
 
-        $this->tempUsername = (!$this->isCreate) ? $this->user->username : 1;
+        $this->tempUsername = (!$this->isCreate) ? $this->user->username : '';
     }
 
     public function render()
@@ -119,7 +119,7 @@ class UserForm extends Component
                 'unique:users,email',
             ],
             'user.phone' => [
-                'nullable',
+                'required',
                 'regex:/' . StandardRegex::PHONE_NUMBER . '/',
                 'unique:users,phone',
             ],
@@ -151,7 +151,7 @@ class UserForm extends Component
             ];
 
             $rules['user.phone'] = [
-                'nullable',
+                'required',
                 'regex:/' . StandardRegex::PHONE_NUMBER . '/',
                 Rule::unique('users', 'phone')->ignore($id),
             ];
