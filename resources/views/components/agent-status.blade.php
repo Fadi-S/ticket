@@ -1,6 +1,8 @@
 @props([
     'emptyMessage' => __('No reservations in the last week'),
     'agent',
+
+    'pagination' => false,
 ])
 
 <x-table.table>
@@ -13,7 +15,10 @@
     </x-slot>
 
     <x-slot name="body">
-        @forelse($agent->reservedTickets as $ticket)
+
+        @php($tickets = $pagination ? $agent->reservedTickets()->paginate(10) : $agent->reservedTickets)
+
+        @forelse($tickets as $ticket)
             <tr>
                 <x-table.td>{{ $ticket->reserved_at->format('l, d M Y h:i a') }}</x-table.td>
                 <x-table.td>{{ $num->format($ticket->reservations_count) }}</x-table.td>
@@ -30,3 +35,7 @@
         @endforelse
     </x-slot>
 </x-table.table>
+
+@if($pagination)
+    {{ $tickets->links() }}
+@endif

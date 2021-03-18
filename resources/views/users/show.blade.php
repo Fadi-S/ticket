@@ -9,7 +9,7 @@
                 <div class="text-center text-2xl font-bold">
                     {{ __('Table of reservations') }}
                 </div>
-                <x-agent-status :agent="$user" empty-message="{{ __('This account made no reservations') }}" />
+                <x-agent-status :pagination="true" :agent="$user" empty-message="{{ __('This account made no reservations') }}" />
             </x-card>
         @endcan
     @endif
