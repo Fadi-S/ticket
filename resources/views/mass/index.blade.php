@@ -32,7 +32,7 @@
                                href="{{ url("/tickets/?event=$mass->id") }}">{{ $mass->formatted_date }}</a>
                         </x-table.td>
 
-                        <x-table.td>
+                        <x-table.td dir="ltr">
                             {{ $mass->start->format("h:i A") }} - {{ $mass->end->format("h:i A") }}
                         </x-table.td>
 

@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('telescope:prune')->daily();
 
-        $schedule->job('queue:work --stop-when-empty')
+        $schedule->command('queue:work --stop-when-empty')
             ->everyTenMinutes();
     }
 

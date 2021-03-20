@@ -52,8 +52,9 @@ class AuthenticationTest extends TestCase
         Livewire::test(UserForm::class)
             ->set('user.name', 'John Doe')
             ->set('user.arabic_name', 'جون دو')
-            ->assertSet('user.username', User::makeSlug('John Doe'))
+            ->assertSet('tempUsername', User::makeSlug('John Doe'))
             ->set('user.email', 'test@example.com')
+            ->set('user.phone', '01200000000')
             ->set('gender', 1)
             ->call('save')
         ->assertSee(__('User Saved Successfully'));

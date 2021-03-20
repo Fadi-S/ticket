@@ -25,7 +25,7 @@
                                href="{{ url("/tickets/?event=$vesper->id") }}">{{ $vesper->start->format("l, dS F Y") }}</a>
                         </x-table.td>
 
-                        <x-table.td>
+                        <x-table.td class="rtl:text-right" dir="ltr">
                             {{ $vesper->start->format("h:i A") }} - {{ $vesper->end->format("h:i A") }}
                         </x-table.td>
 

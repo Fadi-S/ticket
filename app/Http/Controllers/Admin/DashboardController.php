@@ -22,16 +22,16 @@ class DashboardController extends Controller
         $agents = User::whereHas('roles',
             fn($query) => $query->where('name', 'agent')
         )->with([
-            'reservedTickets' => fn($query) => $query->whereBetween('reserved_at', [now()->subYear(), now()])->limit(5)
+            'reservedTickets' => fn($query) => $query->with('event')
+                ->whereBetween('reserved_at', [now()->subWeek(), now()])
+                ->limit(5)
         ])->get();
-
-        // SendEmail::dispatch(new ReservationConfirmed(Ticket::first()), User::find(2));
 
         return view("index", [
             'users' => User::role("user")->count(),
             'events' => Event::upcoming()->count(),
             'massTickets' => __(':number of :from left', ['number' => $num->format($tickets->mass()), 'from' => $num->format(Mass::maxReservations())]),
-            'kiahkTickets' => __(':number of :from left', ['number' => $num->format($tickets->kiahk()), 'from' => $num->format(Kiahk::maxReservations())]),
+            //'kiahkTickets' => __(':number of :from left', ['number' => $num->format($tickets->kiahk()), 'from' => $num->format(Kiahk::maxReservations())]),
             'agents' => $agents,
         ]);
     }

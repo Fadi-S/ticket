@@ -19,7 +19,7 @@ class Localization
     public function handle(Request $request, Closure $next)
     {
         $locales = $this->locales();
-        $user = $request->user();
+        $user = auth()->user();
         $cookieLocale = isset($_COOKIE['locale']) ? $_COOKIE['locale'] : null;
 
         if($user && $cookieLocale && $this->isValidLocale($cookieLocale) && $user->locale !== $cookieLocale) {

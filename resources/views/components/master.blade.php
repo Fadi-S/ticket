@@ -19,6 +19,8 @@
       x-data="{ dark: '{{ $isDark }}' }"
       @dark.window="dark = $event.detail.enable">
 
+<x-notification />
+
 <div class="dark:text-white no-scrollbar">
     <div x-data="{ sidebarOpen: true, intentional: false }"
          x-init="sidebarOpen = document.body.clientWidth > 1024;

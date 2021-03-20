@@ -24,17 +24,7 @@ class Ticket
         if(is_null(Mass::maxReservations()))
             return -1;
 
-        $left = Mass::maxReservations() -
-            $this->user
-                ->reservations()
-                ->where('is_exception', false)
-                ->whereHas('ticket', fn ($query) =>
-                $query->whereHas('event', fn($query) =>
-
-                $query->where('type_id', 1)
-                    ->whereBetween('start', [$start, $start->copy()->addMonth()])
-
-                ))->count();
+        $left = $this->calculateReservationsLeft(1, Mass::maxReservations(), $start);
 
         return $left >= 0 ? $left : 0;
     }
@@ -43,29 +33,23 @@ class Ticket
     {
         $startOfKiahk = $this->currentKiahkStartDate($date);
 
-        $left = Kiahk::maxReservations() -
-            $this->user
-                ->reservations()
-                ->where('is_exception', false)
-                ->whereHas('ticket', fn ($query) =>
-                    $query->whereHas('event', fn($query) =>
+        if(is_null(Kiahk::maxReservations()))
+            return -1;
 
-                        $query->where('type_id', 2)
-                            ->whereBetween('start', [$startOfKiahk, $startOfKiahk->copy()->addDays(10)])
-
-                    ))->count();
+        $left = $this->calculateReservationsLeft(2, Kiahk::maxReservations(), $startOfKiahk, 10);
 
         return $left >= 0 ? $left : 0;
     }
 
     public function currentKiahkStartDate(Carbon $date=null)
     {
-        if(now()->month == 1)
-            $startOfKiahk = Carbon::create( now()->year - 1, 12, now()->isLeapYear() ? 11 : 10);
-        else
-            $startOfKiahk = Carbon::create( now()->year, 12, now()->addYear()->isLeapYear() ? 11 : 10);
-
         $current = $date ?? now();
+
+        $startOfKiahk = Carbon::create(
+            $current->year +  (($current->month == 1) ?  -1 : 0),
+            12,
+            $current->addYears($current->month == 1 ? 0 : 1)->isLeapYear() ? 11 : 10
+        );
 
         $diffDays = abs($startOfKiahk->diffInDays($current));
 
@@ -85,17 +69,7 @@ class Ticket
         if(is_null(Vesper::maxReservations()))
             return -1;
 
-        $left = Vesper::maxReservations() -
-            $this->user
-                ->reservations()
-                ->where('is_exception', false)
-                ->whereHas('ticket', fn ($query) =>
-                $query->whereHas('event', fn($query) =>
-
-                $query->where('type_id', 4)
-                    ->whereBetween('start', [$start, $start->copy()->addMonth()])
-
-                ))->count();
+        $left = $this->calculateReservationsLeft(4, Vesper::maxReservations(), $start);
 
         return $left >= 0 ? $left : 0;
     }
@@ -107,18 +81,25 @@ class Ticket
         if(is_null(Baskha::maxReservations()))
             return -1;
 
-        $left = Baskha::maxReservations() -
+        $left = $this->calculateReservationsLeft(3, Baskha::maxReservations(), $start);
+
+        return $left >= 0 ? $left : 0;
+    }
+
+    private function calculateReservationsLeft($typeId, $maxReservations, $date, $period=null) : int
+    {
+        $endDate = $period ? $date->copy()->addDays($period) : $date->copy()->addMonth();
+
+        return $maxReservations -
             $this->user
                 ->reservations()
                 ->where('is_exception', false)
                 ->whereHas('ticket', fn ($query) =>
                 $query->whereHas('event', fn($query) =>
 
-                $query->where('type_id', 3)
-                    ->whereBetween('start', [$start, $start->copy()->addMonth()])
+                $query->where('type_id', $typeId)
+                    ->whereBetween('start', [$date, $endDate])
 
                 ))->count();
-
-        return $left >= 0 ? $left : 0;
     }
 }

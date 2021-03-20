@@ -113,5 +113,16 @@
   "No reservations in the last week": "لا حجوزات في الأسبوع السابق",
   "View All Reservations by this agent": "اعرض كل الحجوزات",
   "This account made no reservations": "لا حجوزات",
-  "Table of reservations": "جدول الحجوزات"
+  "Table of reservations": "جدول الحجوزات",
+  "Add Friend": "أضف صديق",
+  "Your friends can book a ticket for you and you can for them.": "سيتمكن أصدقاؤك من الحجز لك و أنت ستتمكن من الحجز لهم.",
+  "By email, username or phone": "يمكن البحث باستخدام الإيميل أو أسم الستخدم أو رقم التليفون",
+  "User not found": "هذا المستخدم غير موجود",
+  "Friend Request Sent": "تم ارسال طلب الصداقة",
+  "Friends Requests": "طلبات الصداقة",
+  "Confirm": "قبول",
+  "Friend added": "تم قبول طلب الصداقة",
+  "You have no friends yet.": "ليس لديك أصدقاء بعد.",
+  "You are already friends!": "أنتم أصدقاء",
+  "You can't add yourself": "لا يمكنك إضافة نفسك!"
 }

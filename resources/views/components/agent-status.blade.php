@@ -22,7 +22,7 @@
             <tr>
                 <x-table.td>{{ $ticket->reserved_at->format('l, d M Y h:i a') }}</x-table.td>
                 <x-table.td>{{ $num->format($ticket->reservations_count) }}</x-table.td>
-                <x-table.td>{{ $ticket->event->type->arabic_name }} {{ $ticket->event->eventOrderInDay() }} | {{ $ticket->event->start->format('l d/m') }}</x-table.td>
+                <x-table.td>{{ $ticket->event->type->arabic_name }} | {{ $ticket->event->start->format('l - d/m - ha') }}</x-table.td>
             </tr>
 
         @empty

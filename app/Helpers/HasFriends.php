@@ -16,10 +16,15 @@ trait HasFriends {
         ]);
 
         $user->friendships()->save($friendship);
-        $this->friendships()->save($friendship);
+        $this->friendships()->attach($friendship);
 
         if($forceConfirm)
             $this->confirmFriend($user);
+    }
+
+    public function forceAddFriend($user)
+    {
+        $this->addFriend($user, true);
     }
 
     public function confirmFriend($user)
@@ -48,9 +53,9 @@ trait HasFriends {
         return $this->belongsToMany(Friendship::class, 'friendship_user', 'user_id', 'friendship_id');
     }
 
-    public function isFriendsWith($user) : bool
+    public function isFriendsWith($user, $withUnconfirmed=true) : bool
     {
-        return $this->friends(true)
+        return $this->friends($withUnconfirmed)
             ->where('users.id', $user->id)
             ->exists();
     }

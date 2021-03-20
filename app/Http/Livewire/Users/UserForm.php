@@ -86,7 +86,7 @@ class UserForm extends Component
         $this->user->syncRoles([(auth()->user()->isAdmin()) ? $this->role_id : 1]);
 
         if (auth()->user()->isUser() && !$this->user->isSignedIn())
-            auth()->user()->addFriend($this->user, true);
+            auth()->user()->forceAddFriend($this->user);
 
         $this->emit('user-created', $this->user->username);
 
