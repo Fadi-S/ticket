@@ -4,8 +4,6 @@
     </x-slot>
 
     <div class="m-4 grid items-start grid-cols-4 gap-4">
-
-
         <x-data-card :href="url('/reserve')" color="bg-red-400"
                      class="cursor-pointer transform transition duration-150 hover:scale-95 focus:scale-95">
             <x-slot name="svg">
@@ -15,6 +13,20 @@
             <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">{{ __('Make Reservation') }}</h4>
             <div class="text-gray-500"></div>
         </x-data-card>
+
+        @can('tickets.view')
+            @if($currentEvent)
+                <x-data-card :href="url('/tickets?event=' . $currentEvent->id)" color="bg-green-400"
+                             class="cursor-pointer transform transition duration-150
+                              hover:scale-95 focus:scale-95">
+                    <x-slot name="svg">
+                        <x-svg.clock />
+                    </x-slot>
+
+                    <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">{{ __('Current Event') }}</h4>
+                 </x-data-card>
+            @endif
+        @endcan
 
         <x-data-card :href="url('/tickets?type=1')" color="bg-indigo-400"
                      class="cursor-pointer transform transition duration-150 hover:scale-95 focus:scale-95">
@@ -36,7 +48,7 @@
             <div class="text-gray-500 dark:text-gray-300">{{ __('Your ID Number') }}</div>
         </x-data-card>
 
-        @if(auth()->user()->isAdmin())
+        @if($user->isAdmin())
             <x-data-card color="bg-blue-400">
                 <x-slot name="svg">
                     <x-svg.users class="text-white" />

@@ -26,7 +26,7 @@
 
                 @foreach($masses as $mass)
                     <tr @load.window="events[{{$mass->id}}] = { reservedPlaces: {{ $mass->reservedPlaces() }}, numberOfPlaces: {{ $mass->number_of_places }} };"
-                        class="{{ now()->between($mass->start, $mass->end) ? 'bg-green-200' : '' }}">
+                        class="{{ now()->between($mass->start, $mass->end) ? 'bg-green-200 dark:bg-green-500' : '' }}">
                         <x-table.td>
                             <a class="text-blue-500 hover:text-blue-600 underline font-semibold"
                                href="{{ url("/tickets/?event=$mass->id") }}">{{ $mass->formatted_date }}</a>

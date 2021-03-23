@@ -76,15 +76,22 @@
                                                 {{ $user->id }}
                                             </span>
 
-                                            <span class="{{ $selected ? 'font-bold text-white' : 'font-normal group-hover:text-white dark:text-gray-200' }} mx-2 truncate">
+                                            <span class="hidden md:block
+                                                        {{ $selected ? 'font-bold text-white' : 'font-normal group-hover:text-white dark:text-gray-200' }} mx-2 truncate">
                                               {{ $user->name }}
                                             </span>
 
-                                            <span class="{{ $selected ? 'font-bold text-white' : 'font-normal group-hover:text-white dark:text-gray-200' }} mx-2 truncate">
+                                            <span class="hidden md:block
+                                                    {{ $selected ? 'font-bold text-white' : 'font-normal group-hover:text-white dark:text-gray-200' }} mx-2 truncate">
                                               {{ $user->arabic_name }}
                                             </span>
 
-                                            <span class="mx-2 truncate hidden md:block
+                                            <span class="mx-2 truncate md:hidden block
+                                            {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500 dark:text-gray-200' }}">
+                                                {{ $user->locale_name }}
+                                            </span>
+
+                                            <span dir="ltr" class="mx-2 truncate hidden md:block
                                             {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500 dark:text-gray-200' }}">
                                                 {{ '@' . $user->username }}
                                             </span>
@@ -145,7 +152,7 @@
                                 <x-table.th>{{ __("Name") }}</x-table.th>
                                 <x-table.th>{{ __("Arabic Name") }}</x-table.th>
                                 <x-table.th class="hidden md:table-cell">{{ __("Username") }}</x-table.th>
-                                <x-table.th>{{ __("National ID") }}</x-table.th>
+{{--                                <x-table.th>{{ __("National ID") }}</x-table.th>--}}
                                 <x-table.th class="hidden md:table-cell">{{ __("Email") }}</x-table.th>
                                 <x-table.th>{{ __("Phone") }}</x-table.th>
                                 <x-table.empty-th>Remove User</x-table.empty-th>
@@ -157,8 +164,8 @@
                                     <x-table.td>{{ $user['id'] }}</x-table.td>
                                     <x-table.td>{{ $user['name'] }}</x-table.td>
                                     <x-table.td>{{ $user['arabic_name'] }}</x-table.td>
-                                    <x-table.td class="hidden md:table-cell">{{ '@' . $user['username'] }}</x-table.td>
-                                    <x-table.td>{{ $user['national_id'] ?? '-' }}</x-table.td>
+                                    <x-table.td dir="ltr" class="rtl:text-right hidden md:table-cell">{{ '@' . $user['username'] }}</x-table.td>
+{{--                                    <x-table.td>{{ $user['national_id'] ?? '-' }}</x-table.td>--}}
                                     <x-table.td class="hidden md:table-cell">{{ $user['email'] ?? '-' }}</x-table.td>
                                     <x-table.td dir="ltr">{{ $user['phone'] ?? '' }}</x-table.td>
                                     <x-table.td>
