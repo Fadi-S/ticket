@@ -125,5 +125,7 @@
   "You have no friends yet.": "ليس لديك أصدقاء بعد.",
   "You are already friends!": "أنتم أصدقاء",
   "You can't add yourself": "لا يمكنك إضافة نفسك!",
-  "Current Event": "المناسبة الحالية"
+  "Current Event": "المناسبة الحالية",
+  "You must choose users": "يجب إختيار مستخدمين",
+  "You must choose an event": "يجب إختيار مناسبة"
 }

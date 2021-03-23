@@ -24,6 +24,15 @@ class MakeReservation extends Component
         'user-created' => 'userCreated'
     ];
 
+    protected function getMessages()
+    {
+        return [
+            'users.required' =>  __('You must choose users'),
+            'users.filled' =>  __('You must choose users'),
+            'event.exists' =>  __('You must choose an event'),
+        ];
+    }
+
     public function mount()
     {
         $this->users = collect();
