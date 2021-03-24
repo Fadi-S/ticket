@@ -5,6 +5,7 @@ use App\Http\Controllers\TicketsController;
 use App\Http\Livewire\Friends;
 use App\Http\Livewire\MakeReservation;
 use App\Http\Livewire\ResetPasswordByPhone;
+use App\Http\Livewire\Users\UsersTable;
 use App\Http\Controllers\Admin\{AuthController, DashboardController, KiahkController, MassesController, ReservationsController, UsersController, VespersController};
 use Intervention\Image\ImageManagerStatic as Image;
 use App\Http\Livewire\Users\UserForm;
@@ -40,7 +41,9 @@ Route::middleware("auth")->group(function() {
     Route::get('users/{user}/edit', UserForm::class);
 
     Route::resource("users", UsersController::class)
-        ->except('create', 'edit');
+        ->except('create', 'edit', 'index');
+
+    Route::get('/users', UsersTable::class);
 
     Route::resource("masses", MassesController::class);
     Route::resource("kiahk", KiahkController::class);

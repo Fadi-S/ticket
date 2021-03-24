@@ -30,12 +30,10 @@ class ReservationsController extends Controller
         if(! $request->user())
             return [];
 
-        $start = Carbon::parse($request->start);
+        $start = now();
         $end =  Carbon::parse($request->end);
 
-        $events = Event::whereBetween('start', [$start, $end])
-            ->where('start', '>', now())
-            ->get();
+        $events = Event::whereBetween('start', [$start, $end])->get();
 
         // $events = $events->filter(fn($event) => $event->reservations_left > 0)->values();
 

@@ -28,7 +28,7 @@ class User extends Authenticatable implements HasLocalePreference
     protected $casts = ['email_verified_at' => 'datetime', 'gender' => 'boolean'];
     protected $fillable = ['name', 'arabic_name', 'email', 'password', 'username', 'picture', 'gender', 'phone', 'national_id'];
 
-    protected $with = ['roles'];
+    protected $with = ['roles.permissions'];
 
     public function __construct(array $attributes = [])
     {

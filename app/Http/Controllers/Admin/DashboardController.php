@@ -3,13 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\SendEmail;
 use App\Models\Event;
-use App\Models\Kiahk;
 use App\Models\Mass;
-use App\Models\Ticket;
 use App\Models\User\User;
-use App\Notifications\ReservationConfirmed;
 use Spatie\Activitylog\Models\Activity;
 
 class DashboardController extends Controller

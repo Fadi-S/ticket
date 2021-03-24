@@ -101,10 +101,10 @@
                                                 {{ $user->phone }}
                                             </span>
 
-                                            <span class="mx-2 truncate hidden md:block
-                                             {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500 dark:text-gray-200' }}">
-                                                {{ $user->national_id }}
-                                            </span>
+{{--                                            <span class="mx-2 truncate hidden md:block--}}
+{{--                                             {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500 dark:text-gray-200' }}">--}}
+{{--                                                {{ $user->national_id }}--}}
+{{--                                            </span>--}}
                                         </div>
 
                                         @if($selected)
@@ -167,7 +167,7 @@
                                     <x-table.td dir="ltr" class="rtl:text-right hidden md:table-cell">{{ '@' . $user['username'] }}</x-table.td>
 {{--                                    <x-table.td>{{ $user['national_id'] ?? '-' }}</x-table.td>--}}
                                     <x-table.td class="hidden md:table-cell">{{ $user['email'] ?? '-' }}</x-table.td>
-                                    <x-table.td dir="ltr">{{ $user['phone'] ?? '' }}</x-table.td>
+                                    <x-table.td dir="ltr" class="rtl:text-right">{{ $user['phone'] ?? '' }}</x-table.td>
                                     <x-table.td>
                                         <x-button type="button" color="rounded-full bg-red-500 hover:bg-red-600"
                                                   wire:click="removeUser('{{ $user['id'] }}')">

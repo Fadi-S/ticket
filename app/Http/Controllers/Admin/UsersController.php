@@ -21,7 +21,9 @@ class UsersController extends Controller
     {
         $this->authorize('view', $user);
 
-        return view("users.show", compact('user'));
+        $tickets = $user->reservedTickets()->with('event')->paginate(15);
+
+        return view("users.show", compact('user', 'tickets'));
     }
 
     public function destroy(User $user)

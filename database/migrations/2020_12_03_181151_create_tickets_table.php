@@ -16,8 +16,8 @@ class CreateTicketsTable extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(App\Models\Event::class);
-            $table->foreignIdFor(User::class, 'reserved_by');
+            $table->foreignIdFor(App\Models\Event::class)->index();
+            $table->foreignIdFor(User::class, 'reserved_by')->index();
             $table->timestamp('reserved_at')->nullable();
             $table->string("secret");
             $table->timestamps();

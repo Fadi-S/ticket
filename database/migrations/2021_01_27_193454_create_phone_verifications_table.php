@@ -15,7 +15,7 @@ class CreatePhoneVerificationsTable extends Migration
     {
         Schema::create('phone_verifications', function (Blueprint $table) {
             $table->id();
-            $table->string('phone');
+            $table->string('phone')->unique();
             $table->text('reCaptcha');
             $table->timestamps();
         });

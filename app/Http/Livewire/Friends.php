@@ -4,9 +4,12 @@ namespace App\Http\Livewire;
 
 use App\Models\User\User;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Friends extends Component
 {
+    use WithPagination;
+
     public bool $showModal = false;
 
     public $search = '';

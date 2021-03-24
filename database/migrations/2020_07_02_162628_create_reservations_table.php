@@ -18,8 +18,8 @@ class CreateReservationsTable extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
-            $table->foreignIdFor(Ticket::class);
+            $table->foreignIdFor(User::class)->index();
+            $table->foreignIdFor(Ticket::class)->index();
             $table->timestamp('registered_at')->nullable();
             $table->boolean('is_exception')->default(false);
             $table->softDeletes();
