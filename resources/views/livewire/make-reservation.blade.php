@@ -8,6 +8,9 @@
             <div class="space-y-6">
 
                 <div x-data="{ searching: false }"
+                     data-step="4"
+                     data-title="{{ __('Search users you want to add to the reservation') }}"
+                     data-intro="{{ __('You can search by phone number, email, name or id by putting this sign ~+id ex: ~2') }}"
                      @click.away="searching=false"
                      @keydown.escape="searching=false; document.querySelector('#user-search').blur()"
                      class="max-w-2xl mx-auto">
@@ -17,7 +20,7 @@
                     <div class="mt-1 relative">
                         <div>
                             <input type="text" @focus="searching=true"
-                                   wire:model="search"
+                                   wire:model.debouce.300ms="search"
                                    dir="auto" autocomplete="off"
                                    @input="searching = ($event.target.value !== '')"
                                    name="user-search" id="user-search"
@@ -30,12 +33,7 @@
                                    focus:outline-none block w-full sm:text-sm rounded-md"
                                    placeholder="{{ __("Search") }}">
                             <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                <svg class="w-6 h-6 text-gray-400" fill="currentColor"
-                                     viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                          d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                          clip-rule="evenodd"></path>
-                                </svg>
+                                <x-svg.search />
                             </div>
                         </div>
 
@@ -71,9 +69,9 @@
                                         text-gray-900">
                                         <div class="flex">
 
-                                            <span class="mx-2 truncate
+                                            <span dir="ltr" class="mx-2 truncate
                                                 {{ $selected ? 'font-bold text-indigo-200' : 'font-normal group-hover:text-indigo-200 text-gray-500 dark:text-gray-200' }}">
-                                                {{ $user->id }}
+                                                ~{{ $user->id }}
                                             </span>
 
                                             <span class="hidden md:block
@@ -87,7 +85,7 @@
                                             </span>
 
                                             <span class="mx-2 truncate md:hidden block
-                                            {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500 dark:text-gray-200' }}">
+                                            {{ $selected ? 'font-bold text-white' : 'font-normal group-hover:text-white dark:text-gray-200' }}">
                                                 {{ $user->locale_name }}
                                             </span>
 
@@ -145,15 +143,17 @@
                 </div>
 
                 @if($users->isNotEmpty())
-                    <x-table.table wire:loading.class="opacity-50" wire:target="toggleUser, removeUser">
+                    <x-table.table data-step="5"
+                                   data-intro="{{ __('These are the users that you chose to reserve for them') }}"
+                            wire:loading.class="opacity-50" wire:target="toggleUser, removeUser">
                         <x-slot name="head">
                             <tr>
                                 <x-table.th>{{ __("ID") }}</x-table.th>
                                 <x-table.th>{{ __("Name") }}</x-table.th>
                                 <x-table.th>{{ __("Arabic Name") }}</x-table.th>
-                                <x-table.th class="hidden md:table-cell">{{ __("Username") }}</x-table.th>
+                                <x-table.th class="hidden lg:table-cell">{{ __("Username") }}</x-table.th>
 {{--                                <x-table.th>{{ __("National ID") }}</x-table.th>--}}
-                                <x-table.th class="hidden md:table-cell">{{ __("Email") }}</x-table.th>
+                                <x-table.th class="hidden lg:table-cell">{{ __("Email") }}</x-table.th>
                                 <x-table.th>{{ __("Phone") }}</x-table.th>
                                 <x-table.empty-th>Remove User</x-table.empty-th>
                             </tr>
@@ -161,15 +161,18 @@
                         <x-slot name="body">
                             @foreach($users as $user)
                                 <tr id="user-selected-{{ $user['id'] }}">
-                                    <x-table.td>{{ $user['id'] }}</x-table.td>
+                                    <x-table.td dir="ltr" class="rtl:text-right">~{{ $user['id'] }}</x-table.td>
                                     <x-table.td>{{ $user['name'] }}</x-table.td>
                                     <x-table.td>{{ $user['arabic_name'] }}</x-table.td>
-                                    <x-table.td dir="ltr" class="rtl:text-right hidden md:table-cell">{{ '@' . $user['username'] }}</x-table.td>
+                                    <x-table.td dir="ltr" class="rtl:text-right hidden lg:table-cell">{{ '@' . $user['username'] }}</x-table.td>
 {{--                                    <x-table.td>{{ $user['national_id'] ?? '-' }}</x-table.td>--}}
-                                    <x-table.td class="hidden md:table-cell">{{ $user['email'] ?? '-' }}</x-table.td>
+                                    <x-table.td class="hidden lg:table-cell">{{ $user['email'] ?? '-' }}</x-table.td>
                                     <x-table.td dir="ltr" class="rtl:text-right">{{ $user['phone'] ?? '' }}</x-table.td>
                                     <x-table.td>
-                                        <x-button type="button" color="rounded-full bg-red-500 hover:bg-red-600"
+                                        <x-button
+                                                data-step="6"
+                                                  data-intro="{{ __('To remove a user form this reservation you can click this button') }}"
+                                                type="button" color="rounded-full bg-red-500 hover:bg-red-600"
                                                   wire:click="removeUser('{{ $user['id'] }}')">
                                             <x-slot name="svg">
                                                 <x-svg.x/>
@@ -182,9 +185,15 @@
                     </x-table.table>
                 @endif
 
-                <div wire:ignore id='calendar' class="z-0"></div>
+                <div wire:ignore id='calendar' class="z-0"
+                     data-step="7"
+                     data-intro="{{ __('These are the list of events you can book a ticket in, you have to chose one of them by clicking on it') }}"
+                ></div>
 
-                <x-button type="submit" class="mx-auto mt-2">
+                <x-button type="submit" class="mx-auto mt-2"
+                          data-step="8"
+                          data-intro="{{ __('Then click on this button to save the reservation') }}"
+                >
                     <x-slot name="svg">
                         <x-svg.edit wire:loading.remove wire:target="save"/>
 

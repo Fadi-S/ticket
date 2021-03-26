@@ -25,12 +25,12 @@ window.addEventListener('dark', (event) => {
     setCookie('dark', darkMode, 365 * 10);
 });
 
-function setCookie(cname, value, expiryInDays) {
+window.setCookie = (cname, value, expiryInDays) => {
     let d = new Date();
     d.setTime(d.getTime() + (expiryInDays*24*60*60*1000));
     let expires = "expires="+ d.toUTCString();
     document.cookie = cname + "=" + value + ";" + expires + ";path=/";
-}
+};
 
 if ('serviceWorker' in navigator) {
 
@@ -48,7 +48,7 @@ if ('serviceWorker' in navigator) {
 
 }
 
-/*function getCookie(cname) {
+window.getCookie = cname => {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
     let ca = decodedCookie.split(';');
@@ -62,4 +62,6 @@ if ('serviceWorker' in navigator) {
         }
     }
     return "";
-}*/
+};
+
+require('./intro.js');

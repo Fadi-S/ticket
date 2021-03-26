@@ -1,9 +1,11 @@
 <div x-data="{ message: '', level: '', important: false, show: false }"
-     @message.window="message=$event.detail.message;
-     level=$event.detail.level;
-     important=$event.detail.important;
+     @message.window="
+     if($event.detail != null) {
      show=true;
-     setTimeout(function() { if(!important)show=false; }, 5000);">
+     message=$event.detail?.message;
+     level=$event.detail?.level;
+     important=$event.detail?.important;
+     setTimeout(function() { if(!important)show=false; }, 5000);}">
 
     <div x-show="show" style="display: none;"
          x-transition:enter="transform ease-out duration-300 transition"

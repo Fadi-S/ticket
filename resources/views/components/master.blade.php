@@ -10,6 +10,7 @@
     <title>{{ $title ?? 'Ticket' }}</title>
 
     <script src="{{ url("js/turbo.js") }}"></script>
+
     @livewireStyles
 
     @stack('header')
@@ -181,6 +182,10 @@
 
                 <x-navbar.divider/>
 
+                <x-language-dropdown />
+
+                <x-navbar.divider/>
+
                 <form action="{{ url('/logout') }}" method="POST">
                     @csrf
 
@@ -211,7 +216,12 @@
 
                 <div class="flex items-center">
 
-                    <x-language-dropdown />
+                    <x-button x-data="{}" color="bg-transparent text-gray-800 dark:text-gray-100"
+                              @click="startIntro()" title="{{ __('Help') }}">
+                        <x-slot name="svg">
+                            <x-svg.help />
+                        </x-slot>
+                    </x-button>
 
                     <div class="mx-2">
                         <x-form.night-switch />
@@ -273,6 +283,7 @@
              dark:text-gray-200 text-sm py-4 px-2 hidden md:flex">
                 <span class="mx-auto">
                     Copyright © <a class="text-blue-500 dark:text-blue-300 text-underline" href="https://fadisarwat.dev">Fadi Sarwat</a>, StGeorge Sporting 2021</span>
+
             </footer>
         </div>
     </div>

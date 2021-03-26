@@ -24,11 +24,13 @@
                 {{ __('Friends') }}
         </span>
 
-        <x-table.table>
+        <x-table.table data-step="9"
+                       data-intro="{{ __('These are your confirmed friends') }}">
             <x-slot name="head">
                 <tr>
-                    <x-table.th>Name</x-table.th>
-                    <x-table.th>Handle</x-table.th>
+                    <x-table.th>{{ __('ID') }}</x-table.th>
+                    <x-table.th>{{ __('Name') }}</x-table.th>
+                    <x-table.th>{{ __('Handle') }}</x-table.th>
                 </tr>
             </x-slot>
 
@@ -36,6 +38,9 @@
 
                 @forelse($friends as $user)
                     <tr>
+                        <x-table.td>
+                            <span dir="ltr" class="rtl:text-right text-gray-800 dark:text-gray-200 text-md font-semibold">~{{ $user->id }}</span>
+                        </x-table.td>
                         <x-table.td>
                             <div class="flex items-center">
                                 <div class="flex-shrink-0 h-10 w-10">
@@ -82,8 +87,9 @@
             <x-table.table>
                 <x-slot name="head">
                     <tr>
-                        <x-table.th>Name</x-table.th>
-                        <x-table.th>Handle</x-table.th>
+                        <x-table.th>{{ __('ID') }}</x-table.th>
+                        <x-table.th>{{ __('Name') }}</x-table.th>
+                        <x-table.th>{{ __('Handle') }}</x-table.th>
                         <x-table.empty-th>{{ __('Confirm') }}</x-table.empty-th>
                     </tr>
                 </x-slot>
@@ -92,6 +98,10 @@
 
                     @foreach($requests as $friendship)
                         <tr>
+                            <x-table.td>
+                                <span class="text-gray-800 dark:text-gray-200 text-md font-semibold">{{ $user->id }}</span>
+                            </x-table.td>
+
                             <x-table.td>
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 h-10 w-10">

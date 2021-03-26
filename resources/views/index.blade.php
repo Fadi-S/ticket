@@ -5,6 +5,8 @@
 
     <div class="m-4 grid items-start grid-cols-4 gap-4">
         <x-data-card :href="url('/reserve')" color="bg-red-400"
+                     data-step="3"
+                     data-intro="{{ __('You can click here to reserve') }}"
                      class="cursor-pointer transform transition duration-150 hover:scale-95 focus:scale-95">
             <x-slot name="svg">
                 <x-svg.bookmark />
@@ -28,8 +30,8 @@
             @endif
         @endcan
 
-        <x-data-card :href="url('/tickets?type=1')" color="bg-indigo-400"
-                     class="cursor-pointer transform transition duration-150 hover:scale-95 focus:scale-95">
+        <x-data-card color="bg-indigo-400"
+                     data-step="2" data-intro="{{ __('Here is the number of masses left in this month') }}">
             <x-slot name="svg">
                 <x-svg.ticket />
             </x-slot>
@@ -39,7 +41,9 @@
         </x-data-card>
 
 
-        <x-data-card color="bg-yellow-400">
+        <x-data-card color="bg-yellow-400"
+                     data-step="1"
+                     data-intro="{{ __('This is your ID Number which you can use to reserve by phone') }}">
             <x-slot name="svg">
                 <x-svg.id />
             </x-slot>

@@ -4,11 +4,16 @@
 namespace App\Models\User;
 
 
+use App\Helpers\NormalizePhoneNumber;
+
 trait UserAttributes
 {
 
     public function scopeSearch($query, $search, $strict=false)
     {
+        if(!$search)
+            return $query;
+
         if(str_starts_with($search, '~')) {
             return $query->where("id", ltrim($search, '~'));
         }
@@ -17,15 +22,17 @@ trait UserAttributes
             return $query->where("username", 'LIKE', '%' . ltrim($search, '@') . '%');
         }
 
+        $origSearch = $search;
         if(!$strict) {
-            $search = "%$search%";
+            $search = "$search%";
         }
 
         return $query->where("name", 'like', $search)
             ->orWhere('username', 'like', $search)
             ->orWhere('arabic_name', 'like', $search)
-            ->orWhere("phone", "like", $search)
-            ->orWhere("national_id", "like", $search)
+            ->orWhere("phone", "like", NormalizePhoneNumber::create($origSearch, false)
+                ->handle() . '%')
+            //->orWhere("national_id", "like", $search)
             ->orWhere("email", "like", $search);
     }
 
@@ -52,24 +59,17 @@ trait UserAttributes
 
     public function setPhoneAttribute($phone)
     {
-        if(!$phone || $phone == '') {
-            $this->attributes['phone'] = null;
-            return;
-        }
-
-        preg_match('/(?P<number>(01)[0-9]{9})/', $phone, $matches);
-        if(isset($matches['number'])) {
-            $phone = '+2' . $matches['number'];
-
-            $this->attributes['phone'] = $phone;
-        }else {
-            $this->attributes['phone'] = $phone;
-        }
+        $this->attributes['phone'] = NormalizePhoneNumber::create($phone)->handle();
     }
 
     public function setNameAttribute($name)
     {
         $this->attributes['name'] = ucwords(strtolower($name));
+    }
+
+    public function setEmailAttribute($email)
+    {
+        $this->attributes['email'] = strtolower($email);
     }
 
     public function getLocaleNameAttribute()
@@ -87,7 +87,7 @@ trait UserAttributes
 
     public function getPictureAttribute($picture)
     {
-        if(is_null($picture) || $picture == '' || !\Storage::exists("public/photos/$picture"))
+        if(!$picture || !\Storage::exists("public/photos/$picture"))
             return url("images/defaultPicture.png");
 
         return url(\Storage::url("public/photos/$picture"));

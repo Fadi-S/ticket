@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Helpers\GoogleAPI;
+use App\Helpers\NormalizePhoneNumber;
 use App\Models\User\User;
 use Livewire\Component;
 
@@ -42,10 +43,7 @@ class ResetPasswordByPhone extends Component
             'phone' => 'required'
         ]);
 
-        preg_match('/(?P<number>(01)[0-9]{9})/', $this->phone, $matches);
-
-        if(isset($matches['number']))
-            $this->phone = '+2' . $matches['number'];
+        $this->phone = NormalizePhoneNumber::create($this->phone)->handle();
 
         $this->validate([
             'phone' => [

@@ -11,6 +11,7 @@
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.2.1",
+        "@tailwindcss/jit": "^0.1.8",
         "autoprefixer": "^10.2.3",
         "axios": "^0.21",
         "cross-env": "^7.0",
@@ -41,6 +42,7 @@
         "firebase": "^8.2.4",
         "fontawesome": "^5.6.3",
         "fullcalendar": "^5.5.1",
+        "intro.js": "^3.4.0",
         "jquery-color": "^2.2.0",
         "jspdf": "^2.3.1",
         "laravel-echo": "^1.10.0",

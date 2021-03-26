@@ -4,18 +4,21 @@
         View your tickets
     </x-slot>
 
-    @if(auth()->user()->can('tickets.view') && $event)
+    @if($event && auth()->user()->can('tickets.view'))
         <script src="{{ mix('js/print.js') }}"></script>
 
-        <div x-data="{  }" class="mb-4">
-            <x-button type="button" @click="printTickets($refs.print)">
+        <div x-data class="mb-4" @print.window="printTickets($refs.print)">
+            <x-button type="button" wire:click="export">
                 <x-slot name="svg">
-                    <x-svg.printer />
+                    <x-svg.printer wire:loading.remove wire:target="export" />
+                    <x-svg.spinner wire:loading wire:target="export" />
                 </x-slot>
 
                 {{ __('Print/Export as PDF') }}
             </x-button>
 
+
+            @if($pdfRendered)
             <div x-ref="print" class="hidden">
                 <table dir="rtl" width="100%">
                     <tr style="color: #4f73ff; font-weight: bold; text-align: center">
@@ -48,7 +51,7 @@
                                     @foreach($list as $user)
                                         <li style="vertical-align: top;
                                          border: #ef8c82 solid thin;
-                                          margin: 5px 0; padding: 2px 0;">{{ $user->smart_name }}</li>
+                                          margin: 5px 0; padding: 2px 0;">{{ $user['arabic_name'] }}</li>
                                     @endforeach
                                 </ul>
                             </td>
@@ -57,12 +60,16 @@
 
                 </table>
             </div>
+            @endif
+
         </div>
     @endif
 
-    <div class="mb-4 w-full xl:w-1/3 lg:w-1/2 mx-auto">
-        <x-form.input autocomplete="off" wire:model="search" name="search" id="search" label="{{ __('Search') }}"/>
-    </div>
+    @if(auth()->user()->can('tickets.view'))
+        <div class="mb-4 w-full xl:w-1/3 lg:w-1/2 mx-auto">
+            <x-form.input autocomplete="off" wire:model="search" name="search" id="search" label="{{ __('Search') }}"/>
+        </div>
+    @endif
 
     <div class="grid grid-cols-12 gap-4">
         <div class="col-span-12">

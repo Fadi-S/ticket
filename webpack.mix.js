@@ -11,6 +11,8 @@ const mix = require('laravel-mix');
  |
  */
 
+mix.disableSuccessNotifications();
+
 mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/turbo.js', 'public/js')
     .js('resources/js/reservation.js', 'public/js')

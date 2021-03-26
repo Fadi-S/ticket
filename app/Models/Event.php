@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
-use Database\Factories\MassFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -21,7 +19,7 @@ class Event extends Model
 
     public function scopeUpcoming($query)
     {
-        return $query->whereDate('end', '>=', now());
+        return $query->where('end', '>=', now());
     }
 
     public function reservedPlaces()
