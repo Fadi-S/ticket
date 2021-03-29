@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-        $isDark = isset($_COOKIE['dark']) && $_COOKIE['dark'] === 'true';
+        $isDark = !isset($_COOKIE['dark']) || $_COOKIE['dark'] === 'true';
         \View::share('isDark', $isDark);
     }
 }

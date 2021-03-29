@@ -14,8 +14,8 @@ trait UserAttributes
         if(!$search)
             return $query;
 
-        if(str_starts_with($search, '~')) {
-            return $query->where("id", ltrim($search, '~'));
+        if(str_starts_with($search, '#')) {
+            return $query->where("id", ltrim($search, '#'));
         }
 
         if(str_starts_with($search, '@')) {
@@ -69,7 +69,7 @@ trait UserAttributes
 
     public function setEmailAttribute($email)
     {
-        $this->attributes['email'] = strtolower($email);
+        $this->attributes['email'] = empty($email) ? null : strtolower($email);
     }
 
     public function getLocaleNameAttribute()

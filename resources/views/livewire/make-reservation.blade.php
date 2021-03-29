@@ -71,7 +71,7 @@
 
                                             <span dir="ltr" class="mx-2 truncate
                                                 {{ $selected ? 'font-bold text-indigo-200' : 'font-normal group-hover:text-indigo-200 text-gray-500 dark:text-gray-200' }}">
-                                                ~{{ $user->id }}
+                                                #{{ $user->id }}
                                             </span>
 
                                             <span class="hidden md:block
@@ -161,7 +161,7 @@
                         <x-slot name="body">
                             @foreach($users as $user)
                                 <tr id="user-selected-{{ $user['id'] }}">
-                                    <x-table.td dir="ltr" class="rtl:text-right">~{{ $user['id'] }}</x-table.td>
+                                    <x-table.td dir="ltr" class="rtl:text-right">#{{ $user['id'] }}</x-table.td>
                                     <x-table.td>{{ $user['name'] }}</x-table.td>
                                     <x-table.td>{{ $user['arabic_name'] }}</x-table.td>
                                     <x-table.td dir="ltr" class="rtl:text-right hidden lg:table-cell">{{ '@' . $user['username'] }}</x-table.td>
@@ -244,7 +244,7 @@
                         <div class="space-x-2 flex flex-row-reverse">
 
                             <x-button class="mx-2" type="button" @click="open = false;"
-                                      color="bg-white dark:bg-gray-300 bg:text-gray-900 text-gray-700 hover:bg-gray-50 border border-gray-400">
+                                      color="bg-white dark:bg-gray-500 dark:hover:bg-gray-700 bg:text-gray-900 text-gray-700 hover:bg-gray-50 border border-gray-400">
                                 {{ __("Cancel") }}
                             </x-button>
                         </div>

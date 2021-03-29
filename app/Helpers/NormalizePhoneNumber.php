@@ -4,10 +4,10 @@ namespace App\Helpers;
 
 class NormalizePhoneNumber {
 
-    private string $phone;
+    private $phone;
     private bool $strict;
 
-    private function __construct(string $phone, bool $strict)
+    private function __construct($phone, bool $strict)
     {
         $this->phone = $phone;
 
@@ -15,11 +15,11 @@ class NormalizePhoneNumber {
     }
 
     /**
-     * @param string $phone Phone Number
+     * @param $phone
      * @param bool $strict set to false if you don't care if the number is complete or not
      * @return static
      */
-    public static function create(string $phone, bool $strict=true) : self
+    public static function create($phone, bool $strict=true) : self
     {
         return new self($phone, $strict);
     }

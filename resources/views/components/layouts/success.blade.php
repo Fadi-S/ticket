@@ -1,4 +1,4 @@
-@props(['class' => null, 'size' => 'w-full sm:w-9/12 md:w-1/2 lg:w-1/4'])
+@props(['class' => null, 'size' => ''])
 
 <div class="bg-white border dark:bg-gray-800 dark:border-gray-500 flex items-center transition-colors duration-500
  justify-center mx-auto p-4 rounded-lg shadow-md space-x-4 {{ $size }} {{ $class }}">

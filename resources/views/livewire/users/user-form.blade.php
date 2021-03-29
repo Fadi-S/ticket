@@ -7,7 +7,7 @@
         <div class="space-y-6">
             <div class="grid lg:grid-cols-2 grid-cols-1 gap-4">
                 <x-form.input wire:model.lazy="user.name" required type="text"
-                              size="w-full" name="name" id="name"
+                              size="w-full" name="name" id="name" dir="ltr"
                               label="{{ __('Name') }} *"  placeholder="{{ __('Name') }}" />
 
                 <x-form.input wire:model.lazy="user.arabic_name"
@@ -23,13 +23,13 @@
                                   label="{{ __('Username') }} *" placeholder="{{ __('Username') }}" />
                 @endif
 
+                <x-form.input wire:model.lazy="user.phone" type="text" dir="ltr"
+                              size="w-full" name="phone" id="phone" required
+                              label="{{ __('Phone') }} *" placeholder="{{ __('Phone') }}" />
+
                 <x-form.input wire:model.lazy="user.email" type="email"
                               size="w-full" name="email" id="email"
                               label="{{ __('Email') }}" placeholder="{{ __('Email') }}" />
-
-                <x-form.input wire:model.lazy="user.phone" type="text" dir="ltr"
-                              size="w-full" name="phone" id="phone" required
-                              label="{{ __('Phone') }}" placeholder="{{ __('Phone') }}" />
 
 {{--                <x-form.input wire:model.lazy="user.national_id" type="text"--}}
 {{--                              size="w-full" name="national_id" id="national_id"--}}

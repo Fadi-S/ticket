@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\NormalizePhoneNumber;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -41,8 +42,7 @@ class LoginController extends Controller
         if(is_numeric($request->input('email'))){
             $field = 'phone';
 
-            preg_match('/(?P<number>(01)[0-9]{9})/', $value, $matches);
-            $value = '+2' . $matches['number'];
+            $value = NormalizePhoneNumber::create($value)->handle();
         }
 
         $credentials = [

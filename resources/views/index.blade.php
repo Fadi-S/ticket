@@ -49,7 +49,7 @@
             </x-slot>
 
             <h4 class="text-2xl font-bold text-gray-700 dark:text-gray-200">{{ $num->format(auth()->user()->id) }}</h4>
-            <div class="text-gray-500 dark:text-gray-300">{{ __('Your ID Number') }}</div>
+            <div class="text-gray-500 dark:text-gray-300">{{ __('Your ID Number') }} #</div>
         </x-data-card>
 
         @if($user->isAdmin())

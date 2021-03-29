@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\NormalizePhoneNumber;
 use App\Helpers\StandardRegex;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
@@ -39,6 +40,8 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $data['phone'] = NormalizePhoneNumber::create($data['phone'])->handle();
+
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:191'],
             'arabic_name' => ['required', 'string', 'max:191'],

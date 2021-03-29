@@ -39,7 +39,7 @@
                 @forelse($friends as $user)
                     <tr>
                         <x-table.td>
-                            <span dir="ltr" class="rtl:text-right text-gray-800 dark:text-gray-200 text-md font-semibold">~{{ $user->id }}</span>
+                            <span dir="ltr" class="rtl:text-right text-gray-800 dark:text-gray-200 text-md font-semibold">#{{ $user->id }}</span>
                         </x-table.td>
                         <x-table.td>
                             <div class="flex items-center">
@@ -99,7 +99,7 @@
                     @foreach($requests as $friendship)
                         <tr>
                             <x-table.td>
-                                <span class="text-gray-800 dark:text-gray-200 text-md font-semibold">{{ $user->id }}</span>
+                                <span dir="ltr" class="rtl:text-right text-gray-800 dark:text-gray-200 text-md font-semibold">#{{ $friendship->sender->id }}</span>
                             </x-table.td>
 
                             <x-table.td>

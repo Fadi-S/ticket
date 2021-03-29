@@ -52,12 +52,13 @@ class UserForm extends Component
     public function updatedUserName($name)
     {
         if ($this->isCreate)
-            $this->tempUsername = User::makeSlug($name, $this->user->id);
+            $this->user->username = $this->tempUsername = User::makeSlug($name, $this->user->id);
     }
 
     public function updatedTempUsername($username)
     {
-        $this->tempUsername = User::replaceInvalidCharacters($username);
+        if (auth()->user()->isAdmin())
+            $this->tempUsername = User::replaceInvalidCharacters($username);
     }
 
     public function updatedGender($gender)
@@ -76,13 +77,17 @@ class UserForm extends Component
 
         $this->user->gender = (bool)$this->gender;
 
-        if (auth()->user()->isAdmin() && $this->password)
-            $this->user->password = $this->password;
+        if(auth()->user()->isAdmin()) {
+            if ($this->password) $this->user->password = $this->password;
 
-        $this->user->username = User::replaceInvalidCharacters($this->tempUsername);
+            $this->user->username = User::replaceInvalidCharacters($this->tempUsername);
+        }
+
+        if(!$this->user->username) {
+            $this->user->username = User::makeSlug($this->user->name, $this->user->id);
+        }
 
         $this->user->save();
-
         $this->user->syncRoles([(auth()->user()->isAdmin()) ? $this->role_id : 1]);
 
         if (auth()->user()->isUser() && !$this->user->isSignedIn())
@@ -104,6 +109,7 @@ class UserForm extends Component
         if ($this->isCreate) {
             $this->user = new User();
             $this->password = '';
+            $this->tempUsername = '';
         }
     }
 

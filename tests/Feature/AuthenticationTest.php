@@ -2,10 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Http\Livewire\Users\UserForm;
+use App\Helpers\NormalizePhoneNumber;
 use App\Models\User\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Livewire\Livewire;
 use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
@@ -34,6 +33,84 @@ class AuthenticationTest extends TestCase
     }
 
     /** @test */
+    function a_user_can_login_using_username()
+    {
+        User::factory()->create([
+            'username' => 'test.user',
+            'password' => '123456',
+        ]);
+
+        $this->post('/login', [
+            'email' => 'test.user',
+            'password' => '123456',
+        ])->assertRedirect('/');
+    }
+
+    /** @test */
+    function a_user_can_login_using_phone()
+    {
+        User::factory()->create([
+            'phone' => '01200000000',
+            'password' => '123456',
+        ]);
+
+        $this->post('/login', [
+            'email' => '01200000000',
+            'password' => '123456',
+        ])->assertRedirect('/');
+        auth()->logout();
+
+        $this->post('/login', [
+            'email' => '201200000000',
+            'password' => '123456',
+        ])->assertRedirect('/');
+        auth()->logout();
+
+        $this->post('/login', [
+            'email' => '+201200000000',
+            'password' => '123456',
+        ])->assertRedirect('/');
+        auth()->logout();
+    }
+
+    /** @test */
+    function phone_must_be_unique_in_registration()
+    {
+        User::factory()->create(['phone' => '01200000000']);
+
+        $this->registerUser(['phone' => '01200000000'])
+            ->assertSessionHasErrors('phone');
+    }
+
+    /** @test */
+    function invalid_phone_number_doesnt_break_code()
+    {
+        User::factory()->create([
+            'phone' => '01200000000',
+            'password' => '123456',
+        ]);
+
+        $this->post('/login', [
+            'email' => '46821684165498156486',
+            'password' => '123456',
+        ])->assertSessionHasErrors();
+    }
+
+    /** @test */
+    function user_cant_login_with_wrong_password()
+    {
+        User::factory()->create([
+            'email' => 'test@alsharobim.com',
+            'password' => '123456',
+        ]);
+
+        $this->post('/login', [
+            'email' => 'test@alsharobim.com',
+            'password' => '1234565',
+        ])->assertSessionHasErrors();
+    }
+
+    /** @test */
     function a_user_can_register()
     {
         $this->registerUser()
@@ -43,23 +120,17 @@ class AuthenticationTest extends TestCase
     }
 
     /** @test */
-    function a_user_can_create_another_user()
+    function email_must_be_unique()
     {
-        $user = User::factory()->create();
-        $user->assignRole('user');
-        $this->actingAs($user);
+        $this->registerUser(['email' => 'test@alsharobim.com'])
+            ->assertRedirect('/');
 
-        Livewire::test(UserForm::class)
-            ->set('user.name', 'John Doe')
-            ->set('user.arabic_name', 'جون دو')
-            ->assertSet('tempUsername', User::makeSlug('John Doe'))
-            ->set('user.email', 'test@example.com')
-            ->set('user.phone', '01200000000')
-            ->set('gender', 1)
-            ->call('save')
-        ->assertSee(__('User Saved Successfully'));
+        auth()->logout();
 
-        $this->assertEquals(3, User::count());
+        $this->registerUser(['email' => 'test@alsharobim.com'])
+            ->assertSessionHasErrors('email');
+
+        $this->assertEquals(2, User::count());
     }
 
     /** @test */
@@ -94,14 +165,16 @@ class AuthenticationTest extends TestCase
      * @dataProvider fields
      * @param $field
      * @param $unique
+     * @param $value
      */
-    function some_fields_must_be_unique($field, $unique)
+    function some_fields_must_be_unique($field, $unique, $value=null)
     {
+        $value = $value ?? 'notUnique@email.com';
         User::factory()->create([
-            $field => 'notUnique@email.com'
+            $field => $value
         ]);
 
-        $response = $this->registerUser([$field => 'notUnique@email.com']);
+        $response = $this->registerUser([$field => $value]);
 
         if($unique == 'unique')
             $response->assertSessionHasErrors($field);
@@ -117,7 +190,7 @@ class AuthenticationTest extends TestCase
             'name' => 'John Doe',
             'arabic_name' => 'جون دو',
             'email' => 'test@example.com',
-            'national_id' => '30204250201612',
+            //'national_id' => '30204250201612',
             'password' => '123456',
             'gender' => 1,
             'password_confirmation' => '123456',
@@ -128,8 +201,7 @@ class AuthenticationTest extends TestCase
     public function fields()
     {
         return [
-            ['email', 'unique'],
-            ['phone', 'unique'],
+            ['phone', 'unique', '01200000000'],
             ['name', 'not_unique'],
             ['arabic_name', 'not_unique'],
         ];
