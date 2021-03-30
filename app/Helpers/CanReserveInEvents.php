@@ -4,10 +4,8 @@
 namespace App\Helpers;
 
 
-use App\Jobs\SendEmail;
 use App\Models\Reservation;
 use App\Models\User\Ticket;
-use App\Notifications\ReservationConfirmed;
 
 trait CanReserveInEvents
 {
@@ -46,10 +44,6 @@ trait CanReserveInEvents
             array_merge([
                 'ticket_id' => $ticket->id
             ], $output->body() ?? []));
-
-        if($this->email) {
-            SendEmail::dispatch(new ReservationConfirmed($ticket), $this);
-        }
 
         $this->reservations()->save($reservation);
 

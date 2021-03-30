@@ -141,5 +141,8 @@
   "You can search by phone number, email, name or id by putting this sign ~+id ex: ~2": "يمكنك البحث عن أصدقائك والحجز لهم بالاسم أو البريد الإلكتروني أو رقم الهاتف، و اذا أردت البحث باستخدام الرقم التعريفي يجب اضافة # قبل الرقم. مثال: #2",
   "You can manage your friends here": "يمكنك رؤية/إضافة أصدقائك هنا",
   "These are your confirmed friends": "هذا الجدول يحتوي علي أصدقائك الذين وافقوا علي طلب الصداقة",
-  "Help": "مساعدة"
+  "Help": "مساعدة",
+  "Reject": "رفض",
+  "Friend removed": "تم رفض طلب الصداقة",
+  "Unfriend": "مسح الصديق"
 }

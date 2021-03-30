@@ -83,13 +83,27 @@ class AuthenticationTest extends TestCase
     }
 
     /** @test */
+    function username_must_be_unique_in_registration()
+    {
+        $this->registerUser(['name' => 'Fadi Sarwat'])
+            ->assertRedirect('/');
+
+        auth()->logout();
+
+        $this->registerUser(['name' => 'Fadi Sarwat', 'email' => 'test1@alsharobim.com', 'phone' => '01200000001'])
+            ->assertSessionDoesntHaveErrors();
+
+        auth()->logout();
+
+        $this->registerUser(['name' => 'Fadi Sarwat', 'email' => 'test2@alsharobim.com', 'phone' => '01200000002'])
+            ->assertSessionDoesntHaveErrors();
+
+        dump(User::find(4));
+    }
+
+    /** @test */
     function invalid_phone_number_doesnt_break_code()
     {
-        User::factory()->create([
-            'phone' => '01200000000',
-            'password' => '123456',
-        ]);
-
         $this->post('/login', [
             'email' => '46821684165498156486',
             'password' => '123456',
@@ -113,7 +127,10 @@ class AuthenticationTest extends TestCase
     /** @test */
     function a_user_can_register()
     {
+        $this->assertEquals(1, User::count());
+
         $this->registerUser()
+            ->assertSessionDoesntHaveErrors()
             ->assertRedirect('/');
 
         $this->assertEquals(2, User::count());

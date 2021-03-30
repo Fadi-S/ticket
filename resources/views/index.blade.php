@@ -53,12 +53,24 @@
         </x-data-card>
 
         @if($user->isAdmin())
-            <x-data-card color="bg-blue-400">
+            <x-data-card color="bg-blue-400"
+                         x-data="{ number: '{{ $num->format($users) }}' }"
+                         @user-created.window="number = $event.detail.number"
+            >
                 <x-slot name="svg">
                     <x-svg.users class="text-white" />
                 </x-slot>
 
-                <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">{{ $num->format($users) }}</h4>
+                @push('scripts')
+                <script>
+                    Echo.private('user.created')
+                        .listen('UserRegistered', (response) => {
+                            window.dispatchEvent(new CustomEvent('user-created', { detail: {number: response.usersCount } }));
+                        });
+                </script>
+                @endpush
+
+                <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200" x-text="number">{{ $num->format($users) }}</h4>
                 <div class="text-gray-500 dark:text-gray-300">{{ __('Total Users') }}</div>
             </x-data-card>
         @endif

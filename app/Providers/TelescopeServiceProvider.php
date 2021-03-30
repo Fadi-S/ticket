@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Laravel\Telescope\IncomingEntry;
+use Laravel\Telescope\IncomingExceptionEntry;
 use Laravel\Telescope\Telescope;
 use Laravel\Telescope\TelescopeApplicationServiceProvider;
 
@@ -16,7 +17,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     public function register()
     {
-        if(isset($_COOKIE['dark']) && $_COOKIE['dark'] === 'true') {
+        if(!isset($_COOKIE['dark']) || $_COOKIE['dark'] === 'true') {
             Telescope::night();
         }
 
@@ -27,14 +28,28 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
                 return true;
             }
 
-            // return true;
-
             return $entry->isReportableException() ||
                    $entry->isFailedRequest() ||
                    $entry->isFailedJob() ||
                    $entry->isScheduledTask() ||
                    $entry->hasMonitoredTag();
         });
+
+//        Telescope::afterStoring(function (array $entries, $batchId) {
+//            foreach ($entries as $entry) {
+//                if ($entry instanceof IncomingExceptionEntry) {
+//                    logger()->channel('slack')->critical(
+//                        $entry->exception,
+//                        [
+//                            'environment' => app()->environment(),
+//                            'url' => app()->runningInConsole() ? 'CLI' : request()->method() . ' ' . request()->fullUrl(),
+//                            'user' => $entry->content['user'] ?? '-',
+//                            'view in Telescope' => url('telescope/exceptions/' . $entry->uuid),
+//                        ]
+//                    );
+//                }
+//            }
+//        });
     }
 
     /**

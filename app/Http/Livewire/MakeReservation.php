@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Events\TicketReserved;
+use App\Events\UserRegistered;
 use App\Helpers\GenerateRandomString;
 use App\Models\Event;
 use App\Models\Ticket;
@@ -98,7 +99,9 @@ class MakeReservation extends Component
 
         $users->each->reserveIn($ticket);
 
-        // TicketReserved::dispatch($ticket);
+        try {
+            TicketReserved::dispatch($ticket);
+        }catch (\Exception $e) {}
 
         flash()->success(Str::plural('Reservation', $users->count()) . " made successfully");
         redirect("tickets?event=$event->id");

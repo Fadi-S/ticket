@@ -31,6 +31,7 @@
                     <x-table.th>{{ __('ID') }}</x-table.th>
                     <x-table.th>{{ __('Name') }}</x-table.th>
                     <x-table.th>{{ __('Handle') }}</x-table.th>
+                    <x-table.th>{{ __('Unfriend') }}</x-table.th>
                 </tr>
             </x-slot>
 
@@ -59,6 +60,15 @@
 
                         <x-table.td>
                             <span dir="ltr" class="text-gray-800 dark:text-gray-300 text-md font-semibold">{{ '@' . $user->username }}</span>
+                        </x-table.td>
+
+                        <x-table.td>
+                            <x-button color="bg-red-500 dark:bg-red-600 hover:bg-red-600 dark:hover:bg-red-700"
+                                      wire:click="rejectFriend('{{$user->username }}')">
+                                <x-slot name="svg">
+                                    <x-svg.x size="h-6 h-6"/>
+                                </x-slot>
+                            </x-button>
                         </x-table.td>
                     </tr>
                 @empty
@@ -90,6 +100,7 @@
                         <x-table.th>{{ __('ID') }}</x-table.th>
                         <x-table.th>{{ __('Name') }}</x-table.th>
                         <x-table.th>{{ __('Handle') }}</x-table.th>
+                        <x-table.empty-th>{{ __('Reject') }}</x-table.empty-th>
                         <x-table.empty-th>{{ __('Confirm') }}</x-table.empty-th>
                     </tr>
                 </x-slot>
@@ -120,6 +131,17 @@
 
                             <x-table.td>
                                 <span dir="ltr" class="text-gray-800 dark:text-gray-300 text-md font-semibold">{{ '@' . $friendship->sender->username }}</span>
+                            </x-table.td>
+
+                            <x-table.td>
+                                <x-button color="bg-red-500 dark:bg-red-600 hover:bg-red-600 dark:hover:bg-red-700"
+                                        wire:click="rejectFriend('{{$friendship->sender->username }}')">
+                                    <x-slot name="svg">
+                                        <x-svg.x size="h-6 h-6"/>
+                                    </x-slot>
+
+                                    {{ __('Reject') }}
+                                </x-button>
                             </x-table.td>
 
                             <x-table.td>

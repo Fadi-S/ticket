@@ -92,9 +92,26 @@ class Friends extends Component
         $this->search = '';
     }
 
+    public function rejectFriend(User $user)
+    {
+        auth()->user()->rejectFriend($user);
+
+        $this->dispatchBrowserEvent('message', [
+            'level' => 'success',
+            'message' => __('Friend removed'),
+            'important' => false,
+        ]);
+    }
+
     public function confirmFriend(User $user)
     {
-        auth()->user()->confirmFriend($user);
+        $current = auth()->user();
+        $friendship = $current->getFriendship($user)->first();
+
+        if(! $friendship || $friendship->sender_id !== $user->id)
+            return;
+
+        $current->confirmFriend($user);
 
         $this->dispatchBrowserEvent('message', [
             'level' => 'success',

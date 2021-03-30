@@ -2,34 +2,31 @@
 
 namespace App\Events;
 
-use App\Models\Ticket;
-use App\Notifications\ReservationConfirmed;
+use App\Models\User\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TicketReserved implements ShouldBroadcast
+class UserRegistered implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $eventId;
-    public $reserved;
-
-    public $ticket;
+    public $usersCount;
 
     /**
      * Create a new event instance.
-     * @param Ticket $ticket
+     *
+     * @return void
      */
-    public function __construct(Ticket $ticket)
+    public function __construct()
     {
-        $this->eventId = $ticket->event_id;
-
-        $this->reserved = $ticket->event->reservedPlaces();
-
-        $this->ticket = $ticket;
+        $this->usersCount = app()
+            ->make('num')
+            ->format(User::role("user")->count());
     }
 
     /**
@@ -39,6 +36,6 @@ class TicketReserved implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('tickets');
+        return new PrivateChannel('user.created');
     }
 }

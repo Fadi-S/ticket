@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserRegistered;
 use App\Helpers\NormalizePhoneNumber;
 use App\Helpers\StandardRegex;
 use App\Http\Controllers\Controller;
@@ -76,5 +77,11 @@ class RegisterController extends Controller
         flash()->success('Registration completed successfully, your ID is: ' . $user->id);
 
         $user->assignRole('user');
+
+        try {
+            UserRegistered::dispatch();
+        }catch (\Exception $e) {
+
+        }
     }
 }

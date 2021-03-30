@@ -27,11 +27,25 @@ trait HasFriends {
         $this->addFriend($user, true);
     }
 
+    public function rejectFriend($user)
+    {
+        return $this->getFriendship($user)->delete();
+    }
+
+    public function getFriendship($user)
+    {
+        return $this->friendships()
+            ->whereHas('users', fn($query) => $query->where('id', $user->id));
+    }
+
+    public function deleteFriend($user)
+    {
+        return $this->rejectFriend($user);
+    }
+
     public function confirmFriend($user)
     {
-        $this->friendships()
-            ->whereHas('users', fn($query) => $query->where('id', $user->id))
-            ->update(['confirmed_at' => now()]);
+        $this->getFriendship($user)->update(['confirmed_at' => now()]);
     }
 
     public function friends($withUnconfirmed=false)

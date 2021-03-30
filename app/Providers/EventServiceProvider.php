@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\TicketReserved;
+use App\Listeners\SendInvoiceNotification;
 use App\Notifications\SendEmailSpamDetected;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -21,6 +23,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         SpamDetectedEvent::class => [
             SendEmailSpamDetected::class,
+        ],
+        TicketReserved::class => [
+            SendInvoiceNotification::class,
         ],
     ];
 
