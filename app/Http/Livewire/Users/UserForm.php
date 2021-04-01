@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Users;
 
 use App\Helpers\StandardRegex;
 use App\Models\User\User;
+use App\Rules\Fullname;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -21,6 +22,8 @@ class UserForm extends Component
     public int $gender = 1;
 
     public bool $redirect = false;
+
+    public array $only = [];
 
     protected $queryString = [
         'redirect' => ['except' => false],
@@ -116,8 +119,8 @@ class UserForm extends Component
     protected function rules()
     {
         $rules = [
-            'user.name' => 'required',
-            'user.arabic_name' => 'required',
+            'user.name' => ['required', new Fullname],
+            'user.arabic_name' => ['required', new Fullname],
             'tempUsername' => 'required|unique:users,username',
             'user.email' => [
                 'nullable',
@@ -137,7 +140,7 @@ class UserForm extends Component
             'gender' => 'required|in:0,1',
             'password' => [
                 Rule::requiredIf( $this->role_id != 1),
-                'min:6',
+                'min:' . User::$minPassword,
             ],
             'role_id' => 'required|exists:roles,id',
         ];
@@ -145,7 +148,7 @@ class UserForm extends Component
         if (!$this->isCreate) {
             $id = isset($this->user) ? $this->user->id : 0;
 
-            $rules['password'] = 'nullable|min:6';
+            $rules['password'] = 'nullable|min:' . User::$minPassword;
             $rules['tempUsername'] = [
                 'required',
                 Rule::unique('users', 'username')->ignore($id),
@@ -170,5 +173,10 @@ class UserForm extends Component
         }
 
         return $rules;
+    }
+
+    public function showField($field) : bool
+    {
+        return !count($this->only) || in_array($field, $this->only);
     }
 }

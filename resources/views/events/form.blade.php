@@ -8,6 +8,12 @@
                       size="col-span-1"
                       placeholder="DD/MM/YYYY" />
 
+        <x-form.input required type="text" :value="!$create ? $event->published_at->format('d/m/Y h:i A') : null"
+                      id="date" name="published_at" autocomplete="off" id="published"
+                      label="{{ __('Publish Date') }}" class="datePicker"
+                      size="col-span-1"
+                      placeholder="DD/MM/YYYY hh:mm A" />
+
         <x-form.input required type="number" id="places" :value="$create ? 150 : $event->number_of_places"
                       name="number_of_places" label="{{ __('Number of Places') }}" class="col-span-1"
                       size="col-span-1" min="1" placeholder="{{ __('Number of Places') }}" />
@@ -37,6 +43,17 @@
         new Pikaday({
             field: document.querySelector('#date'),
             format: 'DD/MM/YYYY',
+            isRTL: {{ __('ltr') === 'rtl' ? 'true' : 'false' }},
+            showTime: false,
+        });
+
+        new Pikaday({
+            field: document.querySelector('#published'),
+            format: 'DD/MM/YYYY hh:mm A',
+            isRTL: {{ __('ltr') === 'rtl' ? 'true' : 'false' }},
+            showTime: true,
+            showMinutes: false,
+            use24hour: false,
         });
     </script>
 @endpush

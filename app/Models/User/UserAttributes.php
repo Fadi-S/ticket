@@ -52,6 +52,18 @@ trait UserAttributes
         return $query->select("*", \DB::raw("CONCAT(name,' (@',username,')') as text"));
     }
 
+    public function getFirstNameAttribute()
+    {
+        return explode(' ', $this->locale_name)[0];
+    }
+
+    public function hasFirstNameOnly() : bool
+    {
+        $isFirstName = fn($name) => count(explode(' ', $name)) < 3;
+
+        return $isFirstName($this->name) || $isFirstName($this->arabic_name);
+    }
+
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = bcrypt($password);

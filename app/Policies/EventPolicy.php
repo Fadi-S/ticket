@@ -10,6 +10,10 @@ class EventPolicy
 {
     use HandlesAuthorization;
 
+    public function index(User $admin)
+    {
+        return $admin->can("tickets.view") ? true : null;
+    }
 
     public function create(User $admin)
     {

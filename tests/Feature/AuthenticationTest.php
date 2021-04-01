@@ -85,20 +85,46 @@ class AuthenticationTest extends TestCase
     /** @test */
     function username_must_be_unique_in_registration()
     {
-        $this->registerUser(['name' => 'Fadi Sarwat'])
+        $this->registerUser(['name' => 'Fadi Sarwat Farouk'])
             ->assertRedirect('/');
 
         auth()->logout();
 
-        $this->registerUser(['name' => 'Fadi Sarwat', 'email' => 'test1@alsharobim.com', 'phone' => '01200000001'])
+        $this->registerUser(['name' => 'Fadi Sarwat Farouk', 'email' => 'test1@alsharobim.com', 'phone' => '01200000001'])
             ->assertSessionDoesntHaveErrors();
 
         auth()->logout();
 
-        $this->registerUser(['name' => 'Fadi Sarwat', 'email' => 'test2@alsharobim.com', 'phone' => '01200000002'])
+        $this->registerUser(['name' => 'Fadi Sarwat Farouk', 'email' => 'test2@alsharobim.com', 'phone' => '01200000002'])
             ->assertSessionDoesntHaveErrors();
 
-        dump(User::find(4));
+        // dump(User::find(4));
+    }
+
+    /** @test */
+    function generated_username_is_unique()
+    {
+        $this->registerUser([
+            'name' => 'Test User Name',
+            'email' => 'test1@example.com',
+            'phone' => '01200000000',
+        ]);
+
+        $user = User::find(2);
+
+        $this->assertEquals('test.user.name', $user->username);
+
+        auth()->logout();
+
+        $this->registerUser([
+            'name' => 'Test User Name',
+            'email' => 'test2@example.com',
+            'phone' => '01200000001',
+        ]);
+
+        $user = User::find(3);
+
+        $this->assertEquals('test.user.name.1', $user->username);
     }
 
     /** @test */
@@ -204,8 +230,8 @@ class AuthenticationTest extends TestCase
     function registerUser($attributes=[])
     {
         return $this->post('/register', array_merge([
-            'name' => 'John Doe',
-            'arabic_name' => 'جون دو',
+            'name' => 'John Doe Third',
+            'arabic_name' => 'جون دو اسم',
             'email' => 'test@example.com',
             //'national_id' => '30204250201612',
             'password' => '123456',
@@ -219,8 +245,8 @@ class AuthenticationTest extends TestCase
     {
         return [
             ['phone', 'unique', '01200000000'],
-            ['name', 'not_unique'],
-            ['arabic_name', 'not_unique'],
+            ['name', 'not_unique', 'John Doe Third'],
+            ['arabic_name', 'not_unique', 'جون دو اسم'],
         ];
     }
 }

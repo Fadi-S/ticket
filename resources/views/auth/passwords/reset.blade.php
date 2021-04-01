@@ -14,7 +14,7 @@
 
         <div class="rounded-md shadow-sm space-y-3">
             <x-form.input-2 label="{{ __('Email') }}"
-                            id="email" value="{{ old('email') }}"
+                            id="email" value="{{ old('email') ?? $email }}"
                             type="email" required/>
 
             <x-form.input-2 label="{{ __('Password') }}"

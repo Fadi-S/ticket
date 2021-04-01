@@ -33,7 +33,8 @@ class RolesTableSeeder extends Seeder
         $agent = Role::create(['name' => 'agent']);
         Permission::create(["name" => "tickets.*"]);
         Permission::create(["name" => "users.*"]);
+        Permission::create(["name" => "events.view"]);
         Permission::create(["name" => "reservations.bypass"]);
-        $agent->givePermissionTo("tickets.*", "users.*");
+        $agent->givePermissionTo("tickets.*", "users.*", "events.view");
     }
 }

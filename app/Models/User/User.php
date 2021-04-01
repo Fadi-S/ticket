@@ -20,6 +20,8 @@ class User extends Authenticatable implements HasLocalePreference
     use Notifiable, SoftDeletes, HasApiTokens, HasRoles, CausesActivity,
         UserAttributes, LogsActivity, Slugable, HasFactory, HasFriends, CanReserveInEvents;
 
+    public static int $minPassword = 6;
+
     protected static $logFillable = true;
     protected static $logOnlyDirty = true;
     protected static $submitEmptyLogs = false;

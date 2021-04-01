@@ -28,6 +28,7 @@ class EventsRequest extends FormRequest
             "number_of_places" => "required|numeric|min:1",
             "start" => "required|date",
             "end" => "required|date|after:start",
+            "published_at" => "required|date|before:start",
             'type_id' => 'nullable',
         ];
     }
@@ -35,6 +36,8 @@ class EventsRequest extends FormRequest
     protected function getValidatorInstance()
     {
         $data = $this->all();
+
+        $data['published_at'] = Carbon::createFromFormat("d/m/Y h:i A", $this->published_at);
 
         $date = Carbon::createFromFormat("d/m/Y", $this->date);
 

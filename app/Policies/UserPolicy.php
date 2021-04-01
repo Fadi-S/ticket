@@ -51,4 +51,9 @@ class UserPolicy
     {
         return $admin->can("users.forceDelete") ? true : null;
     }
+
+    public function viewAgentDetails(User $admin)
+    {
+        return $admin->can("viewAgentDetails") ? true : null;
+    }
 }

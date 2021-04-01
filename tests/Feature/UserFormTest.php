@@ -27,9 +27,9 @@ class UserFormTest extends TestCase
         $this->actingAs($user);
 
         Livewire::test(UserForm::class)
-            ->set('user.name', 'John Doe')
-            ->set('user.arabic_name', 'جون دو')
-            ->assertSet('tempUsername', User::makeSlug('John Doe'))
+            ->set('user.name', 'John Doe third')
+            ->set('user.arabic_name', 'جون دو اسم')
+            ->assertSet('tempUsername', User::makeSlug('John Doe third'))
             ->set('user.email', 'test@example.com')
             ->set('user.phone', '01200000000')
             ->set('gender', 1)
@@ -47,9 +47,9 @@ class UserFormTest extends TestCase
         $this->actingAs($user);
 
         Livewire::test(UserForm::class)
-            ->set('user.name', 'John Doe')
-            ->set('user.arabic_name', 'جون دو')
-            ->assertSet('tempUsername', User::makeSlug('John Doe'))
+            ->set('user.name', 'John Doe third third')
+            ->set('user.arabic_name', 'بيس جون دو اسم')
+            ->assertSet('tempUsername', User::makeSlug('John Doe third third'))
             ->set('user.email', '')
             ->set('user.phone', '01200000000')
             ->set('gender', 1)
@@ -59,9 +59,9 @@ class UserFormTest extends TestCase
         $this->assertEquals(3, User::count());
 
         Livewire::test(UserForm::class)
-            ->set('user.name', 'John Doe')
-            ->set('user.arabic_name', 'جون دو')
-            ->assertSet('tempUsername', User::makeSlug('John Doe'))
+            ->set('user.name', 'John Doe third')
+            ->set('user.arabic_name', 'جون دو اسم')
+            ->assertSet('tempUsername', User::makeSlug('John Doe third'))
             ->set('user.email', '')
             ->set('user.phone', '01200000001')
             ->set('gender', 1)
@@ -79,9 +79,9 @@ class UserFormTest extends TestCase
         $this->actingAs($user);
 
         Livewire::test(UserForm::class)
-            ->set('user.name', 'John Doe')
-            ->set('user.arabic_name', 'جون دو')
-            ->assertSet('tempUsername', User::makeSlug('John Doe'))
+            ->set('user.name', 'John Doe third')
+            ->set('user.arabic_name', 'جون دو اسم')
+            ->assertSet('tempUsername', User::makeSlug('John Doe third'))
             ->set('user.email', '')
             ->set('user.phone', '01200000000')
             ->set('gender', 1)

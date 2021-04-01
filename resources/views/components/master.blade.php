@@ -231,7 +231,7 @@
                         <button @click="dropdownOpen = ! dropdownOpen"
                                 class="flex items-center justify-center space-x-2 focus:outline-none">
                             <div class="text-gray-700 dark:text-white font-light text-sm rtl:ml-2 font-semibold">
-                                {{ auth()->user()->locale_name }}
+                                {{ auth()->user()->first_name }}
                             </div>
                             <div class="relative block h-10 w-10 border border-gray-400 overflow-hidden rounded-full">
                                 <img class="h-full w-full object-cover"
@@ -251,19 +251,22 @@
                              style="display: none;">
 
                             <a href="{{ url("/users/" . auth()->user()->username) }}"
-                               class="block px-4 py-2 text-sm
+                               class="px-4 py-4 text-sm
                                {{ url("/users/" . auth()->user()->username) == url()->current() ? "bg-gray-200 dark:bg-gray-800" : "text-gray-700 dark:text-white" }}
-                                       hover:bg-gray-200 dark:hover:bg-gray-800">{{ __('Profile') }}</a>
+                                       hover:bg-gray-200 dark:hover:bg-gray-800 flex items-center justify-start space-x-2">
+                                <x-svg.user class="rtl:ml-2"/>
+                                <span>{{ __('Profile') }}</span>
+                            </a>
 
                             <form method="POST" action="{{ url('logout') }}">
                                 @csrf
 
-                                <button type="submit" class="w-full px-4 py-2 text-sm
+                                <button type="submit" class="w-full px-4 py-4 text-sm
                                  text-red-500 dark:text-red-400
                                  hover:bg-gray-200 dark:hover:bg-gray-800
                                  flex items-center justify-start
                                    focus:outline-none space-x-2">
-                                    <x-svg.logout/>
+                                    <x-svg.logout class="rtl:ml-2"/>
                                     <span>{{ __('Sign Out') }}</span>
                                 </button>
                             </form>

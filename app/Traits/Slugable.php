@@ -45,6 +45,9 @@ trait Slugable
 
     public static function makeSlug($string, $ignoreId=0, $iteration=0) : string
     {
+        $reflection = new \ReflectionClass(get_class());
+        $reflection->newInstance();
+
         $slug = self::replaceInvalidCharacters($string);
 
         if(!! $iteration) {

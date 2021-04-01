@@ -8,15 +8,6 @@ use App\Models\User\User;
 class UsersController extends Controller
 {
 
-    public function index()
-    {
-        $this->authorize('viewAny', User::class);
-
-        $users = User::paginate(10);
-
-        return view("users.index", compact('users'));
-    }
-
     public function show(User $user)
     {
         $this->authorize('view', $user);

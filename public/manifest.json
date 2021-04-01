@@ -1,5 +1,6 @@
 {
-    "background_color": "#ffffff",
+    "background_color": "#4284f5",
+    "theme_color": "#4284f5",
     "display": "standalone",
     "short_name": "Ticket",
     "name": "Saint George Sporting Ticket",
@@ -10,5 +11,6 @@
           "type": "image/png"
         }
       ],
-    "start_url": "/"
+    "start_url": "/",
+    "apple-touch-icon": "images/stg_logo-180.jpg"
 }

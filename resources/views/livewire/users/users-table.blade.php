@@ -28,7 +28,7 @@
             @forelse($users as $user)
                 <tr>
                     <x-table.td>
-                        <span dir="ltr" class="rtl:text-right text-gray-800 dark:text-gray-200 text-md font-semibold">~{{ $user->id }}</span>
+                        <span dir="ltr" class="rtl:text-right text-gray-800 dark:text-gray-200 text-md font-semibold">#{{ $user->id }}</span>
                     </x-table.td>
 
                     <x-table.td>
