@@ -17,6 +17,7 @@
                 <x-table.th>{{ __('Arabic Name') }}</x-table.th>
                 <x-table.th>{{ __('Username') }}</x-table.th>
                 <x-table.th>{{ __('Phone') }}</x-table.th>
+                <x-table.th>{{ __('Gender') }}</x-table.th>
 {{--                    <x-table.th>{{ __('National ID') }}</x-table.th>--}}
                 <x-table.th>{{ __('Role') }}</x-table.th>
                 <x-table.empty-th>{{ __('Edit') }}</x-table.empty-th>
@@ -57,6 +58,10 @@
 
                     <x-table.td>
                         <span dir="ltr" class="text-gray-800 dark:text-gray-200 text-md font-semibold">{{ $user->phone }}</span>
+                    </x-table.td>
+
+                    <x-table.td>
+                        <span dir="ltr" class="text-gray-800 dark:text-gray-200 text-md font-semibold">{{ [__('Female'), __('Male')][$user->gender] ?? '-' }}</span>
                     </x-table.td>
 
 {{--                        <x-table.td>--}}

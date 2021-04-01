@@ -163,6 +163,26 @@ class AuthenticationTest extends TestCase
     }
 
     /** @test */
+    function user_can_write_phone_number_in_arabic()
+    {
+        $this->registerUser(['phone' => '٠١٢٧٣٣١٥٨٧٠']);
+
+        $user = User::find(2);
+
+        $this->assertEquals('+201273315870', $user->phone);
+    }
+
+    /** @test */
+    function user_can_write_phone_number_in_english()
+    {
+        $this->registerUser(['phone' => '01273315870']);
+
+        $user = User::find(2);
+
+        $this->assertEquals('+201273315870', $user->phone);
+    }
+
+    /** @test */
     function email_must_be_unique()
     {
         $this->registerUser(['email' => 'test@alsharobim.com'])
