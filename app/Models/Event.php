@@ -53,6 +53,11 @@ class Event extends Model
         return $this->start->format("h:i A") . " -> " .$this->end->format("h:i A");
     }
 
+    public function scopePublished($query)
+    {
+        $query->where('published_at', '<=', now());
+    }
+
     public function type()
     {
         return $this->belongsTo(EventType::class, "type_id");

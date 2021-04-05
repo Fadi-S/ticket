@@ -24,9 +24,7 @@ class UserRegistered implements ShouldBroadcast
      */
     public function __construct()
     {
-        $this->usersCount = app()
-            ->make('num')
-            ->format(User::role("user")->count());
+        $this->usersCount = User::role("user")->count();
     }
 
     /**

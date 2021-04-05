@@ -4,19 +4,13 @@ import Echo from "laravel-echo";
 
 window.Pikaday = require('pikaday-time');
 
-
 window.Pusher = require('pusher-js');
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
     key: process.env.MIX_PUSHER_APP_KEY,
-    wsHost: 'sockets.fadisarwat.dev',
-    wsPort: 443,
-    wssPort: 443,
-    encrypted:true,
-    enabledTransports: ['ws', 'wss'],
-    forceTLS: true,
-    disableStats: false,
+    encrypted: true,
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 });
 
 window.addEventListener('dark', (event) => {
@@ -65,3 +59,13 @@ window.getCookie = cname => {
 };
 
 require('./intro.js');
+
+window.englishToArabicNumbers = number => {
+    const numbers = {'0': '٠', '1': '١', '2': '٢', '3': '٣', '4': '٤', '5': '٥', '6': '٦', '7': '٧', '8': '٨', '9': '٩'};
+
+    for (const [key, value] of Object.entries(numbers)) {
+        number = number.replaceAll(key, value);
+    }
+
+    return number;
+}

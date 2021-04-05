@@ -163,6 +163,21 @@ class AuthenticationTest extends TestCase
     }
 
     /** @test */
+    function creating_user_with_same_data_twice()
+    {
+        $this->registerUser()
+            ->assertSessionDoesntHaveErrors();
+        $this->assertEquals(2, User::count());
+
+        auth()->logout();
+
+        $this->registerUser()
+            ->assertSessionHasErrors();
+
+        $this->assertEquals(2, User::count());
+    }
+
+    /** @test */
     function user_can_write_phone_number_in_arabic()
     {
         $this->registerUser(['phone' => '٠١٢٧٣٣١٥٨٧٠']);

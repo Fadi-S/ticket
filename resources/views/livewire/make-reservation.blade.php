@@ -69,32 +69,32 @@
                                         text-gray-900">
                                         <div class="flex">
 
-                                            <span dir="ltr" class="mx-2 truncate
+                                            <span dir="ltr" class="mx-2 truncate transition-colors duration-500
                                                 {{ $selected ? 'font-bold text-indigo-200' : 'font-normal group-hover:text-indigo-200 text-gray-500 dark:text-gray-200' }}">
                                                 #{{ $user->id }}
                                             </span>
 
-                                            <span class="hidden md:block
+                                            <span class="hidden md:block transition-colors duration-500
                                                         {{ $selected ? 'font-bold text-white' : 'font-normal group-hover:text-white dark:text-gray-200' }} mx-2 truncate">
                                               {{ $user->name }}
                                             </span>
 
-                                            <span class="hidden md:block
+                                            <span class="hidden md:block transition-colors duration-500
                                                     {{ $selected ? 'font-bold text-white' : 'font-normal group-hover:text-white dark:text-gray-200' }} mx-2 truncate">
                                               {{ $user->arabic_name }}
                                             </span>
 
-                                            <span class="mx-2 truncate md:hidden block
+                                            <span class="mx-2 truncate md:hidden block transition-colors duration-500
                                             {{ $selected ? 'font-bold text-white' : 'font-normal group-hover:text-white dark:text-gray-200' }}">
                                                 {{ $user->locale_name }}
                                             </span>
 
-                                            <span dir="ltr" class="mx-2 truncate hidden md:block
+                                            <span dir="ltr" class="mx-2 truncate hidden md:block transition-colors duration-500
                                             {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500 dark:text-gray-200' }}">
                                                 {{ '@' . $user->username }}
                                             </span>
 
-                                            <span dir="ltr" class="mx-2 truncate
+                                            <span dir="ltr" class="mx-2 truncate transition-colors duration-500
                                              {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500 dark:text-gray-200' }}">
                                                 {{ $user->phone }}
                                             </span>

@@ -12,6 +12,7 @@ use App\Rules\Fullname;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class RegisterController extends Controller
 {
@@ -51,6 +52,7 @@ class RegisterController extends Controller
             'phone' => ['required', 'string', 'regex:/' . StandardRegex::PHONE_NUMBER . '/', 'unique:users'],
             'national_id' => ['nullable', 'regex:/' . StandardRegex::NATIONAL_ID . '/', 'unique:users'],
             'password' => ['required', 'string', 'min:' . User::$minPassword, 'confirmed'],
+            'gender' => ['required', Rule::in([1, 0]),],
         ]);
     }
 
@@ -67,6 +69,7 @@ class RegisterController extends Controller
             'arabic_name' => $data['arabic_name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
+            'gender' => $data['gender'],
             'national_id' => isset($data['national_id']) ? $data['national_id'] : null,
             'username' => User::makeSlug($data['name']),
             'password' => $data['password'],
@@ -79,10 +82,6 @@ class RegisterController extends Controller
 
         $user->assignRole('user');
 
-        try {
-            UserRegistered::dispatch();
-        }catch (\Exception $e) {
-
-        }
+        UserRegistered::dispatch();
     }
 }

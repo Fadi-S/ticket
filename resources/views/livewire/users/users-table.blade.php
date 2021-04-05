@@ -6,7 +6,7 @@
 
     <x-form.input name="search" :label="__('Search')"
                   dir="auto" autocomplete="off"
-                  wire:model.debouce.500ms="search" id="search"
+                  wire:model.debouce.350ms="search" id="search"
                   size="w-full lg:w-1/4 md:w-1/2" />
 
     <x-table.table>
@@ -27,7 +27,7 @@
         <x-slot name="body">
 
             @forelse($users as $user)
-                <tr>
+                <tr wire:loading.class="opacity-50">
                     <x-table.td>
                         <span dir="ltr" class="rtl:text-right text-gray-800 dark:text-gray-200 text-md font-semibold">#{{ $user->id }}</span>
                     </x-table.td>
@@ -82,7 +82,7 @@
 
             @empty
                 <tr>
-                   <td colspan="7">
+                   <td colspan="8">
                        <span class="flex justify-center mx-auto py-4 text-gray-600 dark:text-gray-300">
                             <x-svg.search color="" /> &nbsp; {{ __("No users match search :search", ['search' => $search]) }}
                        </span>

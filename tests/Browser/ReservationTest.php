@@ -39,7 +39,7 @@ class ReservationTest extends DuskTestCase
                 ->waitForText($fadi->name)
                 ->assertSee($fadi->name)
 
-                ->type('user-search', "~$fadi->id")
+                ->type('user-search', "#$fadi->id")
                 ->waitForText($fadi->name)
                 ->assertSee($fadi->name)
 

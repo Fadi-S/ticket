@@ -15,11 +15,11 @@ trait UserAttributes
             return $query;
 
         if(str_starts_with($search, '#')) {
-            return $query->where("id", ltrim($search, '#'));
+            return $query->where("id", '=', ltrim($search, '#'));
         }
 
         if(str_starts_with($search, '@')) {
-            return $query->where("username", 'LIKE', '%' . ltrim($search, '@') . '%');
+            return $query->where("username", 'LIKE', ltrim($search, '@') . '%');
         }
 
         $origSearch = $search;
@@ -28,10 +28,8 @@ trait UserAttributes
         }
 
         return $query->where("name", 'like', $search)
-            ->orWhere('username', 'like', $search)
             ->orWhere('arabic_name', 'like', $search)
-            ->orWhere("phone", "like", NormalizePhoneNumber::create($origSearch, false)
-                ->handle() . '%')
+            ->orWhere("phone", "like", NormalizePhoneNumber::create($origSearch, false)->handle() . ((!$strict) ? '%' : ''))
             //->orWhere("national_id", "like", $search)
             ->orWhere("email", "like", $search);
     }

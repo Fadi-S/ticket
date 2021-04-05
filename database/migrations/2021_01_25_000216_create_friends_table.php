@@ -15,8 +15,8 @@ class CreateFriendsTable extends Migration
     {
         Schema::create('friendships', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('sender_id');
-            $table->timestamp('confirmed_at')->nullable();
+            $table->foreignId('sender_id')->index();
+            $table->timestamp('confirmed_at')->index()->nullable();
             $table->timestamps();
         });
 

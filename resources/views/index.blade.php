@@ -65,7 +65,15 @@
                 <script>
                     Echo.private('user.created')
                         .listen('UserRegistered', (response) => {
-                            window.dispatchEvent(new CustomEvent('user-created', { detail: {number: response.usersCount } }));
+
+                            window.dispatchEvent(new CustomEvent('user-created', { detail: {
+                                @if(app()->getLocale() === 'ar')
+                                    number: englishToArabicNumbers(response.usersCount.toString())
+                                @else
+                                    number: response.usersCount
+                                @endif
+                            } }));
+
                         });
                 </script>
                 @endpush

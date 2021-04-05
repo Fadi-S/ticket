@@ -67,28 +67,35 @@ class MakeReservation extends Component
             ]
         ]);
 
-        $event = Event::findOrFail($this->event)->specific();
+        $event = Event::published()->find($this->event);
+
+        if(!$event) {
+            return $this->failWithErrorMessage('This event does not exist');
+        }
+
+        $event = $event->specific();
 
         $users = User::whereIn('id', $this->users->pluck('id'))->get();
 
         $users->each(function ($user) use($event) {
+
+            if(!$user->isSignedIn() && !$user->isFriendsWith(auth()->user(), false)) {
+                return $this->failWithErrorMessage("You are not friends with $user->name");
+            }
+
             $output = $user->canReserveIn($event);
 
             if(is_null($output)) {
-                session()->flash('error', "Something went wrong for $user->name");
-                $this->dispatchBrowserEvent('open', "Something went wrong for $user->name");
-
-                return;
+                return $this->failWithErrorMessage("Something went wrong for $user->name");
             }
 
             if($output->hasMessage()) {
-                session()->flash('error', $output->message());
-                $this->dispatchBrowserEvent('open', $output->message());
+                $this->failWithErrorMessage($output->message());
             }
         });
 
         if(session()->has('error'))
-            return;
+            return false;
 
         $ticket = Ticket::create([
             'event_id' => $event->id,
@@ -99,12 +106,12 @@ class MakeReservation extends Component
 
         $users->each->reserveIn($ticket);
 
-        try {
-            TicketReserved::dispatch($ticket);
-        }catch (\Exception $e) {}
+        TicketReserved::dispatch($ticket);
 
         flash()->success(Str::plural('Reservation', $users->count()) . " made successfully");
         redirect("tickets?event=$event->id");
+
+        return true;
     }
 
     public function getSearchedUsers()
@@ -136,5 +143,13 @@ class MakeReservation extends Component
         $this->dispatchBrowserEvent('closeuser');
 
         $this->users->push($user);
+    }
+
+    private function failWithErrorMessage($message) : bool
+    {
+        session()->flash('error', $message);
+        $this->dispatchBrowserEvent('open', $message);
+
+        return false;
     }
 }
