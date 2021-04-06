@@ -79,7 +79,7 @@ class MakeReservation extends Component
 
         $users->each(function ($user) use($event) {
 
-            if(!$user->isSignedIn() && !$user->isFriendsWith(auth()->user(), false)) {
+            if(!$user->isSignedIn() && !auth()->user()->can('tickets.view') && !$user->isFriendsWith(auth()->user(), false)) {
                 return $this->failWithErrorMessage("You are not friends with $user->name");
             }
 

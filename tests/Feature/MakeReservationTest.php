@@ -139,41 +139,35 @@ class MakeReservationTest extends TestCase
     }
 
     /** @test */
-    function user_cant_reserve_more_than_the_allowed_maximum()
+    function user_agent_admin_cant_reserve_for_themselves_more_than_the_allowed_maximum()
     {
-        $this->setRole('user');
+        $roles = ['agent', 'super-admin', 'user'];
 
-        $this->assertEquals(0, Reservation::count());
+        foreach ($roles as $role) {
+            $this->setRole($role);
 
-        $maximum = Mass::maxReservations();
+            $this->assertEquals(0, Reservation::count());
 
-        $this->travelTo(now()->startOfMonth());
+            $maximum = Mass::maxReservations();
 
-        for ($i=1; $i<=$maximum; $i++) {
+            $this->reserveMaximum($maximum);
+
             $mass = Mass::factory()->create([
-                'start' => now()->startOfMonth()->addDays(2 * $i),
-                'end' => now()->startOfMonth()->addDays(2 * $i)->addHours(2),
+                'start' => now()->startOfMonth()->addDays(2 * ($maximum + 1)),
+                'end' => now()->startOfMonth()->addDays(2 * ($maximum + 1))->addHours(2),
             ]);
 
             Livewire::test(MakeReservation::class)
                 ->fireEvent('set:event', $mass->id)
+                ->call('removeUser', $this->user->id)
+                ->call('toggleUser', $this->user)
                 ->call('save')
-                ->assertRedirect();
+                ->assertDispatchedBrowserEvent('open');
 
-            $this->assertEquals($i, Reservation::count());
+            $this->assertEquals($maximum, Reservation::count());
+
+            Ticket::all()->each->cancel();
         }
-
-        $mass = Mass::factory()->create([
-            'start' => now()->startOfMonth()->addDays(2 * ($maximum + 1)),
-            'end' => now()->startOfMonth()->addDays(2 * ($maximum + 1))->addHours(2),
-        ]);
-
-        Livewire::test(MakeReservation::class)
-            ->fireEvent('set:event', $mass->id)
-            ->call('save')
-            ->assertDispatchedBrowserEvent('open');
-
-        $this->assertEquals($maximum, Reservation::count());
     }
 
     /** @test */
@@ -212,31 +206,117 @@ class MakeReservationTest extends TestCase
     /** @test */
     function admin_or_agent_can_reserve_for_user()
     {
+        $roles = ['agent', 'super-admin'];
 
+        $john = User::factory()->create();
+        $mary = User::factory()->create();
+        $george = User::factory()->create();
+
+        foreach ($roles as $role) {
+            $this->setRole($role);
+
+            Livewire::test(MakeReservation::class)
+                ->fireEvent('set:event', $this->event->id)
+                ->call('toggleUser', $john)
+                ->call('toggleUser', $mary)
+                ->call('toggleUser', $george)
+                ->call('save')
+                ->assertRedirect();
+
+            $this->assertEquals(3, Reservation::count());
+
+            $ticket = Ticket::first();
+            $ticket->cancel();
+        }
     }
 
     /** @test */
     function admin_or_agent_can_search_all_users()
     {
+        $roles = ['agent', 'super-admin'];
 
+        $john = User::factory()->create(['name' => 'Test John']);
+        $mary = User::factory()->create(['name' => 'Test Mary']);
+        $george = User::factory()->create(['name' => 'Test George']);
+
+        foreach ($roles as $role) {
+            $this->setRole($role);
+
+            Livewire::test(MakeReservation::class)
+                ->set('search', 'Test')
+                ->assertSee('Test John')
+                ->assertSee('Test Mary')
+                ->assertSee('Test George');
+        }
     }
 
     /** @test */
     function admin_or_agent_can_reserve_for_himOrHerself()
     {
+        $roles = ['agent', 'super-admin'];
 
+        foreach ($roles as $role) {
+            $this->setRole($role);
+            $this->assertEquals(0, Reservation::count());
+
+            Livewire::test(MakeReservation::class)
+                ->call('setEvent', $this->event->id)
+                ->call('toggleUser', $this->user)
+                ->call('save')
+                ->assertRedirect();
+
+            $this->assertEquals(1, Reservation::count());
+
+            Ticket::first()->cancel();
+        }
     }
 
     /** @test */
     function agent_cant_reserve_for_users_more_than_the_allowed_maximum()
     {
+        $this->setRole('agent');
 
+        $john = User::factory()->create();
+
+        $maximum = Mass::maxReservations();
+        $this->reserveMaximum($maximum, $john);
+
+        $mass = Mass::factory()->create([
+            'start' => now()->startOfMonth()->addDays(2 * ($maximum + 1)),
+            'end' => now()->startOfMonth()->addDays(2 * ($maximum + 1))->addHours(2),
+        ]);
+
+        Livewire::test(MakeReservation::class)
+            ->fireEvent('set:event', $mass->id)
+            ->call('toggleUser', $john)
+            ->call('save')
+            ->assertDispatchedBrowserEvent('open');
+
+        $this->assertEquals($maximum, Reservation::count());
     }
 
     /** @test */
     function admin_can_reserve_for_users_more_than_the_allowed_maximum()
     {
+        $this->setRole('super-admin');
 
+        $john = User::factory()->create();
+
+        $maximum = Mass::maxReservations();
+        $this->reserveMaximum($maximum, $john);
+
+        $mass = Mass::factory()->create([
+            'start' => now()->startOfMonth()->addDays(2 * ($maximum + 1)),
+            'end' => now()->startOfMonth()->addDays(2 * ($maximum + 1))->addHours(2),
+        ]);
+
+        Livewire::test(MakeReservation::class)
+            ->fireEvent('set:event', $mass->id)
+            ->call('toggleUser', $john)
+            ->call('save')
+            ->assertRedirect();
+
+        $this->assertEquals($maximum + 1, Reservation::count());
     }
 
     function setRole($roleName, $user=null)
@@ -244,5 +324,28 @@ class MakeReservationTest extends TestCase
         $user ??= $this->user;
 
         $user->syncRoles([Role::where('name', $roleName)->first()->id]);
+    }
+
+    function reserveMaximum($maximum, $user=null)
+    {
+        $user ??= $this->user;
+
+        $this->travelTo(now()->startOfMonth());
+
+        for ($i=1; $i<=$maximum; $i++) {
+            $mass = Mass::factory()->create([
+                'start' => now()->startOfMonth()->addDays(2 * $i),
+                'end' => now()->startOfMonth()->addDays(2 * $i)->addHours(2),
+            ]);
+
+            Livewire::test(MakeReservation::class)
+                ->fireEvent('set:event', $mass->id)
+                ->call('removeUser', $user->id)
+                ->call('toggleUser', $user)
+                ->call('save')
+                ->assertRedirect();
+
+            $this->assertEquals($i, Reservation::count());
+        }
     }
 }

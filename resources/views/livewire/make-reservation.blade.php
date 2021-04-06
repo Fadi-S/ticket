@@ -117,15 +117,17 @@
                                     <li x-state:on="Highlighted"
                                         x-state:off="Not Highlighted"
                                         id="user-search-0" role="option"
-                                        class="cursor-default select-none bg-white relative py-2 pl-3 pr-9 text-gray-900 z-10">
+                                        class="cursor-default select-none bg-white dark:bg-gray-700
+                                         transition-colors duration-500
+                                         relative py-2 pl-3 pr-9 text-gray-900 z-10">
                                         <div class="flex">
                                             <div class="font-normal truncate flex flex-col
                                             space-y-2 md:space-y-0
                                             md:flex-row md:justify-between
                                              w-full items-center" x-data="{  }">
-                                                <span>{{ __("No users match search :search", ['search' => $search]) }}</span>
+                                                <span class="dark:text-gray-100">{{ __("No users match search :search", ['search' => $search]) }}</span>
                                                 <x-button id="open-user-btn" type="button" @click="$dispatch('openuser')"
-                                                          color="bg-green-500 hover:bg-green-600">
+                                                          color="bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700">
                                                     <x-slot name="svg">
                                                         <x-svg.add />
                                                     </x-slot>

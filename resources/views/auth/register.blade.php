@@ -14,27 +14,28 @@
         <input type="hidden" name="remember" value="true">
         <div class="space-y-3">
 
-            <x-form.input-2 label="{{ __('Name') }}"
+
+            <x-form.input-2 label="{{ __('Name') }}" :error="$errors->get('name')"
                             id="name" value="{{ old('name') }}"
                             type="text" required />
 
-            <x-form.input-2 label="{{ __('Name in arabic') }}" dir="rtl"
+            <x-form.input-2 label="{{ __('Name in arabic') }}" dir="rtl" :error="$errors->get('arabic_name')"
                             id="arabic_name" value="{{ old('arabic_name') }}"
                             type="text" required />
 
-            <x-form.input-2 label="{{ __('Email') }}"
+            <x-form.input-2 label="{{ __('Email') }}" :error="$errors->get('email')"
                             id="email" value="{{ old('email') }}"
                             type="email" required />
 
-            <x-form.input-2 label="{{ __('Phone') }}"
+            <x-form.input-2 label="{{ __('Phone') }}" :error="$errors->get('phone')"
                             id="phone" value="{{ old('phone') }}"
                             type="phone" required />
 
-{{--            <x-form.input-2 label="{{ __('National ID') }}"--}}
+{{--            <x-form.input-2 label="{{ __('National ID') }}"--}} :error="$errors->get('national_id')"
 {{--                            id="national_id" value="{{ old('national_id') }}"--}}
 {{--                            type="text" required />--}}
 
-            <x-form.input-2 label="{{ __('Password') }}"
+            <x-form.input-2 label="{{ __('Password') }}" :error="$errors->get('password')"
                             id="password" value="{{ old('password') }}"
                             type="password" required />
 
@@ -63,8 +64,6 @@
             </x-slot>
             {{ __('Sign Up') }}
         </x-button>
-
-        <x-layouts.errors size="w-full" />
     </form>
 
 
