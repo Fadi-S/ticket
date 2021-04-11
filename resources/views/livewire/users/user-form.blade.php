@@ -37,7 +37,7 @@
                 @if($this->showField('user.email'))
                     <x-form.input wire:model.lazy="user.email" type="email"
                               size="w-full" name="email" id="email"
-                              label="{{ __('Email') }}" placeholder="{{ __('Email') }}" />
+                              label="{{ __('Email') }} ({{ __('Optional') }})" placeholder="{{ __('Email') }}" />
                @endif
 
 {{--                <x-form.input wire:model.lazy="user.national_id" type="text"--}}

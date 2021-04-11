@@ -6,6 +6,13 @@
             @csrf
 
             <div class="space-y-6">
+                <x-button id="open-user-btn" type="button" @click="$dispatch('openuser')"
+                          color="bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700">
+                    <x-slot name="svg">
+                        <x-svg.add />
+                    </x-slot>
+                    {{ __("Create New User") }}
+                </x-button>
 
                 <div x-data="{ searching: false }"
                      data-step="4"

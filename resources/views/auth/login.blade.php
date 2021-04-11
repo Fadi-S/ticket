@@ -17,7 +17,7 @@
                             type="text" required />
 
             <x-form.input-2 label="{{ __('Password') }}" dir="ltr" :error="$errors->get('password')"
-                            id="password" value="{{ old('password') }}"
+                            id="password"
                             type="password" required />
         </div>
 

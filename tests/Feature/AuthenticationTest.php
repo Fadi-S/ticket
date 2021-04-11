@@ -198,6 +198,26 @@ class AuthenticationTest extends TestCase
     }
 
     /** @test */
+    function email_can_be_empty()
+    {
+        $this->registerUser([
+            'email' => null,
+        ])->assertRedirect('/');
+
+        $this->assertEquals(2, User::count());
+
+        auth()->logout();
+
+        $this->registerUser([
+            'email' => null,
+            'phone' => '01273315871',
+        ])
+            ->assertRedirect('/');
+
+        $this->assertEquals(3, User::count());
+    }
+
+    /** @test */
     function email_must_be_unique()
     {
         $this->registerUser(['email' => 'test@alsharobim.com'])

@@ -48,7 +48,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:191', new Fullname],
             'arabic_name' => ['required', 'string', 'max:191', new Fullname],
-            'email' => ['required', 'string', 'email', 'max:191', 'unique:users'],
+            'email' => ['nullable', 'string', 'email', 'max:191', 'unique:users'],
             'phone' => ['required', 'string', 'regex:/' . StandardRegex::PHONE_NUMBER . '/', 'unique:users'],
             'national_id' => ['nullable', 'regex:/' . StandardRegex::NATIONAL_ID . '/', 'unique:users'],
             'password' => ['required', 'string', 'min:' . User::$minPassword, 'confirmed'],
@@ -70,7 +70,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'phone' => $data['phone'],
             'gender' => $data['gender'],
-            'national_id' => isset($data['national_id']) ? $data['national_id'] : null,
+            'national_id' => $data['national_id'] ?? null,
             'username' => User::makeSlug($data['name']),
             'password' => $data['password'],
         ]);
