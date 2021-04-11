@@ -9,7 +9,7 @@ use App\Helpers\NormalizePhoneNumber;
 trait UserAttributes
 {
 
-    public function scopeSearch($query, $search, $strict=false)
+    public function scopeSearchDatabase($query, $search, $strict=false)
     {
         if(!$search)
             return $query;
@@ -32,6 +32,11 @@ trait UserAttributes
             ->orWhere("phone", "like", NormalizePhoneNumber::create($origSearch, false)->handle() . ((!$strict) ? '%' : ''))
             ->orWhere("national_id", "like", $search)
             ->orWhere("email", "like", $search);
+    }
+
+    public function shouldSearchScout()
+    {
+        return $this->can('tickets.view');
     }
 
     public function scopeStrictSearch($query, $search)

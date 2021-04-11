@@ -11,13 +11,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Laravel\Scout\Searchable;
 use Spatie\Activitylog\Traits\CausesActivity;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasLocalePreference
 {
-    use Notifiable, SoftDeletes, HasApiTokens, HasRoles, CausesActivity,
+    use Notifiable, SoftDeletes, HasApiTokens, HasRoles, CausesActivity, Searchable,
         UserAttributes, LogsActivity, Slugable, HasFactory, HasFriends, CanReserveInEvents;
 
     public static int $minPassword = 6;

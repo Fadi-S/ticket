@@ -116,7 +116,7 @@ class MakeReservation extends Component
 
     public function getSearchedUsers()
     {
-        return User::search($this->search)
+        return User::searchDatabase($this->search)
             ->when(!auth()->user()->can('tickets.view'), fn($query) => $query->hasFriends())
             ->limit(8)
             ->get();

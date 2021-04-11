@@ -1,13 +1,17 @@
-
 <x-slot name="title">View All users | Ticket</x-slot>
 
 <x-card>
 
 
-    <x-form.input name="search" :label="__('Search')"
-                  dir="auto" autocomplete="off"
-                  wire:model.debouce.350ms="search" id="search"
-                  size="w-full lg:w-1/4 md:w-1/2" />
+    <div class="flex">
+{{--        <img class="w-8 h-8 mx-2" src="{{ asset('/images/algolia/algolia-blue-mark.svg') }}" alt="Search With Algolia">--}}
+
+        <x-form.input name="search" :label="__('Search')"
+                      dir="auto" autocomplete="off"
+                      wire:model="search" id="search"
+                      size="w-full lg:w-1/4 md:w-1/2" />
+    </div>
+
 
     <x-table.table>
         <x-slot name="head">

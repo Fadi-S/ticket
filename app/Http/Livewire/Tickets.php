@@ -106,7 +106,7 @@ class Tickets extends Component
                 function($query) {
                 if(auth()->user()->can('tickets.view') && $this->search) {
                     $query->whereHas('user',
-                        fn($query) => $query->search($this->search));
+                        fn($query) => $query->searchDatabase($this->search));
                 }
             })->whereHas('event',
                     fn($query) => $query

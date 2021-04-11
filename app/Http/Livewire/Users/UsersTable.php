@@ -30,7 +30,7 @@ class UsersTable extends Component
     public function render()
     {
         return view('livewire.users.users-table', [
-            'users' => User::search($this->search)->paginate(15),
+            'users' => User::searchDatabase($this->search)->paginate(15),
         ])->layout('components.master');
     }
 }

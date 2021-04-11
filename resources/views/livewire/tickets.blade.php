@@ -66,7 +66,9 @@
     @endif
 
     @if(auth()->user()->can('tickets.view'))
-        <div class="mb-4 w-full xl:w-1/3 lg:w-1/2 mx-auto">
+        <div class="flex items-end justify-center lg:w-1/2 mx-auto w-full xl:w-1/3">
+{{--            <img class="w-10 mx-2" src="{{ asset('/images/algolia/algolia-blue-mark.svg') }}" alt="Search With Algolia">--}}
+
             <x-form.input autocomplete="off" wire:model="search" name="search" id="search" label="{{ __('Search') }}"/>
         </div>
     @endif
