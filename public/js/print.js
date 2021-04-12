@@ -1,0 +1,1 @@
+window.printTickets=function(t){var e=window.open("","","height=400,width=800");e.document.write("<html><body>"),e.document.write(t.innerHTML),e.document.write("</body></html>"),e.document.close(),e.print(),e.close()};

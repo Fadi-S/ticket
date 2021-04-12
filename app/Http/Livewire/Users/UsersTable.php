@@ -12,9 +12,11 @@ class UsersTable extends Component
     use AuthorizesRequests, WithPagination;
 
     public string $search = '';
+    public bool $searchByScout = false;
 
     protected $queryString = [
-        'search' => ['except' => '']
+        'search' => ['except' => ''],
+        'searchByScout' => ['except' => false],
     ];
 
     public function mount()
@@ -30,7 +32,14 @@ class UsersTable extends Component
     public function render()
     {
         return view('livewire.users.users-table', [
-            'users' => User::searchDatabase($this->search)->paginate(15),
+            'users' => $this->getUsers(),
         ])->layout('components.master');
+    }
+
+    private function getUsers()
+    {
+        $method = ($this->searchByScout) ? 'search' : 'searchDatabase';
+
+        return User::$method($this->search)->paginate(15);
     }
 }

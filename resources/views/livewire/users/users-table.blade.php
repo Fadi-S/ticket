@@ -3,13 +3,23 @@
 <x-card>
 
 
-    <div class="flex">
-{{--        <img class="w-8 h-8 mx-2" src="{{ asset('/images/algolia/algolia-blue-mark.svg') }}" alt="Search With Algolia">--}}
+    <div class="flex items-end">
+        @if($searchByScout)
+            <img class="w-10 h-10 mx-2" src="{{ asset('/images/algolia/algolia-blue-mark.svg') }}" alt="Search With Algolia">
+        @endif
 
         <x-form.input name="search" :label="__('Search')"
                       dir="auto" autocomplete="off"
                       wire:model="search" id="search"
                       size="w-full lg:w-1/4 md:w-1/2" />
+
+        <x-button wire:click="$toggle('searchByScout')" class="mx-2">
+            <x-slot name="svg">
+                <x-dynamic-component :component="$searchByScout ? 'svg.eye' : 'svg.search'" />
+            </x-slot>
+
+            {{ __($searchByScout ? 'Enable' : 'Disable') }} {{ __('Exact Search') }}
+        </x-button>
     </div>
 
 
