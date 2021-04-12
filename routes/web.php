@@ -1,10 +1,11 @@
 <?php
 
 
-use App\Http\Controllers\TicketsController;
+use App\Http\Controllers\EventsController;
 use App\Http\Livewire\Friends;
 use App\Http\Livewire\MakeReservation;
 use App\Http\Livewire\ResetPasswordByPhone;
+use App\Http\Livewire\Tickets;
 use App\Http\Livewire\Users\UsersTable;
 use App\Http\Controllers\Admin\{AuthController, DashboardController, KiahkController, MassesController, ReservationsController, UsersController, VespersController};
 use Intervention\Image\ImageManagerStatic as Image;
@@ -22,16 +23,16 @@ Route::middleware(ProtectAgainstSpam::class)
         Auth::routes(['verify' => true]);
     });
 
-Route::get('/assets/{image}', function ($image) {
-    $width = request('w') ?? 200;
-    $height = request('h');
-
-    return Image::make(public_path("/images/$image"))
-        ->resize($width, $height, fn($constrains) => $constrains->aspectRatio())
-        ->response();
-});
-
 Route::middleware("auth")->group(function() {
+
+    Route::get('/assets/{image}', function ($image) {
+        $width = request('w') ?? 200;
+        $height = request('h');
+
+        return Image::make(public_path("/images/$image"))
+            ->resize($width, $height, fn($constrains) => $constrains->aspectRatio())
+            ->response();
+    });
 
     Route::post('/logout', [AuthController::class, 'logout']);
 
@@ -45,15 +46,12 @@ Route::middleware("auth")->group(function() {
 
     Route::get('/users', UsersTable::class);
 
-    Route::resource("masses", MassesController::class);
-    Route::resource("kiahk", KiahkController::class);
-    Route::resource("vespers", VespersController::class);
+    Route::resource("masses", EventsController::class);
+    Route::resource("kiahk", EventsController::class);
+    Route::resource("vespers", EventsController::class);
+    Route::resource("baskha", EventsController::class);
 
-    Route::resource("reservations", ReservationsController::class)
-        ->except(['show', 'index']);
-
-    Route::resource("tickets", TicketsController::class)
-        ->only(['show', 'index', 'edit', 'update', 'destroy']);
+    Route::get("tickets", Tickets::class);
 
     Route::get('/reserve', MakeReservation::class);
 
@@ -75,7 +73,7 @@ Route::get('lang/{locale}', function ($locale) {
         $user->save();
     }
 
-    setcookie('locale', $locale, time()+60*60*24*365*10, '/');
+    setcookie('locale', $locale, time()+60*60*24*365*10, '/'); // For 10 years
 
     return back();
 });

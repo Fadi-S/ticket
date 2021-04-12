@@ -1,6 +1,6 @@
 
 <x-master>
-    <x-slot name="title">View All Masses | Ticket</x-slot>
+    <x-slot name="title">{{ $title }} | Ticket</x-slot>
 
     <x-card>
 
@@ -24,24 +24,24 @@
 
             <x-slot name="body">
 
-                @foreach($masses as $mass)
-                    <tr @load.window="events[{{$mass->id}}] = { reservedPlaces: {{ $mass->reservedPlaces() }}, numberOfPlaces: {{ $mass->number_of_places }} };"
-                        class="{{ now()->between($mass->start, $mass->end) ? 'bg-green-200 dark:bg-green-500' : '' }}">
+                @foreach($events as $event)
+                    <tr @load.window="events[{{$event->id}}] = { reservedPlaces: {{ $event->reservedPlaces() }}, numberOfPlaces: {{ $event->number_of_places }} };"
+                        class="{{ now()->between($event->start, $event->end) ? 'bg-green-200 dark:bg-green-500' : '' }}">
                         <x-table.td>
                             <a class="text-blue-500 hover:text-blue-600 underline font-semibold"
-                               href="{{ url("/tickets/?event=$mass->id") }}">{{ $mass->formatted_date }}</a>
+                               href="{{ url("/tickets/?event=$event->id") }}">{{ $event->formatted_date }}</a>
                         </x-table.td>
 
                         <x-table.td dir="ltr" class="rtl:text-right">
-                            {{ $mass->start->format("h:i A") }} - {{ $mass->end->format("h:i A") }}
+                            {{ $event->start->format("h:i A") }} - {{ $event->end->format("h:i A") }}
                         </x-table.td>
 
                         <x-table.td dir="ltr" class="rtl:text-right">
-                            {{ $mass->published_at->format("d/m/Y h:i A") }}
+                            {{ $event->published_at->format("d/m/Y h:i A") }}
                         </x-table.td>
 
-                        <x-table.td x-text="(events[{{$mass->id}}]) ? events[{{$mass->id}}].reservedPlaces + ' / ' + events[{{$mass->id}}].numberOfPlaces : ''">
-                            {{ $mass->reservedPlaces() . '/' . $mass->number_of_places }}
+                        <x-table.td x-text="(events[{{$event->id}}]) ? events[{{$event->id}}].reservedPlaces + ' / ' + events[{{$event->id}}].numberOfPlaces : ''">
+                            {{ $event->reservedPlaces() . '/' . $event->number_of_places }}
                         </x-table.td>
 
                         @can('events.edit')
@@ -49,7 +49,7 @@
                                 <a class="bg-blue-400 px-4 py-2 hover:bg-blue-500
                                 dark:bg-blue-600 dark:hover:bg-blue-700
                                  text-white text-md rounded-lg"
-                                   href="{{ url("/masses/$mass->id/edit") }}">{{ __('Edit') }}</a>
+                                   href="{{ url("/$url/$event->id/edit") }}">{{ __('Edit') }}</a>
                             </x-table.td>
                         @endcan
                     </tr>
@@ -59,7 +59,7 @@
 
         </x-table.table>
 
-        {{ $masses->links() }}
+        {{ $events->links() }}
 
     </x-card>
 

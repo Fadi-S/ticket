@@ -120,8 +120,26 @@
                     </x-navbar.list>
                 @endcan
 
+{{--                @can("tickets.view")--}}
+{{--                    <x-navbar.list label="{{ __('Vespers') }}">--}}
+
+{{--                        <x-slot name="svg">--}}
+{{--                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">--}}
+{{--                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>--}}
+{{--                            </svg>--}}
+{{--                        </x-slot>--}}
+
+{{--                        @can("events.create")--}}
+{{--                            <x-navbar.child label="{{ __('Add Vesper') }}" href="{{ url('/vespers/create') }}"/>--}}
+{{--                        @endcan--}}
+
+{{--                        <x-navbar.child label="{{ __('View Vespers') }}" href="{{ url('/vespers') }}"/>--}}
+
+{{--                    </x-navbar.list>--}}
+{{--                @endcan--}}
+
                 @can("tickets.view")
-                    <x-navbar.list label="{{ __('Vespers') }}">
+                    <x-navbar.list label="{{ __('Baskhat') }}">
 
                         <x-slot name="svg">
                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -130,31 +148,29 @@
                         </x-slot>
 
                         @can("events.create")
-                            <x-navbar.child label="{{ __('Add Vesper') }}" href="{{ url('/vespers/create') }}"/>
+                            <x-navbar.child label="{{ __('Add Baskha') }}" href="{{ url('/baskha/create') }}"/>
                         @endcan
 
-                        <x-navbar.child label="{{ __('View Vespers') }}" href="{{ url('/vespers') }}"/>
+                        <x-navbar.child label="{{ __('View Baskhat') }}" href="{{ url('/baskha') }}"/>
 
                     </x-navbar.list>
                 @endcan
 
-                @if(false)
-                    @can("tickets.view")
-                        <x-navbar.list label="{{ __('Kiahk') }}">
+{{--                @can("tickets.view")--}}
+{{--                    <x-navbar.list label="{{ __('Kiahk') }}">--}}
 
-                            <x-slot name="svg">
-                                <x-svg.christmas/>
-                            </x-slot>
+{{--                        <x-slot name="svg">--}}
+{{--                            <x-svg.christmas/>--}}
+{{--                        </x-slot>--}}
 
-                            @can("events.create")
-                                <x-navbar.child label="{{ __('Add Kiahk') }}" href="{{ url('/kiahk/create') }}"/>
-                            @endcan
+{{--                        @can("events.create")--}}
+{{--                            <x-navbar.child label="{{ __('Add Kiahk') }}" href="{{ url('/kiahk/create') }}"/>--}}
+{{--                        @endcan--}}
 
-                            <x-navbar.child label="{{ __('View Kiahk Events') }}" href="{{ url('/kiahk') }}"/>
+{{--                        <x-navbar.child label="{{ __('View Kiahk Events') }}" href="{{ url('/kiahk') }}"/>--}}
 
-                        </x-navbar.list>
-                    @endcan
-                @endif
+{{--                    </x-navbar.list>--}}
+{{--                @endcan--}}
 
                 @if(auth()->user()->isUser())
                     <x-navbar.link label="{{ __('Friends') }}" :href="url('/friends')">

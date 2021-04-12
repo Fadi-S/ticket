@@ -84,7 +84,7 @@ class Tickets extends Component
     {
         return view('livewire.tickets', [
             'tickets' => $this->getTickets()
-        ]);
+        ])->layout('components.master');
     }
 
     public function cancelReservation(Reservation $reservation)
