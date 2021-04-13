@@ -69,12 +69,20 @@ class MassReservationTest extends TestCase
     }
 
     /** @test */
-    function a_user_reserving_before_event_within_12hrs_can_have_an_exception()
+    function a_user_reserving_before_event_within_16hrs_can_have_an_exception()
     {
         $this->fillTickets();
 
-        $this->assertNotFalse($this->reserveInNewEvent(now()->addHours(10))); // Exception 1
-        $this->assertNotFalse($this->reserveInNewEvent(now()->addHours(6))); // Exception 2
+        $this->travelTo(now()->hours(18));
+
+        $this->assertNotFalse($this->reserveInNewEvent(now()->addDay()->hours(10))); // Exception 1
+        $this->assertNotFalse($this->reserveInNewEvent(now()->addDay()->hours(6))); // Exception 2
+    }
+
+    /** @test */
+    function a_user_can_NOT_reserve_after_9pm_the_day_before_event()
+    {
+        $this->assertFalse($this->reserveInNewEvent(now()->hours(10)));
     }
 
     /** @test */

@@ -27,12 +27,12 @@ class Baskha extends Event implements EventContract
 
     static public function hoursForException(): int
     {
-        return 0;
+        return 16;
     }
 
     static public function allowsException(): bool
     {
-        return false;
+        return true;
     }
 
     static public function conditions()

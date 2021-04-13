@@ -2,12 +2,7 @@
 
 namespace App\Models;
 
-use App\Reservations\Conditions\{EnoughSpaceInEvent,
-    EventDateHasNotPassed,
-    HaveMassTickets,
-    NotAlreadyReserved,
-    QualifiesForException,
-    ReservedByAdmin};
+use App\Reservations\Conditions\{EnoughSpaceInEvent, EventDateHasNotPassed, HaveMassTickets, NotAlreadyReserved, QualifiesForException, ReservationStillOpen, ReservedByAdmin};
 use App\Reservations\EventContract;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -44,6 +39,7 @@ class Mass extends Event implements EventContract
     {
         return [
             EventDateHasNotPassed::class,
+            ReservationStillOpen::class,
             NotAlreadyReserved::class,
             ReservedByAdmin::class,
             EnoughSpaceInEvent::class,

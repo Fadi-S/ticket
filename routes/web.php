@@ -46,10 +46,19 @@ Route::middleware("auth")->group(function() {
 
     Route::get('/users', UsersTable::class);
 
-    Route::resource("masses", EventsController::class);
-    Route::resource("kiahk", EventsController::class);
-    Route::resource("vespers", EventsController::class);
-    Route::resource("baskha", EventsController::class);
+    $eventResources = ['create', 'edit', 'index', 'store', 'update'];
+    Route::resource("masses", EventsController::class)
+        ->parameters(['masses' => 'event'])
+        ->only($eventResources);
+    Route::resource("kiahk", EventsController::class)
+        ->parameters(['kiahk' => 'event'])
+        ->only($eventResources);
+    Route::resource("vespers", EventsController::class)
+        ->parameters(['vespers' => 'event'])
+        ->only($eventResources);
+    Route::resource("baskha", EventsController::class)
+        ->parameters(['baskha' => 'event'])
+        ->only($eventResources);
 
     Route::get("tickets", Tickets::class);
 

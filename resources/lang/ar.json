@@ -96,6 +96,7 @@
   "User Saved Successfully": "تم تسجيل المستخدم بنجاح",
   "No places left in this event": "لا يوجد مكان",
   "This event has passed": "هذه المناسبة انتهت",
+  "Too late to reserve in this event": "لا يمكنك الحجز في هذه المناسبة الأن",
   ":name have a ticket": ":name تذكرة",
   "You don't": "ليس لديك",
   ":name doesn't": ":name ليس لديه/ها",
@@ -145,6 +146,7 @@
   "You can manage your friends here": "يمكنك رؤية/إضافة أصدقائك هنا",
   "These are your confirmed friends": "هذا الجدول يحتوي علي أصدقائك الذين وافقوا علي طلب الصداقة",
   "Help": "مساعدة",
+
   "Reject": "رفض",
   "Friend removed": "تم رفض طلب الصداقة",
   "Unfriend": "مسح الصديق",

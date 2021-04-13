@@ -76,12 +76,12 @@ class Ticket
 
     public function baskha(Carbon $date=null)
     {
-        $start = ($date ?? now())->startOfMonth();
+        $start = Carbon::parse('25th April 2021');
 
         if(is_null(Baskha::maxReservations()))
             return -1;
 
-        $left = $this->calculateReservationsLeft(3, Baskha::maxReservations(), $start, 7);
+        $left = $this->calculateReservationsLeft(3, Baskha::maxReservations(), $start, 8);
 
         return $left >= 0 ? $left : 0;
     }
