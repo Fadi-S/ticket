@@ -29,13 +29,13 @@
                 <img class="opacity-0 absolute dark:opacity-100
                  transition-all duration-700
                  h-full object-cover object-top
-                 sm:object-center w-full" src="{{ url("/images/jesus-500.jpg") }}"
+                 sm:object-center w-full" src="{{ url("/images/jesus-500-min.jpg") }}"
                      alt="Jesus Christ">
 
                 <img class="absolute dark:opacity-0
                 transition-all duration-700
                  h-full object-cover object-top
-                 sm:object-center w-full" src="{{ url("/images/stgeorge_bg-500.jpg") }}"
+                 sm:object-center w-full" src="{{ url("/images/stgeorge_bg-500-min.jpg") }}"
                      alt="Saint George">
             </div>
 

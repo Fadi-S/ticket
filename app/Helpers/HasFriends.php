@@ -62,6 +62,12 @@ trait HasFriends {
             ->select('users.*');
     }
 
+    public function unconfirmedFriendRequests()
+    {
+        return $this->friendships()
+            ->where('sender_id', '<>', $this->id);
+    }
+
     public function friendships()
     {
         return $this->belongsToMany(Friendship::class, 'friendship_user', 'user_id', 'friendship_id');

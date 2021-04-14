@@ -41,7 +41,7 @@ trait UserAttributes
 
     public function scopeStrictSearch($query, $search)
     {
-        $query->search($search, true);
+        $query->searchDatabase($search, true);
     }
 
     public function scopeHasFriends($query)
@@ -103,7 +103,7 @@ trait UserAttributes
     public function getPictureAttribute($picture)
     {
         if(!$picture || !\Storage::exists("public/photos/$picture"))
-            return url("images/defaultPicture.png");
+            return url("images/defaultPicture-min.png");
 
         return url(\Storage::url("public/photos/$picture"));
     }

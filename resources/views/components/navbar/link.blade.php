@@ -12,6 +12,10 @@
     {{ $slot }}
 
     <span class="mx-3 font-semibold">{{ $label }}</span>
+
+    @isset($trailing)
+        {{ $trailing }}
+    @endisset
 </a>
 @else
     <button class="{{ $class }} flex items-center text-gray-100 w-full focus:outline-none
