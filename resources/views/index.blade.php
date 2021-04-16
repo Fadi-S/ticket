@@ -40,6 +40,14 @@
             <div class="text-gray-500 dark:text-gray-300">{{ __('Mass reservations left in :Month', ['month' => \Carbon\Carbon::now()->monthName]) }}</div>
         </x-data-card>
 
+{{--        <x-data-card color="bg-gray-800">--}}
+{{--            <x-slot name="svg">--}}
+{{--                <x-svg.ticket />--}}
+{{--            </x-slot>--}}
+
+{{--            <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">{{ $baskhaTickets }}</h4>--}}
+{{--            <div class="text-gray-500 dark:text-gray-300">{{ __('Baskha reservations left') }}</div>--}}
+{{--        </x-data-card>--}}
 
         <x-data-card color="bg-yellow-400"
                      data-step="1"
@@ -80,6 +88,17 @@
 
                 <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200" x-text="number">{{ $num->format($users) }}</h4>
                 <div class="text-gray-500 dark:text-gray-300">{{ __('Total Users') }}</div>
+            </x-data-card>
+
+            <x-data-card color="bg-green-400">
+                <x-slot name="svg">
+                    <x-svg.users class="text-white" />
+                </x-slot>
+
+                <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200" x-text="number">
+                    {{ $num->format($verified_users) }}
+                </h4>
+                <div class="text-gray-500 dark:text-gray-300">{{ __('Verified Users') }}</div>
             </x-data-card>
         @endif
     </div>

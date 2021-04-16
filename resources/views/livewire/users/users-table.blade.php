@@ -34,6 +34,7 @@
                 <x-table.th>{{ __('Gender') }}</x-table.th>
 {{--                    <x-table.th>{{ __('National ID') }}</x-table.th>--}}
                 <x-table.th>{{ __('Role') }}</x-table.th>
+                <x-table.th>{{ __('Verified') }}</x-table.th>
                 <x-table.empty-th>{{ __('Edit') }}</x-table.empty-th>
             </tr>
         </x-slot>
@@ -84,6 +85,14 @@
 
                     <x-table.td>
                         <span class="text-gray-800 dark:text-gray-200 text-md font-semibold">{{ isset($user->roles[0]) ? $user->roles[0]->name : 'user' }}</span>
+                    </x-table.td>
+
+                    <x-table.td>
+                        @if($user->isVerified())
+                            <div class="bg-green-500 rounded-full p-1 w-8">
+                                <x-svg.check size="" />
+                            </div>
+                        @endif
                     </x-table.td>
 
                     <x-table.td>

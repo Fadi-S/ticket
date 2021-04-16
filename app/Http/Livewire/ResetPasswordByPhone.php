@@ -120,6 +120,8 @@ class ResetPasswordByPhone extends Component
         $user = User::where('phone', session($this->phoneKey))->first();
 
         $user->password = $this->password;
+        if(!$user->isVerified())
+            $user->verified_at = now();
         $user->save();
 
         auth()->login($user, true);

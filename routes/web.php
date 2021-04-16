@@ -7,7 +7,10 @@ use App\Http\Livewire\MakeReservation;
 use App\Http\Livewire\ResetPasswordByPhone;
 use App\Http\Livewire\Tickets;
 use App\Http\Livewire\Users\UsersTable;
-use App\Http\Controllers\Admin\{AuthController, DashboardController, KiahkController, MassesController, ReservationsController, UsersController, VespersController};
+use App\Http\Livewire\VerifyPhoneNumber;
+use App\Http\Middleware\EnsurePhoneNumberIsVerified;
+use App\Http\Middleware\UnVerified;
+use App\Http\Controllers\Admin\{AuthController, DashboardController, UsersController};
 use Intervention\Image\ImageManagerStatic as Image;
 use App\Http\Livewire\Users\UserForm;
 use Spatie\Honeypot\ProtectAgainstSpam;
@@ -23,8 +26,10 @@ Route::middleware(ProtectAgainstSpam::class)
         Auth::routes(['verify' => true]);
     });
 
-Route::middleware("auth")->group(function() {
+Route::get('/verify', VerifyPhoneNumber::class)
+    ->middleware(['auth', UnVerified::class]);
 
+Route::middleware(["auth", EnsurePhoneNumberIsVerified::class])->group(function() {
     Route::get('/assets/{image}', function ($image) {
         $width = request('w') ?? 200;
         $height = request('h');

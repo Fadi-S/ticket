@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Baskha;
 use App\Models\Event;
 use App\Models\Mass;
 use App\Models\User\User;
@@ -26,8 +27,9 @@ class DashboardController extends Controller
 
         return view("index", [
             'users' => $user->isAdmin() ? User::role("user")->count() : 0,
+            'verified_users' => $user->isAdmin() ? User::role("user")->verified()->count() : 0,
             'massTickets' => __(':number of :from left', ['number' => $num->format($tickets->mass()), 'from' => $num->format(Mass::maxReservations())]),
-            //'kiahkTickets' => __(':number of :from left', ['number' => $num->format($tickets->kiahk()), 'from' => $num->format(Kiahk::maxReservations())]),
+            'baskhaTickets' => __(':number of :from left', ['number' => $num->format($tickets->baskha()), 'from' => $num->format(Baskha::maxReservations())]),
             'user' => $user,
             'currentEvent' => $currentEvent ?? null,
         ]);

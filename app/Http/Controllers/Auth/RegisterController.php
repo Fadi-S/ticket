@@ -8,6 +8,8 @@ use App\Helpers\StandardRegex;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User\User;
+use App\Rules\ArabicOnly;
+use App\Rules\EnglishOnly;
 use App\Rules\Fullname;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
@@ -46,8 +48,8 @@ class RegisterController extends Controller
         $data['phone'] = NormalizePhoneNumber::create($data['phone'])->handle();
 
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:191', new Fullname],
-            'arabic_name' => ['required', 'string', 'max:191', new Fullname],
+            'name' => ['required', 'string', 'max:191', new Fullname, new EnglishOnly],
+            'arabic_name' => ['required', 'string', 'max:191', new Fullname, new ArabicOnly],
             'email' => ['nullable', 'string', 'email', 'max:191', 'unique:users'],
             'phone' => ['required', 'string', 'regex:/' . StandardRegex::PHONE_NUMBER . '/', 'unique:users'],
             'national_id' => ['nullable', 'regex:/' . StandardRegex::NATIONAL_ID . '/', 'unique:users'],

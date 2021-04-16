@@ -112,7 +112,9 @@ class Tickets extends Component
                     fn($query) => $query
                         ->upcoming()
                         ->when($this->event || $this->type,
-                            fn($query) => $query->where('id', $this->event)->orWhere('type_id', $this->type)
+                            fn($query) => $query->where(function ($query) {
+                                $query->where('id', $this->event)->orWhere('type_id', $this->type);
+                            })
                         )
             )->user()
             ->orderBy('reserved_at', 'DESC')

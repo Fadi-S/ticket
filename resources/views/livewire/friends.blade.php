@@ -4,7 +4,7 @@
         Friends | Ticket
     </x-slot>
 
-    <span class="dark:text-gray-300 flex font-bold justify-center my-4 text-gray-900 text-xl">
+    <span class="dark:text-gray-300 flex font-bold justify-center m-4 text-gray-900 text-xl text-center">
             {{ __('Your friends can book a ticket for you and you can for them.') }}
     </span>
 
@@ -63,12 +63,14 @@
                         </x-table.td>
 
                         <x-table.td>
-                            <x-button color="bg-red-500 dark:bg-red-600 hover:bg-red-600 dark:hover:bg-red-700"
+                            <button class="rounded-full p-1 focus:outline-none
+                                border border-red-600 hover:bg-red-100 text-red-500
+                                dark:focus:text-red-200 dark:hover:text-red-200
+                                    focus:bg-red-100 dark:focus:bg-red-500
+                                     dark:hover:bg-red-500 transition-dark"
                                       wire:click="rejectFriend('{{$user->username }}')">
-                                <x-slot name="svg">
-                                    <x-svg.x size="h-6 h-6"/>
-                                </x-slot>
-                            </x-button>
+                                <x-svg.x size="h-5 h-5" />
+                            </button>
                         </x-table.td>
                     </tr>
                 @empty
@@ -100,8 +102,8 @@
                         <x-table.th>{{ __('ID') }}</x-table.th>
                         <x-table.th>{{ __('Name') }}</x-table.th>
                         <x-table.th>{{ __('Handle') }}</x-table.th>
-                        <x-table.empty-th>{{ __('Reject') }}</x-table.empty-th>
-                        <x-table.empty-th>{{ __('Confirm') }}</x-table.empty-th>
+                        <x-table.th>{{ __('Confirm') }}</x-table.th>
+                        <x-table.th>{{ __('Reject') }}</x-table.th>
                     </tr>
                 </x-slot>
 
@@ -134,24 +136,25 @@
                             </x-table.td>
 
                             <x-table.td>
-                                <x-button color="bg-red-500 dark:bg-red-600 hover:bg-red-600 dark:hover:bg-red-700"
-                                        wire:click="rejectFriend('{{$friendship->sender->username }}')">
-                                    <x-slot name="svg">
-                                        <x-svg.x size="h-6 h-6"/>
-                                    </x-slot>
-
-                                    {{ __('Reject') }}
-                                </x-button>
+                                <button class="rounded-full focus:outline-none p-3
+                                         dark:bg-green-600 dark:hover:bg-green-700
+                                         bg-green-400 hover:bg-green-500 text-green-100
+                                          transition-dark"
+                                        wire:click="confirmFriend('{{$friendship->sender->username }}')">
+                                    <x-svg.check size="h-5 h-5"/>
+                                </button>
                             </x-table.td>
 
                             <x-table.td>
-                                <x-button wire:click="confirmFriend('{{$friendship->sender->username }}')">
-                                    <x-slot name="svg">
-                                        <x-svg.check size="h-6 h-6"/>
-                                    </x-slot>
+                                <button class="rounded-full p-1 focus:outline-none
+                                border border-red-600 hover:bg-red-100 text-red-500
+                                dark:focus:text-red-200 dark:hover:text-red-200
+                                    focus:bg-red-100 dark:focus:bg-red-500
+                                     dark:hover:bg-red-500 transition-dark"
+                                          wire:click="rejectFriend('{{$friendship->sender->username }}')">
 
-                                    {{ __('Confirm') }}
-                                </x-button>
+                                    <x-svg.x size="h-5 h-5" />
+                                </button>
                             </x-table.td>
                         </tr>
                     @endforeach

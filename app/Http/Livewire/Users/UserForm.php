@@ -4,6 +4,8 @@ namespace App\Http\Livewire\Users;
 
 use App\Helpers\StandardRegex;
 use App\Models\User\User;
+use App\Rules\ArabicOnly;
+use App\Rules\EnglishOnly;
 use App\Rules\Fullname;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Validation\Rule;
@@ -119,8 +121,8 @@ class UserForm extends Component
     protected function rules()
     {
         $rules = [
-            'user.name' => ['required', new Fullname],
-            'user.arabic_name' => ['required', new Fullname],
+            'user.name' => ['required', new Fullname, new EnglishOnly],
+            'user.arabic_name' => ['required', new Fullname, new ArabicOnly],
             'tempUsername' => 'required|unique:users,username',
             'user.email' => [
                 'nullable',
@@ -160,7 +162,7 @@ class UserForm extends Component
             ];
 
             $rules['user.phone'] = [
-                'required',
+                Rule::requiredIf($this->showField('user.phone')),
                 'regex:/' . StandardRegex::PHONE_NUMBER . '/',
                 Rule::unique('users', 'phone')->ignore($id),
             ];

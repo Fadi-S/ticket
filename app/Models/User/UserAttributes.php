@@ -30,13 +30,23 @@ trait UserAttributes
         return $query->where("name", 'like', $search)
             ->orWhere('arabic_name', 'like', $search)
             ->orWhere("phone", "like", NormalizePhoneNumber::create($origSearch, false)->handle() . ((!$strict) ? '%' : ''))
-            ->orWhere("national_id", "like", $search)
+//            ->orWhere("national_id", "like", $search)
             ->orWhere("email", "like", $search);
     }
 
     public function shouldSearchScout()
     {
         return $this->can('tickets.view');
+    }
+
+    public function scopeVerified($query)
+    {
+        $query->where('verified_at', '<>', null);
+    }
+
+    public function isVerified()
+    {
+        return $this->verified_at != null;
     }
 
     public function scopeStrictSearch($query, $search)
