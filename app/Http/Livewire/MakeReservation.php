@@ -20,9 +20,11 @@ class MakeReservation extends Component
 
     public $search = '';
 
+    public User $user;
+
     protected $listeners = [
         'set:event' => 'setEvent',
-        'user-created' => 'userCreated'
+        'user-created' => 'userCreated',
     ];
 
     protected function getMessages()

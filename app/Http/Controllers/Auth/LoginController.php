@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Helpers\NormalizePhoneNumber;
 use App\Http\Controllers\Controller;
+use App\Models\Login;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -54,5 +55,10 @@ class LoginController extends Controller
             return true;
 
         return false;
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        Login::saveCurrentSession();
     }
 }

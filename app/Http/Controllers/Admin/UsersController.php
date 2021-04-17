@@ -8,8 +8,10 @@ use App\Models\User\User;
 class UsersController extends Controller
 {
 
-    public function show(User $user)
+    public function show(User $user=null)
     {
+        $user ??= auth()->user();
+
         $this->authorize('view', $user);
 
         $tickets = $user->reservedTickets()->with('event')->paginate(15);

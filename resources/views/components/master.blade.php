@@ -20,7 +20,7 @@
       x-data="{ dark: '{{ $isDark }}' }"
       @dark.window="dark = $event.detail.enable">
 
-<x-notification />
+<x-notification/>
 
 <div class="dark:text-white no-scrollbar">
     <div x-data="{ sidebarOpen: true, intentional: false }"
@@ -120,23 +120,23 @@
                     </x-navbar.list>
                 @endcan
 
-{{--                @can("tickets.view")--}}
-{{--                    <x-navbar.list label="{{ __('Vespers') }}">--}}
+                {{--                @can("tickets.view")--}}
+                {{--                    <x-navbar.list label="{{ __('Vespers') }}">--}}
 
-{{--                        <x-slot name="svg">--}}
-{{--                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">--}}
-{{--                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>--}}
-{{--                            </svg>--}}
-{{--                        </x-slot>--}}
+                {{--                        <x-slot name="svg">--}}
+                {{--                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">--}}
+                {{--                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>--}}
+                {{--                            </svg>--}}
+                {{--                        </x-slot>--}}
 
-{{--                        @can("events.create")--}}
-{{--                            <x-navbar.child label="{{ __('Add Vesper') }}" href="{{ url('/vespers/create') }}"/>--}}
-{{--                        @endcan--}}
+                {{--                        @can("events.create")--}}
+                {{--                            <x-navbar.child label="{{ __('Add Vesper') }}" href="{{ url('/vespers/create') }}"/>--}}
+                {{--                        @endcan--}}
 
-{{--                        <x-navbar.child label="{{ __('View Vespers') }}" href="{{ url('/vespers') }}"/>--}}
+                {{--                        <x-navbar.child label="{{ __('View Vespers') }}" href="{{ url('/vespers') }}"/>--}}
 
-{{--                    </x-navbar.list>--}}
-{{--                @endcan--}}
+                {{--                    </x-navbar.list>--}}
+                {{--                @endcan--}}
 
                 @can("tickets.view")
                     <x-navbar.list label="{{ __('Baskhat') }}">
@@ -156,21 +156,21 @@
                     </x-navbar.list>
                 @endcan
 
-{{--                @can("tickets.view")--}}
-{{--                    <x-navbar.list label="{{ __('Kiahk') }}">--}}
+                {{--                @can("tickets.view")--}}
+                {{--                    <x-navbar.list label="{{ __('Kiahk') }}">--}}
 
-{{--                        <x-slot name="svg">--}}
-{{--                            <x-svg.christmas/>--}}
-{{--                        </x-slot>--}}
+                {{--                        <x-slot name="svg">--}}
+                {{--                            <x-svg.christmas/>--}}
+                {{--                        </x-slot>--}}
 
-{{--                        @can("events.create")--}}
-{{--                            <x-navbar.child label="{{ __('Add Kiahk') }}" href="{{ url('/kiahk/create') }}"/>--}}
-{{--                        @endcan--}}
+                {{--                        @can("events.create")--}}
+                {{--                            <x-navbar.child label="{{ __('Add Kiahk') }}" href="{{ url('/kiahk/create') }}"/>--}}
+                {{--                        @endcan--}}
 
-{{--                        <x-navbar.child label="{{ __('View Kiahk Events') }}" href="{{ url('/kiahk') }}"/>--}}
+                {{--                        <x-navbar.child label="{{ __('View Kiahk Events') }}" href="{{ url('/kiahk') }}"/>--}}
 
-{{--                    </x-navbar.list>--}}
-{{--                @endcan--}}
+                {{--                    </x-navbar.list>--}}
+                {{--                @endcan--}}
 
                 @if(auth()->user()->isUser())
                     @php($unconfirmed = auth()->user()->unconfirmedFriendRequests()->count())
@@ -188,6 +188,15 @@
                     </x-navbar.link>
                 @endif
 
+                @can('logins.view')
+                    <x-navbar.link label="{{ __('Potential Duplicates') }}" :href="url('/duplicates')">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                        </svg>
+                    </x-navbar.link>
+                @endcan
+
                 @can('activityLog')
                     <x-navbar.divider/>
 
@@ -203,7 +212,7 @@
 
                 <x-navbar.divider/>
 
-                <x-language-dropdown />
+                <x-language-dropdown/>
 
                 <x-navbar.divider/>
 
@@ -240,12 +249,12 @@
                     <x-button x-data="{}" color="bg-transparent text-gray-800 dark:text-gray-100"
                               @click="startIntro()" title="{{ __('Help') }}">
                         <x-slot name="svg">
-                            <x-svg.help />
+                            <x-svg.help/>
                         </x-slot>
                     </x-button>
 
                     <div class="mx-2">
-                        <x-form.night-switch />
+                        <x-form.night-switch/>
                     </div>
 
                     <div x-data="{ dropdownOpen: false }" class="relative mx-2">

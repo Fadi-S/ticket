@@ -29,6 +29,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('queue:work --stop-when-empty')->everyMinute();
 
         $schedule->command('activitylog:clean')->daily();
+
+        $schedule->command('logins:clear')->daily();
     }
 
     /**

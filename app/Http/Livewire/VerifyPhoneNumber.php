@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Helpers\GoogleAPI;
+use App\Models\User\User;
 use Livewire\Component;
 
 class VerifyPhoneNumber extends Component
@@ -11,16 +12,29 @@ class VerifyPhoneNumber extends Component
     public $reCaptcha;
     public bool $edit = false;
 
+    public User $user;
+
     public $code;
+
+    public bool $independent = true;
 
     protected $listeners = [
         'user-created' => 'editFinish'
     ];
 
+    public function mount()
+    {
+        $this->user ??= auth()->user();
+    }
+
     public function render()
     {
-        return view('livewire.verify-phone-number')
-            ->layout('components.master');
+        if($this->independent) {
+            return view('livewire.verify-phone-number')
+                ->layout('components.layouts.auth');
+        }
+
+        return view('livewire.verify-phone-number');
     }
 
     public function editFinish()
@@ -34,7 +48,7 @@ class VerifyPhoneNumber extends Component
             return;
         }
 
-        $phone = auth()->user()->phone;
+        $phone = $this->user->phone;
 
         $api = new GoogleAPI();
 
@@ -63,7 +77,7 @@ class VerifyPhoneNumber extends Component
 
     public function verify()
     {
-        $user = auth()->user();
+        $user = $this->user;
         $api = new GoogleAPI();
 
         $sessionInfo = \DB::table('phone_verifications')
@@ -84,8 +98,14 @@ class VerifyPhoneNumber extends Component
         $user->verified_at = now();
         $user->save();
 
-        flash()->success("Success");
+        $this->emit('user-verified', $user->username);
 
-        $this->redirect('/');
+        session()->flash('status', __('Verified'));
+
+        if($this->independent) {
+            flash()->success(__('Verified'));
+
+            $this->redirect('/');
+        }
     }
 }

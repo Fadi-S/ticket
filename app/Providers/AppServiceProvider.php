@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Login;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;

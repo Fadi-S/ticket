@@ -6,6 +6,7 @@ use App\Events\UserRegistered;
 use App\Helpers\NormalizePhoneNumber;
 use App\Helpers\StandardRegex;
 use App\Http\Controllers\Controller;
+use App\Models\Login;
 use App\Providers\RouteServiceProvider;
 use App\Models\User\User;
 use App\Rules\ArabicOnly;
@@ -83,6 +84,8 @@ class RegisterController extends Controller
         flash()->success('Registration completed successfully, your ID is: ' . $user->id);
 
         $user->assignRole('user');
+
+        Login::saveCurrentSession();
 
         UserRegistered::dispatch();
     }

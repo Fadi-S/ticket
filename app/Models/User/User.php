@@ -29,7 +29,7 @@ class User extends Authenticatable implements HasLocalePreference
 
     protected $hidden = ['password', 'remember_token'];
     protected $casts = ['email_verified_at' => 'datetime', 'gender' => 'boolean'];
-    protected $fillable = ['name', 'arabic_name', 'email', 'password', 'username', 'picture', 'gender', 'phone', 'national_id'];
+    protected $fillable = ['name', 'arabic_name', 'email', 'password', 'username', 'picture', 'gender', 'phone', 'national_id', 'creator_id'];
 
     protected $with = ['roles.permissions'];
 

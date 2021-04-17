@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\Localization;
+use App\Http\Middleware\SaveSession;
 use App\Http\Middleware\SetTurboLinksHeader;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -23,7 +24,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        \App\Http\Middleware\SecureConnection::class,
+        \App\Http\Middleware\SecureConnection::class
     ];
 
     /**
@@ -42,11 +43,13 @@ class Kernel extends HttpKernel
             //\App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             SetTurboLinksHeader::class,
+            SaveSession::class,
         ],
 
         'api' => [
             'throttle:60,1',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            SaveSession::class,
         ],
     ];
 

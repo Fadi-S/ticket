@@ -5,6 +5,7 @@ namespace App\Models\User;
 
 
 use App\Helpers\NormalizePhoneNumber;
+use App\Models\Login;
 
 trait UserAttributes
 {
@@ -116,6 +117,11 @@ trait UserAttributes
             return url("images/defaultPicture-min.png");
 
         return url(\Storage::url("public/photos/$picture"));
+    }
+
+    public function logins()
+    {
+        return $this->hasMany(Login::class);
     }
 
 }

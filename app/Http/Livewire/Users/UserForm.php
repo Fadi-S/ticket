@@ -23,13 +23,9 @@ class UserForm extends Component
     public bool $isCreate = true;
     public int $gender = 1;
 
-    public bool $redirect = false;
+    public bool $card = true;
 
     public array $only = [];
-
-    protected $queryString = [
-        'redirect' => ['except' => false],
-    ];
 
     public function mount()
     {
@@ -91,6 +87,9 @@ class UserForm extends Component
         if(!$this->user->username) {
             $this->user->username = User::makeSlug($this->user->name, $this->user->id);
         }
+        if(!$this->user->isSignedIn() && auth()->user()->isUser()) {
+            $this->user->creator_id = auth()->id();
+        }
 
         $this->user->save();
         $this->user->syncRoles([(auth()->user()->isAdmin()) ? $this->role_id : 1]);
@@ -100,13 +99,9 @@ class UserForm extends Component
 
         $this->emit('user-created', $this->user->username);
 
-        $this->clearFields();
-
         session()->flash('success', __('User Saved Successfully'));
 
-
-        if ($this->redirect)
-            $this->dispatchBrowserEvent('closeTab');
+        $this->clearFields();
     }
 
     protected function clearFields()
@@ -121,8 +116,16 @@ class UserForm extends Component
     protected function rules()
     {
         $rules = [
-            'user.name' => ['required', new Fullname, new EnglishOnly],
-            'user.arabic_name' => ['required', new Fullname, new ArabicOnly],
+            'user.name' => [
+                'required',
+                new Fullname,
+                new EnglishOnly
+            ],
+            'user.arabic_name' => [
+                'required',
+                new Fullname,
+                new ArabicOnly
+            ],
             'tempUsername' => 'required|unique:users,username',
             'user.email' => [
                 'nullable',
@@ -172,6 +175,11 @@ class UserForm extends Component
                 'regex:/' . StandardRegex::NATIONAL_ID . '/',
                 Rule::unique('users', 'national_id')->ignore($id),
             ];*/
+        }
+
+        foreach ($rules as $field => $rule) {
+            if(!$this->showField($field))
+                $rules[$field] = [];
         }
 
         return $rules;

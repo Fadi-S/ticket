@@ -105,7 +105,7 @@
 
             @empty
                 <tr>
-                   <td colspan="8">
+                   <td colspan="9">
                        <span class="flex justify-center mx-auto py-4 text-gray-600 dark:text-gray-300">
                             <x-svg.search color="" /> &nbsp; {{ __("No users match search :search", ['search' => $search]) }}
                        </span>

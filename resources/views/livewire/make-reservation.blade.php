@@ -236,7 +236,9 @@
                     <x-slot name="footer">
                         <div class="space-x-2 flex flex-row-reverse">
                             <x-button class="mx-2" type="button" @click="open = false;"
-                                      color="bg-white text-gray-700 hover:bg-gray-50 border border-gray-400">
+                                      color="bg-white dark:bg-gray-500 dark:hover:bg-gray-700
+                                       bg:text-gray-900 text-gray-700 dark:text-gray-200
+                                       hover:bg-gray-50 border border-gray-400">
                                 {{ __("Close") }}
                             </x-button>
                         </div>
@@ -246,14 +248,18 @@
                 <x-layouts.modal id="user-form-modal" :force="true" size="w-full rounded-none sm:rounded-lg md:max-w-2xl
                  lg:max-w-4xl my-2 sm:max-w-xl" @openUser.window="open=true" @closeUser.window="open=false">
                     <x-slot name="dialog">
-                        <livewire:users.user-form />
+                        <div class="px-6 py-10">
+                            <livewire:users.user-form :card="false" />
+                        </div>
                     </x-slot>
 
                     <x-slot name="footer">
                         <div class="space-x-2 flex flex-row-reverse">
 
                             <x-button class="mx-2" type="button" @click="open = false;"
-                                      color="bg-white dark:bg-gray-500 dark:hover:bg-gray-700 bg:text-gray-900 text-gray-700 hover:bg-gray-50 border border-gray-400">
+                                      color="bg-white dark:bg-gray-500 dark:hover:bg-gray-700
+                                       bg:text-gray-900 text-gray-700 dark:text-gray-200
+                                       hover:bg-gray-50 border border-gray-400">
                                 {{ __("Cancel") }}
                             </x-button>
                         </div>
