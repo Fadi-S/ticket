@@ -31,6 +31,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('activitylog:clean')->daily();
 
         $schedule->command('logins:clear')->daily();
+
+        $schedule->command('verification:send')->everyThirtyMinutes();
     }
 
     /**

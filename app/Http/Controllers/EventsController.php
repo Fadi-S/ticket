@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EventsRequest;
 use App\Models\Baskha;
+use App\Models\BaskhaOccasion;
 use App\Models\Event;
 use App\Models\Kiahk;
 use App\Models\Mass;
@@ -24,6 +25,7 @@ class EventsController extends Controller
             'vespers' => Vesper::class,
             'kiahk' => Kiahk::class,
             'baskha' => Baskha::class,
+            'holy' => BaskhaOccasion::class,
         ][$this->url] ?? Event::class;
 
         $reflection = new \ReflectionClass($this->model);

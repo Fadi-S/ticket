@@ -20,7 +20,11 @@ class Login extends Model
 
         $sessionId = request()->getSession()->getId();
 
-        if(self::where('session_id', $sessionId)->exists())
+        $user = Auth::user();
+
+        if($user->logins()
+            ->where('time', '>=', now()->subHour())
+            ->exists())
             return;
 
         $client = [
@@ -28,7 +32,7 @@ class Login extends Model
         ];
 
         self::create([
-            'user_id' => Auth::id(),
+            'user_id' => $user->id,
             'time' => now(),
             'ip' => $_SERVER['REMOTE_ADDR'],
             'session_id' => $sessionId,

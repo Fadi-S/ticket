@@ -3,6 +3,7 @@
 namespace App\Models\User;
 
 use App\Models\Baskha;
+use App\Models\BaskhaOccasion;
 use App\Models\Kiahk;
 use App\Models\Mass;
 use App\Models\Vesper;
@@ -82,6 +83,18 @@ class Ticket
             return -1;
 
         $left = $this->calculateReservationsLeft(3, Baskha::maxReservations(), $start, 8);
+
+        return $left >= 0 ? $left : 0;
+    }
+
+    public function baskhaOccasion(Carbon $date=null)
+    {
+        $start = Carbon::parse('25th April 2021');
+
+        if(is_null(BaskhaOccasion::maxReservations()))
+            return -1;
+
+        $left = $this->calculateReservationsLeft(5, BaskhaOccasion::maxReservations(), $start, 8);
 
         return $left >= 0 ? $left : 0;
     }

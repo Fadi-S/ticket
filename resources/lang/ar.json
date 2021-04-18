@@ -169,5 +169,8 @@
   "Verified Users": "المستخدمين المؤكدين",
   "A verification code was sent to :phone, please check your phone's sms": "تم إرسال رمز التحقق إلى :phone، يرجى التحقق من الرسائل في هاتفك",
 
-  "Potential Duplicates": "الحسابات المكررة"
+  "Potential Duplicates": "الحسابات المكررة",
+  "Holy Week Occasions": "مناسبات اسبوع الالام",
+  "Add Occasion": "أضف مناسبة",
+  "View Occasions": "إعرض المناسبات"
 }

@@ -95,7 +95,7 @@
                     <x-svg.users class="text-white" />
                 </x-slot>
 
-                <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200" x-text="number">
+                <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">
                     {{ $num->format($verified_users) }}
                 </h4>
                 <div class="text-gray-500 dark:text-gray-300">{{ __('Verified Users') }}</div>

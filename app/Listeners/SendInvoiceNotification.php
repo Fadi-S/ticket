@@ -7,7 +7,7 @@ use App\Notifications\ReservationConfirmed;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class SendInvoiceNotification implements ShouldQueue
+class SendInvoiceNotification
 {
 
 

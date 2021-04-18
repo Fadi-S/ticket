@@ -32,6 +32,7 @@
                 <x-table.th>{{ __('Username') }}</x-table.th>
                 <x-table.th>{{ __('Phone') }}</x-table.th>
                 <x-table.th>{{ __('Gender') }}</x-table.th>
+                <x-table.th>{{ __('Created By') }}</x-table.th>
 {{--                    <x-table.th>{{ __('National ID') }}</x-table.th>--}}
                 <x-table.th>{{ __('Role') }}</x-table.th>
                 <x-table.th>{{ __('Verified') }}</x-table.th>
@@ -79,6 +80,16 @@
                         <span dir="ltr" class="text-gray-800 dark:text-gray-200 text-md font-semibold">{{ [__('Female'), __('Male')][$user->gender] ?? '-' }}</span>
                     </x-table.td>
 
+                    <x-table.td>
+                        @if($user->creator)
+                            <button type="button" wire:click="$set('search', '#{{ $user->creator->id }}')"
+                                    class="text-gray-800 dark:text-gray-200 text-md font-semibold hover:text-gray-700 dark:hover:text-gray-300">
+                                {{ $user->creator->locale_name }}
+                            </button>
+                        @else
+                            -
+                        @endif
+                    </x-table.td>
 {{--                        <x-table.td>--}}
 {{--                            <span class="text-gray-800 dark:text-gray-200 text-md font-semibold">{{ $user->national_id }}</span>--}}
 {{--                        </x-table.td>--}}
@@ -90,7 +101,7 @@
                     <x-table.td>
                         @if($user->isVerified())
                             <div class="bg-green-500 rounded-full p-1 w-8">
-                                <x-svg.check size="" />
+                                <x-svg.check class="text-white" size="" />
                             </div>
                         @endif
                     </x-table.td>
@@ -105,7 +116,7 @@
 
             @empty
                 <tr>
-                   <td colspan="9">
+                   <td colspan="10">
                        <span class="flex justify-center mx-auto py-4 text-gray-600 dark:text-gray-300">
                             <x-svg.search color="" /> &nbsp; {{ __("No users match search :search", ['search' => $search]) }}
                        </span>

@@ -75,7 +75,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <x-table.td colspan="2">
+                        <x-table.td colspan="4">
                             {{ __('You have no friends yet.') }}
                         </x-table.td>
                     </tr>

@@ -124,4 +124,8 @@ trait UserAttributes
         return $this->hasMany(Login::class);
     }
 
+    public function creator()
+    {
+        return $this->belongsTo(self::class, 'creator_id', 'id');
+    }
 }

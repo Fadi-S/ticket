@@ -67,6 +67,9 @@ Route::middleware(["auth", EnsurePhoneNumberIsVerified::class])->group(function(
     Route::resource("baskha", EventsController::class)
         ->parameters(['baskha' => 'event'])
         ->only($eventResources);
+    Route::resource("holy", EventsController::class)
+        ->parameters(['holy' => 'event'])
+        ->only($eventResources);
 
     Route::get("tickets", Tickets::class);
 

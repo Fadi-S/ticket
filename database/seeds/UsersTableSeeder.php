@@ -20,7 +20,7 @@ class UsersTableSeeder extends Seeder
             "username" => "admin",
             "email" => "admin@alsharobim.com",
             "password" => "123456",
-            "email_verified_at" => Carbon::now(),
+            "verified_at" => Carbon::now(),
         ]);
 
         $user->assignRole('super-admin');
