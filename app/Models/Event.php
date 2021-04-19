@@ -34,11 +34,18 @@ class Event extends Model
 
     public function getReservationsLeftAttribute()
     {
-        $count = 0;
-        $this->load('tickets');
+        $count = $this->tickets()->whereHas('reservations', function ($query) {
+            $query->whereHas('user', fn($query) => $query->role('user'));
+        })->count();
 
-        foreach ($this->tickets as $ticket)
-            $count += $ticket->reservations_count;
+        return $this->number_of_places - $count;
+    }
+
+    public function getDeaconReservationsLeftAttribute()
+    {
+        $count = $this->tickets()->whereHas('reservations', function ($query) {
+            $query->whereHas('user', fn($query) => $query->role('deacon'));
+        })->count();
 
         return $this->number_of_places - $count;
     }

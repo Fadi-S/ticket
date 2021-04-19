@@ -31,6 +31,10 @@ class Login extends Model
             'agent' => request()->header('User-Agent'),
         ];
 
+        if(!isset($_SERVER['REMOTE_ADDR'])) {
+            return ;
+        }
+
         self::create([
             'user_id' => $user->id,
             'time' => now(),

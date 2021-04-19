@@ -23,7 +23,7 @@ class UserFactory extends Factory {
             'phone' => '01'
                 . $this->faker->randomNumber(3)
                 . $this->faker->randomNumber(6),
-            'email_verified_at' => now(),
+            'verified_at' => now(),
             'password' => bcrypt('password'),
             'remember_token' => Str::random(10),
         ];

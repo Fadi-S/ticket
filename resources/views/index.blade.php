@@ -40,6 +40,16 @@
 {{--            <div class="text-gray-500 dark:text-gray-300">{{ __('Mass reservations left in :Month', ['month' => \Carbon\Carbon::now()->monthName]) }}</div>--}}
 {{--        </x-data-card>--}}
 
+        @if(auth()->user()->isDeacon())
+            <x-data-card color="bg-blue-400">
+                <x-slot name="svg">
+                    <x-svg.user />
+                </x-slot>
+
+                <h4 class="text-2xl font-bold text-gray-700 dark:text-gray-200">{{ __('Deacon') }}</h4>
+            </x-data-card>
+        @endif
+
         <x-data-card color="bg-gray-800">
             <x-slot name="svg">
                 <x-svg.ticket />

@@ -20,7 +20,8 @@ class RolesTableSeeder extends Seeder
 
         $user = Role::create(['name' => 'user']);
         Permission::create(["name" => "users.create"]);
-        $user->givePermissionTo("users.create");
+
+        $deacon = Role::create(['name' => 'deacon']);
 
         $role = Role::create(['name' => 'super-admin']);
         Permission::create(["name" => "*"]);

@@ -8,6 +8,7 @@ use App\Models\BaskhaOccasion;
 use App\Models\Event;
 use App\Models\Kiahk;
 use App\Models\Mass;
+use App\Models\User\User;
 use App\Models\Vesper;
 use Carbon\Carbon;
 
@@ -31,11 +32,13 @@ class EventsController extends Controller
         $reflection = new \ReflectionClass($this->model);
         $this->model = $reflection->newInstance();
 
-        $this->authorizeResource(Event::class, 'event');
+//        $this->authorizeResource(Event::class, 'event');
     }
 
     public function create()
     {
+        $this->authorize('create', Event::class);
+
         $start = Carbon::now();
         return view("events.create", [
             'start' => $start,
@@ -45,6 +48,8 @@ class EventsController extends Controller
 
     public function store(EventsRequest $request)
     {
+        $this->authorize('create', Event::class);
+
         if($this->model::create($request->all()))
             flash()->success("Created event successfully");
         else
@@ -55,6 +60,8 @@ class EventsController extends Controller
 
     public function edit(Event $event)
     {
+        $this->authorize('update', $event);
+
         $start = Carbon::now();
         return view("events.edit", [
             'start' => $start,
@@ -65,6 +72,8 @@ class EventsController extends Controller
 
     public function update(Event $event, EventsRequest $request)
     {
+        $this->authorize('update', $event);
+
         if($event->update($request->all()))
             flash()->success("Edited event successfully");
         else
@@ -75,6 +84,8 @@ class EventsController extends Controller
 
     public function index()
     {
+        $this->authorize('index', Event::class);
+
         $events = $this->model->orderBy('start')
             ->whereDate('end', '>=', now())
             ->with('tickets.reservations.user')
@@ -85,5 +96,16 @@ class EventsController extends Controller
             'title' => 'View All Events',
             'url' => $this->url,
         ]);
+    }
+
+    public function destroy(Event $event)
+    {
+        $this->authorize('delete', Event::class);
+
+        $event->delete();
+
+        flash()->success(__('Event deleted successfully'));
+
+        redirect($this->url);
     }
 }

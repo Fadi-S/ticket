@@ -65,6 +65,7 @@ trait HasFriends {
     public function unconfirmedFriendRequests()
     {
         return $this->friendships()
+            ->where('confirmed_at', '=', null)
             ->where('sender_id', '<>', $this->id);
     }
 

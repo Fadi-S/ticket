@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}" dir="{{ $dir }}">
+<html lang="{{ app()->getLocale() }}" dir="{{ __('ltr') }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -186,7 +186,7 @@
                 {{--                    </x-navbar.list>--}}
                 {{--                @endcan--}}
 
-                @if(auth()->user()->isUser())
+                @if(!auth()->user()->isAdmin())
                     @php($unconfirmed = auth()->user()->unconfirmedFriendRequests()->count())
                     <x-navbar.link label="{{ __('Friends') }}" :href="url('/friends')">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

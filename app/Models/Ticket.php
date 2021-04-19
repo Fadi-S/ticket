@@ -16,7 +16,7 @@ class Ticket extends Model
 
     public function scopeUser($query)
     {
-        if(auth()->user()->isUser()) {
+        if(!auth()->user()->can('tickets.view')) {
 
             $query->where('reserved_by', \Auth::id())
                 ->orWhereHas('reservations',

@@ -54,7 +54,7 @@ Route::middleware(["auth", EnsurePhoneNumberIsVerified::class])->group(function(
 
     Route::get('/users', UsersTable::class);
 
-    $eventResources = ['create', 'edit', 'index', 'store', 'update'];
+    $eventResources = ['create', 'edit', 'index', 'store', 'update', 'destroy'];
     Route::resource("masses", EventsController::class)
         ->parameters(['masses' => 'event'])
         ->only($eventResources);

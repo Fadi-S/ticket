@@ -14,7 +14,7 @@
                       size="col-span-1"
                       placeholder="{{ __('Description') }}" />
 
-        <x-form.input required type="text" :value="!$create ? $event->published_at->format('d/m/Y h:i A') : null"
+        <x-form.input required type="text" :value="!$create ? $event->published_at->format('d/m/Y h:i A') : \Carbon\Carbon::parse('20th April 2021 10:00 a')->format('d/m/Y h:i A')"
                       id="date" name="published_at" autocomplete="off" id="published"
                       label="{{ __('Publish Date') }}" class="datePicker"
                       size="col-span-1"

@@ -26,6 +26,8 @@ class MakeReservationTest extends TestCase
 
         $this->seed();
 
+        $this->travelTo(now()->startOfMonth());
+
         $this->event = Mass::factory()->create();
 
         $this->user = User::factory()->create();
@@ -58,6 +60,7 @@ class MakeReservationTest extends TestCase
     /** @test */
     function user_can_reserve_in_event()
     {
+        $this->withoutExceptionHandling();
         $this->setRole('user');
 
         $this->assertEquals(0, Reservation::count());

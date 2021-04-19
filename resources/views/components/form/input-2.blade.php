@@ -3,6 +3,7 @@
     'error' => null,
     'label',
     'id',
+    'dir' => __('ltr'),
 ])
 
 <div>
@@ -17,11 +18,11 @@
             transition-dark
               block w-full px-3 py-2 border
                  rounded-lg focus:outline-none
-                 focus:z-10 sm:text-sm"
+                 focus:z-10 sm:text-sm" dir="{{ $dir }}"
            placeholder="{{ $label }}">
 
         @if($error)
-            <div class="absolute inset-y-0 ltr:right-0 rtl:left-0 ltr:pr-3 rtl:pl-3 flex items-center pointer-events-none">
+            <div class="absolute inset-y-0 {{ $dir == 'ltr' ? 'right-0 pr-3' : 'left-0 pl-3' }} flex items-center pointer-events-none">
                 <x-svg.exclamation-circle color="text-red-500" />
             </div>
         @endif

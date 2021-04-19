@@ -175,5 +175,7 @@
   "Holy Week Occasions": "اسبوع الالام",
   "Add Occasion": "أضف مناسبة",
   "View Occasions": "إعرض المناسبات",
-  ":name | :number left": ":name، متبقي :number"
+  ":name | :number left": ":name، متبقي :number",
+  "Deacon": "شماس",
+  "No deacon places left in this event": "اكتمل عدد الشمامسة في هذه المناسبة"
 }

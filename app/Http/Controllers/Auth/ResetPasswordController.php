@@ -28,4 +28,9 @@ class ResetPasswordController extends Controller
             'password' => 'required|confirmed|min:' . User::$minPassword,
         ];
     }
+
+    protected function setUserPassword($user, $password)
+    {
+        $user->password = $password;
+    }
 }

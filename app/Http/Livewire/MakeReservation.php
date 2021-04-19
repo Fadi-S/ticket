@@ -40,7 +40,7 @@ class MakeReservation extends Component
     {
         $this->users = collect();
 
-        if(auth()->user()->isUser()) {
+        if(auth()->user()->isUser() || auth()->user()->isDeacon()) {
             $this->users->push(auth()->user());
         }
     }

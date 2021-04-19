@@ -2,7 +2,7 @@
     <x-card :show="$card">
         <x-slot name="title">User Form | Ticket</x-slot>
 
-        <form method="POST" action="{{ url('users') }}" wire:submit.prevent="save">
+        <form wire:submit.prevent="save">
             @csrf
 
             <div class="space-y-6">

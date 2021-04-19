@@ -4,11 +4,12 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import arLocale from '@fullcalendar/core/locales/ar';
 
 let lastSelected;
+let lastSelectedStyle = {};
 
 function selectCurrentEvent(date, element=null) {
     if (lastSelected != null) {
-        lastSelected.style.backgroundColor = '';
-        lastSelected.style.color = '';
+        lastSelected.style.backgroundColor = lastSelectedStyle.backgroundColor ?? '';
+        lastSelected.style.color = lastSelectedStyle.color ?? '';
     }
 
     lastSelected = element;
@@ -48,6 +49,9 @@ function selectCurrentEvent(date, element=null) {
 
         if(! lastSelected) return;
     }
+
+    lastSelectedStyle.backgroundColor = lastSelected.style.backgroundColor;
+    lastSelectedStyle.color = lastSelected.style.color;
 
     lastSelected.classList.add('transition-colors', 'duration-150');
     lastSelected.style.backgroundColor = '#129406';

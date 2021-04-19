@@ -17,7 +17,7 @@ class UnVerified
     public function handle(Request $request, Closure $next)
     {
         if($request->user() && $request->user()->isVerified()) {
-            abort(404);
+            redirect('/');
         }
 
         return $next($request);

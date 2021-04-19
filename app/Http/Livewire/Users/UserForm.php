@@ -20,7 +20,7 @@ class UserForm extends Component
     public string $password = '';
     public string $tempUsername = '';
     public int $role_id = 1;
-    private bool $isCreate = true;
+    public bool $isCreate = true;
     public int $gender = 1;
 
     public bool $card = true;

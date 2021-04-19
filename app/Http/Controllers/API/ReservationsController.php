@@ -37,6 +37,14 @@ class ReservationsController extends Controller
 
         // $events = $events->filter(fn($event) => $event->reservations_left > 0)->values();
 
+        $colors = [
+            '#5658e8',
+            '#37ad28',
+            '#72727d',
+            '#adb310',
+            '#323236',
+        ];
+
         return $events->map(fn($event) => [
             'id' => $event->id,
             'title' => __(":name | :number left", [
@@ -45,6 +53,7 @@ class ReservationsController extends Controller
             ]),
             'start' => $event->start,
             'end' => $event->end,
+            'color' => $colors[$event->type_id - 1]
         ]);
     }
 
