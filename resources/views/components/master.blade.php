@@ -9,8 +9,6 @@
 
     <title>{{ $title ?? 'Ticket' }}</title>
 
-    <script src="{{ url("js/turbo.js") }}"></script>
-
     @livewireStyles
 
     @stack('header')

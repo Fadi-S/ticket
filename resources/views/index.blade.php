@@ -30,24 +30,33 @@
             @endif
         @endcan
 
-        <x-data-card color="bg-indigo-400"
-                     data-step="2" data-intro="{{ __('Here is the number of masses left in this month') }}">
-            <x-slot name="svg">
-                <x-svg.ticket />
-            </x-slot>
-
-            <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">{{ $massTickets }}</h4>
-            <div class="text-gray-500 dark:text-gray-300">{{ __('Mass reservations left in :Month', ['month' => \Carbon\Carbon::now()->monthName]) }}</div>
-        </x-data-card>
-
-{{--        <x-data-card color="bg-gray-800">--}}
+{{--        <x-data-card color="bg-indigo-400"--}}
+{{--                     data-step="2" data-intro="{{ __('Here is the number of masses left in this month') }}">--}}
 {{--            <x-slot name="svg">--}}
 {{--                <x-svg.ticket />--}}
 {{--            </x-slot>--}}
 
-{{--            <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">{{ $baskhaTickets }}</h4>--}}
-{{--            <div class="text-gray-500 dark:text-gray-300">{{ __('Baskha reservations left') }}</div>--}}
+{{--            <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">{{ $massTickets }}</h4>--}}
+{{--            <div class="text-gray-500 dark:text-gray-300">{{ __('Mass reservations left in :Month', ['month' => \Carbon\Carbon::now()->monthName]) }}</div>--}}
 {{--        </x-data-card>--}}
+
+        <x-data-card color="bg-gray-800">
+            <x-slot name="svg">
+                <x-svg.ticket />
+            </x-slot>
+
+            <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">{{ $baskhaTickets }}</h4>
+            <div class="text-gray-500 dark:text-gray-300">{{ __('Baskha reservations left') }}</div>
+        </x-data-card>
+
+        <x-data-card color="bg-gray-800">
+            <x-slot name="svg">
+                <x-svg.ticket />
+            </x-slot>
+
+            <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">{{ $baskhaOccasionTickets }}</h4>
+            <div class="text-gray-500 dark:text-gray-300">{{ __('Baskha Mass reservations left') }}</div>
+        </x-data-card>
 
         <x-data-card color="bg-yellow-400"
                      data-step="1"

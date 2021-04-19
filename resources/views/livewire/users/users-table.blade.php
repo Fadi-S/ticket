@@ -13,13 +13,13 @@
                       wire:model="search" id="search"
                       size="w-full lg:w-1/4 md:w-1/2" />
 
-        <x-button wire:click="$toggle('searchByScout')" class="mx-2">
-            <x-slot name="svg">
-                <x-dynamic-component :component="$searchByScout ? 'svg.eye' : 'svg.search'" />
-            </x-slot>
+{{--        <x-button wire:click="$toggle('searchByScout')" class="mx-2">--}}
+{{--            <x-slot name="svg">--}}
+{{--                <x-dynamic-component :component="$searchByScout ? 'svg.eye' : 'svg.search'" />--}}
+{{--            </x-slot>--}}
 
-            {{ __($searchByScout ? 'Enable' : 'Disable') }} {{ __('Exact Search') }}
-        </x-button>
+{{--            {{ __($searchByScout ? 'Enable' : 'Disable') }} {{ __('Exact Search') }}--}}
+{{--        </x-button>--}}
     </div>
 
 
@@ -43,7 +43,7 @@
         <x-slot name="body">
 
             @forelse($users as $user)
-                <tr wire:loading.class="opacity-50">
+                <tr wire:loading.class="opacity-50" wire:key="user-{{ $user->username }}">
                     <x-table.td>
                         <span dir="ltr" class="rtl:text-right text-gray-800 dark:text-gray-200 text-md font-semibold">#{{ $user->id }}</span>
                     </x-table.td>
@@ -115,7 +115,7 @@
                 </tr>
 
             @empty
-                <tr>
+                <tr wire:key="user-0">
                    <td colspan="10">
                        <span class="flex justify-center mx-auto py-4 text-gray-600 dark:text-gray-300">
                             <x-svg.search color="" /> &nbsp; {{ __("No users match search :search", ['search' => $search]) }}

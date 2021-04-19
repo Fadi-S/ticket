@@ -82,8 +82,13 @@ class VerifyPhoneNumber extends Component
 
         $sessionInfo = \DB::table('phone_verifications')
             ->where('phone', $user->phone)
-            ->first()
-            ->reCaptcha;
+            ->first();
+        if($sessionInfo) {
+            $sessionInfo = $sessionInfo->reCaptcha;
+        }else {
+            session()->flash('error', __("Couldn't find your phone number, try sending the code again"));
+            return;
+        }
 
         if (!$api->verifyCode($this->code, $sessionInfo)) {
             session()->flash('error', "Wrong code");

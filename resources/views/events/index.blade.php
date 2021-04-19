@@ -12,6 +12,7 @@
                         ">
             <x-slot name="head">
                 <tr>
+                    <x-table.th>{{ __('Description') }}</x-table.th>
                     <x-table.th>{{ __('Date') }}</x-table.th>
                     <x-table.th>{{ __('Time') }}</x-table.th>
                     <x-table.th>{{ __('Publish Date') }}</x-table.th>
@@ -27,6 +28,10 @@
                 @foreach($events as $event)
                     <tr @load.window="events[{{$event->id}}] = { reservedPlaces: {{ $event->reservedPlaces() }}, numberOfPlaces: {{ $event->number_of_places }} };"
                         class="{{ now()->between($event->start, $event->end) ? 'bg-green-200 dark:bg-green-500' : '' }}">
+                        <x-table.td>
+                            {{ $event->description }}
+                        </x-table.td>
+
                         <x-table.td>
                             <a class="text-blue-500 hover:text-blue-600 underline font-semibold"
                                href="{{ url("/tickets/?event=$event->id") }}">{{ $event->formatted_date }}</a>

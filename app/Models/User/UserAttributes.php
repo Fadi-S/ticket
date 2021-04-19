@@ -128,4 +128,9 @@ trait UserAttributes
     {
         return $this->belongsTo(self::class, 'creator_id', 'id');
     }
+
+    public function users()
+    {
+        return $this->hasMany(self::class, 'creator_id', 'id');
+    }
 }

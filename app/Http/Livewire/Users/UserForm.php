@@ -20,7 +20,7 @@ class UserForm extends Component
     public string $password = '';
     public string $tempUsername = '';
     public int $role_id = 1;
-    public bool $isCreate = true;
+    private bool $isCreate = true;
     public int $gender = 1;
 
     public bool $card = true;
@@ -41,6 +41,11 @@ class UserForm extends Component
         $this->gender = (!$this->isCreate) ? $this->user->gender : 1;
 
         $this->tempUsername = (!$this->isCreate) ? $this->user->username : '';
+    }
+
+    public function getIsCreateProperty()
+    {
+        return $this->isCreate;
     }
 
     public function render()
@@ -67,6 +72,11 @@ class UserForm extends Component
         $this->validateOnly('gender');
 
         $this->user->gender = (bool)$gender;
+    }
+
+    public function updated($field, $value)
+    {
+        $this->validateOnly($field);
     }
 
     public function save()

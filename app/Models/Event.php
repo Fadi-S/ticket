@@ -70,7 +70,7 @@ class Event extends Model
 
     public function hasPassed()
     {
-        return $this->start->lte(now());
+        return $this->start->lte(now()->subHours(12));
     }
 
     public function specific()

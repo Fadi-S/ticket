@@ -56,7 +56,7 @@ function selectCurrentEvent(date, element=null) {
     return lastSelected;
 }
 
-document.addEventListener('turbolinks:load', () => {
+window.addEventListener('load', () => {
 
     if(!document.getElementById('calendar')) {
         return;
@@ -66,12 +66,23 @@ document.addEventListener('turbolinks:load', () => {
 
     let locale = window.locale ?? 'en';
 
+    const determineView = () => {
+        if(window.innerWidth < 640) {
+            return  'timeGridSmall';
+        }else if(window.innerWidth < 1024) {
+            return 'timeGridMedium';
+        } else if(window.innerWidth < 1450) {
+            return 'timeGridLarge';
+        }
+
+        return 'dayGridMonth';
+    };
+
     window.calendar = new Calendar(document.getElementById('calendar'), {
         plugins: [ dayGridPlugin, timeGridPlugin ],
         locales: [arLocale],
         locale: locale,
-        initialView: window.innerWidth > 768 ? 'dayGridMonth' : 'timeGridWeek',
-        slotMinTime: '06:00:00',
+        initialView: determineView(),
         allDaySlot: false,
         weekNumbers: true,
         height: 650,
@@ -82,6 +93,23 @@ document.addEventListener('turbolinks:load', () => {
             minute: '2-digit',
             omitZeroMinute: true,
             meridiem: 'short'
+        },
+        views: {
+            timeGridLarge: {
+                type: 'timeGridWeek',
+                duration: { days: 4 },
+                buttonText: '4 day'
+            },
+            timeGridMedium: {
+                type: 'timeGridWeek',
+                duration: { days: 2 },
+                buttonText: '2 day'
+            },
+            timeGridSmall: {
+                type: 'timeGridWeek',
+                duration: { days: 1 },
+                buttonText: '1 day'
+            },
         },
         displayEventEnd: true,
         eventClick(event) {
@@ -101,7 +129,7 @@ document.addEventListener('turbolinks:load', () => {
         .listen('TicketReserved', () => calendar.refetchEvents());
 
     window.addEventListener('resize', () => {
-        let newView = window.innerWidth > 1024 ? 'dayGridMonth' : 'timeGridWeek';
+        let newView = determineView();
 
         if(newView !== calendar.view.type) {
             calendar.changeView(newView);

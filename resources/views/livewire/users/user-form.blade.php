@@ -10,6 +10,7 @@
 
                     @if($this->showField('user.name'))
                         <x-form.input wire:model.lazy="user.name" required type="text"
+                                      :error="$errors->get('user.name')"
                                       size="col-span-1" name="name" id="name" dir="ltr"
                                       label="{{ __('Name') }} *"  placeholder="{{ __('Name') }}" />
                     @endif
@@ -17,6 +18,7 @@
                     @if($this->showField('user.arabic_name'))
                         <x-form.input wire:model.lazy="user.arabic_name"
                                       required type="text"
+                                      :error="$errors->get('user.arabic_name')"
                                       size="col-span-1" name="arabic_name"
                                       id="arabic_name"
                                       dir="rtl"
@@ -25,6 +27,7 @@
 
                     @if($this->showField('tempUsername') && auth()->user()->isAdmin())
                         <x-form.input wire:model.lazy="tempUsername" required type="text"
+                                      :error="$errors->get('tempUsername')" dir="ltr"
                                       size="col-span-1" name="username" id="username"
                                       label="{{ __('Username') }} *" placeholder="{{ __('Username') }}" />
                     @endif
@@ -32,12 +35,14 @@
                     @if($this->showField('user.phone'))
                         <x-form.input wire:model.lazy="user.phone" type="text" dir="ltr"
                                       size="col-span-1" name="phone" id="phone" required
+                                      :error="$errors->get('user.phone')"
                                       label="{{ __('Phone') }} *" placeholder="{{ __('Phone') }}" />
                     @endif
 
                     @if($this->showField('user.email'))
                         <x-form.input wire:model.lazy="user.email" type="email"
                                       size="col-span-1" name="email" id="email"
+                                      :error="$errors->get('user.email')" dir="ltr"
                                       label="{{ __('Email') }} ({{ __('Optional') }})" placeholder="{{ __('Email') }}" />
                     @endif
 
@@ -45,9 +50,10 @@
                     {{--                              size="col-span-1" name="national_id" id="national_id"--}}
                     {{--                              label="{{ __('National ID') }}" placeholder="{{ __('National ID') }}" />--}}
 
-                    @if($this->showField('password') && auth()->user()->isAdmin() && ($isCreate || !$user->isSignedIn()))
+                    @if($this->showField('password') && auth()->user()->isAdmin() && ($this->isCreate || !$user->isSignedIn()))
                         <x-form.input wire:model.lazy="password" type="password"
                                       size="col-span-1" name="password" id="password"
+                                      :error="$errors->get('password')"
                                       label="{{ __('Password') }}" placeholder="{{ __('Password') }}" />
                     @endif
 
@@ -77,8 +83,6 @@
                         {{ session('success') }}
                     </x-layouts.success>
                 @endif
-
-                <x-layouts.errors />
             </div>
 
         </form>

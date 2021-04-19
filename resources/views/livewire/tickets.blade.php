@@ -31,7 +31,7 @@
                             <td dir="ltr">{{ $this->eventModel->start->format('l, F j, Y') }}</td>
                             <td dir="ltr">{{ $this->eventModel->start->format('h:i a') }}</td>
                             <td>كنيسة الشهيد العظيم مارجرجس باسبورتنج</td>
-                            <td>{{ $this->eventModel->type->arabic_name }} {{ $this->eventModel->eventOrderInDay() }}</td>
+                            <td>{{ $this->eventModel->description }}</td>
                         </tr>
                     </table>
 
@@ -66,10 +66,14 @@
     @endif
 
     @if(auth()->user()->can('tickets.view'))
-        <div class="flex items-end justify-center lg:w-1/2 mx-auto w-full xl:w-1/3">
+        <div class="max-w-xl mb-6">
             {{--            <img class="w-10 mx-2" src="{{ asset('/images/algolia/algolia-blue-mark.svg') }}" alt="Search With Algolia">--}}
 
-            <x-form.input autocomplete="off" wire:model="search" name="search" id="search" label="{{ __('Search') }}"/>
+            <x-form.input autocomplete="off"
+                          wire:model="search"
+                          name="search"
+                          id="search"
+                          label="{{ __('Search') }}"/>
         </div>
     @endif
 
@@ -95,6 +99,11 @@
                 'background' => 'bg-yellow-200 dark:bg-yellow-800',
                 'text' => 'text-yellow-700 dark:text-yellow-300',
             ],
+            [
+                'border' => 'border-gray-500 dark:border-gray-300',
+                'background' => 'bg-gray-200 dark:bg-gray-300',
+                'text' => 'text-gray-500 dark:text-gray-800',
+            ],
         ];
     @endphp
 
@@ -102,7 +111,8 @@
         <div class="col-span-12">
             @if($event)
                 <div class="mb-2 flex text-gray-800 dark:text-gray-200 items-start justify-between">
-                    <div class="flex flex-col items-start">
+                    <div class="flex flex-col items-start space-y-2">
+                        <div class="font-semibold" dir="rtl">{{ $this->eventModel->description }}</div>
                         <div class="font-semibold" dir="ltr">{{ $this->eventModel->start->format('l, jS \o\f F Y') }}</div>
                         <div class="font-semibold" dir="ltr">{{ $this->eventModel->formatted_time }}</div>
                     </div>
@@ -125,6 +135,7 @@
                     bg-gray-50 dark:bg-gray-800 transition-dark
                      items-start justify-between p-4">
                         <div class="flex flex-col items-start">
+                            <div class="font-semibold" dir="rtl">{{ $ticket->event->description }}</div>
                             <div class="font-semibold" dir="ltr">{{ $ticket->event->start->format('l, jS \o\f F Y') }}</div>
                             <div class="font-semibold" dir="ltr">{{ $ticket->event->formatted_time }}</div>
                         </div>

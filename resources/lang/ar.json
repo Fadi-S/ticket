@@ -18,7 +18,8 @@
   "Activity Log": "إعرض تاريخ الإستخدام",
   "Sign Out": "تسجيل خروج",
   "Mass reservations left in :Month": "عدد القداسات المتبقية لك في شهر :month",
-  "Baskha reservations left": "عدد البصخات المتبقية لك",
+  "Baskha reservations left": "عدد البصخات و العشيات المتبقية لك",
+  "Baskha Mass reservations left": "عدد قداسات اسبوع الألام المتبقية لك",
   "Your ID Number": "الرقم التعريفي",
   "Total Users": "عدد المستخدمين",
   "Total Upcoming Events": "عدد المناسبات القادمة",
@@ -168,9 +169,11 @@
   "Verified": "تم التأكيد",
   "Verified Users": "المستخدمين المؤكدين",
   "A verification code was sent to :phone, please check your phone's sms": "تم إرسال رمز التحقق إلى :phone، يرجى التحقق من الرسائل في هاتفك",
+  "Couldn't find your phone number, try sending the code again": "لم نتمكن من العثور علي رقمك، برجاء ارسال الرسالة مرة اخرى",
 
   "Potential Duplicates": "الحسابات المكررة",
-  "Holy Week Occasions": "مناسبات اسبوع الالام",
+  "Holy Week Occasions": "اسبوع الالام",
   "Add Occasion": "أضف مناسبة",
-  "View Occasions": "إعرض المناسبات"
+  "View Occasions": "إعرض المناسبات",
+  ":name | :number left": ":name، متبقي :number"
 }

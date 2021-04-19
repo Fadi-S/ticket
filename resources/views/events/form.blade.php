@@ -8,6 +8,12 @@
                       size="col-span-1"
                       placeholder="DD/MM/YYYY" />
 
+        <x-form.input required type="text" :value="!$create ? $event->description : null"
+                      id="description" name="description" autocomplete="off"
+                      label="{{ __('Description') }}"
+                      size="col-span-1"
+                      placeholder="{{ __('Description') }}" />
+
         <x-form.input required type="text" :value="!$create ? $event->published_at->format('d/m/Y h:i A') : null"
                       id="date" name="published_at" autocomplete="off" id="published"
                       label="{{ __('Publish Date') }}" class="datePicker"

@@ -39,7 +39,10 @@ class ReservationsController extends Controller
 
         return $events->map(fn($event) => [
             'id' => $event->id,
-            'title' => "$event->reservations_left left | {$event->type->arabic_name}",
+            'title' => __(":name | :number left", [
+                'name' => $event->description,
+                'number' => $event->reservations_left
+            ]),
             'start' => $event->start,
             'end' => $event->end,
         ]);
