@@ -19,6 +19,8 @@ use Spatie\Honeypot\ProtectAgainstSpam;
 
 Route::fallback(fn() => response()->view('errors.404', [], 404));
 
+Route::web('loaderio-1bf99dccac133a0a83e77222562c1139', fn() => 'Success');
+
 Route::middleware(ProtectAgainstSpam::class)
     ->group(function () {
         Route::get('password/forgot', fn() => view('auth.forgot'));
