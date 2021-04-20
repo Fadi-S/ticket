@@ -22,7 +22,7 @@ class Baskha extends Event implements EventContract
 
     static public function maxReservations(): int
     {
-        return 1;
+        return 2;
     }
 
     static public function hoursForException(): int
