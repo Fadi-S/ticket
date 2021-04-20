@@ -50,11 +50,8 @@ trait Slugable
 
         $slug = self::replaceInvalidCharacters($string);
 
-        if(!! $iteration) {
-            if(static::$separatorRequired)
-                $slug .= static::$separator . $iteration;
-            else
-                $slug .= (!! rand(0, 1) ? static::$separator : '') . $iteration;
+        if($iteration) {
+            $slug .= static::$separator . $iteration;
         }
 
         if(static::isUnique($slug, $ignoreId))

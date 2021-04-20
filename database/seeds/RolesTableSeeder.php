@@ -18,24 +18,32 @@ class RolesTableSeeder extends Seeder
     {
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $user = Role::create(['name' => 'user']);
-        Permission::create(["name" => "users.create"]);
-
-        $deacon = Role::create(['name' => 'deacon']);
-
-        $role = Role::create(['name' => 'super-admin']);
-        Permission::create(["name" => "*"]);
-        $role->givePermissionTo("*");
-
-        $kashafa = Role::create(['name' => 'kashafa']);
-        Permission::create(["name" => "tickets.view"]);
-        $kashafa->givePermissionTo("tickets.view");
-
-        $agent = Role::create(['name' => 'agent']);
         Permission::create(["name" => "tickets.*"]);
         Permission::create(["name" => "users.*"]);
         Permission::create(["name" => "events.view"]);
         Permission::create(["name" => "reservations.bypass"]);
+        Permission::create(["name" => "users.create"]);
+        Permission::create(["name" => "tickets.view"]);
+        Permission::create(["name" => "editRole"]);
+        Permission::create(["name" => "*"]);
+
+
+        Role::create(['name' => 'user']);
+        Role::create(['name' => 'deacon']);
+
+        $deaconAdmin = Role::create(['name' => 'deacon-admin']);
+        $deaconAdmin->givePermissionTo('users.*');
+        $deaconAdmin->givePermissionTo('editRole');
+        $deaconAdmin->givePermissionTo('tickets.*');
+
+        $role = Role::create(['name' => 'super-admin']);
+
+        $role->givePermissionTo("*");
+
+        $kashafa = Role::create(['name' => 'kashafa']);
+        $kashafa->givePermissionTo("tickets.view");
+
+        $agent = Role::create(['name' => 'agent']);
         $agent->givePermissionTo("tickets.*", "users.*", "events.view");
     }
 }

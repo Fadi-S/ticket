@@ -50,14 +50,14 @@
                     {{--                              size="col-span-1" name="national_id" id="national_id"--}}
                     {{--                              label="{{ __('National ID') }}" placeholder="{{ __('National ID') }}" />--}}
 
-                    @if($this->showField('password') && auth()->user()->isAdmin() && ($this->isCreate || !$user->isSignedIn()))
+                    @if($this->showField('password') && auth()->user()->can('users.edit') && ($isCreate || !$user->isSignedIn()))
                         <x-form.input wire:model.lazy="password" type="password"
                                       size="col-span-1" name="password" id="password"
                                       :error="$errors->get('password')"
                                       label="{{ __('Password') }}" placeholder="{{ __('Password') }}" />
                     @endif
 
-                    @if($this->showField('role_id') && auth()->user()->isAdmin() && !$user->isSignedIn())
+                    @if($this->showField('role_id') && auth()->user()->can('editRole') && !$user->isSignedIn())
                         <x-form.select wire:model="role_id" name="role_id"
                                        id="role_id" size="col-span-1"
                                        label="{{ __('Role') }}" :options="$roles" />

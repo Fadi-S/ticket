@@ -38,7 +38,7 @@ class ClearLogins extends Command
      */
     public function handle()
     {
-        $deletedNumber = Login::where('time', '<', now()->subDays(90))
+        $deletedNumber = Login::where('time', '<', now()->subDays(10))
             ->delete();
 
         $this->info('Cleared ' . $deletedNumber . ' records');

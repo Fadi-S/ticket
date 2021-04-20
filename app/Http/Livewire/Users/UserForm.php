@@ -43,11 +43,6 @@ class UserForm extends Component
         $this->tempUsername = (!$this->isCreate) ? $this->user->username : '';
     }
 
-    public function getIsCreateProperty()
-    {
-        return $this->isCreate;
-    }
-
     public function render()
     {
         return view('livewire.users.user-form', [
@@ -88,7 +83,7 @@ class UserForm extends Component
 
         $this->user->gender = (bool)$this->gender;
 
-        if(auth()->user()->isAdmin()) {
+        if(auth()->user()->can('users.edit')) {
             if ($this->password) $this->user->password = $this->password;
 
             $this->user->username = User::replaceInvalidCharacters($this->tempUsername);
@@ -102,14 +97,18 @@ class UserForm extends Component
         }
 
         $this->user->save();
-        $this->user->syncRoles([(auth()->user()->isAdmin()) ? $this->role_id : 1]);
+        $this->user->syncRoles([(auth()->user()->can('editRole')) ? $this->role_id : 1]);
 
-        if (auth()->user()->isUser() && !$this->user->isSignedIn())
+        if (!auth()->user()->isAdmin() && !$this->user->isSignedIn())
             auth()->user()->forceAddFriend($this->user);
 
         $this->emit('user-created', $this->user->username);
 
-        session()->flash('success', __('User Saved Successfully'));
+        if($this->isCreate) {
+            session()->flash('success', __('User Created Successfully with id #:id', ['id' => $this->user->id]));
+        }else {
+            session()->flash('success', __('User Saved Successfully'));
+        }
 
         $this->clearFields();
     }
@@ -154,7 +153,7 @@ class UserForm extends Component
             ],*/
             'gender' => 'required|in:0,1',
             'password' => [
-                Rule::requiredIf( $this->role_id != 1),
+                'nullable',
                 'min:' . User::$minPassword,
             ],
             'role_id' => 'required|exists:roles,id',

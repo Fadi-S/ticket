@@ -22,7 +22,6 @@ class CreateReservationsTable extends Migration
             $table->foreignIdFor(Ticket::class)->index();
             $table->timestamp('registered_at')->nullable();
             $table->boolean('is_exception')->index()->default(false);
-            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -56,12 +56,12 @@ class User extends Authenticatable implements HasLocalePreference
 
     public function isDeacon() : bool
     {
-        return $this->hasRole('deacon');
+        return $this->hasAnyRole('deacon', 'deacon-admin');
     }
 
     public function isUser() : bool
     {
-        return $this->hasRole('user') ? true : $this->roles->isEmpty();
+        return $this->hasAnyRole('user', 'deacon') || $this->roles->isEmpty();
     }
 
     public function isSignedIn() : bool

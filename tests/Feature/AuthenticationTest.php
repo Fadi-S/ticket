@@ -134,6 +134,11 @@ class AuthenticationTest extends TestCase
             'email' => '46821684165498156486',
             'password' => '123456',
         ])->assertSessionHasErrors();
+
+        $this->post('/login', [
+            'email' => '42',
+            'password' => '123456',
+        ])->assertSessionHasErrors();
     }
 
     /** @test */

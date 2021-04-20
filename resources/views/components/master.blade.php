@@ -75,7 +75,7 @@
                     <x-svg.ticket/>
                 </x-navbar.link>
 
-                @can("users.create" || "users.edit" || "users.view")
+                @can("users.*")
                     <x-navbar.divider/>
 
                     <x-navbar.list label="{{ __('Users') }}">

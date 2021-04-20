@@ -10,7 +10,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Reservation extends Model
 {
-    use SoftDeletes, LogsActivity;
+    use LogsActivity;
 
     protected $guarded = [];
     protected $dates = ['registered_at'];

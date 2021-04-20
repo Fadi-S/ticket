@@ -177,5 +177,6 @@
   "View Occasions": "إعرض المناسبات",
   ":name | :number left": ":name، متبقي :number",
   "Deacon": "شماس",
-  "No deacon places left in this event": "اكتمل عدد الشمامسة في هذه المناسبة"
+  "No deacon places left in this event": "اكتمل عدد الشمامسة في هذه المناسبة",
+  "User Created Successfully with id #:id": "تم تسجيل المستخدم بنجاح، الرقم التعريفي #:id"
 }

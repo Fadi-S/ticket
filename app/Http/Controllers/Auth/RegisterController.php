@@ -47,12 +47,15 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         $data['phone'] = NormalizePhoneNumber::create($data['phone'])->handle();
+        $data['username'] = User::makeSlug($data['name']);
+        \request()->request->set('username', $data['username']);
 
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:191', new Fullname, new EnglishOnly],
             'arabic_name' => ['required', 'string', 'max:191', new Fullname, new ArabicOnly],
             'email' => ['nullable', 'string', 'email', 'max:191', 'unique:users'],
             'phone' => ['required', 'string', 'regex:/' . StandardRegex::PHONE_NUMBER . '/', 'unique:users'],
+            'username' => ['required', 'unique:users'],
             'national_id' => ['nullable', 'regex:/' . StandardRegex::NATIONAL_ID . '/', 'unique:users'],
             'password' => ['required', 'string', 'min:' . User::$minPassword, 'confirmed'],
             'gender' => ['required', Rule::in([1, 0]),],
@@ -74,7 +77,7 @@ class RegisterController extends Controller
             'phone' => $data['phone'],
             'gender' => $data['gender'],
             'national_id' => $data['national_id'] ?? null,
-            'username' => User::makeSlug($data['name']),
+            'username' => $data['username'],
             'password' => $data['password'],
         ]);
     }

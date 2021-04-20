@@ -2,8 +2,11 @@
 
 namespace App\Console;
 
+use App\Console\Commands\ClearLogins;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Laravel\Telescope\Console\PruneCommand;
+use Spatie\Activitylog\CleanActivitylogCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,7 +16,9 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        PruneCommand::class,
+        ClearLogins::class,
+        CleanActivitylogCommand::class
     ];
 
     /**
@@ -31,8 +36,6 @@ class Kernel extends ConsoleKernel
         $schedule->command('activitylog:clean')->daily();
 
         $schedule->command('logins:clear')->daily();
-
-        $schedule->command('verification:send')->everyThirtyMinutes();
     }
 
     /**
