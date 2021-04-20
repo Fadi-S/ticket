@@ -19,7 +19,7 @@ use Spatie\Honeypot\ProtectAgainstSpam;
 
 Route::fallback(fn() => response()->view('errors.404', [], 404));
 
-Route::get('/loaderio-1bf99dccac133a0a83e77222562c1139', function () {
+Route::get('/loaderio-1317e7c6945d7c3020d316f4e5624218', function () {
     return ['success' => 'Success'];
 });
 
