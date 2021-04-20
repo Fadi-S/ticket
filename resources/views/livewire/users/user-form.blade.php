@@ -34,7 +34,7 @@
 
                     @if($this->showField('user.phone'))
                         <x-form.input wire:model.lazy="user.phone" type="text" dir="ltr"
-                                      size="col-span-1" name="phone" id="phone" required
+                                      size="col-span-1" name="phone" id="phone"
                                       :error="$errors->get('user.phone')"
                                       label="{{ __('Phone') }} *" placeholder="{{ __('Phone') }}" />
                     @endif
