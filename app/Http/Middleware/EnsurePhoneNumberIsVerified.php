@@ -17,14 +17,16 @@ class EnsurePhoneNumberIsVerified
      */
     public function handle(Request $request, Closure $next)
     {
-        if(User::whereBetween('verified_at', [now()->startOfDay(), now()->endOfDay()])->count() >= 340) {
-            return $next($request);
-        }
+        return $next($request);
 
-
-        if($request->user() && !$request->user()->isVerified()) {
-            return redirect('/verify');
-        }
+//        if(User::whereBetween('verified_at', [now()->startOfDay(), now()->endOfDay()])->count() >= 340) {
+//            return $next($request);
+//        }
+//
+//
+//        if($request->user() && !$request->user()->isVerified()) {
+//            return redirect('/verify');
+//        }
 
         return $next($request);
     }
