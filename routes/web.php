@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\API\ReservationsController;
 use App\Http\Controllers\EventsController;
 use App\Http\Livewire\DuplicatesTable;
 use App\Http\Livewire\Friends;
@@ -18,10 +19,6 @@ use Spatie\Honeypot\ProtectAgainstSpam;
 
 
 Route::fallback(fn() => response()->view('errors.404', [], 404));
-
-Route::get('/loaderio-1317e7c6945d7c3020d316f4e5624218', function () {
-    return ['success' => 'Success'];
-});
 
 Route::middleware(ProtectAgainstSpam::class)
     ->group(function () {
@@ -81,8 +78,8 @@ Route::middleware(["auth",/* EnsurePhoneNumberIsVerified::class*/])->group(funct
 
     Route::get('/logs', [DashboardController::class, 'showLogs']);
 
-    Route::get("ajax/reservation/users", [\App\Http\Controllers\API\ReservationsController::class, 'getUsers']);
-    Route::get("ajax/reservation/events", [\App\Http\Controllers\API\ReservationsController::class, 'getEvents']);
+    Route::get("ajax/reservation/users", [ReservationsController::class, 'getUsers']);
+    Route::get("ajax/reservation/events", [ReservationsController::class, 'getEvents']);
 
     Route::get('/friends', Friends::class);
 });

@@ -142,7 +142,7 @@ class UserForm extends Component
                 'unique:users,email',
             ],
             'user.phone' => [
-                'nullable',
+                'required',
                 'regex:/' . StandardRegex::PHONE_NUMBER . '/',
                 'unique:users,phone',
             ],
@@ -174,8 +174,7 @@ class UserForm extends Component
             ];
 
             $rules['user.phone'] = [
-                //Rule::requiredIf($this->showField('user.phone')),
-                'nullable',
+                Rule::requiredIf($this->showField('user.phone')),
                 'regex:/' . StandardRegex::PHONE_NUMBER . '/',
                 Rule::unique('users', 'phone')->ignore($id),
             ];
