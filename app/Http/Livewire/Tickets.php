@@ -71,6 +71,11 @@ class Tickets extends Component
         $this->dispatchBrowserEvent('print');
     }
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
     public function getListeners()
     {
         return [

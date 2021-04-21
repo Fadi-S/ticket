@@ -45,16 +45,30 @@ class ReservationsController extends Controller
             '#323236',
         ];
 
-        return $events->map(fn($event) => [
-            'id' => $event->id,
-            'title' => __(":name | :number left", [
-                'name' => $event->description,
-                'number' => $event->reservations_left
-            ]),
-            'start' => $event->start,
-            'end' => $event->end,
-            'color' => $colors[$event->type_id - 1]
-        ]);
+        $isUser = auth()->user()->isUser();
+        $isDeacon = auth()->user()->isDeacon();
+
+        return $events->map(function ($event) use ($colors, $isUser, $isDeacon) {
+
+            if($isUser) {
+                $left = '';
+            }else if($isDeacon) {
+                $left = $event->deacon_reservations_left;
+            }else{
+                $left = $event->reservations_left;
+            }
+
+            return [
+                'id' => $event->id,
+                'title' => __(":name | :number left", [
+                    'name' => $event->description,
+                    'number' => $left,
+                ]),
+                'start' => $event->start,
+                'end' => $event->end,
+                'color' => $colors[$event->type_id - 1]
+            ];
+        });
     }
 
 }
