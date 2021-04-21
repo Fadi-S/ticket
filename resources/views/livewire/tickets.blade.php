@@ -200,6 +200,8 @@
 
     </div>
 
+    {{ $tickets->links() }}
+
     @push('modals')
         <x-layouts.modal @open.window="open=true; details['reservationId'] = $event.detail.reservationId;">
             <x-slot name="svg">

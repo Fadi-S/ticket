@@ -24,7 +24,7 @@ class Tickets extends Component
         'event' => ['except' => 0],
         'type' => ['except' => 0],
         'search' => ['except' => ''],
-        'page',
+        'page' => ['except' => 1],
     ];
 
     public function getEventModelProperty() { return Event::find($this->event); }
@@ -118,6 +118,6 @@ class Tickets extends Component
                         )
             )->user()
             ->orderBy('reserved_at', 'DESC')
-            ->get();
+            ->paginate(10);
     }
 }
