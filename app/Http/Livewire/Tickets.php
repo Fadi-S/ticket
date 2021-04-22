@@ -58,12 +58,6 @@ class Tickets extends Component
 
     public function export()
     {
-        if($this->pdfRendered) {
-            $this->dispatchBrowserEvent('print');
-
-            return;
-        }
-
         $this->pdfRendered = true;
 
         $this->users = $this->getUsers();
