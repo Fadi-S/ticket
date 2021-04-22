@@ -17,6 +17,8 @@ class Event extends Model
 
     protected $with = ['type'];
 
+    public int $deaconNumber = 10;
+
     public function scopeUpcoming($query)
     {
         return $query->where('end', '>=', now());
@@ -40,7 +42,7 @@ class Event extends Model
 
     public function getDeaconReservationsLeftAttribute()
     {
-        return 10 - $this->reservationsCountForRole('deacon', 'deacon-admin');
+        return $this->deaconNumber - $this->reservationsCountForRole('deacon', 'deacon-admin');
     }
 
     public function reservationsCountForRole(...$role)

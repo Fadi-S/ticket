@@ -17,6 +17,7 @@
                     <x-table.th>{{ __('Time') }}</x-table.th>
                     <x-table.th>{{ __('Publish Date') }}</x-table.th>
                     <x-table.th>{{ __('Number of Places') }}</x-table.th>
+                    <x-table.th>{{ __('Number of Deacon Places') }}</x-table.th>
                     @can('events.edit')
                         <x-table.empty-th>{{ __('Edit') }}</x-table.empty-th>
                     @endcan
@@ -49,6 +50,10 @@
                         <x-table.td dir="ltr" class="rtl:text-right"
                                 x-text="(events[{{$event->id}}]) ? events[{{$event->id}}].reservedPlaces + ' / ' + events[{{$event->id}}].numberOfPlaces : ''">
                             {{ ($reservedCount) . '/' . $event->number_of_places }}
+                        </x-table.td>
+
+                        <x-table.td dir="ltr" class="rtl:text-right">
+                            {{ ($event->deaconNumber - $event->deaconReservationsLeft) . '/' . $event->deaconNumber }}
                         </x-table.td>
 
                         @can('events.edit')
