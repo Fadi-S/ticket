@@ -33,7 +33,7 @@ class Tickets extends Component
 
     private function getUsers()
     {
-        $tickets = $this->getTickets();
+        $tickets = $this->getTickets()->get();
 
         $users = collect();
 
@@ -88,7 +88,7 @@ class Tickets extends Component
     public function render()
     {
         return view('livewire.tickets', [
-            'tickets' => $this->getTickets()
+            'tickets' => $this->getTickets()->paginate(10)
         ])->layout('components.master');
     }
 
@@ -122,7 +122,6 @@ class Tickets extends Component
                             })
                         )
             )->user()
-            ->orderBy('reserved_at', 'DESC')
-            ->paginate(10);
+            ->orderBy('reserved_at', 'DESC');
     }
 }
