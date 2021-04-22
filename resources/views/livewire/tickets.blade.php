@@ -141,8 +141,9 @@
                 @endif
             </x-slot>
         </x-layouts.tickets>
+        {{ $tickets->links() }}
 
-        <div class="col-span-12">
+        <div class="col-span-12 mt-6">
             @if(auth()->user()->isDeacon() || auth()->user()->isAdmin())
                 <div class="font-bold my-4 text-3xl">
                     {{ __('Deacon') }}
@@ -169,8 +170,6 @@
             @endif
         </div>
         </div>
-
-    {{ $tickets->links() }}
 
     @push('modals')
         <x-layouts.modal @open.window="open=true; details['reservationId'] = $event.detail.reservationId;">
