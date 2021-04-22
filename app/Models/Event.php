@@ -34,36 +34,39 @@ class Event extends Model
 
     public function getReservationsLeftAttribute()
     {
-        $count = 0;
-
-        $tickets = $this->tickets()->with('reservations')
-            ->whereHas('reservations', function ($query) {
-            $query->whereHas('user', fn($query) => $query->role('user'))
-                    ->with(['user' => fn($query) => $query->role('user')]);
-        })->get();
-
-        foreach ($tickets as $ticket) {
-            $count += $ticket->reservations->count();
-        }
-
-        return $this->number_of_places - $count;
+        return $this->number_of_places - $this
+                ->reservationsCountForRole('user', 'agent', 'super-admin');
     }
 
     public function getDeaconReservationsLeftAttribute()
     {
+        return 10 - $this->reservationsCountForRole('deacon', 'deacon-admin');
+    }
+
+    public function reservationsCountForRole(...$role)
+    {
         $count = 0;
 
-        $tickets = $this->tickets()->with('reservations')
-            ->whereHas('reservations', function ($query) {
-                $query->whereHas('user', fn($query) => $query->role('deacon'))
-                    ->with(['user' => fn($query) => $query->role('deacon')]);
+        if(!is_array($role)) {
+            $role = [$role];
+        }
+
+        $tickets = $this->tickets()
+            ->with([
+                'reservations' =>
+                    fn($query) => $query->whereHas('user',
+                        fn($query) => $query->role($role)
+                    )
+            ])
+            ->whereHas('reservations', function ($query) use ($role) {
+                $query->whereHas('user', fn($query) => $query->role($role));
             })->get();
 
         foreach ($tickets as $ticket) {
             $count += $ticket->reservations->count();
         }
 
-        return 10 - $count;
+        return $count;
     }
 
     public function getFormattedDateAttribute()

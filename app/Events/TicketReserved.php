@@ -27,7 +27,7 @@ class TicketReserved implements ShouldBroadcast
     {
         $this->eventId = $ticket->event_id;
 
-        $this->reserved = $ticket->event->reservedPlaces();
+        $this->reserved = $ticket->event->reservations_left;
 
         $this->ticket = $ticket;
     }

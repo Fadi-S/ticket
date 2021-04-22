@@ -45,8 +45,9 @@
                             {{ $event->published_at->format("d/m/Y h:i A") }}
                         </x-table.td>
 
-                        <x-table.td x-text="(events[{{$event->id}}]) ? events[{{$event->id}}].reservedPlaces + ' / ' + events[{{$event->id}}].numberOfPlaces : ''">
-                            {{ $event->reservedPlaces() . '/' . $event->number_of_places }}
+                        <x-table.td dir="ltr" class="rtl:text-right"
+                                x-text="(events[{{$event->id}}]) ? events[{{$event->id}}].reservedPlaces + ' / ' + events[{{$event->id}}].numberOfPlaces : ''">
+                            {{ $event->reservations_left . '/' . $event->number_of_places }}
                         </x-table.td>
 
                         @can('events.edit')
