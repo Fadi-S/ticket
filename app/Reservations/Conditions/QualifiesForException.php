@@ -16,7 +16,7 @@ class QualifiesForException implements ConditionContract
         if(!$event->allowsException())
             return ConditionOutput::undecided(['is_exception' => false]);
 
-        return now()->gte($event->start->subDay()->hours(9+12))
+        return now()->gte($event->start->subDay()->hours(10+12)->minutes(0))
             ? ConditionOutput::allow(['is_exception' => true])
             : ConditionOutput::undecided(['is_exception' => false]);
     }
