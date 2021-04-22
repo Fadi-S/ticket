@@ -40,10 +40,10 @@ class Baskha extends Event implements EventContract
         return [
             EventDateHasNotPassed::class,
             NotAlreadyReserved::class,
-            IsDeaconReservation::class,
             ReservedByAdmin::class,
             EnoughSpaceInEvent::class,
             QualifiesForException::class,
+            IsDeaconReservation::class,
             HaveBaskhaTickets::class,
         ];
     }

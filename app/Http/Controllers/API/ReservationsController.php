@@ -52,10 +52,11 @@ class ReservationsController extends Controller
 
             if($isDeacon) {
                 $left = $event->deacon_reservations_left;
-            }else if($isUser) {
-                $left = '';
             }else{
                 $left = $event->reservations_left;
+
+                if($isUser)
+                    $left = $left >= 0 ? $left : 0;
             }
 
             return [
