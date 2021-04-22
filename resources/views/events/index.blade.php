@@ -47,7 +47,7 @@
 
                         <x-table.td dir="ltr" class="rtl:text-right"
                                 x-text="(events[{{$event->id}}]) ? events[{{$event->id}}].reservedPlaces + ' / ' + events[{{$event->id}}].numberOfPlaces : ''">
-                            {{ $event->reservations_left . '/' . $event->number_of_places }}
+                            {{ ($event->number_of_places-$event->reservations_left) . '/' . $event->number_of_places }}
                         </x-table.td>
 
                         @can('events.edit')

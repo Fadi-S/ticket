@@ -52,7 +52,7 @@ class Event extends Model
         }
 
         $tickets = $this->tickets()
-            ->with([
+            ->withCount([
                 'reservations' =>
                     fn($query) => $query->whereHas('user',
                         fn($query) => $query->role($role)
@@ -63,7 +63,7 @@ class Event extends Model
             })->get();
 
         foreach ($tickets as $ticket) {
-            $count += $ticket->reservations->count();
+            $count += $ticket->reservations_count;
         }
 
         return $count;

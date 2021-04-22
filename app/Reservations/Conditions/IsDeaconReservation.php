@@ -16,7 +16,7 @@ class IsDeaconReservation implements ConditionContract
         if(! $user->isDeacon())
             return ConditionOutput::undecided();
 
-        return $event->deacon_reservations_left >= 1
+        return $event->deaconReservationsLeft >= 1
             ? ConditionOutput::undecided()
             : ConditionOutput::deny()->message(__('No deacon places left in this event'));
     }
