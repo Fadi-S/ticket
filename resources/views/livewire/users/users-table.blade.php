@@ -149,7 +149,7 @@
                                     rounded-full border border-red-500 p-1 border-blue-600
                                     focus:outline-none
                                      hover:text-gray-700 dark:hover:text-gray-300">
-                                <x-svg.duplcate />
+                                <x-svg.duplicate />
                             </button>
                         @endif
                     </x-table.td>
