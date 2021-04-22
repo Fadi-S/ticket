@@ -12,6 +12,9 @@ class EnoughSpaceInEvent implements ConditionContract
 
     public function check($event, $user): ConditionOutput
     {
+        if($user->isDeacon())
+            return ConditionOutput::undecided();
+
         return $event->reservationsLeft >= 1
             ? ConditionOutput::undecided()
             : ConditionOutput::deny()
