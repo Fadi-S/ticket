@@ -77,7 +77,7 @@ class Ticket
 
     public function baskha(Carbon $date=null)
     {
-        $start = Carbon::parse('25th April 2021');
+        $start = Carbon::parse('22th April 2021');
 
         if(is_null(Baskha::maxReservations()))
             return -1;
@@ -89,7 +89,7 @@ class Ticket
 
     public function baskhaOccasion(Carbon $date=null)
     {
-        $start = Carbon::parse('25th April 2021');
+        $start = Carbon::parse('22th April 2021');
 
         if(is_null(BaskhaOccasion::maxReservations()))
             return -1;
