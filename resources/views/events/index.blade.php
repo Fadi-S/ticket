@@ -26,7 +26,8 @@
             <x-slot name="body">
 
                 @foreach($events as $event)
-                    <tr @load.window="events[{{$event->id}}] = { reservedPlaces: {{ $event->reservedPlaces() }}, numberOfPlaces: {{ $event->number_of_places }} };"
+                    @php($reservedCount = ($event->number_of_places-$event->reservations_left))
+                    <tr @load.window="events[{{$event->id}}] = { reservedPlaces: {{ $reservedCount  }}, numberOfPlaces: {{ $event->number_of_places }} };"
                         class="{{ now()->between($event->start, $event->end) ? 'bg-green-200 dark:bg-green-500' : '' }}">
                         <x-table.td>
                             {{ $event->description }}
@@ -47,7 +48,7 @@
 
                         <x-table.td dir="ltr" class="rtl:text-right"
                                 x-text="(events[{{$event->id}}]) ? events[{{$event->id}}].reservedPlaces + ' / ' + events[{{$event->id}}].numberOfPlaces : ''">
-                            {{ ($event->number_of_places-$event->reservations_left) . '/' . $event->number_of_places }}
+                            {{ ($reservedCount) . '/' . $event->number_of_places }}
                         </x-table.td>
 
                         @can('events.edit')
