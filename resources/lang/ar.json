@@ -181,5 +181,6 @@
   "User Created Successfully with id #:id": "تم تسجيل المستخدم بنجاح، الرقم التعريفي #:id",
   "Mark as duplicated": "حساب مكرر",
 
-  "Number of Deacon Places": "عدد الشمامسة"
+  "Number of Deacon Places": "عدد الشمامسة",
+  "No deacons in this event!": "لا يوجد شمامسة في هذه المناسبة"
 }

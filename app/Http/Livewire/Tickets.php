@@ -82,7 +82,8 @@ class Tickets extends Component
     public function render()
     {
         return view('livewire.tickets', [
-            'tickets' => $this->getTickets()->paginate(10)
+            'tickets' => $this->getTickets()->paginate(10),
+            'deacons' => $this->getDeaconTickets()->get(),
         ])->layout('components.master');
     }
 
@@ -100,22 +101,40 @@ class Tickets extends Component
 
     private function getTickets()
     {
+        return $this->getTicketsByRole('user', 'super-admin', 'agent');
+    }
+
+    private function getDeaconTickets()
+    {
+        return $this->getTicketsByRole('deacon', 'deacon-admin');
+    }
+
+    private function getTicketsByRole(...$roles)
+    {
+        if(!is_array($roles))
+            $roles = [$roles];
+
+        $userFunction = fn($query) => $query
+            ->role($roles)
+            ->when(auth()->user()->can('tickets.view') && $this->search,
+                fn($query) => $query->searchDatabase($this->search)
+            );
+
         return Ticket::with('event', 'reservations')
             ->whereHas('reservations',
-                function($query) {
-                if(auth()->user()->can('tickets.view') && $this->search) {
-                    $query->whereHas('user',
-                        fn($query) => $query->searchDatabase($this->search));
-                }
-            })->whereHas('event',
-                    fn($query) => $query
-                        ->upcoming()
-                        ->when($this->event || $this->type,
-                            fn($query) => $query->where(function ($query) {
-                                $query->where('id', $this->event)->orWhere('type_id', $this->type);
-                            })
-                        )
+                function($query) use ($roles, $userFunction) {
+                    $query->whereHas('user', $userFunction)
+                    ->with(['user' => $userFunction]);
+                })->whereHas('event',
+                fn($query) => $query
+                    ->upcoming()
+                    ->when($this->event || $this->type,
+                        fn($query) => $query->where(function ($query) {
+                            $query->where('id', $this->event)->orWhere('type_id', $this->type);
+                        })
+                    )
             )->user()
             ->orderBy('reserved_at', 'DESC');
     }
+
 }
