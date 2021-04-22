@@ -82,7 +82,7 @@ class Ticket
         if(is_null(Baskha::maxReservations()))
             return -1;
 
-        $left = $this->calculateReservationsLeft(3, Baskha::maxReservations(), $start, 8);
+        $left = $this->calculateReservationsLeft(3, Baskha::maxReservations(), $start, 10);
 
         return $left >= 0 ? $left : 0;
     }
@@ -94,7 +94,7 @@ class Ticket
         if(is_null(BaskhaOccasion::maxReservations()))
             return -1;
 
-        $left = $this->calculateReservationsLeft(5, BaskhaOccasion::maxReservations(), $start, 8);
+        $left = $this->calculateReservationsLeft(5, BaskhaOccasion::maxReservations(), $start, 10);
 
         return $left >= 0 ? $left : 0;
     }
