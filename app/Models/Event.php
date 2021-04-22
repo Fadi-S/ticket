@@ -63,7 +63,7 @@ class Event extends Model
             $count += $ticket->reservations->count();
         }
 
-        return $this->number_of_places - $count;
+        return 10 - $count;
     }
 
     public function getFormattedDateAttribute()
