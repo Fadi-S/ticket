@@ -143,7 +143,6 @@
         </x-layouts.tickets>
 
         <div class="col-span-12 mb-6">
-            @if(auth()->user()->isDeacon() || auth()->user()->isAdmin())
                 <div class="font-bold my-4 text-3xl">
                     {{ __('Deacon') }}
                 </div>
@@ -165,8 +164,6 @@
                     </x-slot>
                 </x-layouts.tickets>
             </div>
-
-            @endif
         </div>
         </div>
 
