@@ -2,7 +2,7 @@
     <x-card :show="$card">
         <x-slot name="title">User Form | Ticket</x-slot>
 
-        @if(!$isCreate && auth()->user()->can('users.delete') && !$user->isSignedIn())
+        @if(!$isCreate && auth()->user()->can('users.forceDelete') && !$user->isSignedIn())
             <div class="mb-4">
                 <x-button type="button" wire:click="delete"
                         color="bg-red-500 hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-500">
