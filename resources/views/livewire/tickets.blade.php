@@ -4,11 +4,10 @@
         View your tickets
     </x-slot>
 
-    <div class="flex items-center space-x-4">
+    <div class="flex items-center space-x-2">
         @if($event && auth()->user()->can('tickets.view'))
-            <script src="{{ mix('js/print.js') }}"></script>
 
-            <x-button wire:click="toggleEvent"
+            <x-button wire:click="toggleEvent" class="ml-2"
                       color="bg-green-500 hover:bg-green-600
                       dark:bg-green-600 dark:hover:bg-green-700">
                 <x-slot name="svg">
@@ -27,87 +26,20 @@
                 @endif
             </x-button>
 
-            <div x-data class="mb-4" @print.window="printTickets($refs.print)">
-                <x-button type="button" wire:click="export">
-                    <x-slot name="svg">
-                        <x-svg.printer wire:loading.remove wire:target="export"/>
-                        <x-svg.spinner wire:loading wire:target="export"/>
-                    </x-slot>
+            <x-button type="button" wire:click="export">
+                <x-slot name="svg">
+                    <x-svg.printer wire:loading.remove wire:target="export"/>
+                    <x-svg.spinner wire:loading wire:target="export"/>
+                </x-slot>
 
-                    {{ __('Print/Export as PDF') }}
-                </x-button>
-
-
-                @if($pdfRendered)
-                    <div x-ref="print" class="hidden">
-                        <table dir="rtl" width="100%">
-                            <tr style="color: #4f73ff; font-weight: bold; text-align: center">
-                                <th>التاريخ</th>
-                                <th>الميعاد</th>
-                                <th>أسم الكنيسة</th>
-                                <th>مناسبة الحضور</th>
-                            </tr>
-                            <tr style="text-align: center;">
-                                <td dir="ltr">{{ $this->eventModel->start->format('l, F j, Y') }}</td>
-                                <td dir="ltr">{{ $this->eventModel->start->format('h:i a') }}</td>
-                                <td>كنيسة الشهيد العظيم مارجرجس باسبورتنج</td>
-                                <td>{{ $this->eventModel->description }}</td>
-                            </tr>
-                        </table>
-
-                        <br><br>
-
-                        <table dir="rtl" width="100%">
-                            <tr style="color: #4f73ff; font-weight: bold; text-align: center">
-                                <th>الشمامسة</th>
-                            </tr>
-                            <tr style="text-align: center;">
-                                <td>
-                                    <ul style="list-style-type: none; height: 80vh;">
-                                        @foreach($users['deacons'] as $user)
-                                            <li style="vertical-align: top;
-                                     border: #ef8c82 solid thin;
-                                      margin: 5px 0; padding: 2px 0;">{{ $user['arabic_name'] }}</li>
-                                        @endforeach
-                                    </ul>
-                                </td>
-                            </tr>
-                        </table>
-
-                        <br><br>
-
-                        <table dir="rtl" width="100%">
-
-                            <tr style="text-align: center; font-size: 25px; font-weight: bold;">
-                                <th>سيدات</th>
-                                <th>رجال</th>
-                            </tr>
-
-                            <tr style="text-align: center;">
-                                @foreach($users as $gender => $list)
-                                    <td>
-                                        <ul style="list-style-type: none; height: 80vh;">
-                                            @foreach($list as $user)
-                                                <li style="vertical-align: top;
-                                         border: #ef8c82 solid thin;
-                                          margin: 5px 0; padding: 2px 0;">{{ $user['arabic_name'] }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </td>
-                                @endforeach
-                            </tr>
-
-                        </table>
-                    </div>
-                @endif
-
-            </div>
+                {{ __('Print/Export as PDF') }}
+            </x-button>
         @endif
     </div>
 
 
     @if(auth()->user()->can('tickets.view'))
-        <div class="max-w-xl mb-6">
+        <div class="max-w-xl mb-6 mt-4">
             {{--            <img class="w-10 mx-2" src="{{ asset('/images/algolia/algolia-blue-mark.svg') }}" alt="Search With Algolia">--}}
 
             <x-form.input autocomplete="off"
@@ -151,16 +83,18 @@
     <div class="grid grid-cols-12 gap-4">
         <div class="col-span-12">
             @if($event)
-                <div class="mb-2 flex text-gray-800 dark:text-gray-200 items-start justify-between">
-                    <div class="flex flex-col items-start space-y-2">
-                        <div class="font-semibold" dir="rtl">{{ $this->eventModel->description }}</div>
-                        <div class="font-semibold" dir="ltr">{{ $this->eventModel->start->format('l, jS \o\f F Y') }}</div>
-                        <div class="font-semibold" dir="ltr">{{ $this->eventModel->formatted_time }}</div>
-                    </div>
+                <div class="mb-2 flex flex-col text-gray-800 space-y-4
+                 dark:text-gray-200 items-start justify-between">
                     @php($color = $colors[$this->eventModel->type_id-1])
                     <div class="font-bold text-sm rounded-full py-1 px-2
                                 {{ $color['background'] . ' ' . $color['text'] }}">
                         {{ $this->eventModel->type->arabic_name }} {{ $this->eventModel->type_id == 1 ? $this->eventModel->eventOrderInDay() : '' }}
+                    </div>
+
+                    <div class="flex flex-col items-start space-y-2">
+                        <div class="font-semibold" dir="rtl">{{ $this->eventModel->description }}</div>
+                        <div class="font-semibold" dir="ltr">{{ $this->eventModel->start->format('l, jS \o\f F Y') }}</div>
+                        <div class="font-semibold" dir="ltr">{{ $this->eventModel->formatted_time }}</div>
                     </div>
                 </div>
             @endif

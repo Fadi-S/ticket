@@ -2,12 +2,14 @@
 
 namespace App\Http\Livewire;
 
+use App\Exports\EventReservationsExport;
 use App\Models\Event;
 use App\Models\EventType;
 use App\Models\Reservation;
 use App\Models\Ticket;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Tickets extends Component
 {
@@ -31,46 +33,19 @@ class Tickets extends Component
 
     public function getTypeModelProperty() { return EventType::find($this->type); }
 
-    private function getUsers()
-    {
-        $tickets = $this->getTickets()->get();
-
-        $users = collect();
-        $deacons = collect();
-        $deaconTickets = $this->getDeaconTickets()->get();
-
-        foreach ($tickets as $ticket) {
-            foreach ($ticket->reservations as $reservation)
-                $users->push($reservation->user);
-        }
-
-        foreach ($deaconTickets as $ticket) {
-            foreach ($ticket->reservations as $reservation)
-                $deacons->push($reservation->user);
-        }
-
-        $genders = $users->groupBy(fn ($user) => $user->gender);
-
-        $males = collect(isset($genders[1]) ? $genders[1] : [])
-            ->sortBy(fn($user) => $user->locale_name);
-
-        $females = collect(isset($genders[0]) ? $genders[0] : [])
-            ->sortBy(fn($user) => $user->locale_name);
-
-        return [
-            'females' => $females,
-            'males' => $males,
-            'deacons' => $deacons,
-        ];
-    }
-
     public function export()
     {
-        $this->pdfRendered = true;
+        $file = $this->eventModel->description
+            . ' - ' . now()->format('Y-m-d')
+            . '.xlsx';
 
-        $this->users = $this->getUsers();
+        $file = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $file);
+        $file = mb_ereg_replace("([\.]{2,})", '', $file);
 
-        $this->dispatchBrowserEvent('print');
+        return Excel::download(
+            new EventReservationsExport($this->event),
+            $file
+        );
     }
 
     public function updatedSearch()
