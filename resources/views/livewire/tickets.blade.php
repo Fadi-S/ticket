@@ -9,7 +9,8 @@
             <script src="{{ mix('js/print.js') }}"></script>
 
             <x-button wire:click="toggleEvent"
-                      color="bg-green-500 hover:bg-green-600">
+                      color="bg-green-500 hover:bg-green-600
+                      dark:bg-green-600 dark:hover:bg-green-700">
                 <x-slot name="svg">
                     @if($this->eventModel->hidden_at)
                         <x-svg.eye wire:loading.remove wire:target="toggleEvent" />
@@ -174,7 +175,7 @@
                                    :type="$type"
                 >
                     <x-slot name="empty">
-                        @if($event)
+                        @if($event && (auth()->user()->isDeacon() || auth()->user()->can('tickets.view')))
                             <span>{{ __('No deacons in this event!') }}</span>
                         @else
                             <span>{{ __('You have no:type tickets!', ['type' => $type ? ' '.strtolower($this->typeModel->name) : '']) }}

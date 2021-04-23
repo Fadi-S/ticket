@@ -87,7 +87,7 @@ class EventsController extends Controller
         $this->authorize('index', Event::class);
 
         $events = $this->model->orderBy('start')
-            ->whereDate('end', '>=', now())
+            ->upcoming()
             ->with('tickets.reservations.user')
             ->paginate(10);
 
