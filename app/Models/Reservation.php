@@ -38,10 +38,10 @@ class Reservation extends Model
 
     public function cancel()
     {
-        $this->delete();
-
-        if($this->ticket->refresh()->reservations_count == 0)
+        if($this->ticket && $this->ticket->refresh()->reservations_count == 1)
             $this->ticket->delete();
+
+        $this->delete();
     }
 
     public function changeEventTo($eventId)

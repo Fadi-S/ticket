@@ -113,6 +113,20 @@ class UserForm extends Component
         $this->clearFields();
     }
 
+    public function delete()
+    {
+        if($this->isCreate && !auth()->user()->can('users.delete'))
+            return;
+
+        $this->user->reservations->each->cancel();
+
+        $this->user->delete();
+
+        flash()->success('User Deleted Successfully');
+
+        $this->redirect('/users');
+    }
+
     protected function clearFields()
     {
         if ($this->isCreate) {

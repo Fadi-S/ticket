@@ -46,7 +46,7 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        $data['phone'] = NormalizePhoneNumber::create($data['phone'])->handle();
+        $data['phone'] = NormalizePhoneNumber::create($data['phone'] ?? '')->handle();
         $data['username'] = User::makeSlug($data['name']);
         \request()->request->set('username', $data['username']);
 

@@ -2,6 +2,19 @@
     <x-card :show="$card">
         <x-slot name="title">User Form | Ticket</x-slot>
 
+        @if(!$isCreate && auth()->user()->can('users.delete') && !$user->isSignedIn())
+            <div class="mb-4">
+                <x-button type="button" wire:click="delete"
+                        color="bg-red-500 hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-500">
+                    <x-slot name="svg">
+                        <x-svg.trash wire:loading.remove wire:target="delete" />
+                        <x-svg.spinner wire:loading wire:target="delete" />
+                    </x-slot>
+                    {{ __('Delete User') }}
+                </x-button>
+            </div>
+        @endif
+
         <form wire:submit.prevent="save">
             @csrf
 
