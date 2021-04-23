@@ -71,5 +71,6 @@ class EventReservationsExport implements FromView, WithStyles, ShouldAutoSize
     {
         $sheet->getStyle('1')->getFont()->setBold(true);
         $sheet->getStyle('A:B')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A:C')->getFont()->setSize(16);
     }
 }
