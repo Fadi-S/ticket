@@ -17,7 +17,7 @@
         </x-data-card>
 
         @can('tickets.view')
-            @if($currentEvent)
+            @foreach($currentEvents as $currentEvent)
                 <x-data-card :href="url('/tickets?event=' . $currentEvent->id)" color="bg-green-400"
                              class="cursor-pointer transform transition duration-150
                               hover:scale-95 focus:scale-95">
@@ -25,9 +25,11 @@
                         <x-svg.clock />
                     </x-slot>
 
-                    <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">{{ __('Current Event') }}</h4>
+                    <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">
+                        {{ $currentEvent->description }}
+                    </h4>
                  </x-data-card>
-            @endif
+            @endforeach
         @endcan
 
 {{--        <x-data-card color="bg-indigo-400"--}}

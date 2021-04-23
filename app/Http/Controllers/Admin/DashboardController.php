@@ -20,10 +20,10 @@ class DashboardController extends Controller
         $tickets = $user->tickets();
 
         if($user->can('tickets.view')) {
-            $currentEvent = Event::where([
+            $currentEvents = Event::where([
                 ['start', '<', now()],
                 ['end', '>', now()]
-            ])->first();
+            ])->get();
         }
 
         return view("index", [
@@ -33,7 +33,7 @@ class DashboardController extends Controller
             'baskhaTickets' => __(':number of :from left', ['number' => $num->format($tickets->baskha()), 'from' => $num->format(Baskha::maxReservations())]),
             'baskhaOccasionTickets' => __(':number of :from left', ['number' => $num->format($tickets->baskhaOccasion()), 'from' => $num->format(BaskhaOccasion::maxReservations())]),
             'user' => $user,
-            'currentEvent' => $currentEvent ?? null,
+            'currentEvents' => $currentEvents ?? null,
         ]);
     }
 
