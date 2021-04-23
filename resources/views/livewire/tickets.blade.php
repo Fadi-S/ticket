@@ -58,6 +58,25 @@
                         <br><br>
 
                         <table dir="rtl" width="100%">
+                            <tr style="color: #4f73ff; font-weight: bold; text-align: center">
+                                <th>الشمامسة</th>
+                            </tr>
+                            <tr style="text-align: center;">
+                                <td>
+                                    <ul style="list-style-type: none; height: 80vh;">
+                                        @foreach($users['deacons'] as $user)
+                                            <li style="vertical-align: top;
+                                     border: #ef8c82 solid thin;
+                                      margin: 5px 0; padding: 2px 0;">{{ $user['arabic_name'] }}</li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <br><br>
+
+                        <table dir="rtl" width="100%">
 
                             <tr style="text-align: center; font-size: 25px; font-weight: bold;">
                                 <th>سيدات</th>
@@ -164,29 +183,32 @@
             </x-slot>
         </x-layouts.tickets>
 
-        <div class="col-span-12 mb-6">
-                <div class="font-bold my-4 text-3xl">
-                    {{ __('Deacon') }}
+        @if(auth()->user()->isDeacon() || auth()->user()->can('tickets.view'))
+            <div class="col-span-12 mb-6">
+                    <div class="font-bold my-4 text-3xl">
+                        {{ __('Deacon') }}
+                    </div>
+                <div class="grid grid-cols-12 gap-4">
+                    <x-layouts.tickets :tickets="$deacons"
+                                       :colors="$colors"
+                                       :event="$event"
+                                       :type="$type"
+                    >
+                        <x-slot name="empty">
+                            @if($event && (auth()->user()->isDeacon() || auth()->user()->can('tickets.view')))
+                                <span>{{ __('No deacons in this event!') }}</span>
+                            @else
+                                <span>{{ __('You have no:type tickets!', ['type' => $type ? ' '.strtolower($this->typeModel->name) : '']) }}
+                            <a href="{{ url('/reserve') }}"
+                               class="text-blue-500 underline" data-turbolinks="false">{{ __('Make Reservation') }}</a>
+                        </span>
+                            @endif
+                        </x-slot>
+                    </x-layouts.tickets>
                 </div>
-            <div class="grid grid-cols-12 gap-4">
-                <x-layouts.tickets :tickets="$deacons"
-                                   :colors="$colors"
-                                   :event="$event"
-                                   :type="$type"
-                >
-                    <x-slot name="empty">
-                        @if($event && (auth()->user()->isDeacon() || auth()->user()->can('tickets.view')))
-                            <span>{{ __('No deacons in this event!') }}</span>
-                        @else
-                            <span>{{ __('You have no:type tickets!', ['type' => $type ? ' '.strtolower($this->typeModel->name) : '']) }}
-                        <a href="{{ url('/reserve') }}"
-                           class="text-blue-500 underline" data-turbolinks="false">{{ __('Make Reservation') }}</a>
-                    </span>
-                        @endif
-                    </x-slot>
-                </x-layouts.tickets>
             </div>
-        </div>
+        @endif
+
         </div>
 
     {{ $tickets->links() }}

@@ -36,10 +36,17 @@ class Tickets extends Component
         $tickets = $this->getTickets()->get();
 
         $users = collect();
+        $deacons = collect();
+        $deaconTickets = $this->getDeaconTickets()->get();
 
         foreach ($tickets as $ticket) {
             foreach ($ticket->reservations as $reservation)
                 $users->push($reservation->user);
+        }
+
+        foreach ($deaconTickets as $ticket) {
+            foreach ($ticket->reservations as $reservation)
+                $deacons->push($reservation->user);
         }
 
         $genders = $users->groupBy(fn ($user) => $user->gender);
@@ -53,6 +60,7 @@ class Tickets extends Component
         return [
             'females' => $females,
             'males' => $males,
+            'deacons' => $deacons,
         ];
     }
 
