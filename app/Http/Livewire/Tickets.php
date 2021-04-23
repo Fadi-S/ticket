@@ -99,6 +99,17 @@ class Tickets extends Component
             $ticket->cancel();
     }
 
+    public function toggleEvent()
+    {
+        if(!$this->event)
+            return;
+
+        $event = Event::find($this->event);
+
+        $event->hidden_at = $event->hidden_at ? null : now();
+        $event->save();
+    }
+
     private function getTickets()
     {
         return $this->getTicketsByRole('user', 'super-admin', 'agent');

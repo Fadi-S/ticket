@@ -24,6 +24,13 @@ class Event extends Model
         return $query->where('end', '>=', now());
     }
 
+    public function scopeVisible($query)
+    {
+        return $query
+            ->where('hidden_at', '=', null)
+            ->orWhere('hidden_at', '>=', now());
+    }
+
     public function reservedPlaces()
     {
         $count = 0;

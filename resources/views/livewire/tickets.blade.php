@@ -4,66 +4,87 @@
         View your tickets
     </x-slot>
 
-    @if($event && auth()->user()->can('tickets.view'))
-        <script src="{{ mix('js/print.js') }}"></script>
+    <div class="flex items-center space-x-4">
+        @if($event && auth()->user()->can('tickets.view'))
+            <script src="{{ mix('js/print.js') }}"></script>
 
-        <div x-data class="mb-4" @print.window="printTickets($refs.print)">
-            <x-button type="button" wire:click="export">
+            <x-button wire:click="toggleEvent"
+                      color="bg-green-500 hover:bg-green-600">
                 <x-slot name="svg">
-                    <x-svg.printer wire:loading.remove wire:target="export"/>
-                    <x-svg.spinner wire:loading wire:target="export"/>
+                    @if($this->eventModel->hidden_at)
+                        <x-svg.eye wire:loading.remove wire:target="toggleEvent" />
+                    @else
+                        <x-svg.edit wire:loading.remove wire:target="toggleEvent" />
+                    @endif
+                    <x-svg.spinner wire:loading wire:target="toggleEvent" />
                 </x-slot>
 
-                {{ __('Print/Export as PDF') }}
+                @if($this->eventModel->hidden_at)
+                    {{ __('Show Event') }}
+                @else
+                    {{ __('Hide Event') }}
+                @endif
             </x-button>
 
+            <div x-data class="mb-4" @print.window="printTickets($refs.print)">
+                <x-button type="button" wire:click="export">
+                    <x-slot name="svg">
+                        <x-svg.printer wire:loading.remove wire:target="export"/>
+                        <x-svg.spinner wire:loading wire:target="export"/>
+                    </x-slot>
 
-            @if($pdfRendered)
-                <div x-ref="print" class="hidden">
-                    <table dir="rtl" width="100%">
-                        <tr style="color: #4f73ff; font-weight: bold; text-align: center">
-                            <th>التاريخ</th>
-                            <th>الميعاد</th>
-                            <th>أسم الكنيسة</th>
-                            <th>مناسبة الحضور</th>
-                        </tr>
-                        <tr style="text-align: center;">
-                            <td dir="ltr">{{ $this->eventModel->start->format('l, F j, Y') }}</td>
-                            <td dir="ltr">{{ $this->eventModel->start->format('h:i a') }}</td>
-                            <td>كنيسة الشهيد العظيم مارجرجس باسبورتنج</td>
-                            <td>{{ $this->eventModel->description }}</td>
-                        </tr>
-                    </table>
+                    {{ __('Print/Export as PDF') }}
+                </x-button>
 
-                    <br><br>
 
-                    <table dir="rtl" width="100%">
+                @if($pdfRendered)
+                    <div x-ref="print" class="hidden">
+                        <table dir="rtl" width="100%">
+                            <tr style="color: #4f73ff; font-weight: bold; text-align: center">
+                                <th>التاريخ</th>
+                                <th>الميعاد</th>
+                                <th>أسم الكنيسة</th>
+                                <th>مناسبة الحضور</th>
+                            </tr>
+                            <tr style="text-align: center;">
+                                <td dir="ltr">{{ $this->eventModel->start->format('l, F j, Y') }}</td>
+                                <td dir="ltr">{{ $this->eventModel->start->format('h:i a') }}</td>
+                                <td>كنيسة الشهيد العظيم مارجرجس باسبورتنج</td>
+                                <td>{{ $this->eventModel->description }}</td>
+                            </tr>
+                        </table>
 
-                        <tr style="text-align: center; font-size: 25px; font-weight: bold;">
-                            <th>سيدات</th>
-                            <th>رجال</th>
-                        </tr>
+                        <br><br>
 
-                        <tr style="text-align: center;">
-                            @foreach($users as $gender => $list)
-                                <td>
-                                    <ul style="list-style-type: none; height: 80vh;">
-                                        @foreach($list as $user)
-                                            <li style="vertical-align: top;
+                        <table dir="rtl" width="100%">
+
+                            <tr style="text-align: center; font-size: 25px; font-weight: bold;">
+                                <th>سيدات</th>
+                                <th>رجال</th>
+                            </tr>
+
+                            <tr style="text-align: center;">
+                                @foreach($users as $gender => $list)
+                                    <td>
+                                        <ul style="list-style-type: none; height: 80vh;">
+                                            @foreach($list as $user)
+                                                <li style="vertical-align: top;
                                          border: #ef8c82 solid thin;
                                           margin: 5px 0; padding: 2px 0;">{{ $user['arabic_name'] }}</li>
-                                        @endforeach
-                                    </ul>
-                                </td>
-                            @endforeach
-                        </tr>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                @endforeach
+                            </tr>
 
-                    </table>
-                </div>
-            @endif
+                        </table>
+                    </div>
+                @endif
 
-        </div>
-    @endif
+            </div>
+        @endif
+    </div>
+
 
     @if(auth()->user()->can('tickets.view'))
         <div class="max-w-xl mb-6">
