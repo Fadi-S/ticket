@@ -75,7 +75,7 @@
         <x-slot name="body">
 
             @forelse($users as $user)
-                @php($color = $colors[$user->roles[0]->name])
+                @php($color = $colors[isset($user->roles[0]) ? $user->roles[0]->name : 'user'])
                 <tr wire:loading.class="opacity-50" wire:key="user-{{ $user->username }}">
                     <x-table.td>
                         <span dir="ltr" class="rtl:text-right text-gray-800 dark:text-gray-200 text-md font-semibold">#{{ $user->id }}</span>
