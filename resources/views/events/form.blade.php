@@ -24,6 +24,11 @@
                       name="number_of_places" label="{{ __('Number of Places') }}" class="col-span-1"
                       size="col-span-1" min="1" placeholder="{{ __('Number of Places') }}" />
 
+
+        <x-form.input required type="number" id="overload" :value="$create ? 20 : $event->overload*100"
+                      name="overload" label="{{ __('Allowed Overload by admins %') }}" class="col-span-1"
+                      size="col-span-1" min="0" max="100" placeholder="20%" />
+
         <x-form.input required type="time" id="start_time" name="start_time"
                       label="{{ __('Start Time') }}" size="col-span-1"
                       :value="$create ? null : $event->start->format('H:i')" />

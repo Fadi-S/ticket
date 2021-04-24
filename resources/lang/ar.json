@@ -184,5 +184,7 @@
   "Number of Deacon Places": "عدد الشمامسة",
   "No deacons in this event!": "لا يوجد شمامسة في هذه المناسبة",
   "Show Event": "أظهر المناسبة",
-  "Hide Event": "اخفي المناسبة"
+  "Hide Event": "اخفي المناسبة",
+  "Event is overloaded!": "اكتمل العدد في هذه المناسبة",
+  "Allowed Overload by admins %": "نسبة العدد الزائد المسموح بها %"
 }

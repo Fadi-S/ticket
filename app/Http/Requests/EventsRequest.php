@@ -29,6 +29,7 @@ class EventsRequest extends FormRequest
             "description" => "required",
             "start" => "required|date",
             "end" => "required|date|after:start",
+            "overload" => "required|numeric|min:0|max:100",
             "published_at" => "required|date|before:start",
             'type_id' => 'nullable',
         ];
@@ -52,6 +53,8 @@ class EventsRequest extends FormRequest
 
         if($data['end']->lessThan($data['start']))
             $data['end']->addDay();
+
+        $data['overload'] = $data['overload'] / 100;
 
         $this->getInputSource()->replace($data);
         return parent::getValidatorInstance();
