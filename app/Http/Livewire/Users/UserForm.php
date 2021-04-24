@@ -120,6 +120,7 @@ class UserForm extends Component
 
         $this->user->reservations->each->cancel();
 
+        $this->user->logins()->delete();
         $this->user->forceDelete();
 
         flash()->success('User Deleted Successfully');
