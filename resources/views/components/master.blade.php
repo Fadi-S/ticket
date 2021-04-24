@@ -326,9 +326,9 @@
             </main>
             <footer class="bg-gray-200 dark:bg-gray-800 text-gray-500
             transition-colors duration-500
-             dark:text-gray-200 text-sm py-4 px-2 hidden md:flex">
+             dark:text-gray-400 text-sm py-2 px-2 hidden md:flex">
                 <span class="mx-auto">
-                    Copyright © <a class="text-blue-500 dark:text-blue-300 text-underline" href="https://fadisarwat.dev">Fadi Sarwat</a>, StGeorge Sporting 2021</span>
+                    Copyright © <a class="text-blue-500 dark:text-blue-600 text-underline" href="https://fadisarwat.dev">Fadi Sarwat</a>, StGeorge Sporting 2021</span>
 
             </footer>
         </div>
