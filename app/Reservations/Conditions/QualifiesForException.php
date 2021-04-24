@@ -13,7 +13,7 @@ class QualifiesForException implements ConditionContract
 
     public function check($event, $user): ConditionOutput
     {
-        if(!$event->allowsException())
+        if(!$event->allowsException() || $user->isDeacon())
             return ConditionOutput::undecided(['is_exception' => false]);
 
         return now()->gte($event->start->subDay()->hours(10+12)->minutes(0))
