@@ -66,7 +66,7 @@ class Tickets extends Component
     {
         return view('livewire.tickets', [
             'tickets' => $this->getTickets()->paginate(10),
-            'deacons' => $this->getDeaconTickets()->get(),
+            'deacons' => $this->getDeaconTickets()->paginate(10),
         ])->layout('components.master');
     }
 
