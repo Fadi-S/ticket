@@ -105,7 +105,7 @@ class Event extends Model
 
     public function hasPassed()
     {
-        return $this->start->gte(now()->subHours(12));
+        return $this->start->lte(now()->addHours(12)) || $this->hidden_at != null;
     }
 
     public function specific()
