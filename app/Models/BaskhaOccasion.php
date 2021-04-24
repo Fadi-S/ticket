@@ -49,8 +49,8 @@ class BaskhaOccasion extends Event implements EventContract
             NotAlreadyReserved::class,
             ReservedByAdmin::class,
             EnoughSpaceInEvent::class,
-            QualifiesForException::class,
             IsDeaconReservation::class,
+            QualifiesForException::class,
             HaveBaskhaOccasionTickets::class,
         ];
     }
