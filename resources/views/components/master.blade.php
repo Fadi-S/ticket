@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="{{ url("/css/app.css") }}" rel="stylesheet" type="text/css">
+    <link href="{{ mix("/css/app.css") }}" rel="stylesheet" type="text/css">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href=manifest.json">
 
     <title>{{ $title ?? 'Ticket' }}</title>
 
@@ -336,7 +336,9 @@
 </div>
 
 @livewireScripts
-<script src="{{ url("js/app.js") }}" data-turbolinks-eval="false" data-turbo-eval="false"></script>
+<script src="{{ mix("manifest.js") }}" data-turbolinks-eval="false" data-turbo-eval="false"></script>
+<script src="{{ mix("vendor.js") }}" data-turbolinks-eval="false" data-turbo-eval="false"></script>
+<script src="{{ mix("js/app.js") }}" data-turbolinks-eval="false" data-turbo-eval="false"></script>
 
 @include("flash")
 

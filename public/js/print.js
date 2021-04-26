@@ -1,1 +1,1 @@
-window.printTickets=function(t){var e=window.open("","","height=400,width=800");e.document.write("<html><body>"),e.document.write(t.innerHTML),e.document.write("</body></html>"),e.document.close(),e.print(),e.close()};
+(self.webpackChunk=self.webpackChunk||[]).push([[173],{3352:()=>{window.printTickets=function(e){var n=window.open("","","height=400,width=800");n.document.write("<html><body>"),n.document.write(e.innerHTML),n.document.write("</body></html>"),n.document.close(),n.print(),n.close()}}},0,[[3352,774]]]);

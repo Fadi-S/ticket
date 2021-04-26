@@ -8,20 +8,6 @@
  * Date: Thu, 25 Mar 2021 09:48:49 GMT
  */
 
-/*!
- * Pikaday
- *
- * Copyright © 2014 David Bushell | BSD & MIT license | https://github.com/dbushell/Pikaday
- */
-
-/*!
- * Pusher JavaScript Library v7.0.3
- * https://pusher.com/
- *
- * Copyright 2020, Pusher
- * Released under the MIT licence.
- */
-
 //! moment.js
 
 //! moment.js locale configuration
