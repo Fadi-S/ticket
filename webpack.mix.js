@@ -13,12 +13,19 @@ const mix = require('laravel-mix');
 
 mix.disableSuccessNotifications();
 
-mix.js('resources/js/app.js', 'public/js').extract(['alpinejs', 'laravel-echo', 'pikaday-time', 'pusher-js'])
+mix.js('resources/js/app.js', 'public/js')
+    .extract(['alpinejs', 'laravel-echo', 'pikaday-time', 'pusher-js', 'intro.js'])
+
     .js('resources/js/turbo.js', 'public/js')
+
     .js('resources/js/reservation.js', 'public/js')
+
     .js('resources/js/firebase.js', 'public/js')
+
     .js('resources/js/print.js', 'public/js')
+
     .js('resources/js/service-worker.js', 'public')
+
     .postCss('resources/css/app.css', 'public/css', [
         require('tailwindcss'),
     ])

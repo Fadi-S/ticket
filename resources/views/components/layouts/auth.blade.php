@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <title>{{ $title ?? 'Sign In to Ticket' }}</title>
-    <link href="{{ url("css/app.css") }}" rel="stylesheet">
-    <script src="{{ url("js/turbo.js") }}"></script>
+    <link href="{{ mix("css/app.css") }}" rel="stylesheet">
 
     @livewireStyles
 
@@ -55,7 +54,9 @@
 </div>
 
 @livewireScripts
-<script src="{{ url("js/app.js") }}" data-turbolinks-eval="false" data-turbo-eval="false"></script>
+<script src="{{ mix("manifest.js") }}"></script>
+<script src="{{ mix("vendor.js") }}"></script>
+<script src="{{ mix("js/app.js") }}"></script>
 @stack('scripts')
 </body>
 </html>
