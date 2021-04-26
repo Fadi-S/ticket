@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="{{ mix("/css/app.css") }}" rel="stylesheet" type="text/css">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
-    <link rel="manifest" href={{ asset('manifest.json') }}">
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
 
     <title>{{ $title ?? 'Ticket' }}</title>
 
