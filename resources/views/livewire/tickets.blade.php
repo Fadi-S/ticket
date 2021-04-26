@@ -7,24 +7,27 @@
     <div class="flex items-center space-x-2">
         @if($event && auth()->user()->can('tickets.view'))
 
-            <x-button wire:click="toggleEvent" class="ml-2"
-                      color="bg-green-500 hover:bg-green-600
-                      dark:bg-green-600 dark:hover:bg-green-700">
-                <x-slot name="svg">
-                    @if($this->eventModel->hidden_at)
-                        <x-svg.eye wire:loading.remove wire:target="toggleEvent" />
-                    @else
-                        <x-svg.edit wire:loading.remove wire:target="toggleEvent" />
-                    @endif
-                    <x-svg.spinner wire:loading wire:target="toggleEvent" />
-                </x-slot>
 
-                @if($this->eventModel->hidden_at)
-                    {{ __('Show Event') }}
-                @else
-                    {{ __('Hide Event') }}
-                @endif
-            </x-button>
+            @if(auth()->user()->can('events.show'))
+                <x-button wire:click="toggleEvent" class="ml-2"
+                          color="bg-green-500 hover:bg-green-600
+                          dark:bg-green-600 dark:hover:bg-green-700">
+                    <x-slot name="svg">
+                        @if($this->eventModel->hidden_at)
+                            <x-svg.eye wire:loading.remove wire:target="toggleEvent" />
+                        @else
+                            <x-svg.edit wire:loading.remove wire:target="toggleEvent" />
+                        @endif
+                        <x-svg.spinner wire:loading wire:target="toggleEvent" />
+                    </x-slot>
+
+                    @if($this->eventModel->hidden_at)
+                        {{ __('Show Event') }}
+                    @else
+                        {{ __('Hide Event') }}
+                    @endif
+                </x-button>
+            @endif
 
             <x-button type="button" wire:click="export">
                 <x-slot name="svg">
@@ -129,7 +132,7 @@
                                        :type="$type"
                     >
                         <x-slot name="empty">
-                            @if($event && (auth()->user()->isDeacon() || auth()->user()->can('tickets.view')))
+                            @if($event)
                                 <span>{{ __('No deacons in this event!') }}</span>
                             @else
                                 <span>{{ __('You have no:type tickets!', ['type' => $type ? ' '.strtolower($this->typeModel->name) : '']) }}

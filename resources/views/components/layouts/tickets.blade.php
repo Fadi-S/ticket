@@ -44,7 +44,7 @@
                             </div>
                         </div>
 
-                        @if(!$ticket->event->hasPassed() && $reservation->of(auth()->user()))
+                        @if(auth()->user()->can('reservations.bypass') || (!$ticket->event->hasPassed() && $reservation->of(auth()->user())))
                             <button class="bg-transparent dark:hover:text-red-100
                                     focus:outline-none hover:bg-red-100
                                     focus:bg-red-100 dark:focus:bg-red-500

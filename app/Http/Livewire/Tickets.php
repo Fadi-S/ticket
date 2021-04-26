@@ -72,13 +72,13 @@ class Tickets extends Component
 
     public function cancelReservation(Reservation $reservation)
     {
-        if(!$reservation->ticket->event->hasPassed() && $reservation->of(auth()->user()))
+        if(auth()->user()->can('reservations.bypass') || (!$reservation->ticket->event->hasPassed() && $reservation->of(auth()->user())))
             $reservation->cancel();
     }
 
     public function cancel(Ticket $ticket)
     {
-        if(!$ticket->event->hasPassed() && $ticket->of(auth()->user()))
+        if(auth()->user()->can('reservations.bypass') || (!$ticket->event->hasPassed() && $ticket->of(auth()->user())))
             $ticket->cancel();
     }
 
