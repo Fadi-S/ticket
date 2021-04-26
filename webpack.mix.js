@@ -31,4 +31,4 @@ mix.js('resources/js/app.js', 'public/js')
     ])
     .sass('resources/css/reservation.scss', 'public/css')
 
-;
+    .version();
