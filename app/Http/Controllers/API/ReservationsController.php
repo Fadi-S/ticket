@@ -52,7 +52,7 @@ class ReservationsController extends Controller
 
         $cacheDates = $start->format('Y-m-d')  . '.' . $end->format('Y-m-d');
 
-        return \Cache::remember('events.calendar.'.$cacheDates, 15*60,
+        return \Cache::remember("events.calendar." . ($isDeacon ? 'deacon' : 'user') . ".$cacheDates", 30*60,
             fn() => $events->map(function ($event) use ($colors, $isUser, $isDeacon) {
 
             if($isDeacon) {

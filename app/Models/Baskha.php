@@ -11,6 +11,8 @@ class Baskha extends Event implements EventContract
 {
     use HasFactory;
 
+    public int $deaconNumber = 20;
+
     protected $attributes = ['type_id' => 3];
 
     protected static function booted()
