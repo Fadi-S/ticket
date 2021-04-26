@@ -14,7 +14,7 @@ const mix = require('laravel-mix');
 mix.disableSuccessNotifications();
 
 mix.js('resources/js/app.js', 'public/js')
-    .extract(['alpinejs', 'laravel-echo', 'pikaday-time', 'pusher-js', 'intro.js'])
+    //.extract(['alpinejs', 'laravel-echo', 'pikaday-time', 'pusher-js', 'intro.js'])
 
     .js('resources/js/turbo.js', 'public/js')
 
@@ -29,6 +29,6 @@ mix.js('resources/js/app.js', 'public/js')
     .postCss('resources/css/app.css', 'public/css', [
         require('tailwindcss'),
     ])
-    .sass('resources/css/reservation.scss', 'public/css')
+    .sass('resources/css/reservation.scss', 'public/css');
 
-    .version();
+    //.version();
