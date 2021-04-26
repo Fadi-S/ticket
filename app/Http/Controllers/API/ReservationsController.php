@@ -50,7 +50,10 @@ class ReservationsController extends Controller
         $isUser = auth()->user()->isUser();
         $isDeacon = auth()->user()->isDeacon();
 
-        return $events->map(function ($event) use ($colors, $isUser, $isDeacon) {
+        $cacheDates = $start->format('Y-m-d')  . '.' . $end->format('Y-m-d');
+
+        return \Cache::remember('events.calendar.'.$cacheDates, 15*60,
+            fn() => $events->map(function ($event) use ($colors, $isUser, $isDeacon) {
 
             if($isDeacon) {
                 $left = $event->deacon_reservations_left;
@@ -71,7 +74,7 @@ class ReservationsController extends Controller
                 'end' => $event->end,
                 'color' => $colors[$event->type_id - 1]
             ];
-        });
+        }));
     }
 
 }
