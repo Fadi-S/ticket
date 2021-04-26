@@ -1,12 +1,10 @@
 {
-    "/js/app.js": "/js/app.js?id=65981872f9adfd81aafc",
-    "/js/turbo.js": "/js/turbo.js?id=46573bbee70b5164f605",
-    "/js/reservation.js": "/js/reservation.js?id=9f939a51dbfd948a823a",
-    "/js/firebase.js": "/js/firebase.js?id=57d2bee72a8d13a60257",
-    "/js/print.js": "/js/print.js?id=10a436998f653c353d20",
-    "/service-worker.js": "/service-worker.js?id=62e73883102a9d903203",
-    "/manifest.js": "/manifest.js?id=6df0849a0a24cc031f2b",
+    "/js/app.js": "/js/app.js?id=3d901e340062a4359bf9",
+    "/js/turbo.js": "/js/turbo.js?id=0986bc3b14814eb3e6e4",
+    "/js/reservation.js": "/js/reservation.js?id=c0b1b99976f886b2bdbf",
+    "/js/firebase.js": "/js/firebase.js?id=85476d91d942cb7bc928",
+    "/js/print.js": "/js/print.js?id=b8fd0f720565d604ad26",
+    "/service-worker.js": "/service-worker.js?id=cb9bef443c4c1061b2c1",
     "/css/app.css": "/css/app.css?id=920b48cda64a4ce71f7e",
-    "/css/reservation.css": "/css/reservation.css?id=9361aa54b96ecbdc9ed8",
-    "/vendor.js": "/vendor.js?id=003335739186f0fc8a35"
+    "/css/reservation.css": "/css/reservation.css?id=9361aa54b96ecbdc9ed8"
 }
