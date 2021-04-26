@@ -86,10 +86,14 @@ class EventsController extends Controller
     {
         $this->authorize('index', Event::class);
 
-        $events = $this->model->orderBy('start')
+        $currentPage = request()->get('page', 1);
+
+        $events = \Cache::remember("events.paginate.$currentPage.$this->url", 5*60,
+            fn() => $this->model->orderBy('start')
             ->upcoming()
             ->with('tickets.reservations.user')
-            ->paginate(10);
+            ->paginate(10)
+        );
 
         return view("events.index", [
             'events' => $events,
