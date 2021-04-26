@@ -53,8 +53,8 @@
     </div>
 </div>
 
-@livewireScripts
 <script src="{{ mix("manifest.js") }}"></script>
+@livewireScripts
 <script src="{{ mix("vendor.js") }}"></script>
 <script src="{{ mix("js/app.js") }}"></script>
 @stack('scripts')
