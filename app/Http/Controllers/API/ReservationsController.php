@@ -37,7 +37,7 @@ class ReservationsController extends Controller
         $isDeacon = auth()->user()->isDeacon();
 
         $events = Event::published()
-            ->upcomnig()
+            ->upcoming()
             ->visible()
             ->when($isDeacon, fn($query) => $query->where('description', 'LIKE', 'كنيسة%'))
             ->whereBetween('start', [$start, $end])->get();
