@@ -25,7 +25,7 @@
                         </span>
             </h3>
         @endif
-        <ul class="space-y-6 bg-gray-100 dark:bg-gray-900 p-4 transition-dark rounded-b-lg">
+        <ul class="space-y-6 bg-gray-100 dark:bg-gray-900 p-4 transition-dark">
             @foreach($ticket->reservations as $reservation)
                 <li wire:key="reservation-{{ $reservation->id }}" id="reservation-{{ $reservation->id }}">
                     <div class="flex items-center justify-between">
@@ -58,6 +58,17 @@
                 </li>
             @endforeach
         </ul>
+            @unless(auth()->user()->isUser())
+                <div class="flex bg-gray-100 dark:bg-gray-800
+                 rounded-b-lg transition-dark px-2 py-1 text-sm text-gray-400
+                         items-start justify-between">
+                    <span>
+                        {{ __('By : :name', ['name' => $ticket->reservedBy->locale_name]) }}
+                    </span>
+                    <div dir="ltr">{{ $ticket->reserved_at->format('d/m h:i a')  }}</div>
+                </div>
+            @endunless
+
     </div>
 @empty
     <p class="font-bold text-gray-600 dark:text-gray-300 text-md mx-auto col-span-12 flex justify-center">
