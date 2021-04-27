@@ -39,20 +39,20 @@
                                href="{{ url("/tickets/?event=$event->id") }}">{{ $event->formatted_date }}</a>
                         </x-table.td>
 
-                        <x-table.td dir="ltr" class="rtl:text-right">
+                        <x-table.td dir="ltr" className="rtl:text-right">
                             {{ $event->start->format("h:i A") }} - {{ $event->end->format("h:i A") }}
                         </x-table.td>
 
-                        <x-table.td dir="ltr" class="rtl:text-right">
+                        <x-table.td dir="ltr" className="rtl:text-right">
                             {{ $event->published_at->format("d/m/Y h:i A") }}
                         </x-table.td>
 
-                        <x-table.td dir="ltr" class="rtl:text-right"
+                        <x-table.td dir="ltr" className="rtl:text-right"
                                 x-text="(events[{{$event->id}}]) ? events[{{$event->id}}].reservedPlaces + ' / ' + events[{{$event->id}}].numberOfPlaces : ''">
                             {{ ($reservedCount) . '/' . $event->number_of_places }}
                         </x-table.td>
 
-                        <x-table.td dir="ltr" class="rtl:text-right">
+                        <x-table.td dir="ltr" className="rtl:text-right">
                             {{ ($event->deaconNumber - $event->deaconReservationsLeft) . '/' . $event->deaconNumber }}
                         </x-table.td>
 
