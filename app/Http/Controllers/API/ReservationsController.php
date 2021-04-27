@@ -37,6 +37,7 @@ class ReservationsController extends Controller
         $isDeacon = auth()->user()->isDeacon();
 
         $events = Event::published()
+            ->upcomnig()
             ->visible()
             ->when($isDeacon, fn($query) => $query->where('description', 'LIKE', 'كنيسة%'))
             ->whereBetween('start', [$start, $end])->get();
@@ -51,15 +52,15 @@ class ReservationsController extends Controller
             '#323236',
         ];
 
-        $cacheDates = $start->format('Y-m-d')  . '.' . $end->format('Y-m-d');
-
-
-        if($isDeacon)
-            $role = 'deacon';
-        else if($isUser)
-            $role = 'user';
-        else
-            $role = 'admin';
+//        $cacheDates = $start->format('Y-m-d')  . '.' . $end->format('Y-m-d');
+//
+//
+//        if($isDeacon)
+//            $role = 'deacon';
+//        else if($isUser)
+//            $role = 'user';
+//        else
+//            $role = 'admin';
 
         return $events->map(function ($event) use ($colors, $isUser, $isDeacon) {
 
