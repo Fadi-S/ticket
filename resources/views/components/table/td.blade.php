@@ -1,7 +1,7 @@
 @props([
-    'class' => null,
+    'class' => 'px-6 py-4 dark:text-white',
 ])
 
-<td {{ $attributes }} class="px-6 py-4 whitespace-nowrap dark:text-white {{ $class }}">
+<td {{ $attributes }} class="{{ $class }}">
     {{ $slot }}
 </td>

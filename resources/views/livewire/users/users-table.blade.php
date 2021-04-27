@@ -11,15 +11,15 @@
         <x-form.input name="search" :label="__('Search')"
                       dir="auto" autocomplete="off"
                       wire:model="search" id="search"
-                      size="w-full lg:w-1/4 md:w-1/2" />
+                      size="w-full lg:w-1/4 md:w-1/2"/>
 
-{{--        <x-button wire:click="$toggle('searchByScout')" class="mx-2">--}}
-{{--            <x-slot name="svg">--}}
-{{--                <x-dynamic-component :component="$searchByScout ? 'svg.eye' : 'svg.search'" />--}}
-{{--            </x-slot>--}}
+        {{--        <x-button wire:click="$toggle('searchByScout')" class="mx-2">--}}
+        {{--            <x-slot name="svg">--}}
+        {{--                <x-dynamic-component :component="$searchByScout ? 'svg.eye' : 'svg.search'" />--}}
+        {{--            </x-slot>--}}
 
-{{--            {{ __($searchByScout ? 'Enable' : 'Disable') }} {{ __('Exact Search') }}--}}
-{{--        </x-button>--}}
+        {{--            {{ __($searchByScout ? 'Enable' : 'Disable') }} {{ __('Exact Search') }}--}}
+        {{--        </x-button>--}}
     </div>
 
     @php
@@ -60,15 +60,14 @@
     <x-table.table>
         <x-slot name="head">
             <tr>
-                <x-table.th>{{ __('ID') }}</x-table.th>
+                <x-table.empty-th>{{ __('ID') }}</x-table.empty-th>
                 <x-table.th>{{ __('Name') }}</x-table.th>
+                <x-table.th class="hidden sm:table-cell">{{ __('Arabic Name') }}</x-table.th>
                 <x-table.th>{{ __('Phone') }}</x-table.th>
                 <x-table.th>{{ __('Created By') }}</x-table.th>
-{{--                    <x-table.th>{{ __('National ID') }}</x-table.th>--}}
+                {{--                    <x-table.th>{{ __('National ID') }}</x-table.th>--}}
                 <x-table.th>{{ __('Role') }}</x-table.th>
-                <x-table.th>{{ __('Verified') }}</x-table.th>
-                <x-table.th>{{ __('Duplicated') }}</x-table.th>
-                <x-table.empty-th>{{ __('Edit') }}</x-table.empty-th>
+                <x-table.th>{{ __('Edit') }}</x-table.th>
             </tr>
         </x-slot>
 
@@ -78,7 +77,7 @@
                 @php($color = $colors[isset($user->roles[0]) ? $user->roles[0]->name : 'user'])
                 <tr wire:loading.class="opacity-50" wire:key="user-{{ $user->username }}">
                     <x-table.td>
-                        <span dir="ltr" class="rtl:text-right text-gray-800 dark:text-gray-200 text-md font-semibold">#{{ $user->id }}</span>
+                            <span dir="ltr" class="rtl:text-right text-gray-800 dark:text-gray-200 text-md font-semibold">#{{ $user->id }}</span>
                     </x-table.td>
 
                     <x-table.td>
@@ -90,7 +89,7 @@
                                 <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
                                     {{ $user->name }}
                                 </div>
-                                <div class="dark:text-gray-300 font-semibold text-gray-500 text-sm">
+                                <div class="dark:text-gray-300 font-semibold text-gray-500 text-sm sm:hidden">
                                     {{ $user->arabic_name }}
                                 </div>
                                 <div class="text-xs text-gray-500 dark:text-gray-400">
@@ -100,8 +99,23 @@
                         </div>
                     </x-table.td>
 
+                    <x-table.td class="hidden sm:table-cell">
+                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                            {{ $user->arabic_name }}
+                        </div>
+                    </x-table.td>
+
                     <x-table.td>
-                        <span dir="ltr" class="text-gray-800 dark:text-gray-200 text-md font-semibold">{{ $user->phone }}</span>
+                        <div class="flex items-center justify-start">
+                            @if($user->isVerified())
+                                <div class=" rounded-full p-1 w-8">
+                                    <x-svg.check class="text-green-500" size=""/>
+                                </div>
+                            @else
+                                <div class="rounded-full p-1 w-8"></div>
+                            @endif
+                            <span dir="ltr" class="text-gray-800 dark:text-gray-200 text-md font-semibold mx-2">{{ $user->phone }}</span>
+                        </div>
                     </x-table.td>
 
                     <x-table.td>
@@ -110,65 +124,45 @@
                                     title="#{{ $user->creator->id }}"
                                     class="text-gray-800 dark:text-gray-200 text-md focus:outline-none
                                     font-semibold hover:text-gray-700 dark:hover:text-gray-300">
-                                {{ $user->creator->locale_name }}
+                                {{ $user->creator->first_name }}
                             </button>
                         @else
                             -
                         @endif
                     </x-table.td>
-{{--                        <x-table.td>--}}
-{{--                            <span class="text-gray-800 dark:text-gray-200 text-md font-semibold">{{ $user->national_id }}</span>--}}
-{{--                        </x-table.td>--}}
+                    {{--                        <x-table.td>--}}
+                    {{--                            <span class="text-gray-800 dark:text-gray-200 text-md font-semibold">{{ $user->national_id }}</span>--}}
+                    {{--                        </x-table.td>--}}
 
-                    <x-table.td class="flex flex-1 items-center justify-center">
-                        <div class="font-bold text-sm rounded-full py-1 px-2 text-center mx-auto
-                                {{ $color['background'] . ' ' . $color['text'] }}">
-                            {{ isset($user->roles[0]) ? $user->roles[0]->name : 'user' }}
+                    <x-table.td>
+                        <div class="flex items-center justify-start">
+                            <div class="font-bold text-sm rounded-full py-1 px-2 text-center
+                                    {{ $color['background'] . ' ' . $color['text'] }}">
+                                {{ isset($user->roles[0]) ? $user->roles[0]->name : 'user' }}
+                            </div>
                         </div>
                     </x-table.td>
 
-                    <x-table.td class="text-center">
-                        @if($user->isVerified())
-                            <div class="bg-green-500 rounded-full p-1 w-8 mx-auto">
-                                <x-svg.check class="text-white" size="" />
-                            </div>
-                        @endif
-                    </x-table.td>
-
-                    <x-table.td class="text-center">
-                        @if($user->duplicated_id)
-                            <button type="button" wire:click="$set('search', '#{{ $user->duplicate->id }}')"
-                                    title="#{{ $user->duplicate->id }}"
-                                    class="text-gray-800 dark:text-gray-200 focus:outline-none
-                                     text-md font-semibold hover:text-gray-700 dark:hover:text-gray-300">
-                                #{{ $user->duplicate->id }}
-                            </button>
-                        @else
-                            <button type="button" @click="$dispatch('duplicated', '{{ $user->username }}')"
-                                    class="text-gray-800 dark:text-gray-200 text-md font-semibold
-                                    rounded-full border border-red-500 p-1 border-blue-600
-                                    focus:outline-none
-                                     hover:text-gray-700 dark:hover:text-gray-300">
-                                <x-svg.duplicate />
-                            </button>
-                        @endif
-                    </x-table.td>
-
                     <x-table.td>
-                        <a class="bg-blue-400 hover:bg-blue-500
-                        px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700
-                         text-white text-md rounded-lg"
-                           href="{{ url("/users/$user->username/edit") }}">{{ __('Edit') }}</a>
+                        <div class="flex items-center justify-start">
+                            <a class="border-2 border-blue-500 dark:border-blue-800 transition-dark
+                            dark:hover:bg-blue-700 flex hover:bg-blue-300
+                             items-center justify-center p-2 rounded-full text-md text-white"
+                               href="{{ url("/users/$user->username/edit") }}">
+
+                                <x-svg.edit class="text-blue-500" />
+                            </a>
+                        </div>
                     </x-table.td>
                 </tr>
 
             @empty
                 <tr wire:key="user-0">
-                   <td colspan="10">
+                    <td colspan="10">
                        <span class="flex justify-center mx-auto py-4 text-gray-600 dark:text-gray-300">
-                            <x-svg.search color="" /> &nbsp; {{ __("No users match search :search", ['search' => $search]) }}
+                            <x-svg.search color=""/> &nbsp; {{ __("No users match search :search", ['search' => $search]) }}
                        </span>
-                   </td>
+                    </td>
                 </tr>
             @endforelse
 

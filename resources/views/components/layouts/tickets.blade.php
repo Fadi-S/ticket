@@ -6,7 +6,7 @@
 
 @forelse($tickets as $ticket)
     @php($color = $colors[$ticket->event->type_id-1])
-    <div id="ticket-{{ $ticket->id }}" class="transition-colors duration-500
+    <div id="ticket-{{ $ticket->id }}" wire:key="ticket-{{ $ticket->id }}" class="transition-colors duration-500
             col-span-12 md:col-span-6 xl:col-span-4 overflow-x-hidden w-full
              border-t-4 rounded-lg {{ $color['border'] }}">
         @if(!$event)
@@ -27,7 +27,7 @@
         @endif
         <ul class="space-y-6 bg-gray-100 dark:bg-gray-900 p-4 transition-dark rounded-b-lg">
             @foreach($ticket->reservations as $reservation)
-                <li id="reservation-{{ $reservation->id }}">
+                <li wire:key="reservation-{{ $reservation->id }}" id="reservation-{{ $reservation->id }}">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
                             <div class="flex-shrink-0 h-10 w-10">
