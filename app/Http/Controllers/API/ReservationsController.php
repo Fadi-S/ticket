@@ -33,8 +33,12 @@ class ReservationsController extends Controller
         $start = now();
         $end =  Carbon::parse($request->end);
 
+        $isUser = auth()->user()->isUser();
+        $isDeacon = auth()->user()->isDeacon();
+
         $events = Event::published()
             ->visible()
+            ->when($isDeacon, fn($query) => $query->where('description', 'LIKE', 'كنيسة%'))
             ->whereBetween('start', [$start, $end])->get();
 
         // $events = $events->filter(fn($event) => $event->reservations_left > 0)->values();
@@ -46,9 +50,6 @@ class ReservationsController extends Controller
             '#adb310',
             '#323236',
         ];
-
-        $isUser = auth()->user()->isUser();
-        $isDeacon = auth()->user()->isDeacon();
 
         $cacheDates = $start->format('Y-m-d')  . '.' . $end->format('Y-m-d');
 
