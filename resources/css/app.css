@@ -13,6 +13,14 @@
     @apply transition-colors duration-500;
 }
 
+.fc-daygrid-event {
+    white-space: normal!important;
+}
+
+.fc-timegrid-event-harness {
+    width: 33%;
+}
+
 @layer utilities {
     @variants responsive {
         /* Chrome, Safari and Opera */
