@@ -65,6 +65,7 @@
                 <x-table.th class="hidden sm:table-cell">{{ __('Arabic Name') }}</x-table.th>
                 <x-table.th>{{ __('Phone') }}</x-table.th>
                 <x-table.th>{{ __('Created By') }}</x-table.th>
+                <x-table.th>{{ __('Last Login') }}</x-table.th>
                 {{--                    <x-table.th>{{ __('National ID') }}</x-table.th>--}}
                 <x-table.th>{{ __('Role') }}</x-table.th>
                 <x-table.th>{{ __('Edit') }}</x-table.th>
@@ -129,6 +130,12 @@
                         @else
                             -
                         @endif
+                    </x-table.td>
+
+                    <x-table.td>
+                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                            {{ ($login = $user->logins()->latest('time')->first()) ? $login->time->diffForHumans() : '-' }}
+                        </div>
                     </x-table.td>
                     {{--                        <x-table.td>--}}
                     {{--                            <span class="text-gray-800 dark:text-gray-200 text-md font-semibold">{{ $user->national_id }}</span>--}}

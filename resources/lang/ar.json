@@ -187,5 +187,7 @@
   "Hide Event": "اخفي المناسبة",
   "Event is overloaded!": "اكتمل العدد في هذه المناسبة",
   "Allowed Overload by admins %": "نسبة العدد الزائد المسموح بها %",
-  "By : :name": "عن طريق: :name"
+  "By : :name": "عن طريق: :name",
+  "Created By": "عن طريق",
+  "Last Login": "أخر تسجيل"
 }
