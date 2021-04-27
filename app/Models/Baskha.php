@@ -39,7 +39,7 @@ class Baskha extends Event implements EventContract
 
     public function getDeaconReservationsLeftAttribute()
     {
-        return $this->deaconNumber - $this->reservationsCountForRole('deacon', 'deacon-admin');
+        return 20 - $this->reservationsCountForRole('deacon', 'deacon-admin');
     }
 
     static public function conditions()
