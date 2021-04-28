@@ -20,6 +20,8 @@ class BaskhaOccasion extends Event implements EventContract
 
     protected $attributes = ['type_id' => 5];
 
+    public int $deaconNumber = 0;
+
     protected static function booted()
     {
         static::addGlobalScope('event_type',

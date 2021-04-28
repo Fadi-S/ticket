@@ -40,6 +40,8 @@ class UsersTable extends Component
     {
         $method = ($this->searchByScout) ? 'search' : 'searchDatabase';
 
-        return User::$method($this->search)->with('creator')->paginate(15);
+        return User::$method($this->search)
+            ->with('creator')
+            ->paginate(15);
     }
 }
