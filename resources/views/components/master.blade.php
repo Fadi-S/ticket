@@ -204,8 +204,8 @@
                     </x-navbar.link>
                 @endif
 
-                @can('logins.view')
-                    <x-navbar.link label="{{ __('Potential Duplicates') }}" :href="url('/duplicates')">
+                @can('events.create')
+                    <x-navbar.link label="{{ __('Events Template') }}" :href="url('/templates')">
                         <x-svg.duplicate />
                     </x-navbar.link>
                 @endcan
