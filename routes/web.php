@@ -41,8 +41,6 @@ Route::middleware(["auth",/* EnsurePhoneNumberIsVerified::class*/])->group(funct
             ->response();
     });
 
-    Route::get('/duplicates', DuplicatesTable::class);
-
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::get('/', [DashboardController::class, 'index']);

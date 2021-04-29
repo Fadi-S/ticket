@@ -80,7 +80,7 @@ class Event extends Model
 
     public function getFormattedDateAttribute()
     {
-        return $this->start->format("l, dS F Y");
+        return $this->start->format("D, d M y");
     }
 
     public function getFormattedTimeAttribute()

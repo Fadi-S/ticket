@@ -14,12 +14,10 @@
                 <tr>
                     <x-table.th>{{ __('Description') }}</x-table.th>
                     <x-table.th>{{ __('Date') }}</x-table.th>
-                    <x-table.th>{{ __('Time') }}</x-table.th>
-                    <x-table.th>{{ __('Publish Date') }}</x-table.th>
                     <x-table.th>{{ __('Number of Places') }}</x-table.th>
-                    <x-table.th>{{ __('Number of Deacon Places') }}</x-table.th>
-                    @can('events.edit')
-                        <x-table.empty-th>{{ __('Edit') }}</x-table.empty-th>
+                    <x-table.th>{{ __('Publish Date') }}</x-table.th>
+                @can('events.edit')
+                        <x-table.th>{{ __('Edit') }}</x-table.th>
                     @endcan
                 </tr>
             </x-slot>
@@ -31,37 +29,42 @@
                     <tr @load.window="events[{{$event->id}}] = { reservedPlaces: {{ $reservedCount  }}, numberOfPlaces: {{ $event->number_of_places }} };"
                         class="{{ now()->between($event->start, $event->end) ? 'bg-green-200 dark:bg-green-500' : '' }}">
                         <x-table.td>
+                            <a class="text-blue-500 hover:text-blue-600 underline font-semibold"
+                               href="{{ url("/tickets/?event=$event->id") }}">
                             {{ $event->description }}
+                            </a>
                         </x-table.td>
 
                         <x-table.td>
-                            <a class="text-blue-500 hover:text-blue-600 underline font-semibold"
-                               href="{{ url("/tickets/?event=$event->id") }}">{{ $event->formatted_date }}</a>
+                            <div dir="ltr" class="rtl:text-right text-sm font-medium text-gray-900 dark:text-gray-100">
+                                {{ $event->formatted_date }}
+                            </div>
+                            <div dir="ltr" class="rtl:text-right dark:text-gray-400 font-semibold text-gray-500 text-sm">
+                                {{ $event->formatted_time }}
+                            </div>
                         </x-table.td>
 
                         <x-table.td dir="ltr" className="rtl:text-right">
-                            {{ $event->start->format("h:i A") }} - {{ $event->end->format("h:i A") }}
+
+                            <div dir="ltr" x-text="(events[{{$event->id}}]) ? events[{{$event->id}}].reservedPlaces + ' / ' + events[{{$event->id}}].numberOfPlaces : ''"
+                                 class="rtl:text-right text-sm font-medium text-gray-900 dark:text-gray-100">
+                                {{ ($reservedCount) . '/' . $event->number_of_places }}
+                            </div>
+                            <div dir="ltr" class="rtl:text-right dark:text-gray-400 font-semibold text-gray-500 text-sm">
+                                {{ ($event->deaconNumber - $event->deaconReservationsLeft) . ' / ' . $event->deaconNumber }}
+                            </div>
                         </x-table.td>
 
                         <x-table.td dir="ltr" className="rtl:text-right">
-                            {{ $event->published_at->format("d/m/Y h:i A") }}
-                        </x-table.td>
-
-                        <x-table.td dir="ltr" className="rtl:text-right"
-                                x-text="(events[{{$event->id}}]) ? events[{{$event->id}}].reservedPlaces + ' / ' + events[{{$event->id}}].numberOfPlaces : ''">
-                            {{ ($reservedCount) . '/' . $event->number_of_places }}
-                        </x-table.td>
-
-                        <x-table.td dir="ltr" className="rtl:text-right">
-                            {{ ($event->deaconNumber - $event->deaconReservationsLeft) . '/' . $event->deaconNumber }}
+                            <span class="text-xs font-semibold px-2 py-1 rounded-full border
+                                {{ $event->published_at->lte(now()) ? 'bg-green-100 text-green-800 border-green-800' : 'bg-red-100 text-red-800 border-red-800' }}">
+                                {{ $event->published_at->format("d/m h:i A") }}
+                            </span>
                         </x-table.td>
 
                         @can('events.edit')
                             <x-table.td>
-                                <a class="bg-blue-400 px-4 py-2 hover:bg-blue-500
-                                dark:bg-blue-600 dark:hover:bg-blue-700
-                                 text-white text-md rounded-lg"
-                                   href="{{ url("/$url/$event->id/edit") }}">{{ __('Edit') }}</a>
+                                <x-edit-button :url="url($url . '/' . $event->id . '/edit')" />
                             </x-table.td>
                         @endcan
                     </tr>
