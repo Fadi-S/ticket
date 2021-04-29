@@ -27,6 +27,9 @@
         @endif
         <ul class="space-y-6 bg-gray-100 dark:bg-gray-900 p-4 transition-dark">
             @foreach($ticket->reservations as $reservation)
+                @unless($reservation->user)
+                    @continue
+                @endunless
                 <li wire:key="reservation-{{ $reservation->id }}" id="reservation-{{ $reservation->id }}">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
