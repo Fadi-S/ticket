@@ -114,11 +114,11 @@ class Tickets extends Component
                 fn($query) => $query->searchDatabase($this->search)
             );
 
-        return Ticket::with('event', 'reservations')
+        return Ticket::with('event', 'reservedBy')
+            ->with(['reservations.user' => $userFunction])
             ->whereHas('reservations',
                 function($query) use ($roles, $userFunction) {
-                    $query->whereHas('user', $userFunction)
-                    ->with(['user' => $userFunction]);
+                    $query->whereHas('user', $userFunction);
                 })->whereHas('event',
                 fn($query) => $query
                     ->upcoming()
