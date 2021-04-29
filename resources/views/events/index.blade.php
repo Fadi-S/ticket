@@ -64,7 +64,7 @@
 
                         @can('events.edit')
                             <x-table.td>
-                                <x-edit-button :url="url($url . '/' . $event->id . '/edit')" />
+                                <x-buttons.edit :url="url($url . '/' . $event->id . '/edit')" />
                             </x-table.td>
                         @endcan
                     </tr>

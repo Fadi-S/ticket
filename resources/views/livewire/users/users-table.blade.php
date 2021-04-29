@@ -151,7 +151,7 @@
                     </x-table.td>
 
                     <x-table.td>
-                        <x-edit-button :url="url('/users/' . $user->username . '/edit')" />
+                        <x-buttons.edit :url="url('/users/' . $user->username . '/edit')" />
                     </x-table.td>
                 </tr>
 

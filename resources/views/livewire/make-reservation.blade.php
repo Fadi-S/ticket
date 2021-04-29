@@ -152,46 +152,47 @@
                 </div>
 
                 @if($users->isNotEmpty())
-                    <x-table.table data-step="5"
-                                   data-intro="{{ __('These are the users that you chose to reserve for them') }}"
-                            wire:loading.class="opacity-50" wire:target="toggleUser, removeUser">
-                        <x-slot name="head">
-                            <tr>
-                                <x-table.th>{{ __("ID") }}</x-table.th>
-                                <x-table.th>{{ __("Name") }}</x-table.th>
-                                <x-table.th>{{ __("Arabic Name") }}</x-table.th>
-                                <x-table.th class="hidden lg:table-cell">{{ __("Username") }}</x-table.th>
-{{--                                <x-table.th>{{ __("National ID") }}</x-table.th>--}}
-                                <x-table.th class="hidden lg:table-cell">{{ __("Email") }}</x-table.th>
-                                <x-table.th>{{ __("Phone") }}</x-table.th>
-                                <x-table.empty-th>Remove User</x-table.empty-th>
-                            </tr>
-                        </x-slot>
-                        <x-slot name="body">
-                            @foreach($users as $user)
-                                <tr id="user-selected-{{ $user['id'] }}">
-                                    <x-table.td dir="ltr" class="rtl:text-right">#{{ $user['id'] }}</x-table.td>
-                                    <x-table.td>{{ $user['name'] }}</x-table.td>
-                                    <x-table.td>{{ $user['arabic_name'] }}</x-table.td>
-                                    <x-table.td dir="ltr" class="rtl:text-right hidden lg:table-cell">{{ '@' . $user['username'] }}</x-table.td>
-{{--                                    <x-table.td>{{ $user['national_id'] ?? '-' }}</x-table.td>--}}
-                                    <x-table.td class="hidden lg:table-cell">{{ $user['email'] ?? '-' }}</x-table.td>
-                                    <x-table.td dir="ltr" class="rtl:text-right">{{ $user['phone'] ?? '' }}</x-table.td>
-                                    <x-table.td>
-                                        <x-button
-                                                data-step="6"
-                                                  data-intro="{{ __('To remove a user form this reservation you can click this button') }}"
-                                                type="button" color="rounded-full bg-red-500 hover:bg-red-600"
-                                                  wire:click="removeUser('{{ $user['id'] }}')">
-                                            <x-slot name="svg">
-                                                <x-svg.x/>
-                                            </x-slot>
-                                        </x-button>
-                                    </x-table.td>
+                    <div class="max-w-4xl mx-auto">
+                        <x-table.table data-step="5" class="max-w-3xl"
+                                       data-intro="{{ __('These are the users that you chose to reserve for them') }}"
+                                       wire:loading.class="opacity-50" wire:target="toggleUser, removeUser">
+                            <x-slot name="head">
+                                <tr>
+                                    <x-table.th>{{ __("ID") }}</x-table.th>
+                                    <x-table.th>{{ __("Name") }}</x-table.th>
+                                    <x-table.th>{{ __("Phone") }}</x-table.th>
+                                    {{--                                <x-table.th>{{ __("National ID") }}</x-table.th>--}}
+                                    <x-table.empty-th>Remove User</x-table.empty-th>
                                 </tr>
-                            @endforeach
-                        </x-slot>
-                    </x-table.table>
+                            </x-slot>
+                            <x-slot name="body">
+                                @foreach($users as $user)
+                                    <tr id="user-selected-{{ $user['id'] }}">
+                                        <x-table.td dir="ltr" class="text-center">#{{ $user['id'] }}</x-table.td>
+                                        <x-table.td>
+                                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                                {{ $user['name'] }}
+                                            </div>
+                                            <div class="dark:text-gray-400 font-semibold text-gray-500 text-sm">
+                                                {{ $user['arabic_name'] }}
+                                            </div>
+                                        </x-table.td>
+
+                                        <x-table.td dir="ltr" class="rtl:text-right">{{ $user['phone'] ?? '' }}</x-table.td>
+
+                                        {{--                                    <x-table.td>{{ $user['national_id'] ?? '-' }}</x-table.td>--}}
+
+                                        <x-table.td>
+                                            <x-buttons.cancel
+                                                    data-step="6"
+                                                    data-intro="{{ __('To remove a user form this reservation you can click this button') }}"
+                                                    wire:click="removeUser('{{ $user['id'] }}')" />
+                                        </x-table.td>
+                                    </tr>
+                                @endforeach
+                            </x-slot>
+                        </x-table.table>
+                    </div>
                 @endif
 
                 <div wire:ignore id='calendar' class="z-0"
