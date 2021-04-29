@@ -27,8 +27,8 @@ class DashboardController extends Controller
         }
 
         return view("index", [
-            'users' => $user->isAdmin() ? User::role("user")->count() : 0,
-            'verified_users' => $user->isAdmin() ? User::role("user")->verified()->count() : 0,
+            'users' => $user->isAdmin() ? User::count() : 0,
+            'verified_users' => $user->isAdmin() ? User::verified()->count() : 0,
 //            'massTickets' => __(':number of :from left', ['number' => $num->format($tickets->mass()), 'from' => $num->format(Mass::maxReservations())]),
             'baskhaTickets' => __(':number of :from left', ['number' => $num->format($tickets->baskha()), 'from' => $num->format(Baskha::maxReservations())]),
             'baskhaOccasionTickets' => __(':number of :from left', ['number' => $num->format($tickets->baskhaOccasion()), 'from' => $num->format(BaskhaOccasion::maxReservations())]),

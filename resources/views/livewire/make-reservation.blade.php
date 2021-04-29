@@ -96,11 +96,6 @@
                                                 {{ $user->locale_name }}
                                             </span>
 
-                                            <span dir="ltr" class="mx-2 truncate hidden md:block transition-colors duration-500
-                                            {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500 dark:text-gray-200' }}">
-                                                {{ '@' . $user->username }}
-                                            </span>
-
                                             <span dir="ltr" class="mx-2 truncate transition-colors duration-500
                                              {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500 dark:text-gray-200' }}">
                                                 {{ $user->phone }}
