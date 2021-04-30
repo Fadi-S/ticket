@@ -51,7 +51,7 @@
                         </div>
 
                         @if(auth()->user()->can('reservations.bypass') || (!$ticket->event->hasPassed() && $reservation->of(auth()->user())))
-                            <x-buttons.cancel x-data @click="$dispatch('open', { reservationId: {{ $reservation->id }} })" />
+                            <x-buttons.cancel x-data="{}" @click="$dispatch('open', { reservationId: {{ $reservation->id }} })" />
                         @endif
                     </div>
                 </li>
