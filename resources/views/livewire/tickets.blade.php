@@ -4,18 +4,20 @@
         View your tickets
     </x-slot>
 
-    <x-button wire:click="$toggle('old')">
-        <x-slot name="svg">
-            <x-svg.eye wire:loading.remove />
-            <x-svg.spinner wire:loading />
-        </x-slot>
+    @if(auth()->user()->can('tickets.view'))
+        <x-button wire:click="$toggle('old')">
+            <x-slot name="svg">
+                <x-svg.eye wire:loading.remove />
+                <x-svg.spinner wire:loading />
+            </x-slot>
 
-        @if($old)
-            {{ __('Hide Old Reservations') }}
-        @else
-            {{ __('Show Old Reservations') }}
-        @endif
-    </x-button>
+            @if($old)
+                {{ __('Hide Old Reservations') }}
+            @else
+                {{ __('Show Old Reservations') }}
+            @endif
+        </x-button>
+    @endif
 
     <div class="flex items-center space-x-2">
         @if($event && auth()->user()->can('tickets.view'))
