@@ -5,16 +5,21 @@ on:
     branches: [ master ]
 
 jobs:
-  laravel-tests:
+  deploy-laravel:
 
     runs-on: self-hosted
-
+    
     steps:
-    - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
-      with:
-        php-version: '8.0'
-    - uses: actions/checkout@v2
-    - name: Install Dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-    - name: Migrate tables
-      run: php artisan migrate --force
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Deployment
+        uses: appleboy/ssh-action@main
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          username: ${{ secrets.SSH_USERNAME }}
+          script: |
+            cd /var/www/ticket/
+            git checkout -f 
+            git pull
