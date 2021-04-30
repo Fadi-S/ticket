@@ -51,14 +51,7 @@
                         </div>
 
                         @if(auth()->user()->can('reservations.bypass') || (!$ticket->event->hasPassed() && $reservation->of(auth()->user())))
-                            <button class="bg-transparent dark:hover:text-red-100
-                                    focus:outline-none hover:bg-red-100
-                                    focus:bg-red-100 dark:focus:bg-red-500
-                                     dark:hover:bg-red-500 transition-dark
-                                     text-red-500 rounded-full p-1"
-                                    x-data @click="$dispatch('open', { reservationId: {{ $reservation->id }} })">
-                                <x-svg.x/>
-                            </button>
+                            <x-buttons.cancel x-data @click="$dispatch('open', { reservationId: {{ $reservation->id }} })" />
                         @endif
                     </div>
                 </li>
