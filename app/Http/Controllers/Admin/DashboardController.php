@@ -30,7 +30,7 @@ class DashboardController extends Controller
             'users' => $user->isAdmin() ? User::count() : 0,
             'verified_users' => $user->isAdmin() ? User::verified()->count() : 0,
 //            'massTickets' => __(':number of :from left', ['number' => $num->format($tickets->mass()), 'from' => $num->format(Mass::maxReservations())]),
-            'baskhaTickets' => __(':number of :from left', ['number' => $num->format($tickets->baskha()), 'from' => $num->format(Baskha::maxReservations())]),
+//            'baskhaTickets' => __(':number of :from left', ['number' => $num->format($tickets->baskha()), 'from' => $num->format(Baskha::maxReservations())]),
             'baskhaOccasionTickets' => __(':number of :from left', ['number' => $num->format($tickets->baskhaOccasion()), 'from' => $num->format(BaskhaOccasion::maxReservations())]),
             'user' => $user,
             'currentEvents' => $currentEvents ?? null,

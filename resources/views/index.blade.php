@@ -52,14 +52,14 @@
             </x-data-card>
         @endif
 
-        <x-data-card color="bg-gray-800">
-            <x-slot name="svg">
-                <x-svg.ticket />
-            </x-slot>
+{{--        <x-data-card color="bg-gray-800">--}}
+{{--            <x-slot name="svg">--}}
+{{--                <x-svg.ticket />--}}
+{{--            </x-slot>--}}
 
-            <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">{{ $baskhaTickets }}</h4>
-            <div class="text-gray-500 dark:text-gray-300">{{ __('Baskha reservations left') }}</div>
-        </x-data-card>
+{{--            <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">{{ $baskhaTickets }}</h4>--}}
+{{--            <div class="text-gray-500 dark:text-gray-300">{{ __('Baskha reservations left') }}</div>--}}
+{{--        </x-data-card>--}}
 
         <x-data-card color="bg-gray-800">
             <x-slot name="svg">

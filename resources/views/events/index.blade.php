@@ -27,7 +27,7 @@
                 @foreach($events as $event)
                     @php($reservedCount = ($event->number_of_places-$event->reservations_left))
                     <tr @load.window="events[{{$event->id}}] = { reservedPlaces: {{ $reservedCount  }}, numberOfPlaces: {{ $event->number_of_places }} };"
-                        class="{{ now()->between($event->start, $event->end) ? 'bg-green-200 dark:bg-green-500' : '' }}">
+                        class="{{ now()->between($event->start, $event->end) ? 'bg-gray-200 dark:bg-gray-500' : '' }}">
                         <x-table.td>
                             <a class="text-blue-500 hover:text-blue-600 underline font-semibold"
                                href="{{ url("/tickets/?event=$event->id") }}">

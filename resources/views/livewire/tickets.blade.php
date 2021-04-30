@@ -4,11 +4,11 @@
         View your tickets
     </x-slot>
 
-    @if(auth()->user()->can('tickets.view'))
+    @if(auth()->user()->can('tickets.view') && !$event)
         <x-button wire:click="$toggle('old')">
             <x-slot name="svg">
-                <x-svg.eye wire:loading.remove />
-                <x-svg.spinner wire:loading />
+                <x-svg.eye wire:loading.remove wire:target="old"/>
+                <x-svg.spinner wire:loading wire:target="old" />
             </x-slot>
 
             @if($old)
@@ -106,13 +106,13 @@
                     @php($color = $colors[$this->eventModel->type_id-1])
                     <div class="font-bold text-sm rounded-full py-1 px-2
                                 {{ $color['background'] . ' ' . $color['text'] }}">
-                        {{ $this->eventModel->type->arabic_name }} {{ $this->eventModel->type_id == 1 ? $this->eventModel->eventOrderInDay() : '' }}
+                        {{ $this->eventModel->description }}
                     </div>
 
                     <div class="flex flex-col items-start space-y-2">
                         <div class="font-semibold" dir="rtl">{{ $this->eventModel->description }}</div>
-                        <div class="font-semibold" dir="ltr">{{ $this->eventModel->start->format('l, jS \o\f F Y') }}</div>
-                        <div class="font-semibold" dir="ltr">{{ $this->eventModel->formatted_time }}</div>
+                        <div class="dark:text-gray-400 font-semibold text-gray-500 text-sm" dir="ltr">{{ $this->eventModel->formatted_time }}</div>
+                        <div class="dark:text-gray-400 font-semibold text-gray-500 text-xs" dir="ltr">{{ $this->eventModel->start->format('l, jS \o\f F Y') }}</div>
                     </div>
                 </div>
             @endif

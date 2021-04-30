@@ -15,8 +15,8 @@
                      items-start justify-between p-4">
                 <div class="flex flex-col items-start">
                     <div class="font-semibold" dir="rtl">{{ $ticket->event->description }}</div>
-                    <div class="font-semibold" dir="ltr">{{ $ticket->event->start->format('l, jS \o\f F Y') }}</div>
-                    <div class="font-semibold" dir="ltr">{{ $ticket->event->formatted_time }}</div>
+                    <div class="dark:text-gray-400 font-semibold text-gray-500 text-sm" dir="ltr">{{ $ticket->event->formatted_time }}</div>
+                    <div class="dark:text-gray-400 font-semibold text-gray-500 text-xs" dir="ltr">{{ $ticket->event->start->format('l, jS \o\f F Y') }}</div>
                 </div>
 
                 <span class="font-bold text-sm rounded-full py-1 px-2
