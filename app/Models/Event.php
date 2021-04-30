@@ -13,7 +13,10 @@ class Event extends Model
     protected $table = "events";
     protected $fillable = ["start", "end", "number_of_places", "description", "type_id", "overload", "published_at"];
     protected $dates = ['start', 'end', 'published_at'];
+
     protected static $logFillable = true;
+    protected static $logOnlyDirty = true;
+    protected static $submitEmptyLogs = false;
 
     protected $with = ['type'];
 

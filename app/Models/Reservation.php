@@ -10,16 +10,12 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Reservation extends Model
 {
-    use LogsActivity;
+    use LogsActivity, LogsActivity;
 
     protected $guarded = [];
     protected $dates = ['registered_at'];
     protected $casts = ['is_exception' => 'boolean'];
     protected $with = ['user'];
-
-    protected static $logFillable = true;
-    protected static $logOnlyDirty = true;
-    protected static $submitEmptyLogs = false;
 
     public function user()
     {

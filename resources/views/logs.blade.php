@@ -32,9 +32,29 @@
 
                         <x-table.td>
                             @if($log->description == 'updated')
-                            <span>Old: <pre>{{ print_r($log->changes["old"], true) }}</pre></span>
-                            <br>
-                            <span>New: <pre>{{ print_r($log->changes["attributes"], true) }}</pre></span>
+                                @foreach($log->changes["old"] as $key => $value)
+
+                                    @php
+                                    $date = false;
+                                    try{
+                                      $old = \Carbon\Carbon::parse($value);
+                                      $new = \Carbon\Carbon::parse($log->changes["attributes"][$key]);
+                                      $date = $new->year !== 1970;
+
+                                      }catch (Exception $e){}
+                                    @endphp
+
+                                    <pre>
+                                        @if($date)
+                                            {{ $old->format('d/m/Y h:i a') }} => {{ $new->format('d/m/Y h:i a') }}
+                                        @else
+                                            {{ $log->changes["old"][$key] }} => {{ $log->changes["attributes"][$key] }}
+                                        @endif
+                                    </pre>
+                                @endforeach
+
+                            @elseif($log->description == 'deleted')
+                                <span><pre>{{ print_r($log->changes, true) }}</pre></span>
                             @endif
                         </x-table.td>
 

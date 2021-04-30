@@ -18,12 +18,14 @@ class Tickets extends Component
     public $event;
     public $type;
     public $search = '';
+    public $old = false;
 
     public bool $pdfRendered = false;
     public array $users = [];
 
     protected $queryString = [
         'event' => ['except' => 0],
+        'old' => ['except' => false],
         'type' => ['except' => 0],
         'search' => ['except' => ''],
         'page' => ['except' => 1],
@@ -121,7 +123,7 @@ class Tickets extends Component
                     $query->whereHas('user', $userFunction);
                 })->whereHas('event',
                 fn($query) => $query
-                    ->upcoming()
+                    ->when(!$this->old, fn($query) => $query->upcoming())
                     ->when($this->event || $this->type,
                         fn($query) => $query->where(function ($query) {
                             $query->where('id', $this->event)->orWhere('type_id', $this->type);

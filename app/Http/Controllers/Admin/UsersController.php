@@ -23,10 +23,16 @@ class UsersController extends Controller
     {
         $this->authorize('delete', $user);
 
-        if($user->delete())
-            flash()->success("Deleted User Successfully");
-        else
-            flash()->error("Error deleting user");
+        $user->phone = null;
+        $user->email = null;
+        $user->national_id = null;
+        $user->reservations->each->cancel();
+
+        $user->save();
+
+        $user->delete();
+
+        flash()->success("Deleted User Successfully");
 
         return redirect("/users");
     }
