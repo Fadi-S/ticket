@@ -180,7 +180,7 @@
                     </x-button>
 
                     <x-button class="mx-2" type="button" @click="open = false;"
-                              color="bg-white text-gray-700 hover:bg-gray-50 border border-gray-400">
+                              color="bg-white text-gray-700 dark:bg-gray-600 hover:bg-gray-50 border border-gray-400">
                         {{ __('Close') }}
                     </x-button>
                 </div>
