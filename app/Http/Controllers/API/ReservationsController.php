@@ -39,8 +39,8 @@ class ReservationsController extends Controller
         $events = Event::published()
             ->upcoming()
             ->visible()
-            ->when($isDeacon, fn($query) => $query->where('description', 'LIKE', 'كنيسة%'))
-            ->whereBetween('start', [$start, $end])->get();
+            ->whereBetween('start', [$start, $end])
+            ->get();
 
         // $events = $events->filter(fn($event) => $event->reservations_left > 0)->values();
 

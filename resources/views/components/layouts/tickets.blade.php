@@ -44,6 +44,9 @@
                                 <div class="text-sm text-gray-500 dark:text-gray-400">
                                     {{ $reservation->user->arabic_name }}
                                 </div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">
+                                    #{{ $reservation->user->id }}
+                                </div>
                             </div>
                         </div>
 
