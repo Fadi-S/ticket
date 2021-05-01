@@ -39,7 +39,7 @@ class RecurringEvents extends Command
     {
         $eventIds = \Cache::getRedis()->keys('recurring.*');
 
-        $this->info($eventIds);
+        $this->info(json_encode($eventIds));
 
         return 0;
     }
