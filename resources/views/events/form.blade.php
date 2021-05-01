@@ -36,6 +36,9 @@
         <x-form.input required type="time" id="end_time" name="end_time"
                       label="{{ __('End Time') }}" size="col-span-1"
                       :value="$create ? null : $event->end->format('H:i')" />
+
+        <x-form.checkbox value="1" id="recurring" name="recurring" :label="__('Recurring Event')"
+                         :checked="(!$create && Cache::driver('redis')->get('recurring.' . $event->id))" />
     </div>
 
     <x-button type="submit" class="mx-auto mt-2">

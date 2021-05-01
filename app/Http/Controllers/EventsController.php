@@ -50,10 +50,15 @@ class EventsController extends Controller
     {
         $this->authorize('create', Event::class);
 
-        if($this->model::create($request->all()))
+        if($event = $this->model::create($request->all()))
             flash()->success("Created event successfully");
         else
             flash()->error("Error creating event");
+
+        $recurring = !! $request->get('recurring', false);
+        if($recurring) {
+            \Cache::set('recurring.' . $event->id, $event->id);
+        }
 
         return redirect("/$this->url/create");
     }
@@ -78,6 +83,14 @@ class EventsController extends Controller
             flash()->success("Edited event successfully");
         else
             flash()->error("Error editing event");
+
+        $recurring = !! $request->get('recurring', false);
+        if($recurring) {
+            \Cache::set('recurring.' . $event->id, $event->id);
+
+        } else {
+            \Cache::delete('recurring.' . $event->id);
+        }
 
         return redirect("/$this->url/$event->id/edit");
     }

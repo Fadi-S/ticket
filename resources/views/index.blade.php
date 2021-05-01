@@ -1,6 +1,6 @@
 <x-master>
     <x-slot name="title">
-        Ticket's Dashboard
+        Dashboard | Ticket
     </x-slot>
 
     <div class="m-4 grid items-start grid-cols-4 gap-4">
@@ -32,15 +32,15 @@
             @endforeach
         @endcan
 
-{{--        <x-data-card color="bg-indigo-400"--}}
-{{--                     data-step="2" data-intro="{{ __('Here is the number of masses left in this month') }}">--}}
-{{--            <x-slot name="svg">--}}
-{{--                <x-svg.ticket />--}}
-{{--            </x-slot>--}}
+        <x-data-card color="bg-indigo-400"
+                     data-step="2" data-intro="{{ __('Here is the number of masses left in this month') }}">
+            <x-slot name="svg">
+                <x-svg.ticket />
+            </x-slot>
 
-{{--            <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">{{ $massTickets }}</h4>--}}
-{{--            <div class="text-gray-500 dark:text-gray-300">{{ __('Mass reservations left in :Month', ['month' => \Carbon\Carbon::now()->monthName]) }}</div>--}}
-{{--        </x-data-card>--}}
+            <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">{{ $massTickets }}</h4>
+            <div class="text-gray-500 dark:text-gray-300">{{ __('Mass reservations left in :Month', ['month' => \Carbon\Carbon::now()->monthName]) }}</div>
+        </x-data-card>
 
         @if(auth()->user()->isDeacon())
             <x-data-card color="bg-blue-400">
@@ -61,25 +61,25 @@
 {{--            <div class="text-gray-500 dark:text-gray-300">{{ __('Baskha reservations left') }}</div>--}}
 {{--        </x-data-card>--}}
 
-        <x-data-card color="bg-gray-800">
-            <x-slot name="svg">
-                <x-svg.ticket />
-            </x-slot>
+{{--        <x-data-card color="bg-gray-800">--}}
+{{--            <x-slot name="svg">--}}
+{{--                <x-svg.ticket />--}}
+{{--            </x-slot>--}}
 
-            <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">{{ $baskhaOccasionTickets }}</h4>
-            <div class="text-gray-500 dark:text-gray-300">{{ __('Baskha Mass reservations left') }}</div>
-        </x-data-card>
+{{--            <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">{{ $baskhaOccasionTickets }}</h4>--}}
+{{--            <div class="text-gray-500 dark:text-gray-300">{{ __('Baskha Mass reservations left') }}</div>--}}
+{{--        </x-data-card>--}}
 
-        <x-data-card color="bg-yellow-400"
-                     data-step="1"
-                     data-intro="{{ __('This is your ID Number which you can use to reserve by phone') }}">
-            <x-slot name="svg">
-                <x-svg.id />
-            </x-slot>
+{{--        <x-data-card color="bg-yellow-400"--}}
+{{--                     data-step="1"--}}
+{{--                     data-intro="{{ __('This is your ID Number which you can use to reserve by phone') }}">--}}
+{{--            <x-slot name="svg">--}}
+{{--                <x-svg.id />--}}
+{{--            </x-slot>--}}
 
-            <h4 class="text-2xl font-bold text-gray-700 dark:text-gray-200">{{ $num->format(auth()->user()->id) }}</h4>
-            <div class="text-gray-500 dark:text-gray-300">{{ __('Your ID Number') }} #</div>
-        </x-data-card>
+{{--            <h4 class="text-2xl font-bold text-gray-700 dark:text-gray-200">{{ $num->format(auth()->user()->id) }}</h4>--}}
+{{--            <div class="text-gray-500 dark:text-gray-300">{{ __('Your ID Number') }} #</div>--}}
+{{--        </x-data-card>--}}
 
         @if($user->isAdmin())
             <x-data-card color="bg-blue-400"

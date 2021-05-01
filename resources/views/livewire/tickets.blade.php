@@ -1,8 +1,8 @@
-<x-card>
+<x-slot name="title">
+    View All Tickets | Ticket
+</x-slot>
 
-    <x-slot name="title">
-        View your tickets
-    </x-slot>
+<x-card>
 
     @if(auth()->user()->can('tickets.view') && !$event)
         <x-button wire:click="$toggle('old')">

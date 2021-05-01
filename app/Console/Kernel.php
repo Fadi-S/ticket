@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\ClearLogins;
+use App\Console\Commands\RecurringEvents;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Laravel\Telescope\Console\PruneCommand;
@@ -18,7 +19,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         PruneCommand::class,
         ClearLogins::class,
-        CleanActivitylogCommand::class
+        CleanActivitylogCommand::class,
+        RecurringEvents::class,
     ];
 
     /**
@@ -36,6 +38,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('activitylog:clean')->daily();
 
         $schedule->command('logins:clear')->daily();
+
+        $schedule->command('events:create')->daily();
     }
 
     /**

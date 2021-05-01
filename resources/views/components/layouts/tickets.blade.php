@@ -7,7 +7,7 @@
 @forelse($tickets as $ticket)
     @php($color = $colors[$ticket->event->type_id-1])
     <div id="ticket-{{ $ticket->id }}" wire:key="ticket-{{ $ticket->id }}" class="transition-colors duration-500
-            col-span-12 md:col-span-6 xl:col-span-4 overflow-x-hidden w-full
+            col-span-12 md:col-span-6 xl:col-span-4 overflow-x-hidden w-full shadow-lg
              border-t-4 rounded-lg {{ $color['border'] }}">
         @if(!$event)
             <h3 class="flex text-gray-800 dark:text-gray-200
