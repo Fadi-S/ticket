@@ -97,7 +97,7 @@ class EventsController extends Controller
             $ids = collect(\Cache::get('recurring', []));
             $ids = $ids->reject(fn($id) => $id == $event->id)->toArray();
             \Cache::set('recurring', $ids);
-            \Cache::del('recurring.' . $event->id);
+            \Cache::delete('recurring.' . $event->id);
         }
 
         return redirect("/$this->url/$event->id/edit");
