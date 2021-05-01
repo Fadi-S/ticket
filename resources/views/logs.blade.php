@@ -6,10 +6,9 @@
         <x-table.table>
             <x-slot name="head">
                 <tr>
-                    <x-table.th>Picture</x-table.th>
-                    <x-table.th>Action</x-table.th>
-                    <x-table.th>Changes</x-table.th>
-                    <x-table.empty-th>Restore</x-table.empty-th>
+                    <x-table.th>{{ __('Causer') }}</x-table.th>
+                    <x-table.th>{{ __('Caused On') }}</x-table.th>
+                    <x-table.th>{{ __('Changes') }}</x-table.th>
                 </tr>
             </x-slot>
 
@@ -18,21 +17,45 @@
                 @foreach($logs as $log)
                     <tr>
                         <x-table.td>
-                            <img width="70" class="rounded-full"
-                                 src="{{ ($log->causer) ? $log->causer->picture : "https://bostonglobe-prod.cdn.arcpublishing.com/resizer/EdOe8MZVreAeCmuV2k6btg-LTKA=/420x0/arc-anglerfish-arc2-prod-bostonglobe.s3.amazonaws.com/public/HCIJCIQ2UAI6VKP2L3WHYVGSUE.jpg" }}"
-                                 alt="{{ ($log->causer) ? $log->causer->name : "System" }}'s picture">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10">
+                                    <img class="h-10 w-10 rounded-full"
+                                         src="{{ ($log->causer) ? $log->causer->picture : "https://bostonglobe-prod.cdn.arcpublishing.com/resizer/EdOe8MZVreAeCmuV2k6btg-LTKA=/420x0/arc-anglerfish-arc2-prod-bostonglobe.s3.amazonaws.com/public/HCIJCIQ2UAI6VKP2L3WHYVGSUE.jpg" }}"
+                                         alt="{{ ($log->causer) ? $log->causer->name : "System" }}'s picture">
+                                </div>
+                                <div class="flex flex-col">
+                                    <div>
+                                        {{ ($log->causer) ? $log->causer->name : "System" }}
+                                    </div>
+
+                                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                                        {{ $log->created_at->format('D j M y h:i a') }}
+                                    </div>
+
+                                    <div class="text-xs text-gray-500 dark:text-gray-400 font-bold">
+                                        {{ $log->description }}
+                                    </div>
+                                </div>
+                            </div>
                         </x-table.td>
 
                         <x-table.td>
-                            <strong>{{ ($log->causer) ? $log->causer->name : "System" }}</strong>
-                            {{ $log->description }}
-                            <strong>{{ $log->subject ? $log->subject["name"] ?? $log->subject["start"] : '' }}</strong>
-                            {{ $log->created_at->diffforhumans() }}
+                            <div class="flex flex-col">
+                                <div class="font-semibold">
+                                    {{ $log->subject_type }}
+                                </div>
+                                <div class="text-sm text-gray-500 dark:text-gray-400">
+                                    {{ $log->subject ? $log->subject["name"] ?? $log->subject["start"] : '' }}
+                                </div>
+                            </div>
                         </x-table.td>
 
-                        <x-table.td>
+                        <x-table.td dir="{{ $dir }}">
                             @if($log->description == 'updated')
                                 @foreach($log->changes["old"] as $key => $value)
+                                    @if($key == 'password')
+                                        @continue
+                                    @endif
 
                                     @php
                                     $date = false;
@@ -44,24 +67,24 @@
                                       }catch (Exception $e){}
                                     @endphp
 
-                                    <pre>
-                                        @if($date)
-                                            {{ $old->format('d/m/Y h:i a') }} => {{ $new->format('d/m/Y h:i a') }}
-                                        @else
-                                            {{ $log->changes["old"][$key] }} => {{ $log->changes["attributes"][$key] }}
-                                        @endif
-                                    </pre>
+                                    <div dir="ltr" class="justify-start items-center flex">
+                                        <span class="font-bold text-sm mx-1">{{ $key }}: </span>
+
+                                        <span>
+                                            @if($date)
+                                                {{ $old->format('d/m/Y h:i a') }} => {{ $new->format('d/m/Y h:i a') }}
+                                            @else
+                                                {{ $log->changes["old"][$key] }} => {{ $log->changes["attributes"][$key] }}
+                                            @endif
+                                        </span>
+                                    </div>
                                 @endforeach
 
                             @elseif($log->description == 'deleted')
-                                <span><pre>{{ print_r($log->changes, true) }}</pre></span>
+                                <span><pre>{{ print_r($log->changes->get('attributes'), true) }}</pre></span>
+                            @elseif($log->description == 'canceled')
+                                <span><pre>{{ print_r($log->properties->toArray(), true) }}</pre></span>
                             @endif
-                        </x-table.td>
-
-                        <x-table.td>
-                            <a class="bg-blue-400 px-4 py-2 hover:bg-blue-500
-                             text-white text-md rounded-lg"
-                               href="{{ url("/logs/$log->id/restore") }}">Restore</a>
                         </x-table.td>
                     </tr>
                 @endforeach

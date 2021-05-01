@@ -26,6 +26,7 @@ class User extends Authenticatable implements HasLocalePreference
     protected static $logFillable = true;
     protected static $logOnlyDirty = true;
     protected static $submitEmptyLogs = false;
+    protected static $logAttributesToIgnore = ['password'];
 
     protected $hidden = ['password', 'remember_token'];
     protected $casts = ['email_verified_at' => 'datetime', 'gender' => 'boolean'];
