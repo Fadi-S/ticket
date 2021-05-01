@@ -37,7 +37,7 @@ class RecurringEvents extends Command
      */
     public function handle()
     {
-        $eventIds = \Cache::getRedis()->keys('recurring.*');
+        $eventIds = \Cache::get('recurring');
 
         $this->info(json_encode($eventIds));
 

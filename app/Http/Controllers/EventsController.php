@@ -58,6 +58,9 @@ class EventsController extends Controller
         $recurring = !! $request->get('recurring', false);
         if($recurring) {
             \Cache::set('recurring.' . $event->id, $event->id);
+            $ids = collect(\Cache::get('recurring', []));
+            $ids = $ids->push($event->id);
+            \Cache::set('recurring', $ids->toArray());
         }
 
         return redirect("/$this->url/create");
@@ -87,9 +90,14 @@ class EventsController extends Controller
         $recurring = !! $request->get('recurring', false);
         if($recurring) {
             \Cache::set('recurring.' . $event->id, $event->id);
-
+            $ids = collect(\Cache::get('recurring', []));
+            $ids = $ids->push($event->id);
+            \Cache::set('recurring', $ids->toArray());
         } else {
-            \Cache::delete('recurring.' . $event->id);
+            $ids = collect(\Cache::get('recurring', []));
+            $ids = $ids->reject(fn($id) => $id == $event->id)->toArray();
+            \Cache::set('recurring', $ids);
+            \Cache::del('recurring.' . $event->id);
         }
 
         return redirect("/$this->url/$event->id/edit");
