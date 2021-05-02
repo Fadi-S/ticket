@@ -14,7 +14,7 @@ class RecurringEvents extends Command
      *
      * @var string
      */
-    protected $signature = 'events:create';
+    protected $signature = 'events:create  {--month=}';
 
     /**
      * The console command description.
@@ -45,7 +45,13 @@ class RecurringEvents extends Command
         \Cache::set('latest_automatic_events', time());
 
         $month = now()->month(now()->month + 1);
+        if($this->hasOption('month')) {
+            $month = now()->month($this->option('month'));
+        }
+
         $days = $month->daysInMonth;
+
+        $eventCount = 0;
 
         for ($day=1; $day<=$days; $day++)
         {
@@ -59,6 +65,8 @@ class RecurringEvents extends Command
 
                 if(Event::where('start', $start)->exists())
                     continue;
+
+                $eventCount++;
 
                 Event::create([
                     'start' => $start,
@@ -75,6 +83,8 @@ class RecurringEvents extends Command
             }
 
         }
+
+        $this->info("Added $eventCount new events!");
 
         return 0;
     }
