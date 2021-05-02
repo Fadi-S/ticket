@@ -96,9 +96,16 @@
     @if($templates->isNotEmpty())
     <x-card>
 
-        <h1>
-            {{ __('Templates') }}
-        </h1>
+        <div class="flex flex-col space-y-4 items-start">
+            <h1 class="text-lg font-semibold">
+                {{ __('Templates') }}
+            </h1>
+
+            <a class="bg-blue-500 px-4 py-2 rounded-lg my-2 hover:bg-blue-600 transition-dark" href="{{ url('templates/create') }}">
+                {{ __('Add Event Template') }}
+            </a>
+        </div>
+
 
         <x-table.table>
             <x-slot name="head">

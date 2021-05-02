@@ -7,6 +7,7 @@ use App\Http\Livewire\DuplicatesTable;
 use App\Http\Livewire\Friends;
 use App\Http\Livewire\MakeReservation;
 use App\Http\Livewire\ResetPasswordByPhone;
+use App\Http\Livewire\TemplatesForm;
 use App\Http\Livewire\Tickets;
 use App\Http\Livewire\Users\UsersTable;
 use App\Http\Livewire\VerifyPhoneNumber;
@@ -52,6 +53,9 @@ Route::middleware(["auth", EnsurePhoneNumberIsVerified::class])->group(function(
         ->except('create', 'edit', 'index');
 
     Route::get('/users', UsersTable::class);
+
+    Route::get('/templates/create', TemplatesForm::class);
+    Route::get('/templates/{template}/edit', TemplatesForm::class);
 
     $eventResources = ['create', 'edit', 'index', 'store', 'update', 'destroy'];
     Route::resource("masses", EventsController::class)
