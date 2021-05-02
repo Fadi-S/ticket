@@ -17,11 +17,12 @@ class Kiahk extends Event implements EventContract
     use HasFactory;
 
     protected $attributes = ['type_id' => 2];
+    public static int $type = 2;
 
     protected static function booted()
     {
         static::addGlobalScope('event_type',
-            fn (Builder $builder) => $builder->where('type_id', 2)
+            fn (Builder $builder) => $builder->where('type_id', self::$type)
         );
     }
 

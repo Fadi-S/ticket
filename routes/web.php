@@ -31,7 +31,7 @@ Route::middleware(ProtectAgainstSpam::class)
 Route::get('/verify', VerifyPhoneNumber::class)
     ->middleware(['auth', UnVerified::class]);
 
-Route::middleware(["auth",/* EnsurePhoneNumberIsVerified::class*/])->group(function() {
+Route::middleware(["auth", EnsurePhoneNumberIsVerified::class])->group(function() {
     Route::get('/assets/{image}', function ($image) {
         $width = request('w') ?? 200;
         $height = request('h');

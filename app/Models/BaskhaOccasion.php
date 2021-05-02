@@ -19,13 +19,14 @@ class BaskhaOccasion extends Event implements EventContract
     use HasFactory;
 
     protected $attributes = ['type_id' => 5];
+    public static int $type = 5;
 
     public int $deaconNumber = 0;
 
     protected static function booted()
     {
         static::addGlobalScope('event_type',
-            fn (Builder $builder) => $builder->where('type_id', 5)
+            fn (Builder $builder) => $builder->where('type_id', self::$type)
         );
     }
 

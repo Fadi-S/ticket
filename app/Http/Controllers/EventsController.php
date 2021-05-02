@@ -8,6 +8,7 @@ use App\Models\BaskhaOccasion;
 use App\Models\Event;
 use App\Models\Kiahk;
 use App\Models\Mass;
+use App\Models\Template;
 use App\Models\User\User;
 use App\Models\Vesper;
 use Carbon\Carbon;
@@ -57,10 +58,7 @@ class EventsController extends Controller
 
         $recurring = !! $request->get('recurring', false);
         if($recurring) {
-            \Cache::set('recurring.' . $event->id, $event->id);
-            $ids = collect(\Cache::get('recurring', []));
-            $ids = $ids->push($event->id);
-            \Cache::set('recurring', $ids->toArray());
+            Template::fromEvent($event);
         }
 
         return redirect("/$this->url/create");
@@ -89,15 +87,7 @@ class EventsController extends Controller
 
         $recurring = !! $request->get('recurring', false);
         if($recurring) {
-            \Cache::set('recurring.' . $event->id, $event->id);
-            $ids = collect(\Cache::get('recurring', []));
-            $ids = $ids->push($event->id);
-            \Cache::set('recurring', $ids->toArray());
-        } else {
-            $ids = collect(\Cache::get('recurring', []));
-            $ids = $ids->reject(fn($id) => $id == $event->id)->toArray();
-            \Cache::set('recurring', $ids);
-            \Cache::delete('recurring.' . $event->id);
+            Template::fromEvent($event);
         }
 
         return redirect("/$this->url/$event->id/edit");
@@ -112,8 +102,11 @@ class EventsController extends Controller
             ->with('tickets.reservations.user')
             ->paginate(10);
 
+        $templates = Template::type($this->model->type_id)->get();
+
         return view("events.index", [
             'events' => $events,
+            'templates' => $templates,
             'title' => 'View All Events',
             'url' => $this->url,
         ]);

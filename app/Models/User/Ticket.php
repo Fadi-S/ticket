@@ -25,7 +25,7 @@ class Ticket
         if(is_null(Mass::maxReservations()))
             return -1;
 
-        $left = $this->calculateReservationsLeft(1, Mass::maxReservations(), $start);
+        $left = $this->calculateReservationsLeft(Mass::$type, Mass::maxReservations(), $start);
 
         return $left >= 0 ? $left : 0;
     }
@@ -37,7 +37,7 @@ class Ticket
         if(is_null(Kiahk::maxReservations()))
             return -1;
 
-        $left = $this->calculateReservationsLeft(2, Kiahk::maxReservations(), $startOfKiahk, 10);
+        $left = $this->calculateReservationsLeft(Kiahk::$type, Kiahk::maxReservations(), $startOfKiahk, 10);
 
         return $left >= 0 ? $left : 0;
     }
@@ -70,31 +70,31 @@ class Ticket
         if(is_null(Vesper::maxReservations()))
             return -1;
 
-        $left = $this->calculateReservationsLeft(4, Vesper::maxReservations(), $start);
+        $left = $this->calculateReservationsLeft(Vesper::$type, Vesper::maxReservations(), $start);
 
         return $left >= 0 ? $left : 0;
     }
 
     public function baskha(Carbon $date=null)
     {
-        $start = Carbon::parse('22th April 2021');
+        $start = Carbon::parse('15th April 2022');
 
         if(is_null(Baskha::maxReservations()))
             return -1;
 
-        $left = $this->calculateReservationsLeft(3, Baskha::maxReservations(), $start, 10);
+        $left = $this->calculateReservationsLeft(Baskha::$type, Baskha::maxReservations(), $start, 10);
 
         return $left >= 0 ? $left : 0;
     }
 
     public function baskhaOccasion(Carbon $date=null)
     {
-        $start = Carbon::parse('22th April 2021');
+        $start = Carbon::parse('15th April 2022');
 
         if(is_null(BaskhaOccasion::maxReservations()))
             return -1;
 
-        $left = $this->calculateReservationsLeft(5, BaskhaOccasion::maxReservations(), $start, 10);
+        $left = $this->calculateReservationsLeft(BaskhaOccasion::$type, BaskhaOccasion::maxReservations(), $start, 10);
 
         return $left >= 0 ? $left : 0;
     }

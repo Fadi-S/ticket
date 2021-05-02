@@ -12,11 +12,12 @@ class Vesper extends Event implements EventContract
     use HasFactory;
 
     protected $attributes = ['type_id' => 4];
+    public static int $type = 4;
 
     protected static function booted()
     {
         static::addGlobalScope('event_type',
-            fn (Builder $builder) => $builder->where('type_id', 4)
+            fn (Builder $builder) => $builder->where('type_id', self::$type)
         );
     }
 

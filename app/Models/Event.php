@@ -83,12 +83,12 @@ class Event extends Model
 
     public function getFormattedDateAttribute()
     {
-        return $this->start->format("D, d M y");
+        return $this->start->translatedFormat("D, d M y");
     }
 
     public function getFormattedTimeAttribute()
     {
-        return $this->start->format("h:i A") . " -> " .$this->end->format("h:i A");
+        return $this->start->translatedFormat("h:i A") . " -> " .$this->end->translatedFormat("h:i A");
     }
 
     public function scopePublished($query)

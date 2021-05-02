@@ -24,7 +24,7 @@
 
             <x-slot name="body">
 
-                @foreach($events as $event)
+                @forelse($events as $event)
                     @php($reservedCount = ($event->number_of_places-$event->reservations_left))
                     <tr @load.window="events[{{$event->id}}] = { reservedPlaces: {{ $reservedCount  }}, numberOfPlaces: {{ $event->number_of_places }} };"
                         class="{{ now()->between($event->start, $event->end) ? 'bg-gray-200 dark:bg-gray-500' : '' }}">
@@ -36,10 +36,10 @@
                         </x-table.td>
 
                         <x-table.td>
-                            <div dir="ltr" class="rtl:text-right text-sm font-medium text-gray-900 dark:text-gray-100">
+                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
                                 {{ $event->formatted_date }}
                             </div>
-                            <div dir="ltr" class="rtl:text-right dark:text-gray-400 font-semibold text-gray-500 text-sm">
+                            <div class="dark:text-gray-400 font-semibold text-gray-500 text-sm">
                                 {{ $event->formatted_time }}
                             </div>
                         </x-table.td>
@@ -55,10 +55,10 @@
                             </div>
                         </x-table.td>
 
-                        <x-table.td dir="ltr" className="rtl:text-right">
+                        <x-table.td>
                             <span class="text-xs font-semibold px-2 py-1 rounded-full border
                                 {{ $event->published_at->lte(now()) ? 'bg-green-100 text-green-800 border-green-800' : 'bg-red-100 text-red-800 border-red-800' }}">
-                                {{ $event->published_at->format("d/m h:i A") }}
+                                {{ $event->published_at->translatedFormat("d/m h:i A") }}
                             </span>
                         </x-table.td>
 
@@ -68,7 +68,22 @@
                             </x-table.td>
                         @endcan
                     </tr>
-                @endforeach
+
+                @empty
+
+                    <tr>
+                        <x-table.td colspan="5">
+                            <div class="flex items-center justify-center">
+                                <x-svg.ticket />
+
+                                <div class="mx-2">
+                                    {{ __('No Upcoming Events') }}
+                                </div>
+                            </div>
+                        </x-table.td>
+                    </tr>
+
+                @endforelse
 
             </x-slot>
 
@@ -77,5 +92,65 @@
         {{ $events->links() }}
 
     </x-card>
+
+    @if($templates->isNotEmpty())
+    <x-card>
+
+        <h1>
+            {{ __('Templates') }}
+        </h1>
+
+        <x-table.table>
+            <x-slot name="head">
+                <tr>
+                    <x-table.th>{{ __('Description') }}</x-table.th>
+                    <x-table.th>{{ __('Day Of Week') }}</x-table.th>
+                    <x-table.th>{{ __('Number of Places') }}</x-table.th>
+                    @can('events.edit')
+                        <x-table.th>{{ __('Edit') }}</x-table.th>
+                    @endcan
+                </tr>
+            </x-slot>
+
+            <x-slot name="body">
+
+                @foreach($templates as $template)
+                    <tr>
+                        <x-table.td>
+                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                {{ $template->description }}
+                            </div>
+                        </x-table.td>
+
+                        <x-table.td>
+                            <div dir="ltr" class="rtl:text-right text-sm font-medium text-gray-900 dark:text-gray-100">
+                                {{ \now()->next($template->day_of_week)->translatedFormat('l') }}
+                            </div>
+                            <div class="dark:text-gray-400 font-semibold text-gray-500 text-sm">
+                                {{ $template->start->translatedFormat('h:i a') }} -> {{ $template->end->translatedFormat('h:i a') }}
+                            </div>
+                        </x-table.td>
+
+                        <x-table.td dir="ltr" className="rtl:text-right">
+
+                            <div dir="ltr" class="rtl:text-right text-sm font-medium text-gray-900 dark:text-gray-100">
+                                {{ $template->number_of_places }}
+                            </div>
+                        </x-table.td>
+
+                        @can('events.edit')
+                            <x-table.td>
+                                <x-buttons.edit :url="url('templates/' . $template->id . '/edit')" />
+                            </x-table.td>
+                        @endcan
+                    </tr>
+                @endforeach
+
+            </x-slot>
+
+        </x-table.table>
+
+    </x-card>
+    @endif
 
 </x-master>

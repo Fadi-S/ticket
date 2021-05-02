@@ -136,7 +136,7 @@
                     </x-navbar.list>
                 @endcan
 
-                @can("tickets.view")
+{{--                @can("tickets.view")--}}
 {{--                    <x-navbar.list label="{{ __('Baskhat') }}">--}}
 
 {{--                        <x-slot name="svg">--}}
@@ -153,22 +153,22 @@
 
 {{--                    </x-navbar.list>--}}
 
-                    <x-navbar.list label="{{ __('Holy Week') }}">
+{{--                    <x-navbar.list label="{{ __('Holy Week') }}">--}}
 
-                        <x-slot name="svg">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-                            </svg>
-                        </x-slot>
+{{--                        <x-slot name="svg">--}}
+{{--                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">--}}
+{{--                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>--}}
+{{--                            </svg>--}}
+{{--                        </x-slot>--}}
 
-                        @can("events.create")
-                            <x-navbar.child label="{{ __('Add Occasion') }}" href="{{ url('/holy/create') }}"/>
-                        @endcan
+{{--                        @can("events.create")--}}
+{{--                            <x-navbar.child label="{{ __('Add Occasion') }}" href="{{ url('/holy/create') }}"/>--}}
+{{--                        @endcan--}}
 
-                        <x-navbar.child label="{{ __('View Occasions') }}" href="{{ url('/holy') }}"/>
+{{--                        <x-navbar.child label="{{ __('View Occasions') }}" href="{{ url('/holy') }}"/>--}}
 
-                    </x-navbar.list>
-                @endcan
+{{--                    </x-navbar.list>--}}
+{{--                @endcan--}}
 
                 {{--                @can("tickets.view")--}}
                 {{--                    <x-navbar.list label="{{ __('Kiahk') }}">--}}
@@ -321,8 +321,14 @@
             <footer class="bg-gray-200 dark:bg-gray-800 text-gray-500
             transition-colors duration-500
              dark:text-gray-400 text-sm py-2 px-2 hidden md:flex">
-                <span class="mx-auto">
-                    Copyright © <a class="text-blue-500 dark:text-blue-600 text-underline" href="https://fadisarwat.dev">Fadi Sarwat</a>, StGeorge Sporting 2021</span>
+                <span dir="ltr" class="w-full flex items-center justify-center">
+                    Copyright © <a class="text-blue-500 dark:text-blue-600 text-underline"
+                       href="https://fadisarwat.dev">Fadi Sarwat</a>
+                    @if(now()->month == 4 && now()->day == 25)
+                        &nbsp;
+                    <x-svg.cake />
+                    @endif
+                    , StGeorge Sporting 2021</span>
 
             </footer>
         </div>

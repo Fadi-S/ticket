@@ -14,7 +14,7 @@
                       size="col-span-1"
                       placeholder="{{ __('Description') }}" />
 
-        <x-form.input required type="text" :value="!$create ? $event->published_at->format('d/m/Y h:i A') : \Carbon\Carbon::parse('20th April 2021 10:00 a')->format('d/m/Y h:i A')"
+        <x-form.input required type="text" :value="!$create ? $event->published_at->format('d/m/Y h:i A') : null"
                       id="date" name="published_at" autocomplete="off" id="published"
                       label="{{ __('Publish Date') }}" class="datePicker"
                       size="col-span-1"
@@ -37,8 +37,7 @@
                       label="{{ __('End Time') }}" size="col-span-1"
                       :value="$create ? null : $event->end->format('H:i')" />
 
-        <x-form.checkbox value="1" id="recurring" name="recurring" :label="__('Recurring Event')"
-                         :checked="(!$create && Cache::driver('redis')->get('recurring.' . $event->id))" />
+        <x-form.checkbox value="1" id="recurring" name="recurring" :label="__('Recurring Event')" />
     </div>
 
     <x-button type="submit" class="mx-auto mt-2">

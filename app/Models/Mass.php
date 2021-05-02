@@ -11,12 +11,14 @@ class Mass extends Event implements EventContract
 {
     use HasFactory;
 
+    public static int $type = 1;
+
     protected $attributes = ['type_id' => 1];
 
     protected static function booted()
     {
         static::addGlobalScope('event_type',
-            fn (Builder $builder) => $builder->where('type_id', 1)
+            fn (Builder $builder) => $builder->where('type_id', self::$type)
         );
     }
 
