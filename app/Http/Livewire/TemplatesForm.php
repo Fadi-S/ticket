@@ -67,7 +67,8 @@ class TemplatesForm extends Component
 
         if($this->isCreate) {
             $this->template = new Template;
-            $this->template->overload = 100 * $this->template->overload;
+            $this->start = null;
+            $this->end = null;
         }
     }
 
