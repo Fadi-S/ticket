@@ -106,7 +106,7 @@
                     @php($color = $colors[$this->eventModel->type_id-1])
                     <div class="font-bold text-sm rounded-full py-1 px-2
                                 {{ $color['background'] . ' ' . $color['text'] }}">
-                        {{ $this->eventModel->type->arabic_name }} {{ $this->eventModel->type_id == 1 ? $this->eventModel->eventOrderInDay() : '' }}
+                        {{ $this->eventModel->type->arabic_name }}
                     </div>
 
                     <div class="flex flex-col items-start space-y-2">
