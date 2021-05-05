@@ -27,13 +27,13 @@
 
                     <x-table.td>
                         <span class="text-gray-800 dark:text-gray-200 text-md font-semibold">
-                            {{ $period->start->format('d/m/Y') }}
+                            {{ $period->start->translatedFormat('D d M y') }}
                         </span>
                     </x-table.td>
 
                     <x-table.td>
                         <span class="text-gray-800 dark:text-gray-200 text-md font-semibold">
-                           {{ $period->start->format('d/m/Y') }}
+                           {{ $period->end->translatedFormat('D d M y') }}
                         </span>
                     </x-table.td>
 
