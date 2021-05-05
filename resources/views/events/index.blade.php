@@ -4,7 +4,8 @@
 
     <x-card>
 
-        <a class="bg-blue-500 px-4 py-2 rounded-lg my-2 hover:bg-blue-600 transition-dark" href="{{ url('templates/create') }}">
+        <a class="bg-blue-500 px-4 py-2 rounded-lg my-2 hover:bg-blue-600 transition-dark"
+           href="{{ url('templates/create?type_id=' . $type_id) }}">
             {{ __('Add Event Template') }}
         </a>
 
