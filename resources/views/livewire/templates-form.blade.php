@@ -27,8 +27,10 @@
                                   size="col-span-1" min="0" max="100" placeholder="20%" />
 
                     <x-form.select wire:model="template.day_of_week" name="day_of_week"
+                                   :error="$errors->get('template.day_of_week')"
                                    id="day_of_week" size="col-span-1"
                                    label="{{ __('Day Of Week') }}" :options="[
+                                        -1 => '-',
                                         0 => 'Sunday',
                                         1 => 'Monday',
                                         2 => 'Tuesday',
