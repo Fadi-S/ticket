@@ -201,5 +201,7 @@
   "Period Saved Successfully": "تم تسجيل الفترة بنجاح",
   "Day Of Week": "اليوم في الأسبوع",
   "Add Period": "أضف فترة",
+  "View Periods": "اعرض الفترات",
+  "Periods": "الفترات",
   "Mass reservations left between :start and :end": "عدد القداسات المتبقية لك في الفترة بين :start و :end"
 }

@@ -7,6 +7,7 @@ use App\Http\Livewire\DuplicatesTable;
 use App\Http\Livewire\Friends;
 use App\Http\Livewire\MakeReservation;
 use App\Http\Livewire\PeriodForm;
+use App\Http\Livewire\PeriodsTable;
 use App\Http\Livewire\ResetPasswordByPhone;
 use App\Http\Livewire\TemplatesForm;
 use App\Http\Livewire\Tickets;
@@ -60,6 +61,7 @@ Route::middleware(["auth", EnsurePhoneNumberIsVerified::class])->group(function(
 
     Route::get('/periods/create', PeriodForm::class);
     Route::get('/periods/{period}/edit', PeriodForm::class);
+    Route::get('/periods', PeriodsTable::class);
 
     $eventResources = ['create', 'edit', 'index', 'store', 'update', 'destroy'];
     Route::resource("masses", EventsController::class)

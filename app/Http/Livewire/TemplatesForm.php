@@ -80,7 +80,7 @@ class TemplatesForm extends Component
             'template.overload' => 'required|numeric|between:0,100',
             'start' => 'required',
             'end' => 'required',
-            'template.day_of_week' => 'required|numeric|between:0,6',
+            'template.day_of_week' => 'required|numeric|min:0|max:6',
         ];
     }
 }
