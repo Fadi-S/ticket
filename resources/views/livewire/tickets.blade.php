@@ -111,8 +111,8 @@
 
                     <div class="flex flex-col items-start space-y-2">
                         <div class="font-semibold" dir="rtl">{{ $this->eventModel->description }}</div>
-                        <div class="dark:text-gray-400 font-semibold text-gray-500 text-sm" dir="ltr">{{ $this->eventModel->formatted_time }}</div>
-                        <div class="dark:text-gray-400 font-semibold text-gray-500 text-xs" dir="ltr">{{ $this->eventModel->start->format('l, jS \o\f F Y') }}</div>
+                        <div class="dark:text-gray-400 font-semibold text-gray-500 text-sm">{{ $this->eventModel->formatted_time }}</div>
+                        <div class="dark:text-gray-400 font-semibold text-gray-500 text-xs">{{ $this->eventModel->start->translatedFormat('l, jS \o\f F Y') }}</div>
                     </div>
                 </div>
             @endif
@@ -135,7 +135,7 @@
             </x-slot>
         </x-layouts.tickets>
 
-        @if(auth()->user()->isDeacon() || auth()->user()->can('tickets.view'))
+        @if($deacons->isNotEmpty() && (auth()->user()->isDeacon() || auth()->user()->can('tickets.view')))
             <div class="col-span-12 mb-6">
                     <div class="font-bold my-4 text-3xl">
                         {{ __('Deacon') }}

@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Exports\EventReservationsExport;
 use App\Models\Event;
 use App\Models\EventType;
+use App\Models\Period;
 use App\Models\Reservation;
 use App\Models\Ticket;
 use Livewire\Component;

@@ -4,6 +4,10 @@
 
     <x-card>
 
+        <a class="bg-blue-500 px-4 py-2 rounded-lg my-2 hover:bg-blue-600 transition-dark" href="{{ url('templates/create') }}">
+            {{ __('Add Event Template') }}
+        </a>
+
         <x-table.table x-data="{ events: {} }"
                        x-init="Echo.channel('tickets')
                             .listen('TicketReserved', (e) =>
@@ -50,9 +54,12 @@
                                  class="rtl:text-right text-sm font-medium text-gray-900 dark:text-gray-100">
                                 {{ ($reservedCount) . '/' . $event->number_of_places }}
                             </div>
-                            <div dir="ltr" class="rtl:text-right dark:text-gray-400 font-semibold text-gray-500 text-sm">
-                                {{ ($event->deaconNumber - $event->deaconReservationsLeft) . ' / ' . $event->deaconNumber }}
-                            </div>
+                            @if($event->hasDeacons)
+                                <div dir="ltr" class="rtl:text-right dark:text-gray-400 font-semibold text-gray-500 text-sm">
+                                    {{ ($event->deaconNumber - $event->deaconReservationsLeft) . ' / ' . $event->deaconNumber }}
+                                </div>
+                            @endif
+
                         </x-table.td>
 
                         <x-table.td>
@@ -100,10 +107,6 @@
             <h1 class="text-lg font-semibold">
                 {{ __('Templates') }}
             </h1>
-
-            <a class="bg-blue-500 px-4 py-2 rounded-lg my-2 hover:bg-blue-600 transition-dark" href="{{ url('templates/create') }}">
-                {{ __('Add Event Template') }}
-            </a>
         </div>
 
 
@@ -113,7 +116,7 @@
                     <x-table.th>{{ __('Description') }}</x-table.th>
                     <x-table.th>{{ __('Day Of Week') }}</x-table.th>
                     <x-table.th>{{ __('Number of Places') }}</x-table.th>
-                    @can('events.edit')
+                @can('events.edit')
                         <x-table.th>{{ __('Edit') }}</x-table.th>
                     @endcan
                 </tr>
@@ -131,7 +134,7 @@
 
                         <x-table.td>
                             <div dir="ltr" class="rtl:text-right text-sm font-medium text-gray-900 dark:text-gray-100">
-                                {{ \now()->next($template->day_of_week)->translatedFormat('l') }}
+                                {{ now()->next($template->day_of_week)->translatedFormat('l') }}
                             </div>
                             <div class="dark:text-gray-400 font-semibold text-gray-500 text-sm">
                                 {{ $template->start->translatedFormat('h:i a') }} -> {{ $template->end->translatedFormat('h:i a') }}
@@ -143,11 +146,15 @@
                             <div dir="ltr" class="rtl:text-right text-sm font-medium text-gray-900 dark:text-gray-100">
                                 {{ $template->number_of_places }}
                             </div>
+
+                            <div class="dark:text-gray-400 font-semibold text-gray-500 text-sm">
+                                +{{ $template->overload * 100 }}%
+                            </div>
                         </x-table.td>
 
                         @can('events.edit')
                             <x-table.td>
-                                <x-buttons.edit :url="url('templates/' . $template->id . '/edit')" />
+                                <x-buttons.edit :url="url('templates/' . $template->id . '/edit?type_id=' . $type_id)" />
                             </x-table.td>
                         @endcan
                     </tr>

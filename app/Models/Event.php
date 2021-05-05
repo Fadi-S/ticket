@@ -21,6 +21,7 @@ class Event extends Model
     protected $with = ['type'];
 
     public int $deaconNumber = 10;
+    public bool $hasDeacons = true;
 
     public function scopeUpcoming($query)
     {
@@ -34,6 +35,7 @@ class Event extends Model
             ->orWhere('hidden_at', '>=', now());
     }
 
+    /** @deprecated  **/
     public function reservedPlaces()
     {
         $count = 0;
@@ -46,13 +48,22 @@ class Event extends Model
 
     public function getReservationsLeftAttribute()
     {
+        $roles = ['user', 'agent', 'super-admin'];
+
+        if(! $this->hasDeacons) {
+            array_push($roles, 'deacon', 'deacon-admin');
+        }
+
         return $this->number_of_places - $this
-                ->reservationsCountForRole('user', 'agent', 'super-admin');
+                ->reservationsCountForRole(...$roles);
     }
 
     public function getDeaconReservationsLeftAttribute()
     {
-        return $this->deaconNumber - $this->reservationsCountForRole('deacon', 'deacon-admin');
+        if($this->hasDeacons)
+            return $this->deaconNumber - $this->reservationsCountForRole('deacon', 'deacon-admin');
+
+        return $this->reservationsLeft;
     }
 
     public function reservationsCountForRole(...$role)

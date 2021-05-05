@@ -17,4 +17,10 @@ class EventType extends Model
     {
         return app()->getLocale() === 'ar' ? $this->arabic_name : $name;
     }
+
+    public function periods()
+    {
+        return $this->belongsToMany(Period::class, 'period_type', 'period_id', 'type_id')
+            ->withPivot('max_reservations');
+    }
 }

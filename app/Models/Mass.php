@@ -12,6 +12,7 @@ class Mass extends Event implements EventContract
     use HasFactory;
 
     public static int $type = 1;
+    public bool $hasDeacons = false;
 
     protected $attributes = ['type_id' => 1];
 
@@ -41,7 +42,6 @@ class Mass extends Event implements EventContract
     {
         return [
             EventDateHasNotPassed::class,
-            ReservationStillOpen::class,
             NotAlreadyReserved::class,
             ReservedByAdmin::class,
             EnoughSpaceInEvent::class,

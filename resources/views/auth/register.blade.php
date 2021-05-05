@@ -15,7 +15,7 @@
         <div class="space-y-3">
 
 
-            <x-form.input-2 label="{{ __('Name') }}" :error="$errors->get('name')"
+            <x-form.input-2 label="{{ __('Name in english') }}" :error="$errors->get('name')"
                             id="name" value="{{ old('name') }}"
                             type="text" required />
 

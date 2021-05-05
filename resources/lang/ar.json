@@ -29,7 +29,8 @@
   "No users match search :search": "لا يوجد مستخدم :search",
   "Create New User": "أضف مستخدم جديد",
   "ID": "الرقم التعريفي",
-  "Name": "الإسم بالإنجليزية",
+  "Name": "الإسم",
+  "Name in english": "الإسم بالإنجليزية",
   "Arabic Name": "الإسم بالعربية",
   "Name in arabic": "الإسم بالعربية",
   "Username": "إسم المستخدم",
@@ -197,5 +198,8 @@
   "Templates": "المناسبات المتكررة",
   "Add Event Template": "اضافة مناسبات متكررة",
   "Template Saved Successfully": "تم التسجيل بنجاح",
-  "Day Of Week": "اليوم في الأسبوع"
+  "Period Saved Successfully": "تم تسجيل الفترة بنجاح",
+  "Day Of Week": "اليوم في الأسبوع",
+  "Add Period": "أضف فترة",
+  "Mass reservations left between :start and :end": "عدد القداسات المتبقية لك في الفترة بين :start و :end"
 }

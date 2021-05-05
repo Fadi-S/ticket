@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\Mass;
+use App\Models\Period;
 use App\Models\User\User;
 use Spatie\Activitylog\Models\Activity;
 
@@ -24,13 +25,14 @@ class DashboardController extends Controller
             ])->get();
         }
 
+        $period = Period::current();
+
         return view("index", [
             'users' => $user->isAdmin() ? User::count() : 0,
             'verified_users' => $user->isAdmin() ? User::verified()->count() : 0,
             'massTickets' => __(':number of :from left', ['number' => $num->format($tickets->mass()), 'from' => $num->format(Mass::maxReservations())]),
-//            'baskhaTickets' => __(':number of :from left', ['number' => $num->format($tickets->baskha()), 'from' => $num->format(Baskha::maxReservations())]),
-//            'baskhaOccasionTickets' => __(':number of :from left', ['number' => $num->format($tickets->baskhaOccasion()), 'from' => $num->format(BaskhaOccasion::maxReservations())]),
             'user' => $user,
+            'period' => $period,
             'currentEvents' => $currentEvents ?? null,
         ]);
     }

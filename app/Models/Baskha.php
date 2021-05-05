@@ -13,6 +13,7 @@ class Baskha extends Event implements EventContract
 
     public int $deaconNumber = 20;
     public static int $type = 3;
+    public bool $hasDeacons = false;
 
     protected $attributes = ['type_id' => 3];
 

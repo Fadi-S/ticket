@@ -18,17 +18,27 @@ class TemplatesForm extends Component
 
     public $start;
     public $end;
+    public $type_id;
+
+    protected $queryString = [
+        'type_id' => ['except' => null]
+    ];
 
     public function mount()
     {
+        $this->authorize('create', Event::class);
+
         $this->isCreate = ! isset($this->template);
 
         $this->template ??= new Template;
 
-        $this->start = $this->template->start;
-        $this->end = $this->template->end;
+        if(!$this->isCreate) {
+            $this->template->overload = 100 * $this->template->overload;
 
-        $this->authorize('create', Event::class);
+            $this->start = $this->template->start->format('H:i');
+            $this->end = $this->template->end->format('H:i');
+        }
+
     }
 
     public function render()
@@ -48,15 +58,17 @@ class TemplatesForm extends Component
 
         $this->template->start = $this->start;
         $this->template->end = $this->end;
-        $this->template->type_id = Mass::$type;
+        $this->template->type_id = $this->type_id ?? Mass::$type;
         $this->template->active = true;
         $this->template->overload = $this->template->overload / 100;
         $this->template->save();
 
         session()->flash('success', __('Template Saved Successfully'));
 
-        if($this->isCreate)
+        if($this->isCreate) {
             $this->template = new Template;
+            $this->template->overload = 100 * $this->template->overload;
+        }
     }
 
     public function rules()

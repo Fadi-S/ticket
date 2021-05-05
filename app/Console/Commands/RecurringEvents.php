@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Event;
+use App\Models\Period;
 use App\Models\Template;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -45,15 +46,25 @@ class RecurringEvents extends Command
         \Cache::set('latest_automatic_events', time());
 
         $month = now()->month(now()->month + 1);
+        $period = Period::current();
         if($this->hasOption('month')) {
             $month = now()->month($this->option('month'));
         }
 
         $days = $month->daysInMonth;
+        $day = 1;
+
+        if($period) {
+            $day = $period->day;
+
+            $days = $period->start->diffInDays($period->end);
+
+            $month = $period->start;
+        }
 
         $eventCount = 0;
 
-        for ($day=1; $day<=$days; $day++)
+        for (;$day<=$days; $day++)
         {
             $date = $month->copy()->days($day);
 

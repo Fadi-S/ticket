@@ -6,6 +6,7 @@ use App\Models\Baskha;
 use App\Models\BaskhaOccasion;
 use App\Models\Kiahk;
 use App\Models\Mass;
+use App\Models\Period;
 use App\Models\Vesper;
 use Carbon\Carbon;
 
@@ -18,31 +19,44 @@ class Ticket
         $this->user = $user;
     }
 
-    public function mass(Carbon $month=null)
+    public function reservationsPerPeriod($typeId, $maxReservations, Period $period=null) : int
     {
-        $start = ($month ?? now())->startOfMonth();
+        $period ??= Period::current();
 
-        if(is_null(Mass::maxReservations()))
-            return -1;
+        $days = $period->start->diffInDays($period->end);
+
+        return $this->calculateReservationsLeft($typeId, $maxReservations, $period->start, $days);
+    }
+
+    public function mass($month=null)
+    {
+        $period = Period::current($month);
+        if($period) {
+            return $this->reservationsPerPeriod(Mass::$type, Mass::maxReservations(), $period);
+        }
+
+        $start = ($month ?? now())->startOfMonth();
 
         $left = $this->calculateReservationsLeft(Mass::$type, Mass::maxReservations(), $start);
 
         return $left >= 0 ? $left : 0;
     }
 
-    public function kiahk(Carbon $date=null)
+    public function kiahk($date=null)
     {
-        $startOfKiahk = $this->currentKiahkStartDate($date);
+        $period = Period::current($date);
+        if($period) {
+            return $this->reservationsPerPeriod(Kiahk::$type, Kiahk::maxReservations(), $period);
+        }
 
-        if(is_null(Kiahk::maxReservations()))
-            return -1;
+        $startOfKiahk = $this->currentKiahkStartDate($date);
 
         $left = $this->calculateReservationsLeft(Kiahk::$type, Kiahk::maxReservations(), $startOfKiahk, 10);
 
         return $left >= 0 ? $left : 0;
     }
 
-    public function currentKiahkStartDate(Carbon $date=null)
+    public function currentKiahkStartDate($date=null)
     {
         $current = $date ?? now();
 
@@ -63,36 +77,42 @@ class Ticket
         return $startOfKiahk;
     }
 
-    public function vesper(Carbon $date=null)
+    public function vesper($date=null)
     {
-        $start = ($date ?? now())->startOfMonth();
+        $period = Period::current($date);
+        if($period) {
+            return $this->reservationsPerPeriod(Vesper::$type, Vesper::maxReservations(), $period);
+        }
 
-        if(is_null(Vesper::maxReservations()))
-            return -1;
+        $start = ($date ?? now())->startOfMonth();
 
         $left = $this->calculateReservationsLeft(Vesper::$type, Vesper::maxReservations(), $start);
 
         return $left >= 0 ? $left : 0;
     }
 
-    public function baskha(Carbon $date=null)
+    public function baskha($date=null)
     {
-        $start = Carbon::parse('15th April 2022');
+        $period = Period::current($date);
+        if($period) {
+            return $this->reservationsPerPeriod(Baskha::$type, Baskha::maxReservations(), $period);
+        }
 
-        if(is_null(Baskha::maxReservations()))
-            return -1;
+        $start = Carbon::parse('15th April 2022');
 
         $left = $this->calculateReservationsLeft(Baskha::$type, Baskha::maxReservations(), $start, 10);
 
         return $left >= 0 ? $left : 0;
     }
 
-    public function baskhaOccasion(Carbon $date=null)
+    public function baskhaOccasion($date=null)
     {
-        $start = Carbon::parse('15th April 2022');
+        $period = Period::current($date);
+        if($period) {
+            return $this->reservationsPerPeriod(BaskhaOccasion::$type, BaskhaOccasion::maxReservations(), $period);
+        }
 
-        if(is_null(BaskhaOccasion::maxReservations()))
-            return -1;
+        $start = Carbon::parse('15th April 2022');
 
         $left = $this->calculateReservationsLeft(BaskhaOccasion::$type, BaskhaOccasion::maxReservations(), $start, 10);
 

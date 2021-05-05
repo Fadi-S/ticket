@@ -51,11 +51,9 @@
 
                 <x-button type="submit" class="mx-auto mt-2">
                     <x-slot name="svg">
-                        <x-slot name="svg">
-                            <x-svg.spinner wire:loading wire:target="save" />
+                        <x-svg.spinner wire:loading wire:target="save" />
 
-                            <x-svg.edit wire:loading.remove wire:target="save" />
-                        </x-slot>
+                        <x-svg.edit wire:loading.remove wire:target="save" />
                     </x-slot>
 
                     {{ __('Save') }}

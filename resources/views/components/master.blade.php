@@ -100,6 +100,12 @@
                 @endcan
 
                 @can("tickets.view")
+                    <x-navbar.divider />
+
+                    <x-navbar.link label="{{ __('Add Period') }}" :href="url('/periods/create')">
+                        <x-svg.calendar />
+                    </x-navbar.link>
+
                     <x-navbar.list label="{{ __('Masses') }}">
 
                         <x-slot name="svg">
@@ -116,9 +122,7 @@
                         <x-navbar.child label="{{ __('View Masses') }}" href="{{ url('/masses') }}"/>
 
                     </x-navbar.list>
-                @endcan
 
-                @can("tickets.view")
                     <x-navbar.list label="{{ __('Vespers') }}">
 
                         <x-slot name="svg">

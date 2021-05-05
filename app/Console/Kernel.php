@@ -39,7 +39,8 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('logins:clear')->daily();
 
-        $schedule->command('events:create')->monthlyOn(25);
+        $schedule->command('events:create')
+            ->daily();
     }
 
     /**

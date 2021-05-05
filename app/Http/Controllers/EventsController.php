@@ -108,6 +108,7 @@ class EventsController extends Controller
             'events' => $events,
             'templates' => $templates,
             'title' => 'View All Events',
+            'type_id' => $this->model->type_id,
             'url' => $this->url,
         ]);
     }
