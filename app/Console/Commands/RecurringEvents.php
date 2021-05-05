@@ -51,23 +51,19 @@ class RecurringEvents extends Command
             $month = now()->month($this->option('month'));
         }
 
-        $days = $month->daysInMonth;
-        $day = 1;
+        $startDate = $month->startOfMonth();
+        $endDate = $month->endOfMonth();
 
         if($period) {
-            $day = $period->start->day;
+            $startDate = $period->start;
 
-            $days = $period->start->diffInDays($period->end);
-
-            $month = $period->start;
+            $endDate = $period->end;
         }
 
         $eventCount = 0;
 
-        for (;$day<=$days; $day++)
+        for ($date = $startDate; $date->lte($endDate); $date->addDay())
         {
-            $date = $month->copy()->days($day);
-
             $temps = $templates[$date->dayOfWeek] ?? [];
 
             foreach ($temps as $template) {
