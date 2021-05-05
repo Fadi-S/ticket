@@ -55,7 +55,7 @@ class RecurringEvents extends Command
         $day = 1;
 
         if($period) {
-            $day = $period->day;
+            $day = $period->start->day;
 
             $days = $period->start->diffInDays($period->end);
 
