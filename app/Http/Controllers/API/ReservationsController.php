@@ -52,18 +52,17 @@ class ReservationsController extends Controller
             '#323236',
         ];
 
-        $cacheDates = $start->format('Y-m-d')  . '.' . $end->format('Y-m-d');
+        // $cacheDates = $start->format('Y-m-d')  . '.' . $end->format('Y-m-d');
 
 
-        if($isDeacon)
-            $role = 'deacon';
-        else if($isUser)
-            $role = 'user';
-        else
-            $role = 'admin';
+//        if($isDeacon)
+//            $role = 'deacon';
+//        else if($isUser)
+//            $role = 'user';
+//        else
+//            $role = 'admin';
 
-        return \Cache::remember("events.calendar." . $role . '.' .$cacheDates, 20*60,
-            fn() => $events->map(function ($event) use ($colors, $isUser, $isDeacon) {
+        return $events->map(function ($event) use ($colors, $isUser, $isDeacon) {
 
             if($isDeacon) {
                 $left = $event->specific()->deacon_reservations_left;
@@ -84,7 +83,7 @@ class ReservationsController extends Controller
                 'end' => $event->end,
                 'color' => $colors[$event->type_id - 1]
             ];
-        }));
+        });
     }
 
 }
