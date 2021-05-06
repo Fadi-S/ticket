@@ -64,7 +64,7 @@ class ReservationsController extends Controller
 
         return $events->map(function ($event) use ($colors, $isUser, $isDeacon) {
 
-            if($isDeacon) {
+            if($isDeacon && $event->specific()->hasDeacons) {
                 $left = $event->specific()->deacon_reservations_left;
             }else{
                 $left = $event->reservations_left;
