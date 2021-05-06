@@ -90,7 +90,12 @@ trait UserAttributes
 
     public function setNameAttribute($name)
     {
-        $this->attributes['name'] = ucwords(strtolower($name));
+        $this->attributes['name'] = ucwords(strtolower(trim($name)));
+    }
+
+    public function setArabicNameAttribute($name)
+    {
+        $this->attributes['arabic_name'] = trim($name);
     }
 
     public function setEmailAttribute($email)

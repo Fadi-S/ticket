@@ -25,7 +25,7 @@
                         <x-form.input wire:model.lazy="user.name" required type="text"
                                       :error="$errors->get('user.name')"
                                       size="col-span-1" name="name" id="name" dir="ltr"
-                                      label="{{ __('Name') }} *"  placeholder="{{ __('Name') }}" />
+                                      label="{{ __('Name in english') }} *"  placeholder="{{ __('Name in english') }}" />
                     @endif
 
                     @if($this->showField('user.arabic_name'))
@@ -59,9 +59,11 @@
                                       label="{{ __('Email') }} ({{ __('Optional') }})" placeholder="{{ __('Email') }}" />
                     @endif
 
-                    {{--                <x-form.input wire:model.lazy="user.national_id" type="text"--}}
-                    {{--                              size="col-span-1" name="national_id" id="national_id"--}}
-                    {{--                              label="{{ __('National ID') }}" placeholder="{{ __('National ID') }}" />--}}
+                    @if($this->showField('user.national_id'))
+                    <x-form.input wire:model.lazy="user.national_id" type="text"
+                                  size="col-span-1" name="national_id" id="national_id"
+                                  label="{{ __('National ID') }}" placeholder="{{ __('National ID') }}" />
+                    @endif
 
                     @if($this->showField('password') && auth()->user()->can('users.edit') && ($isCreate || !$user->isSignedIn()))
                         <x-form.input wire:model.lazy="password" type="password"

@@ -194,11 +194,11 @@ class UserForm extends Component
                 Rule::unique('users', 'phone')->ignore($id),
             ];
 
-            /*$rules['user.national_id'] = [
+            $rules['user.national_id'] = [
                 'nullable',
                 'regex:/' . StandardRegex::NATIONAL_ID . '/',
                 Rule::unique('users', 'national_id')->ignore($id),
-            ];*/
+            ];
         }
 
         foreach ($rules as $field => $rule) {
