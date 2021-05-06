@@ -38,6 +38,18 @@ class Mass extends Event implements EventContract
         return config('settings.allow_for_exceptions');
     }
 
+    public function getReservationsLeftAttribute()
+    {
+        $roles = ['user', 'agent', 'super-admin'];
+
+//        if(! $this->hasDeacons) {
+//            array_push($roles, 'deacon', 'deacon-admin');
+//        }
+
+        return $this->number_of_places - $this
+                ->reservationsCountForRole(...$roles);
+    }
+
     static public function conditions()
     {
         return [
