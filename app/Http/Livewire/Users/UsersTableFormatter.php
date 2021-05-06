@@ -39,11 +39,18 @@ class UsersTableFormatter extends DataTableComponent
     {
         return [
             'role' => Filter::make(__('Role'))
-                ->select(Role::pluck('name', 'name')->toArray()),
+                ->select(array_merge(['' => '-'], Role::pluck('name', 'name')->toArray())),
+
+            'gender' => Filter::make(__('Gender'))
+                ->select([
+                    '' => '-',
+                    'male' => __('Male'),
+                    'female' => __('Female'),
+                ]),
 
             'verified' => Filter::make(__('Phone Verified'))
                 ->select([
-                    '' => 'Any',
+                    '' => '-',
                     'yes' => 'Yes',
                     'no' => 'No',
                 ]),
@@ -92,6 +99,10 @@ class UsersTableFormatter extends DataTableComponent
 
             ->when($this->getFilter('role'),
                 fn($query, $role) => $query->role($role)
+            )
+
+            ->when($this->getFilter('gender'),
+                fn($query, $gender) => $query->where('gender', $gender === 'male' ? 1 : 0)
             )
 
             ->when($this->getFilter('verified'),
