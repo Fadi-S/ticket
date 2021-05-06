@@ -69,23 +69,6 @@ class MassReservationTest extends TestCase
     }
 
     /** @test */
-    function a_user_reserving_before_event_within_16hrs_can_have_an_exception()
-    {
-        $this->fillTickets();
-
-        $this->travelTo(now()->hours(18));
-
-        $this->assertNotFalse($this->reserveInNewEvent(now()->addDay()->hours(10))); // Exception 1
-        $this->assertNotFalse($this->reserveInNewEvent(now()->addDay()->hours(6))); // Exception 2
-    }
-
-    /** @test */
-    function a_user_can_NOT_reserve_after_9pm_the_day_before_event()
-    {
-        $this->assertFalse($this->reserveInNewEvent(now()->hours(10)));
-    }
-
-    /** @test */
     function an_admin_reserving_to_user_can_bypass_ticket_limits()
     {
         $admin = User::factory()->create();
@@ -112,7 +95,7 @@ class MassReservationTest extends TestCase
 
         $john = User::factory()->create();
 
-        $this->assertNotFalse($john->reserveIn($ticket));
+        $this->assertNotFalse($john->canReserveIn($ticket->event->specific()));
     }
 
     /** @test */

@@ -203,5 +203,11 @@
   "Add Period": "أضف فترة",
   "View Periods": "اعرض الفترات",
   "Periods": "الفترات",
-  "Mass reservations left between :start and :end": "عدد القداسات المتبقية لك في الفترة بين :start و :end"
+  "Mass reservations left between :start and :end": "عدد القداسات المتبقية لك في الفترة بين :start و :end",
+
+  "Filters": "مرشحات البحث",
+  "Phone Verified": "الهاتف مؤكد",
+  "Applied Filters": "المرشحات المستخدمة",
+  "No users found. Try narrowing your search.": "لم يتم العثور علي مستخدمين بهذه المواصفات.",
+  "Clear": "مسح"
 }

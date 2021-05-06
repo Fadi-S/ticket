@@ -15,7 +15,7 @@ class ReservedByAdmin implements ConditionContract
         if(!auth()->user()->can('reservations.bypass'))
             return ConditionOutput::undecided();
 
-        if($user->isDeacon()) {
+        if($event->hasDeacons && $user->isDeacon()) {
             $left = $event->deaconReservationsLeft;
             $maximum = $event->deaconNumber;
         } else {
