@@ -16,7 +16,7 @@
                 <div class="flex flex-col items-start">
                     <div class="font-semibold" dir="rtl">{{ $ticket->event->description }}</div>
                     <div class="dark:text-gray-400 font-semibold text-gray-500 text-sm" >{{ $ticket->event->formatted_time }}</div>
-                    <div class="dark:text-gray-400 font-semibold text-gray-500 text-xs">{{ $ticket->event->start->translatedFormat('l, jS \o\f F Y') }}</div>
+                    <div class="dark:text-gray-400 font-semibold text-gray-500 text-xs">{{ $ticket->event->start->translatedFormat('l, jS F Y') }}</div>
                 </div>
 
                 <span class="font-bold text-sm rounded-full py-1 px-2

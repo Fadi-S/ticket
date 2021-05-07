@@ -112,7 +112,7 @@
                     <div class="flex flex-col items-start space-y-2">
                         <div class="font-semibold" dir="rtl">{{ $this->eventModel->description }}</div>
                         <div class="dark:text-gray-400 font-semibold text-gray-500 text-sm">{{ $this->eventModel->formatted_time }}</div>
-                        <div class="dark:text-gray-400 font-semibold text-gray-500 text-xs">{{ $this->eventModel->start->translatedFormat('l, jS \o\f F Y') }}</div>
+                        <div class="dark:text-gray-400 font-semibold text-gray-500 text-xs">{{ $this->eventModel->start->translatedFormat('l, jS F Y') }}</div>
                     </div>
                 </div>
             @endif
