@@ -161,11 +161,11 @@ class UserForm extends Component
                 'regex:/' . StandardRegex::PHONE_NUMBER . '/',
                 'unique:users,phone',
             ],
-            /*'user.national_id' => [
+            'user.national_id' => [
                 'nullable',
                 'regex:/' . StandardRegex::NATIONAL_ID . '/',
                 'unique:users,national_id',
-            ],*/
+            ],
             'gender' => 'required|in:0,1',
             'password' => [
                 'nullable',
