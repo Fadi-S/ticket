@@ -47,7 +47,6 @@ class RecurringEvents extends Command
 
         $month = now()->month(now()->month + 1);
         $period = null;//Period::current();
-        $this->info($period->name);
 
         if($this->hasOption('month')) {
             $month = now()->month($this->option('month'));
