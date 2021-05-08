@@ -46,7 +46,7 @@ class RecurringEvents extends Command
         \Cache::set('latest_automatic_events', time());
 
         $month = now()->month(now()->month + 1);
-        $period = null;//Period::current();
+        $period = Period::current();
 
         if($this->hasOption('month')) {
             $month = now()->month($this->option('month'));
@@ -67,8 +67,6 @@ class RecurringEvents extends Command
         {
             $temps = $templates[$date->dayOfWeek] ?? [];
 
-            $this->info($date->format('Y-m-d'));
-
             foreach ($temps as $template) {
                 $start = $date->copy()
                     ->setTime($template->start->hour, $template->start->minute);
@@ -82,7 +80,7 @@ class RecurringEvents extends Command
 
                 $eventCount++;
 
-                /*Event::create([
+                Event::create([
                     'start' => $start,
 
                     'end' => $end,
@@ -92,7 +90,7 @@ class RecurringEvents extends Command
                     'overload' => $template->overload,
                     'number_of_places' => $template->number_of_places,
                     'published_at' => $template->start->hours(8),
-                ]);*/
+                ]);
             }
 
         }
