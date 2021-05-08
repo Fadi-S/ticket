@@ -31,7 +31,7 @@ trait UserAttributes
         return $query->where("name", 'like', $search)
             ->orWhere('arabic_name', 'like', $search)
             ->orWhere("phone", "like", NormalizePhoneNumber::create($origSearch, false)->handle() . ((!$strict) ? '%' : ''))
-//            ->orWhere("national_id", "like", $search)
+            ->orWhere("national_id", "like", $search)
             ->orWhere("email", "like", $search);
     }
 
