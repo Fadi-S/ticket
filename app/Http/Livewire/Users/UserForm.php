@@ -18,7 +18,6 @@ class UserForm extends Component
 
     public User $user;
     public string $password = '';
-    public string $tempUsername = '';
     public int $role_id = 1;
     public bool $isCreate = true;
     public int $gender = 1;
@@ -39,8 +38,6 @@ class UserForm extends Component
         $this->role_id = (!$this->isCreate && isset($this->user->roles[0])) ? $this->user->roles[0]->id : 1;
 
         $this->gender = (!$this->isCreate) ? $this->user->gender : 1;
-
-        $this->tempUsername = (!$this->isCreate) ? $this->user->username : '';
     }
 
     public function render()
@@ -48,18 +45,6 @@ class UserForm extends Component
         return view('livewire.users.user-form', [
             'roles' => Role::pluck('name', 'id'),
         ])->layout('components.master');
-    }
-
-    public function updatedUserName($name)
-    {
-        if ($this->isCreate)
-            $this->user->username = $this->tempUsername = User::makeSlug($name, $this->user->id);
-    }
-
-    public function updatedTempUsername($username)
-    {
-        if (auth()->user()->isAdmin())
-            $this->tempUsername = User::replaceInvalidCharacters($username);
     }
 
     public function updatedGender($gender)
@@ -85,13 +70,12 @@ class UserForm extends Component
 
         if(auth()->user()->can('users.edit')) {
             if ($this->password) $this->user->password = $this->password;
-
-            $this->user->username = User::replaceInvalidCharacters($this->tempUsername);
         }
 
-        if(!$this->user->username) {
+        if($this->isCreate) {
             $this->user->username = User::makeSlug($this->user->name, $this->user->id);
         }
+
         if(!$this->user->isSignedIn() && auth()->user()->isUser()) {
             $this->user->creator_id = auth()->id();
         }
@@ -133,7 +117,6 @@ class UserForm extends Component
         if ($this->isCreate) {
             $this->user = new User();
             $this->password = '';
-            $this->tempUsername = '';
         }
     }
 
@@ -150,7 +133,6 @@ class UserForm extends Component
                 new Fullname,
                 new ArabicOnly
             ],
-            'tempUsername' => 'required|unique:users,username',
             'user.email' => [
                 'nullable',
                 'email',
@@ -178,10 +160,6 @@ class UserForm extends Component
             $id = isset($this->user) ? $this->user->id : 0;
 
             $rules['password'] = 'nullable|min:' . User::$minPassword;
-            $rules['tempUsername'] = [
-                'required',
-                Rule::unique('users', 'username')->ignore($id),
-            ];
             $rules['user.email'] = [
                 'nullable',
                 'email',

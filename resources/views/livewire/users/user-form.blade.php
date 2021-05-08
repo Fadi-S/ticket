@@ -38,13 +38,6 @@
                                       label="{{ __('Name in arabic') }} *"  placeholder="{{ __('Name in arabic') }}" />
                     @endif
 
-                    @if($this->showField('tempUsername') && auth()->user()->isAdmin())
-                        <x-form.input wire:model.lazy="tempUsername" required type="text"
-                                      :error="$errors->get('tempUsername')" dir="ltr"
-                                      size="col-span-1" name="username" id="username"
-                                      label="{{ __('Username') }} *" placeholder="{{ __('Username') }}" />
-                    @endif
-
                     @if($this->showField('user.phone'))
                         <x-form.input wire:model.lazy="user.phone" type="text" dir="ltr"
                                       size="col-span-1" name="phone" id="phone"
