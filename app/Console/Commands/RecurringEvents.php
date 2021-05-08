@@ -53,8 +53,8 @@ class RecurringEvents extends Command
             $month = now()->month($this->option('month'));
         }
 
-        $startDate = $month->startOfMonth();
-        $endDate = $month->endOfMonth();
+        $startDate = $month->copy()->startOfMonth();
+        $endDate = $month->copy()->endOfMonth();
 
         if($period) {
             $startDate = $period->start;
