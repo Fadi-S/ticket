@@ -31,7 +31,7 @@
                             id="phone" value="{{ old('phone') }}"
                             type="phone" required />
 
-            <x-form.input-2 label="{{ __('National ID') }}"
+            <x-form.input-2 label="{{ __('National ID') }}" :error="$errors->get('national_id')"
                             id="national_id" value="{{ old('national_id') }}"
                             type="text" />
 
