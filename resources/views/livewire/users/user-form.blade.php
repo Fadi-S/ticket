@@ -1,6 +1,7 @@
+<x-slot name="title">Edit User | Ticket</x-slot>
+
 <div>
     <x-card :show="$card">
-        <x-slot name="title">User Form | Ticket</x-slot>
 
         @if(!$isCreate && auth()->user()->can('users.forceDelete') && !$user->isSignedIn())
             <div class="mb-4">
