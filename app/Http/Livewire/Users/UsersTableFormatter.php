@@ -76,6 +76,9 @@ class UsersTableFormatter extends DataTableComponent
             Column::make(__('Phone'), 'phone')
                 ->sortable()
                 ->searchable($search),
+            Column::make(__('National ID'), 'national_id')
+                ->sortable()
+                ->searchable($search),
             Column::make(__('Last Login'))
                 ->sortable(
                     fn(Builder $query, $direction) => $query->orderBy(

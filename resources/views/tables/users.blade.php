@@ -77,6 +77,12 @@
 </x-table.td>
 
 <x-table.td>
+<div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+        {{ $row->national_id }}
+</div>
+</x-table.td>
+
+<x-table.td>
         <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
                 {{ ($login = $row->logins()->latest('time')->first()) ? $login->time->diffForHumans() : '-' }}
         </div>
