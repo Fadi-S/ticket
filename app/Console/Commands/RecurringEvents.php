@@ -46,7 +46,7 @@ class RecurringEvents extends Command
         \Cache::set('latest_automatic_events', time());
 
         $month = now()->month(now()->month + 1);
-        $period = Period::current();
+        $period = null;//Period::current();
         $this->info($period->name);
 
         if($this->hasOption('month')) {
