@@ -89,7 +89,7 @@ class RecurringEvents extends Command
                     'type_id' => $template->type_id,
                     'overload' => $template->overload,
                     'number_of_places' => $template->number_of_places,
-                    'published_at' => $template->start->hours(8),
+                    'published_at' => $period->start->hours(8),
                 ]);
             }
 
