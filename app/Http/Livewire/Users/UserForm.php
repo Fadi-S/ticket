@@ -81,7 +81,9 @@ class UserForm extends Component
         }
 
         $this->user->save();
-        $this->user->syncRoles([(auth()->user()->can('editRole')) ? $this->role_id : 1]);
+
+        if($this->isCreate)
+            $this->user->syncRoles([(auth()->user()->can('editRole')) ? $this->role_id : 1]);
 
         if (auth()->user()->isUser() && !$this->user->isSignedIn())
             auth()->user()->forceAddFriend($this->user);
