@@ -18,11 +18,16 @@ class Period extends Model
     {
         $date ??= now();
 
-        $date = $date->format('Y-m-d');
+        $date = $date->endOfDay();
 
         return self::where('start', '<=', $date)
             ->where('end', '>=', $date)
             ->first();
+    }
+
+    public function isNow() : bool
+    {
+        return now()->isBetween($this->start, $this->end);
     }
 
     public function types()

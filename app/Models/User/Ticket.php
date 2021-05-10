@@ -4,6 +4,7 @@ namespace App\Models\User;
 
 use App\Models\Baskha;
 use App\Models\BaskhaOccasion;
+use App\Models\Event;
 use App\Models\Kiahk;
 use App\Models\Mass;
 use App\Models\Period;
@@ -23,7 +24,7 @@ class Ticket
     {
         $period ??= Period::current();
 
-        $days = $period->start->diffInDays($period->end) + 1;
+        $days = $period->start->diffInDays($period->end->endOfDay());
 
         return $this->calculateReservationsLeft($typeId, $maxReservations, $period->start, $days);
     }
@@ -121,9 +122,7 @@ class Ticket
 
     private function calculateReservationsLeft($typeId, $maxReservations, $date, $period=null) : int
     {
-        $endDate = $period ? $date->copy()->addDays($period) : $date->copy()->addMonth();
-
-
+        $endDate = $period ? $date->copy()->addDays($period) : $date->copy()->endOfMonth();
 
         return $maxReservations -
             $this->user
@@ -133,8 +132,7 @@ class Ticket
                 $query->whereHas('event', fn($query) =>
 
                 $query->where('type_id', $typeId)
-                    ->where('start', '>=', $date->format('Y-m-d'))
-                    ->where('start', '<=', $endDate->format('Y-m-d'))
+                    ->whereBetween('start', [$date->startOfDay(), $endDate->endOfDay()])
 
                 ))->count();
     }

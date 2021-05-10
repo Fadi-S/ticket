@@ -2,7 +2,9 @@
 
 namespace Tests\Unit;
 
+use App\Models\Event;
 use App\Models\Mass;
+use App\Models\Period;
 use App\Models\Reservation;
 use App\Models\Ticket;
 use App\Models\User\User;
@@ -124,6 +126,45 @@ class MassReservationTest extends TestCase
         ]);
 
         return $this->user->reserveIn($ticket);
+    }
+
+    /** @test */
+    function events_in_the_start_and_end_of_period_counts_towards_user_quota()
+    {
+        $date = now()->hours(8);
+
+        Period::create([
+            'name' => 'Test Period',
+            'start' => $date->startOfDay(),
+            'end' => $date->copy()->addWeek()->endOfDay(),
+        ]);
+
+        $eventInBeginning = Mass::factory()->create([
+            'start' => $date->copy()->hours(8),
+            'end' => $date->copy()->addHours(2),
+        ]);
+
+        $eventInEnd = Mass::factory()->create([
+            'start' => $date->copy()->addWeek(),
+            'end' => $date->copy()->addWeek()->addHour(),
+        ]);
+
+        config()->set('settings.allow_for_exceptions', false);
+
+        foreach ([$eventInBeginning, $eventInEnd] as $event) {
+            $ticket = Ticket::factory()->create([
+                'event_id' => $event->id
+            ]);
+
+            $this->assertEquals(1, $this->user->tickets()->mass($event->start));
+
+            $this->assertNotFalse($this->user->reserveIn($ticket));
+
+            $this->assertEquals(0, $this->user->tickets()->mass($event->start));
+
+            $ticket->cancel();
+        }
+
     }
 
     private function fillTickets()
