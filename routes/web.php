@@ -113,7 +113,7 @@ $redirectAdmin = function () {
         'time' => now(),
     ]);
 
-    Cache::set('admin-access', json_encode($adminAccess));
+    Cache::rememberForever('admin-access', fn() => json_encode($adminAccess));
 
     $index = $replies->count() > $time ? $time : $replies->count()-1;
     return $replies->get($index);
