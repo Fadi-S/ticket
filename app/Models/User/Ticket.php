@@ -123,6 +123,8 @@ class Ticket
     {
         $endDate = $period ? $date->copy()->addDays($period) : $date->copy()->addMonth();
 
+
+
         return $maxReservations -
             $this->user
                 ->reservations()
@@ -131,7 +133,8 @@ class Ticket
                 $query->whereHas('event', fn($query) =>
 
                 $query->where('type_id', $typeId)
-                    ->whereBetween('start', [$date, $endDate])
+                    ->where('start', '>=', $date->format('Y-m-d'))
+                    ->where('start', '<=', $endDate->format('Y-m-d'))
 
                 ))->count();
     }
