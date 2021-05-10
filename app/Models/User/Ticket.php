@@ -23,7 +23,7 @@ class Ticket
     {
         $period ??= Period::current();
 
-        $days = $period->start->diffInDays($period->end);
+        $days = $period->start->diffInDays($period->end) + 1;
 
         return $this->calculateReservationsLeft($typeId, $maxReservations, $period->start, $days);
     }
