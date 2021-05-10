@@ -82,7 +82,7 @@ class UserForm extends Component
 
         $this->user->save();
 
-        if($this->isCreate)
+        if($this->isCreate || auth()->user()->can('users.edit'))
             $this->user->syncRoles([(auth()->user()->can('editRole')) ? $this->role_id : 1]);
 
         if (auth()->user()->isUser() && !$this->user->isSignedIn())
