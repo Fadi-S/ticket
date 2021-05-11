@@ -53,7 +53,7 @@ class Mass extends Event implements EventContract
     static public function conditions()
     {
         return [
-            MustHaveNationalID::class,
+            //MustHaveNationalID::class,
             EventDateHasNotPassed::class,
             NotAlreadyReserved::class,
             ReservedByAdmin::class,
