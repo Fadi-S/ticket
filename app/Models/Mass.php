@@ -42,9 +42,9 @@ class Mass extends Event implements EventContract
     {
         $roles = ['user', 'agent', 'super-admin'];
 
-//        if(! $this->hasDeacons) {
-//            array_push($roles, 'deacon', 'deacon-admin');
-//        }
+        if(! $this->hasDeacons) {
+            array_push($roles, 'deacon', 'deacon-admin');
+        }
 
         return $this->number_of_places - $this
                 ->reservationsCountForRole(...$roles);
