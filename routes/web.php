@@ -28,7 +28,7 @@ Route::middleware(ProtectAgainstSpam::class)
         Route::get('password/forgot', fn() => view('auth.forgot'));
         Route::get('password/phone', ResetPasswordByPhone::class);
 
-        Auth::routes(['verify' => true]);
+        Auth::routes(['verify' => true, 'register' => false]);
     });
 
 Route::get('/verify', VerifyPhoneNumber::class)

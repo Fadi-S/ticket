@@ -25,7 +25,7 @@ class UserPolicy
 
     public function create(User $admin)
     {
-        return true;
+        return $admin->can('users.all') ? true : null;
     }
 
     public function update(User $admin, User $model)

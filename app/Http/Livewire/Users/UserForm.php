@@ -30,10 +30,9 @@ class UserForm extends Component
     {
         $this->isCreate = !isset($this->user);
 
-        if (!$this->isCreate)
-            $this->authorize('update', $this->user);
-
         $this->user ??= new User();
+
+        $this->authorize($this->isCreate ? 'create' : 'update', $this->user);
 
         $this->role_id = (!$this->isCreate && isset($this->user->roles[0])) ? $this->user->roles[0]->id : 1;
 

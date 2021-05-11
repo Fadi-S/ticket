@@ -18,7 +18,7 @@ class Period extends Model
     {
         $date ??= now();
 
-        $date = $date->endOfDay();
+        $date = $date->format('Y-m-d');
 
         return self::where('start', '<=', $date)
             ->where('end', '>=', $date)

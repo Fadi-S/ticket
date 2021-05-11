@@ -35,6 +35,11 @@ class Event extends Model
             ->orWhere('hidden_at', '>=', now());
     }
 
+    public function period()
+    {
+        return Period::current($this->start);
+    }
+
     /** @deprecated  **/
     public function reservedPlaces()
     {
