@@ -106,7 +106,7 @@ $redirectAdmin = function () {
 
     Cookie::queue('hah', $time+1, 24*365);
 
-    $adminAccess = json_decode(Cache::get('admin-access', "{}"));
+    $adminAccess = json_decode(Cache::get('admin-access', "[]"));
     array_push($adminAccess, [
         'user_id' => Auth::id() ?? null,
         'ip' => request()->getClientIp(),
