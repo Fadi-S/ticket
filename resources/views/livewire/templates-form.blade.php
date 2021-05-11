@@ -1,6 +1,8 @@
 <div>
     <x-card>
 
+        <x-form.switch wire:model="enabled" />
+
         <form wire:submit.prevent="save" method="POST">
             <div class="space-y-6">
 

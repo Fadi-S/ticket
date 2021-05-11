@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Reservations\Conditions\{EnoughSpaceInEvent, EventDateHasNotPassed, HaveVesperTickets, NotAlreadyReserved, QualifiesForException, ReservedByAdmin};
+use App\Reservations\Conditions\{EnoughSpaceInEvent, EventDateHasNotPassed, HaveVesperTickets, MustHaveNationalID, NotAlreadyReserved, QualifiesForException, ReservedByAdmin};
 use App\Reservations\EventContract;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -39,6 +39,7 @@ class Vesper extends Event implements EventContract
     static public function conditions()
     {
         return [
+            MustHaveNationalID::class,
             EventDateHasNotPassed::class,
             NotAlreadyReserved::class,
             ReservedByAdmin::class,

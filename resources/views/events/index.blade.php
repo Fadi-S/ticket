@@ -117,6 +117,7 @@
                     <x-table.th>{{ __('Description') }}</x-table.th>
                     <x-table.th>{{ __('Day Of Week') }}</x-table.th>
                     <x-table.th>{{ __('Number of Places') }}</x-table.th>
+                    <x-table.th>{{ __('Active') }}</x-table.th>
                 @can('events.edit')
                         <x-table.th>{{ __('Edit') }}</x-table.th>
                     @endcan
@@ -150,6 +151,12 @@
 
                             <div class="dark:text-gray-400 font-semibold text-gray-500 text-sm">
                                 +{{ $template->overload * 100 }}%
+                            </div>
+                        </x-table.td>
+
+                        <x-table.td>
+                            <div class="w-6 h-6 rounded-full p-1 text-center flex items-center justify-center
+                            {{ $template->active ? 'bg-green-200' : 'bg-red-200' }}">
                             </div>
                         </x-table.td>
 

@@ -20,6 +20,8 @@ class TemplatesForm extends Component
     public $end;
     public $type_id;
 
+    public $enabled = true;
+
     protected $queryString = [
         'type_id' => ['except' => null]
     ];
@@ -37,6 +39,8 @@ class TemplatesForm extends Component
 
             $this->start = $this->template->start->format('H:i');
             $this->end = $this->template->end->format('H:i');
+
+            $this->enabled = $this->template->active;
         }
 
     }
@@ -69,6 +73,23 @@ class TemplatesForm extends Component
             $this->template = new Template;
             $this->start = null;
             $this->end = null;
+        }
+    }
+
+    public function updatedEnabled()
+    {
+        $this->template->active = $this->enabled;
+
+        if(!$this->isCreate) {
+            Template::find($this->template->id)->update(['active' => $this->enabled]);
+
+            $state = ($this->enabled) ? __('Enabled') : __('Disabled');
+
+            $this->dispatchBrowserEvent('message', [
+                'level' => 'success',
+                'message' => $state . ' ' . __('template successfully'),
+                'important' => false,
+            ]);
         }
     }
 

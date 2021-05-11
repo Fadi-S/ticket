@@ -170,7 +170,7 @@
                                                 {{ $user['arabic_name'] }}
                                             </div>
                                             <div class="dark:text-gray-400 font-semibold text-gray-500 text-sm">
-                                                {{ $user['phone'] ?? '' }}
+                                                {{ $user['national_id'] ?? '' }}
                                             </div>
                                             <div class="dark:text-gray-400 font-semibold text-gray-500 text-sm">
                                                 {{ $user['name'] }}

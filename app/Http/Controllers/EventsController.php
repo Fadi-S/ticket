@@ -102,7 +102,9 @@ class EventsController extends Controller
             ->with('tickets.reservations.user')
             ->paginate(10);
 
-        $templates = Template::type($this->model->type_id)->get();
+        $templates = Template::type($this->model->type_id)
+            ->orderByDesc('active')
+            ->get();
 
         return view("events.index", [
             'events' => $events,

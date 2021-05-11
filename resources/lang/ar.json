@@ -155,8 +155,8 @@
   "Unfriend": "مسح الصديق",
   "Publish Date": "تاريخ العرض",
   "Show Agents Data": "إعرض بيانات الحجز",
-  "Please write your full name (3 names)": "الرجاء كتابة الاسم الثلاثى",
-  "Please write your national ID number": "الرجاء كتابة الرقم القومي",
+  "Please write your full name (3 names)": "رجاء كتابة الاسم الثلاثى",
+  "Please write your national ID number": "يلزم كتابة الرقم القومي",
   "You must write your full name (3 names).": "يجب كتابة الاسم الثلاثى",
   "Optional": "اختياري",
   "Exact Search": "البحث الدقيق",
@@ -211,5 +211,10 @@
   "Applied Filters": "المرشحات المستخدمة",
   "No users found. Try narrowing your search.": "لم يتم العثور علي مستخدمين بهذه المواصفات.",
   "Clear": "مسح",
-  "All": "الكل"
+  "All": "الكل",
+  "You": "أنت",
+  ":name must write a national ID": "يلزم كتابة الرقم القومي",
+  "template successfully": "المناسبة بنجاح",
+  "Enabled": "تم تفعيل",
+  "Disabled": "تم ايقاف"
 }

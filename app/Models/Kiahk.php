@@ -2,12 +2,7 @@
 
 namespace App\Models;
 
-use App\Reservations\Conditions\{EnoughSpaceInEvent,
-    EventDateHasNotPassed,
-    HaveKiahkTickets,
-    NotAlreadyReserved,
-    QualifiesForException,
-    ReservedByAdmin};
+use App\Reservations\Conditions\{EnoughSpaceInEvent, EventDateHasNotPassed, HaveKiahkTickets, MustHaveNationalID, NotAlreadyReserved, QualifiesForException, ReservedByAdmin};
 use App\Reservations\EventContract;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -44,6 +39,7 @@ class Kiahk extends Event implements EventContract
     static public function conditions()
     {
         return [
+            MustHaveNationalID::class,
             EventDateHasNotPassed::class,
             NotAlreadyReserved::class,
             ReservedByAdmin::class,

@@ -1,5 +1,6 @@
-<x-slot name="title">Edit User | Ticket</x-slot>
-
+@if(! $card)
+    <x-slot name="title">Edit User | Ticket</x-slot>
+@endif
 <div>
     <x-card :show="$card">
 
