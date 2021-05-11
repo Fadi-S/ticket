@@ -22,13 +22,13 @@
         </div>
 
         <div class="flex items-center justify-between">
-            <div class="text-sm w-10/12">
-                <a href="{{ url('/register') }}"
-                   class="font-medium dark:text-blue-400 dark:hover:text-blue-300
-                    text-blue-800 hover:text-blue-700">
-                    {{ __('Sign Up for new account') }}
-                </a>
-            </div>
+{{--            <div class="text-sm w-10/12">--}}
+{{--                <a href="{{ url('/register') }}"--}}
+{{--                   class="font-medium dark:text-blue-400 dark:hover:text-blue-300--}}
+{{--                    text-blue-800 hover:text-blue-700">--}}
+{{--                    {{ __('Sign Up for new account') }}--}}
+{{--                </a>--}}
+{{--            </div>--}}
 
 
             <div class="flex justify-end text-sm w-10/12">

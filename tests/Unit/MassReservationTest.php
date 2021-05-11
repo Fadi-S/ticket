@@ -129,6 +129,53 @@ class MassReservationTest extends TestCase
     }
 
     /** @test */
+    function a_user_can_reserve_in_end_of_period_and_start_of_the_other_period()
+    {
+        $startOfFirst = Carbon::parse('25th April 2002');
+        $endOfFirst = $startOfFirst->copy()->addWeek();
+
+        $startOfSecond = $endOfFirst->copy()->addDay();
+        $endOfSecond = $startOfSecond->copy()->addWeek();
+
+        Period::create([
+            'name' => "Test Period 1",
+            'start' => $startOfFirst->copy(),
+            'end' => $endOfFirst,
+        ]);
+
+        Period::create([
+            'name' => "Test Period 2",
+            'start' => $startOfSecond,
+            'end' => $endOfSecond,
+        ]);
+
+        $massAtTheStartOfFirst = Mass::factory()->create([
+            'start' => $startOfFirst->copy()->hours(8),
+            'end' => $startOfFirst->copy()->hours(10),
+        ]);
+
+        $massAtTheStartOfSecond = Mass::factory()->create([
+            'start' => $startOfSecond->copy()->hours(8),
+            'end' => $startOfSecond->copy()->hours(10),
+        ]);
+
+        $this->travelTo($startOfFirst->copy()->subDays(2));
+        $ticket1 = Ticket::factory()->create(['event_id' => $massAtTheStartOfFirst]);
+
+        $this->assertEquals(1, $this->user->tickets()->mass($startOfFirst));
+        $this->assertNotFalse($this->user->reserveIn($ticket1));
+        $this->assertEquals(0, $this->user->tickets()->mass($startOfFirst));
+
+
+        $this->travelTo($startOfSecond->copy()->subDays(2));
+        $ticket2 = Ticket::factory()->create(['event_id' => $massAtTheStartOfSecond]);
+
+        $this->assertEquals(1, $this->user->tickets()->mass($startOfSecond));
+        $this->assertNotFalse($this->user->reserveIn($ticket2));
+        $this->assertEquals(0, $this->user->tickets()->mass($startOfSecond));
+    }
+
+    /** @test */
     function events_in_the_start_and_end_of_period_counts_towards_user_quota()
     {
         $date = now()->hours(8);
