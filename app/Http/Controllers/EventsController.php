@@ -123,6 +123,6 @@ class EventsController extends Controller
 
         flash()->success(__('Event deleted successfully'));
 
-        redirect($this->url);
+        return redirect()->to($this->url);
     }
 }

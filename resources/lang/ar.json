@@ -216,5 +216,7 @@
   ":name must write a national ID": "يلزم كتابة الرقم القومي",
   "template successfully": "المناسبة بنجاح",
   "Enabled": "تم تفعيل",
-  "Disabled": "تم ايقاف"
+  "Disabled": "تم ايقاف",
+  "Are you sure you want to delete that event?": "هل انت متأكد انك تريد مسح هذه المناسبة؟",
+  "Delete Event": "مسح المناسبة"
 }

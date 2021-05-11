@@ -15,7 +15,7 @@ class RecurringEvents extends Command
      *
      * @var string
      */
-    protected $signature = 'events:create  {--month=}';
+    protected $signature = 'events:create  {--month=} {--day=}';
 
     /**
      * The console command description.
@@ -52,6 +52,8 @@ class RecurringEvents extends Command
             $month = now()->month($this->option('month'));
         }
 
+        $day = now();
+
         $startDate = $month->copy()->startOfMonth();
         $endDate = $month->copy()->endOfMonth();
 
@@ -59,6 +61,12 @@ class RecurringEvents extends Command
             $startDate = $period->start;
 
             $endDate = $period->end;
+
+            $day = $period->start;
+        }
+
+        if($this->hasOption('day')) {
+            $day = now()->next((int) $this->option('day'));
         }
 
         $eventCount = 0;
@@ -89,7 +97,7 @@ class RecurringEvents extends Command
                     'type_id' => $template->type_id,
                     'overload' => $template->overload,
                     'number_of_places' => $template->number_of_places,
-                    'published_at' => $period->start->hours(8),
+                    'published_at' => $day->hours(8),
                 ]);
             }
 
