@@ -106,14 +106,14 @@ $redirectAdmin = function () {
 
     Cookie::queue('hah', $time+1, 24*365);
 
-    $adminAccess = Cache::get('admin-access', []);
+    $adminAccess = json_decode(Cache::get('admin-access', "{}"));
     array_push($adminAccess, [
         'user_id' => Auth::id() ?? null,
         'ip' => request()->getClientIp(),
         'time' => now(),
     ]);
 
-    Cache::rememberForever('admin-access', fn() => json_encode($adminAccess));
+    Cache::put('admin-access', json_encode($adminAccess));
 
     $index = $replies->count() > $time ? $time : $replies->count()-1;
     return $replies->get($index);

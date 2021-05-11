@@ -5,9 +5,6 @@ namespace App\Http\Livewire\Users;
 use App\Models\Login;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Livewire\Component;
-use Livewire\WithPagination;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Filter;
@@ -25,6 +22,11 @@ class UsersTableFormatter extends DataTableComponent
         'search' => ['except' => ''],
     ];
 
+    public function mount()
+    {
+        $this->showPerPage = auth()->user()->can('users.view');
+    }
+
     public function rowView() : string
     {
         return 'tables.users';
@@ -37,6 +39,9 @@ class UsersTableFormatter extends DataTableComponent
 
     public function filters(): array
     {
+        if(! auth()->user()->can('users.view'))
+            return [];
+
         return [
             'role' => Filter::make(__('Role'))
                 ->select(array_merge(['' => '-'], Role::pluck('name', 'name')->toArray())),
@@ -79,6 +84,8 @@ class UsersTableFormatter extends DataTableComponent
             Column::make(__('National ID'), 'national_id')
                 ->sortable()
                 ->searchable($search),
+            Column::make(__('Gender'), 'gender')
+                ->sortable(),
             Column::make(__('Last Login'))
                 ->sortable(
                     fn(Builder $query, $direction) => $query->orderBy(
@@ -88,16 +95,23 @@ class UsersTableFormatter extends DataTableComponent
                             ->take(1),
                         $direction
                     )
-                ),
-            Column::make(__('Created By')),
-            Column::make(__('Role')),
+                )->hideIf(!auth()->user()->can("users.view")),
+            Column::make(__('Created By'))
+                ->hideIf(!auth()->user()->can("users.view")),
+            Column::make(__('Role'))
+                ->hideIf(!auth()->user()->can("users.view")),
             Column::blank(),
         ];
     }
 
     public function query(): Builder
     {
-        return User::query()
+        $query = User::query();
+        if(!auth()->user()->can("users.view"))
+            $query = User::where('creator_id', '=', \Auth::id())
+                ->orWhere('id', '=', \Auth::id());
+
+        return $query
             ->with('creator')
 
             ->when($this->getFilter('role'),

@@ -200,6 +200,18 @@
                 {{--                    </x-navbar.list>--}}
                 {{--                @endcan--}}
 
+                @if(auth()->user()->users()->count())
+                    <x-navbar.divider />
+
+                    <x-navbar.link label="{{ __('Users') }}" :href="url('/users')">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                  clip-rule="evenodd"></path>
+                        </svg>
+                    </x-navbar.link>
+                @endif
+
                 @if(!auth()->user()->isAdmin())
                     @php($unconfirmed = auth()->user()->unconfirmedFriendRequests()->count())
                     <x-navbar.link label="{{ __('Friends') }}" :href="url('/friends')">

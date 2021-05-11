@@ -77,43 +77,48 @@
 </x-table.td>
 
 <x-table.td>
-<div class="text-sm font-medium text-gray-900 dark:text-gray-100">
-        {{ $row->national_id }}
-</div>
-</x-table.td>
-
-<x-table.td>
         <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                {{ ($login = $row->logins()->latest('time')->first()) ? $login->time->diffForHumans() : '-' }}
+                {{ $row->national_id }}
         </div>
 </x-table.td>
 
 <x-table.td>
-        @if($row->creator)
-                <button type="button" wire:click="$set('search', '#{{ $row->creator->id }}')"
-                        title="#{{ $row->creator->id }}"
-                        class="text-gray-800 dark:text-gray-200 text-md focus:outline-none
-                                    font-semibold hover:text-gray-700 dark:hover:text-gray-300">
-                        {{ $row->creator->first_name }}
-                </button>
-        @else
-                -
-        @endif
+        <div class="text-sm font-medium
+        {{ $row->gender ? 'text-blue-800 dark:text-blue-600' : 'text-pink-800 dark:text-pink-600' }}
+">
+                <x-svg.gender :class="!$row->gender ? 'rotate-135' : ''" />
+        </div>
 </x-table.td>
 
-{{--                        <x-table.td>--}}
-{{--                            <span class="text-gray-800 dark:text-gray-200 text-md font-semibold">{{ $row->national_id }}</span>--}}
-{{--                        </x-table.td>--}}
-
-<x-table.td>
-        <div class="flex items-center justify-start">
-                <div class="font-bold text-sm rounded-full py-1 px-2 text-center
-                                    {{ $color['background'] . ' ' . $color['text'] }}">
-                        {{ isset($row->roles[0]) ? $row->roles[0]->name : 'user' }}
+@if(auth()->user()->can("users.view"))
+        <x-table.td>
+                <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                        {{ ($login = $row->logins()->latest('time')->first()) ? $login->time->diffForHumans() : '-' }}
                 </div>
-        </div>
-</x-table.td>
+        </x-table.td>
 
+        <x-table.td>
+                @if($row->creator)
+                        <button type="button" wire:click="$set('search', '#{{ $row->creator->id }}')"
+                                title="#{{ $row->creator->id }}"
+                                class="text-gray-800 dark:text-gray-200 text-md focus:outline-none
+                                            font-semibold hover:text-gray-700 dark:hover:text-gray-300">
+                                {{ $row->creator->first_name }}
+                        </button>
+                @else
+                        -
+                @endif
+        </x-table.td>
+
+        <x-table.td>
+                <div class="flex items-center justify-start">
+                        <div class="font-bold text-sm rounded-full py-1 px-2 text-center
+                                            {{ $color['background'] . ' ' . $color['text'] }}">
+                                {{ isset($row->roles[0]) ? $row->roles[0]->name : 'user' }}
+                        </div>
+                </div>
+        </x-table.td>
+@endif
 <x-table.td>
         <x-buttons.edit :url="url('/users/' . $row->username . '/edit')" />
 </x-table.td>

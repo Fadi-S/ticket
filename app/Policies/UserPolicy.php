@@ -31,7 +31,7 @@ class UserPolicy
     public function update(User $admin, User $model)
     {
         if($admin->isUser()) {
-            return $model->isSignedIn() ? true : null;
+            return $model->isSignedIn() || $model->creator_id === $admin->id ? true : null;
         }
 
         return $admin->can("users.edit") ? true : null;

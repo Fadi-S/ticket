@@ -61,8 +61,7 @@ class UserForm extends Component
 
     public function save()
     {
-        if (!$this->user->isSignedIn())
-            $this->authorize($this->isCreate ? 'create' : 'update', $this->user);
+        $this->authorize($this->isCreate ? 'create' : 'update', $this->user);
 
         $this->validate();
 

@@ -11,11 +11,6 @@ class UsersTable extends Component
 {
     use AuthorizesRequests;
 
-    public function mount()
-    {
-        $this->authorize('viewAny', User::class);
-    }
-
     public function render()
     {
         return view('livewire.users.users-table');
