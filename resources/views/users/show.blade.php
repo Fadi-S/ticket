@@ -17,6 +17,7 @@
     <livewire:users.user-form :user="$user" :only="[
             'user.name',
              'user.arabic_name',
+             'user.national_id',
              'tempUsername',
              'user.email',
              'gender'

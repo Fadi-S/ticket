@@ -21,7 +21,7 @@
                             type="password" required />
         </div>
 
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-end">
 {{--            <div class="text-sm w-10/12">--}}
 {{--                <a href="{{ url('/register') }}"--}}
 {{--                   class="font-medium dark:text-blue-400 dark:hover:text-blue-300--}}

@@ -18,6 +18,16 @@ class DashboardController extends Controller
         $num = app()->make('num');
         $tickets = $user->tickets();
 
+        $only = [];
+        if($user->hasFirstNameOnly()) {
+            array_push($only, 'user.name');
+            array_push($only, 'user.arabic');
+        }
+
+        if(!auth()->user()->national_id) {
+            array_push($only, 'user.national_id');
+        }
+
         if($user->can('tickets.view')) {
             $currentEvents = Event::where([
                 ['start', '<', now()],
@@ -34,6 +44,7 @@ class DashboardController extends Controller
             'user' => $user,
             'period' => $period,
             'currentEvents' => $currentEvents ?? null,
+            'only' => $only,
         ]);
     }
 

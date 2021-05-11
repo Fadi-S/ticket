@@ -103,6 +103,11 @@ trait UserAttributes
         $this->attributes['email'] = empty($email) ? null : strtolower($email);
     }
 
+    public function setNationalIdAttribute($national_id)
+    {
+        $this->attributes['national_id'] = empty($national_id) ? null : $national_id;
+    }
+
     public function getLocaleNameAttribute()
     {
         if(! $this->arabic_name)
