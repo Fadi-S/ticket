@@ -36,6 +36,11 @@ class Tickets extends Component
 
     public function getTypeModelProperty() { return EventType::find($this->type); }
 
+    public function mount()
+    {
+        isset($this->event) && Event::findOrFail($this->event);
+    }
+
     public function export()
     {
         $file = $this->eventModel->description
