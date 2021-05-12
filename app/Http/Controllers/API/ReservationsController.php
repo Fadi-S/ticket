@@ -48,7 +48,7 @@ class ReservationsController extends Controller
             '#5658e8',
             '#37ad28',
             '#72727d',
-            '#adb310',
+            '#b00d02',
             '#323236',
         ];
 
