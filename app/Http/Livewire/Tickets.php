@@ -32,7 +32,7 @@ class Tickets extends Component
         'page' => ['except' => 1],
     ];
 
-    public function getEventModelProperty() { return Event::find($this->event); }
+    public function getEventModelProperty() { return Event::findOrFail($this->event); }
 
     public function getTypeModelProperty() { return EventType::find($this->type); }
 
