@@ -148,6 +148,7 @@ class UserForm extends Component
                 'nullable',
                 'regex:/' . StandardRegex::NATIONAL_ID . '/',
                 'unique:users,national_id',
+                new NationalIDValidation,
             ],
             'gender' => 'required|in:0,1',
             'password' => [
@@ -170,6 +171,7 @@ class UserForm extends Component
             $rules['user.phone'] = [
                 Rule::requiredIf($this->showField('user.phone')),
                 'regex:/' . StandardRegex::PHONE_NUMBER . '/',
+                new NationalIDValidation,
                 Rule::unique('users', 'phone')->ignore($id),
             ];
 
