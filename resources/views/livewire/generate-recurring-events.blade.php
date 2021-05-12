@@ -20,11 +20,11 @@
                              wire:model.lazy="publish_at"
                              autocomplete="off"
                              :error="$errors->get('publish_at')"
-                             label="{{ __('Published At') }}" size="col-span-1" />
+                             label="{{ __('Publish Date') }}" size="col-span-1" />
             </div>
         </div>
 
-        <x-button type="submit">
+        <x-button type="submit" class="mt-4">
             <x-slot name="svg">
                 <x-svg.check size="h-6 w-6" wire:loading.remove wire:target="generate" />
                 <x-svg.spinner wire:loading wire:target="generate" />

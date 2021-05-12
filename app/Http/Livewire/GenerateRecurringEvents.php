@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use Illuminate\Support\Facades\Artisan;
 use Livewire\Component;
 
 class GenerateRecurringEvents extends Component
@@ -11,9 +12,9 @@ class GenerateRecurringEvents extends Component
     public $publish_at;
 
     protected $rules = [
-        'start' => 'required',
-        'end' => 'required|after:start',
-        'publish_at' => 'required',
+        'start' => 'required|date|date_format:Y-m-d',
+        'end' => 'required|date|after:start|date_format:Y-m-d',
+        'publish_at' => 'required|date|date_format:Y-m-d',
     ];
 
     public function render()
@@ -23,6 +24,10 @@ class GenerateRecurringEvents extends Component
 
     public function generate()
     {
+        $this->validate();
+
+        Artisan::call("events:create --start=$this->start --end=$this->end --publish=$this->publish_at");
+
         $this->dispatchBrowserEvent('message', [
             'level' => 'success',
             'message' => __('Events generated successfully'),
