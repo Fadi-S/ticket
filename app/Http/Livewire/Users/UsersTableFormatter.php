@@ -21,6 +21,7 @@ class UsersTableFormatter extends DataTableComponent
     protected $queryString = [
         'filters' => ['except' => ''],
         'perPage' => ['except' => 10],
+        'sorts' => ['except' => ''],
     ];
 
     public function mount()
