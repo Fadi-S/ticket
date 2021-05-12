@@ -19,7 +19,8 @@ class UsersTableFormatter extends DataTableComponent
     public string $emptyMessage = 'No users found. Try narrowing your search.';
 
     protected $queryString = [
-        'search' => ['except' => ''],
+        'filters' => ['except' => ''],
+        'perPage' => ['except' => 10],
     ];
 
     public function mount()
