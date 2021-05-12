@@ -222,5 +222,7 @@
   "Are you sure you want to delete that event?": "هل انت متأكد انك تريد مسح هذه المناسبة؟",
   "Delete Event": "مسح المناسبة",
 
-  "Generate Events": "اضافة مناسبات"
+  "Generate Events": "اضافة مناسبات",
+  "Generate Events Automatically": "انشاء المناسبات المتكررة",
+  "Generate events from available templates, you must choose start and end dates to generate events between them.": "انشاء مناسبات عن طريق المناسبات المتكررة الظاهرة في الأسفل، يجب اختيار البداية و النهاية التي سيتم انشاء فيها المناسبات"
 }

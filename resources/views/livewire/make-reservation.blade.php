@@ -235,7 +235,7 @@
                         <div class="space-x-2 flex flex-row-reverse">
                             <x-button class="mx-2" type="button" @click="open = false;"
                                       color="bg-white dark:bg-gray-500 dark:hover:bg-gray-700
-                                       bg:text-gray-900 text-gray-700 dark:text-gray-200
+                                       text-gray-900 dark:text-gray-200
                                        hover:bg-gray-50 border border-gray-400">
                                 {{ __("Close") }}
                             </x-button>
@@ -257,7 +257,7 @@
 
                             <x-button class="mx-2" type="button" @click="open = false;"
                                       color="bg-white dark:bg-gray-500 dark:hover:bg-gray-700
-                                       bg:text-gray-900 text-gray-700 dark:text-gray-200
+                                       text-gray-900 dark:text-gray-200
                                        hover:bg-gray-50 border border-gray-400">
                                 {{ __("Cancel") }}
                             </x-button>

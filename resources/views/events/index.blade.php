@@ -109,7 +109,7 @@
                 <x-svg.add />
             </x-slot>
 
-            {{ __('Generate Events') }}
+            {{ __('Generate Events Automatically') }}
         </x-button>
 
         <div class="flex flex-col space-y-4 items-start">
@@ -194,7 +194,7 @@
 
                         <x-button class="mx-2" type="button" @click="open = false;"
                                   color="bg-white dark:bg-gray-500 dark:hover:bg-gray-700
-                                       bg:text-gray-900 text-gray-700 dark:text-gray-200
+                                       text-gray-900 dark:text-gray-200
                                        hover:bg-gray-50 border border-gray-400">
                             {{ __("Cancel") }}
                         </x-button>
