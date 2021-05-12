@@ -15,6 +15,8 @@ module.exports = {
         extend: {
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                tajawal: ['Tajawal', 'sans-serif'],
+                work: ['Work Sans', 'sans-serif'],
             },
             rotate: {
                 '-180': '-180deg',
@@ -61,14 +63,14 @@ module.exports = {
 
     variants: {
         extend: {
-            opacity: ['disabled', 'dark'],
-            margin: ['responsive', 'direction'],
-            inset: ['responsive', 'direction'],
-            translate: ['responsive', 'direction'],
-            rotate: ['responsive', 'direction'],
-            borderRadius: ['responsive', 'direction'],
-            borderWidth: ['responsive', 'direction'],
-            textAlign: ['responsive', 'direction'],
+            // opacity: ['disabled', 'dark'],
+            // margin: ['responsive', 'direction'],
+            // inset: ['responsive', 'direction'],
+            // translate: ['responsive', 'direction'],
+            // rotate: ['responsive', 'direction'],
+            // borderRadius: ['responsive', 'direction'],
+            // borderWidth: ['responsive', 'direction'],
+            // textAlign: ['responsive', 'direction'],
         },
     },
 

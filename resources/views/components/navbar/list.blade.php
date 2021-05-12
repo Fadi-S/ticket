@@ -1,10 +1,11 @@
-<button class="flex items-center py-2 px-4 bg-opacity-25 text-gray-100 w-full focus:outline-none"
+<button class="flex items-center py-3 px-4 bg-opacity-25 hover:bg-gray-700 hover:bg-opacity-25
+text-gray-100 w-full focus:outline-none"
         type="button"
         x-data="{isOpen: false, id: Math.random()}"
         @click="isOpen = !isOpen; if(isOpen) $dispatch('close-all', { except: id });">
 
     <div class="flex-col w-full">
-        <div class="justify-between flex items-center w-full hover:text-gray-400">
+        <div class="justify-between flex items-center w-full hover:text-gray-100">
             <div class="flex items-center">
 
                 {{ $svg }}
@@ -23,7 +24,7 @@
              x-transition:enter="transition transform duration-200"
              x-transition:enter-start="scale-50 opacity-0"
              x-transition:enter-end="scale-100 opacity-100"
-             class="bg-white dark:bg-gray-600 transition-colors duration-500 rounded-lg mt-4 shadow-lg px-2 py-2 space-y-2 w-full">
+             class="bg-gray-600 dark:bg-gray-600 transition-colors duration-500 rounded-lg mt-4 shadow-lg px-2 py-2 space-y-2 w-full">
             {{ $slot }}
         </div>
     </div>

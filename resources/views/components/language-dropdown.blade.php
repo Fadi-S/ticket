@@ -10,7 +10,7 @@
                  alt="Country's Flag">
         </div>
 
-        <div class="text-gray-800 dark:text-white font-normal text-xs mx-2 font-semibold">
+        <div class="text-gray-800 dark:text-white text-xs mx-2 font-semibold">
             {{ $locales[app()->getLocale()]['name'] }}
         </div>
     </button>

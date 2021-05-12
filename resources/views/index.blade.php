@@ -1,13 +1,13 @@
 <x-master>
     <x-slot name="title">
-        Dashboard | Ticket
+        Home | Ticket
     </x-slot>
 
-    <div class="m-4 grid items-start grid-cols-4 gap-4">
-        <x-data-card :href="url('/reserve')" color="bg-red-400"
+    <div class="my-4 mx-5 grid items-start grid-cols-4 gap-5">
+        <x-data-card :href="url('/reserve')" color="bg-red-600"
                      data-step="3"
                      data-intro="{{ __('You can click here to reserve') }}"
-                     class="cursor-pointer transform transition duration-150 hover:scale-95 focus:scale-95">
+                     class="cursor-pointer transform transition duration-500 hover:scale-95 focus:scale-95">
             <x-slot name="svg">
                 <x-svg.bookmark/>
             </x-slot>
@@ -32,7 +32,7 @@
             @endforeach
         @endcan
 
-        <x-data-card color="bg-indigo-400"
+        <x-data-card color="bg-indigo-500"
                      data-step="2" data-intro="{{ __('Here is the number of masses left in this month') }}">
             <x-slot name="svg">
                 <x-svg.ticket/>
@@ -51,7 +51,7 @@
             </div>
         </x-data-card>
 
-        <x-data-card color="bg-red-400">
+        <x-data-card color="bg-red-500">
             <x-slot name="svg">
                 <x-svg.ticket/>
             </x-slot>
@@ -70,9 +70,9 @@
         </x-data-card>
 
         @if(auth()->user()->isDeacon())
-            <x-data-card color="bg-blue-400">
+            <x-data-card color="bg-blue-500">
                 <x-slot name="svg">
-                    <x-svg.user/>
+                    <x-svg.user class="text-white" />
                 </x-slot>
 
                 <h4 class="text-2xl font-bold text-gray-700 dark:text-gray-200">{{ __('Deacon') }}</h4>
@@ -97,7 +97,7 @@
         {{--            <div class="text-gray-500 dark:text-gray-300">{{ __('Baskha Mass reservations left') }}</div>--}}
         {{--        </x-data-card>--}}
 
-        <x-data-card color="bg-yellow-400"
+        <x-data-card color="bg-yellow-500"
                      data-step="1"
                      data-intro="{{ __('This is your ID Number which you can use to reserve by phone') }}">
             <x-slot name="svg">
@@ -109,7 +109,7 @@
         </x-data-card>
 
         @if($user->isAdmin())
-            <x-data-card color="bg-blue-400"
+            <x-data-card color="bg-blue-500"
                          x-data="{ number: '{{ $num->format($users) }}' }"
                          @user-created.window="number = $event.detail.number"
             >
@@ -140,7 +140,7 @@
                 <div class="text-gray-500 dark:text-gray-300">{{ __('Total Users') }}</div>
             </x-data-card>
 
-            <x-data-card color="bg-green-400">
+            <x-data-card color="bg-green-500">
                 <x-slot name="svg">
                     <x-svg.users class="text-white"/>
                 </x-slot>
@@ -167,9 +167,5 @@
 
         <livewire:users.user-form :user="$user" :only="$only"/>
     @endif
-
-    @can('viewAgentDetails')
-        <livewire:view-agents/>
-    @endcan
 
 </x-master>

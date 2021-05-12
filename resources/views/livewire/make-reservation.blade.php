@@ -8,7 +8,7 @@
             <div class="space-y-6">
                 @if(auth()->user()->can('users.*'))
                     <x-button id="open-user-btn" type="button" @click="$dispatch('openuser')"
-                              color="bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700">
+                              color="bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 text-white">
                         <x-slot name="svg">
                             <x-svg.add />
                         </x-slot>

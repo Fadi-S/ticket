@@ -10,14 +10,14 @@
         <a href="{{ $href }}">
     @endif
 
-        <div class="flex h-full items-center px-5 py-6 shadow-sm rounded-md bg-white dark:bg-gray-700 transition-colors duration-500">
+        <div class="flex h-full items-center px-5 py-6 shadow-md rounded-xl bg-white dark:bg-gray-700 transition-dark">
             <div class="p-3 rounded-full {{ $color }} bg-opacity-75">
 
                 {{ $svg }}
 
             </div>
 
-            <div class="mx-5 w-full">
+            <div class="mx-5 w-full {{ __('ltr') === 'rtl' ? 'font-tajawal' : 'font-work' }}">
                 {{ $slot }}
             </div>
         </div>

@@ -6,6 +6,9 @@
     <link href="{{ mix("/css/app.css") }}" rel="stylesheet" type="text/css">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,900;1,400;1,500;1,700&display=swap" rel="stylesheet">
 
     <title>{{ $title ?? 'Ticket' }}</title>
 
@@ -26,10 +29,11 @@
             window.addEventListener('resize', () =>
                 sidebarOpen = intentional ? sidebarOpen : window.innerWidth > 1024
             );
-             $refs.sidebar.classList.remove('ltr:-translate-x-full', 'rtl:translate-x-full', 'lg:rtl:translate-x-0', 'lg:ltr:translate-x-0');"
-         class="flex h-screen bg-gray-200 dark:bg-gray-800 transition-colors duration-500">
+             $refs.sidebar.classList.remove('ltr:-translate-x-full', 'rtl:translate-x-full', 'lg:rtl:translate-x-0', 'lg:ltr:translate-x-0');
+            $refs.black.classList.remove('hidden');"
+         class="flex h-screen bg-gray-100 dark:bg-gray-800 transition-colors duration-500">
         <div :class="sidebarOpen ? 'block' : 'hidden'" @click="sidebarOpen = false; intentional=true;"
-             class="fixed z-20 inset-0 bg-black opacity-50 transition-opacity lg:hidden"></div>
+             class="fixed z-20 inset-0 bg-black opacity-50 transition-opacity lg:hidden hidden" x-ref="black"></div>
 
         <div x-ref="sidebar" :class="sidebarOpen
           ? 'translate-x-0 ease-out lg:translate-x-0 lg:static lg:inset-0'
@@ -293,7 +297,7 @@
                     <div x-data="{ dropdownOpen: false }" class="relative mx-2">
                         <button @click="dropdownOpen = ! dropdownOpen"
                                 class="flex items-center justify-center space-x-2 focus:outline-none">
-                            <div class="text-gray-700 dark:text-white font-light text-sm rtl:ml-2 font-semibold">
+                            <div class="text-gray-700 dark:text-white text-sm rtl:ml-2 font-semibold font-tajawal">
                                 {{ auth()->user()->first_name }}
                             </div>
                             <div class="relative block h-10 w-10 border border-gray-400 overflow-hidden rounded-full">
