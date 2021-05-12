@@ -171,13 +171,13 @@ class UserForm extends Component
             $rules['user.phone'] = [
                 Rule::requiredIf($this->showField('user.phone')),
                 'regex:/' . StandardRegex::PHONE_NUMBER . '/',
-                new NationalIDValidation,
                 Rule::unique('users', 'phone')->ignore($id),
             ];
 
             $rules['user.national_id'] = [
                 'nullable',
                 'regex:/' . StandardRegex::NATIONAL_ID . '/',
+                new NationalIDValidation,
                 Rule::unique('users', 'national_id')->ignore($id),
             ];
         }
