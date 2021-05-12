@@ -92,35 +92,8 @@ Route::middleware(["auth", EnsurePhoneNumberIsVerified::class])->group(function(
     Route::get('/friends', Friends::class);
 });
 
-$redirectAdmin = function () {
-    $time = Cookie::get('hah') ?? 0;
-
-    $replies = collect([
-        "Please don't hack me!",
-        "Hi! I'm Mr.Robot",
-        "Looking for smth?",
-        "Okay, you are really trying!",
-        "Can you please stop..",
-        "Don't be evil :(",
-    ]);
-
-    Cookie::queue('hah', $time+1, 24*365);
-
-    $adminAccess = json_decode(Cache::get('admin-access', "[]"));
-    array_push($adminAccess, [
-        'user_id' => Auth::id() ?? null,
-        'ip' => request()->getClientIp(),
-        'time' => now(),
-    ]);
-
-    Cache::put('admin-access', json_encode($adminAccess));
-
-    $index = $replies->count() > $time ? $time : $replies->count()-1;
-    return $replies->get($index);
-};
-
-Route::get('/admin', $redirectAdmin);
-Route::get('/wp-admin', $redirectAdmin);
+Route::get('/admin', [DashboardController::class, 'adminHackerTrap']);
+Route::get('/wp-admin', [DashboardController::class, 'adminHackerTrap']);
 
 Route::get('lang/{locale}', function ($locale) {
     if(!in_array($locale, array_keys(app()->make('locales'))))

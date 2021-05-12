@@ -7,6 +7,7 @@ use App\Models\User\User;
 use App\Rules\ArabicOnly;
 use App\Rules\EnglishOnly;
 use App\Rules\Fullname;
+use App\Rules\NationalIDValidation;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Validation\Rule;
 use Livewire\Component;

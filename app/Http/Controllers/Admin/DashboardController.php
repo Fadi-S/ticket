@@ -7,6 +7,9 @@ use App\Models\Event;
 use App\Models\Mass;
 use App\Models\Period;
 use App\Models\User\User;
+use App\Models\Vesper;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Cookie;
 use Spatie\Activitylog\Models\Activity;
 
 class DashboardController extends Controller
@@ -41,6 +44,7 @@ class DashboardController extends Controller
             'users' => $user->isAdmin() ? User::count() : 0,
             'verified_users' => $user->isAdmin() ? User::verified()->count() : 0,
             'massTickets' => __(':number of :from left', ['number' => $num->format($tickets->mass()), 'from' => $num->format(Mass::maxReservations())]),
+            'vesperTickets' => __(':number of :from left', ['number' => $num->format($tickets->vesper()), 'from' => $num->format(Vesper::maxReservations())]),
             'user' => $user,
             'period' => $period,
             'currentEvents' => $currentEvents ?? null,
@@ -55,6 +59,40 @@ class DashboardController extends Controller
         $logs = Activity::latest()->paginate(10);
 
         return view("logs", compact('logs'));
+    }
+
+    public function adminHackerTrap()
+    {
+        $time = Cookie::get('hah') ?? 0;
+
+        $replies = collect([
+            "Please don't hack me!",
+            "Hi! I'm Mr.Robot",
+            "Looking for smth?",
+            "Okay, you are really trying!",
+            "Can you please stop..",
+            "Don't be evil :(",
+        ]);
+
+        Cookie::queue('hah', $time+1, 24*365);
+
+        $adminAccess = json_decode(Cache::get('admin-access', "[]"));
+        array_push($adminAccess, [
+            'user_id' => Auth::id() ?? null,
+            'ip' => request()->getClientIp(),
+            'client' => request()->header('User-Agent'),
+            'time' => now(),
+        ]);
+
+        Cache::put('admin-access', json_encode($adminAccess));
+
+        if($replies->count() > $time) {
+            $index = $time;
+        } else {
+            return redirect()->to('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
+        }
+
+        return $replies->get($index);
     }
 
 }

@@ -18,6 +18,7 @@
   "Activity Log": "إعرض تاريخ الإستخدام",
   "Sign Out": "تسجيل خروج",
   "Mass reservations left in :Month": "عدد القداسات المتبقية لك في شهر :month",
+  "Vesper reservations left in :Month": "عدد العشيات المتبقية لك في شهر :month",
   "Baskha reservations left": "عدد البصخات و العشيات المتبقية لك",
   "Baskha Mass reservations left": "عدد قداسات اسبوع الألام المتبقية لك",
   "Your ID Number": "الرقم التعريفي",
@@ -205,6 +206,7 @@
   "View Periods": "اعرض الفترات",
   "Periods": "الفترات",
   "Mass reservations left between :start and :end": "عدد القداسات المتبقية لك في الفترة بين :start و :end",
+  "Vesper reservations left between :start and :end": "عدد العشيات المتبقية لك في الفترة بين :start و :end",
 
   "Filters": "مرشحات البحث",
   "Phone Verified": "الهاتف مؤكد",

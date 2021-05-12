@@ -51,6 +51,24 @@
             </div>
         </x-data-card>
 
+        <x-data-card color="bg-red-400">
+            <x-slot name="svg">
+                <x-svg.ticket/>
+            </x-slot>
+
+            <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">{{ $vesperTickets }}</h4>
+            <div class="text-gray-500 dark:text-gray-300">
+                @if($period)
+                    {{ __('Vesper reservations left between :start and :end', [
+                            'start' => $period->start->translatedFormat('D d M'),
+                            'end' => $period->end->translatedFormat('D d M'),
+                     ]) }}
+                @else
+                    {{ __('Vesper reservations left in :Month', ['month' => \Carbon\Carbon::now()->monthName]) }}
+                @endif
+            </div>
+        </x-data-card>
+
         @if(auth()->user()->isDeacon())
             <x-data-card color="bg-blue-400">
                 <x-slot name="svg">
