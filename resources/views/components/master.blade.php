@@ -200,7 +200,7 @@
                 {{--                    </x-navbar.list>--}}
                 {{--                @endcan--}}
 
-                @if(auth()->user()->users()->count())
+                @if(auth()->user()->users()->count() && !auth()->user()->can('users.view'))
                     <x-navbar.divider />
 
                     <x-navbar.link label="{{ __('Users') }}" :href="url('/users')">

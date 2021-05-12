@@ -58,11 +58,11 @@ class RecurringEvents extends Command
         $endDate = $month->copy()->endOfMonth();
 
         if($period) {
-            $startDate = $period->start;
+            $startDate = $period->start->copy();
 
-            $endDate = $period->end;
+            $endDate = $period->end->copy();
 
-            $day = $period->start;
+            $day = $period->start->copy();
         }
 
         if($this->hasOption('day')) {
@@ -71,7 +71,7 @@ class RecurringEvents extends Command
 
         $eventCount = 0;
 
-        for ($date = $startDate; $date->lte($endDate); $date->addDay())
+        for ($date = $startDate->copy(); $date->lte($endDate); $date->addDay())
         {
             $temps = $templates[$date->dayOfWeek] ?? [];
 
