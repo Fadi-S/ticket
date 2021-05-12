@@ -1,6 +1,25 @@
 <div>
     <script src="{{ mix('/js/firebase.js') }}"></script>
 
+    @push('actions')
+        <div>
+            <form action="{{ url('/logout') }}" method="POST" class="flex justify-end mx-2 my-2">
+                @csrf
+
+                <button class="border-2 border-red-600 flex focus:bg-red-700
+                 focus:outline-none hover:bg-red-600 hover:text-white focus:text-white
+                  px-4 py-2 rounded-md text-red-600 transition-dark"
+                        type="submit">
+                    <div>
+                        <x-svg.logout />
+                    </div>
+
+                    {{ __('Sign Out') }}
+                </button>
+            </form>
+        </div>
+    @endpush
+
     <h2 class="sm:mt-0 mt-2 text-center text-2xl font-bold text-gray-900 dark:text-gray-100">
         {{ __('Verify Phone Number') }}
     </h2>

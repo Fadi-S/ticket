@@ -10,19 +10,19 @@
                  alt="Country's Flag">
         </div>
 
-        <div class="text-gray-200 dark:text-white font-light text-sm mx-2 font-semibold">
+        <div class="text-gray-800 dark:text-white font-normal text-xs mx-2 font-semibold">
             {{ $locales[app()->getLocale()]['name'] }}
         </div>
     </button>
 
     <div x-show="dropdownOpen" @click="dropdownOpen = false"
-         class="fixed inset-0 h-full w-full z-10"
+         class="fixed inset-0 h-full w-full z-50"
          style="display: none;"></div>
 
     <div x-show.transition="dropdownOpen"
          class="absolute mt-2 w-48
                               bg-white dark:bg-gray-600
-                              rounded-md overflow-hidden shadow-xl z-10"
+                              rounded-md overflow-hidden shadow-xl z-50"
          style="display: none;">
 
         @foreach($locales as $key => $locale)
@@ -37,7 +37,7 @@
                          src="{{ $locale['logo']  }}"
                          alt="Country's Flag">
 
-                    <span class="mx-1">{{ $locale['name'] }}</span>
+                    <span class="mx-1 dark:text-white">{{ $locale['name'] }}</span>
 
                     @if($key === app()->getLocale())
                         <x-svg.check />

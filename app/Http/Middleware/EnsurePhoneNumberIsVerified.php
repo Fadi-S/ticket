@@ -17,6 +17,10 @@ class EnsurePhoneNumberIsVerified
      */
     public function handle(Request $request, Closure $next)
     {
+        if($request->path() === '/logout') {
+            return $next($request);
+        }
+
         if(User::whereBetween('verified_at', [now()->startOfDay(), now()->endOfDay()])->count() >= 340) {
             return $next($request);
         }
