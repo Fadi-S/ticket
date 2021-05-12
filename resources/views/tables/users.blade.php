@@ -99,7 +99,7 @@
 
         <x-table.td>
                 @if($row->creator)
-                        <button type="button" wire:click="$set('search', '#{{ $row->creator->id }}')"
+                        <button type="button" wire:click="$set('filters.search', '#{{ $row->creator->id }}')"
                                 title="#{{ $row->creator->id }}"
                                 class="text-gray-800 dark:text-gray-200 text-md focus:outline-none
                                             font-semibold hover:text-gray-700 dark:hover:text-gray-300">
