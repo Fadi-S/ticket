@@ -15,7 +15,7 @@ class RecurringEvents extends Command
      *
      * @var string
      */
-    protected $signature = 'events:create  {--month=} {--day=}';
+    protected $signature = 'events:create  {--month=} {--day=} {--start=} {--end=} {--publish=}';
 
     /**
      * The console command description.
@@ -67,6 +67,24 @@ class RecurringEvents extends Command
 
         if($this->hasOption('day')) {
             $day = now()->next((int) $this->option('day'));
+        }
+
+        if($this->hasOption('start')) {
+            if(!$this->hasOption('end')) {
+                $this->error('You must specify --end option!');
+
+                return 0;
+            }
+
+            $startDate = Carbon::parse($this->option('start'));
+
+            $endDate = Carbon::parse($this->option('end'));
+
+            if(!$this->hasOption('publish')) {
+                $this->warn('You have not specified a publish date, using default: ' . $day->format('Y-m-d h:i a'));
+            }else {
+                $day = Carbon::parse($this->option('publish'));
+            }
         }
 
         $eventCount = 0;

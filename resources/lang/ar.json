@@ -220,5 +220,7 @@
   "Enabled": "تم تفعيل",
   "Disabled": "تم ايقاف",
   "Are you sure you want to delete that event?": "هل انت متأكد انك تريد مسح هذه المناسبة؟",
-  "Delete Event": "مسح المناسبة"
+  "Delete Event": "مسح المناسبة",
+
+  "Generate Events": "اضافة مناسبات"
 }

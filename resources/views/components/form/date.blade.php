@@ -10,7 +10,7 @@
 
 <div x-data="{ value: @entangle($attributes->wire('model')), picker: undefined }"
      x-init="new Pikaday({ field: $refs.input,
-                 format: 'DD/MM/YYYY',
+                 format: 'YYYY-MM-DD',
                     isRTL: {{ __('ltr') === 'rtl' ? 'true' : 'false' }},
                     showTime: false,
                      onOpen() { this.setDate($refs.input.value) } })"
