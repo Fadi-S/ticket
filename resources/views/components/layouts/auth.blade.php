@@ -56,7 +56,7 @@
                      alt="Saint George">
             </div>
 
-            <div class="flex flex-col">
+            <div class="flex flex-col sm:w-1/2">
                 @stack('actions')
 
                 <div class="m-4 sm:my-auto my-4 py-6">
