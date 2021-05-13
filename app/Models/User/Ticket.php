@@ -33,7 +33,8 @@ class Ticket
     {
         $period = Period::current($month);
         if($period) {
-            return $this->reservationsPerPeriod(Mass::$type, Mass::maxReservations(), $period);
+            $left = $this->reservationsPerPeriod(Mass::$type, Mass::maxReservations(), $period);
+            return $left >= 0 ? $left : 0;
         }
 
         $start = ($month ?? now())->startOfMonth();
@@ -47,7 +48,8 @@ class Ticket
     {
         $period = Period::current($date);
         if($period) {
-            return $this->reservationsPerPeriod(Kiahk::$type, Kiahk::maxReservations(), $period);
+            $left = $this->reservationsPerPeriod(Kiahk::$type, Kiahk::maxReservations(), $period);
+            return $left >= 0 ? $left : 0;
         }
 
         $startOfKiahk = $this->currentKiahkStartDate($date);
@@ -82,7 +84,8 @@ class Ticket
     {
         $period = Period::current($date);
         if($period) {
-            return $this->reservationsPerPeriod(Vesper::$type, Vesper::maxReservations(), $period);
+            $left = $this->reservationsPerPeriod(Vesper::$type, Vesper::maxReservations(), $period);
+            return $left >= 0 ? $left : 0;
         }
 
         $start = ($date ?? now())->startOfMonth();
@@ -96,7 +99,8 @@ class Ticket
     {
         $period = Period::current($date);
         if($period) {
-            return $this->reservationsPerPeriod(Baskha::$type, Baskha::maxReservations(), $period);
+            $left = $this->reservationsPerPeriod(Baskha::$type, Baskha::maxReservations(), $period);
+            return $left >= 0 ? $left : 0;
         }
 
         $start = Carbon::parse('15th April 2022');
@@ -110,7 +114,8 @@ class Ticket
     {
         $period = Period::current($date);
         if($period) {
-            return $this->reservationsPerPeriod(BaskhaOccasion::$type, BaskhaOccasion::maxReservations(), $period);
+            $left = $this->reservationsPerPeriod(BaskhaOccasion::$type, BaskhaOccasion::maxReservations(), $period);
+            return $left >= 0 ? $left : 0;
         }
 
         $start = Carbon::parse('15th April 2022');
