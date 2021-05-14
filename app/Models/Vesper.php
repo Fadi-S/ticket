@@ -13,7 +13,7 @@ class Vesper extends Event implements EventContract
 
     protected $attributes = ['type_id' => 4];
     public static int $type = 4;
-    public bool $hasDeacons = true;
+    public bool $hasDeacons = false;
     public int $deaconNumber = 4;
 
     protected static function booted()
