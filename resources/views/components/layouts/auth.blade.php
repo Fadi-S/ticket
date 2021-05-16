@@ -43,17 +43,20 @@
         sm:rounded-xl shadow-2xl flex sm:flex-row
         flex-col justify-between overflow-hidden">
             <div class="pb-10/12 sm:pb-2/3 relative sm:w-1/2">
-                <img class="opacity-0 absolute dark:opacity-100
+                @php($twoPhotos = config('settings.light_theme_photo') !== config('settings.dark_theme_photo'))
+                <img class="{{ $twoPhotos ? 'opacity-0 dark:opacity-100' : '' }} absolute
                  transition-all duration-700 z-0
                  h-full object-cover object-top
-                 sm:object-center w-full" src="{{ url("/images/jesus-500-min.jpg") }}"
+                 sm:object-center w-full" src="{{ url(config('settings.dark_theme_photo')) }}"
                      alt="Jesus Christ">
 
+                @if($twoPhotos)
                 <img class="absolute dark:opacity-0
                 transition-all duration-700 z-0
                  h-full object-cover object-top
-                 sm:object-center w-full" src="{{ url("/images/stgeorge_bg-500-min.jpg") }}"
+                 object-center w-full" src="{{ url(config('settings.light_theme_photo')) }}"
                      alt="Saint George">
+                @endif
             </div>
 
             <div class="flex flex-col sm:w-1/2">

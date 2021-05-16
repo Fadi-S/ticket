@@ -26,7 +26,9 @@ class Ticket
 
         $days = $period->start->diffInDays($period->end->endOfDay());
 
-        return $this->calculateReservationsLeft($typeId, $maxReservations, $period->start, $days);
+        $left = $this->calculateReservationsLeft($typeId, $maxReservations, $period->start, $days);
+
+        return $left >= 0 ? $left : 0;
     }
 
     public function mass($month=null)
