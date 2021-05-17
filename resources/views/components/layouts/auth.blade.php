@@ -47,14 +47,14 @@
                 <img class="{{ $twoPhotos ? 'opacity-0 dark:opacity-100' : '' }} absolute
                  transition-all duration-700 z-0
                  h-full object-cover object-top
-                 sm:object-center w-full" src="{{ config('settings.dark_theme_photo') }}"
+                 sm:object-center w-full" src="{{ url(config('settings.dark_theme_photo')) }}"
                      alt="Jesus Christ">
 
                 @if($twoPhotos)
                 <img class="absolute dark:opacity-0
                 transition-all duration-700 z-0
                  h-full object-cover object-top
-                 object-center w-full" src="{{ config('settings.light_theme_photo') }}"
+                 object-center w-full" src="{{ url(config('settings.light_theme_photo')) }}"
                      alt="Saint George">
                 @endif
             </div>
