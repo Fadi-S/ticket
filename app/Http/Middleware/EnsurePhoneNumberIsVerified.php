@@ -17,7 +17,7 @@ class EnsurePhoneNumberIsVerified
      */
     public function handle(Request $request, Closure $next)
     {
-        if($request->path() === '/logout') {
+        if($request->path() === 'logout') {
             return $next($request);
         }
 

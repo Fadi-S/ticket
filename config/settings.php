@@ -10,4 +10,6 @@ return [
 
     'light_theme_photo' => env('LIGHT_THEME_PHOTO', '/images/resurrection-500-min.jpg'),
     'dark_theme_photo' => env('DARK_THEME_PHOTO', '/images/resurrection-500-min.jpg'),
+
+    'users_limit' => 10,
 ];
