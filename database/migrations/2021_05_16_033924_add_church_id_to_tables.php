@@ -16,7 +16,6 @@ class AddChurchIdToTables extends Migration
         $addColumn = fn (Blueprint $table) =>
             $table->foreignId('church_id')->nullable();
 
-
         Schema::table('users', $addColumn);
 
         Schema::table('events', $addColumn);
