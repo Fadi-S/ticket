@@ -15,7 +15,7 @@ class RecurringEvents extends Command
      *
      * @var string
      */
-    protected $signature = 'events:create  {--month=} {--day=} {--start=} {--end=} {--publish=}';
+    protected $signature = 'events:create  {--month=} {--day=} {--start=} {--end=} {--publish=} {--type=}';
 
     /**
      * The console command description.
@@ -41,7 +41,10 @@ class RecurringEvents extends Command
      */
     public function handle()
     {
-        $templates = Template::active()->get()->groupBy('day_of_week');
+        $templates = Template::active()
+            ->when($this->hasOption('type'), fn($query) => $query->type($this->option('type')))
+            ->get()
+            ->groupBy('day_of_week');
 
         \Cache::set('latest_automatic_events', time());
 

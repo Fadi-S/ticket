@@ -186,7 +186,7 @@
                  lg:max-w-4xl my-2 sm:max-w-xl" @open.window="open=true" @close.window="open=false">
                 <x-slot name="dialog">
                     <div class="px-6 py-10">
-                        <livewire:generate-recurring-events />
+                        <livewire:generate-recurring-events :type="$type_id" />
                     </div>
                 </x-slot>
 

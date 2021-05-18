@@ -11,6 +11,8 @@ class GenerateRecurringEvents extends Component
     public $end;
     public $publish_at;
 
+    public $type;
+
     protected $rules = [
         'start' => 'required|date|date_format:Y-m-d',
         'end' => 'required|date|after:start|date_format:Y-m-d',
@@ -26,7 +28,7 @@ class GenerateRecurringEvents extends Component
     {
         $this->validate();
 
-        Artisan::call("events:create --start=$this->start --end=$this->end --publish=$this->publish_at");
+        Artisan::call("events:create --start=$this->start --end=$this->end --publish=$this->publish_at --type=$this->type");
 
         $this->dispatchBrowserEvent('message', [
             'level' => 'success',
