@@ -227,5 +227,6 @@
   "Generate Events": "اضافة مناسبات",
   "Generate Events Automatically": "انشاء المناسبات المتكررة",
   "Generate events from available templates, you must choose start and end dates to generate events between them.": "انشاء مناسبات عن طريق المناسبات المتكررة الظاهرة في الأسفل، يجب اختيار البداية و النهاية التي سيتم انشاء فيها المناسبات",
-  "User and event must be in the same church": "المستخدم و المناسبة يجب أن يكونا من نفس الكنيسة"
+  "User and event must be in the same church": "المستخدم و المناسبة يجب أن يكونا من نفس الكنيسة",
+  ":name Activated Successfully": "تم تفعيل :name بنجاح"
 }

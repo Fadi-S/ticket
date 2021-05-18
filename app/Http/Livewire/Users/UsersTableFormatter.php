@@ -102,8 +102,22 @@ class UsersTableFormatter extends DataTableComponent
                 ->hideIf(!auth()->user()->can("users.view")),
             Column::make(__('Role'))
                 ->hideIf(!auth()->user()->can("users.view")),
+            Column::make(__('Active'))
+                ->hideIf(!auth()->user()->can("users.activate")),
             Column::blank(),
         ];
+    }
+
+    public function activate(User $user)
+    {
+        $user->activated_at = now();
+        $user->save();
+
+        $this->dispatchBrowserEvent('message', [
+            'level' => 'success',
+            'message' => __(':name Activated Successfully', ['name' => $user->locale_name]),
+            'important' => false,
+        ]);
     }
 
     public function query(): Builder

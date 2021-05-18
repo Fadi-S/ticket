@@ -119,6 +119,28 @@
                 </div>
         </x-table.td>
 @endif
+@if(auth()->user()->can("users.activate"))
+        <x-table.td>
+                <div class="flex items-center justify-center">
+                        @if($row->activated_at === null)
+                                <x-button class="rounded-full"
+                                          color="border border-green-500 hover:bg-green-500
+                           dark:hover:bg-green-500 hover:text-white text-green-500 dark:text-green-100"
+                                          wire:click="activate('{{ $row->username }}')">
+                                        <x-slot name="svg">
+                                                <x-svg.check wire:loading.remove wire:target="activate('{{ $row->username }}')" />
+                                                <x-svg.spinner wire:loading wire:target="activate('{{ $row->username }}')" />
+                                        </x-slot>
+                                </x-button>
+                        @else
+                                <div class="text-sm font-medium px-2 py-1
+                         text-green-100 rounded-full bg-green-500 dark:bg-green-600">
+                                        {{ $row->activated_at->translatedFormat('d/m/y ha') }}
+                                </div>
+                        @endif
+                </div>
+        </x-table.td>
+@endif
 <x-table.td>
         <x-buttons.edit :url="url('/users/' . $row->username . '/edit')" />
 </x-table.td>

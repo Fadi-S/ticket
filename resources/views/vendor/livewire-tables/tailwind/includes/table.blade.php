@@ -34,7 +34,7 @@
 
         @forelse ($rows as $index => $row)
             <x-livewire-tables::table.row
-                wire:loading.class.delay="opacity-50"
+                wire:loading.class.delay="opacity-75"
                 wire:key="table-row-{{ $row->getKey() }}"
                 :url="method_exists($this, 'getTableRowUrl') ? $this->getTableRowUrl($row) : null"
                 :class="'transition-dark ' . ($index % 2 === 0 ? 'bg-white dark:bg-gray-800' . (method_exists($this, 'getTableRowUrl') ? ' hover:bg-gray-100 hover:dark:bg-[#25303e]' : '') : 'bg-gray-50 dark:bg-[#25303e]' . (method_exists($this, 'getTableRowUrl') ? ' hover:bg-gray-100 hover:dark:bg-gray-800' : ''))"
