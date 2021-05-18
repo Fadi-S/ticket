@@ -30,7 +30,7 @@ class MakeReservationTest extends TestCase
 
         $this->event = Mass::factory()->create();
 
-        $this->user = User::factory()->create();
+        $this->user = User::factory()->create(['name' => 'Test Name Full', 'arabic_name' => 'تيست اسم ثلاثي']);
         $this->actingAs($this->user);
     }
 

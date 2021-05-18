@@ -23,21 +23,6 @@ class Vesper extends Event implements EventContract
         );
     }
 
-    static public function maxReservations(): int
-    {
-        return 1;
-    }
-
-    static public function hoursForException(): int
-    {
-        return 0;
-    }
-
-    static public function allowsException(): bool
-    {
-        return false;
-    }
-
     static public function conditions()
     {
         return [

@@ -26,7 +26,7 @@ class MassReservationTest extends TestCase
 
         $this->travelTo(now()->startOfMonth());
 
-        $this->user = User::factory()->create();
+        $this->user = User::factory()->create(['name' => 'Test Name Full', 'arabic_name' => 'تيست اسم ثلاثي']);
         $this->user->assignRole('user');
         $this->actingAs($this->user);
 

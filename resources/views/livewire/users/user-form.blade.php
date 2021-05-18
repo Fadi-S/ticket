@@ -1,19 +1,23 @@
-@if(! $card)
-    <x-slot name="title">Edit User | Ticket</x-slot>
-@endif
+
+<x-slot name="title">
+    @if($card)
+        {{ $isCreate ? 'Add User' : 'Edit ' . $user->first_name }} | {{ config('app.name') }}
+    @endif
+</x-slot>
+
 <div>
     <x-card :show="$card">
 
         @if(!$isCreate && auth()->user()->can('users.forceDelete') && !$user->isSignedIn())
             <div class="mb-4">
-                <x-button type="button" wire:click="delete"
-                        color="bg-red-500 hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-500">
-                    <x-slot name="svg">
-                        <x-svg.trash wire:loading.remove wire:target="delete" />
-                        <x-svg.spinner wire:loading wire:target="delete" />
-                    </x-slot>
+                <button type="button"
+                        class="flex items-center border border-red-500 rounded-md px-4 py-2 hover:bg-red-600 transition-dark mb-4 focus:outline-none"
+                        x-data="{  }" @click="$dispatch('open')">
+                    <div class="ltr:mr-2 rtl:ml-2">
+                        <x-svg.trash />
+                    </div>
                     {{ __('Delete User') }}
-                </x-button>
+                </button>
             </div>
         @endif
 
@@ -97,6 +101,36 @@
             </div>
 
         </form>
+
+            <x-layouts.modal id="user-delete-modal" size="w-full rounded-none sm:rounded-lg md:max-w-2xl
+             lg:max-w-4xl my-2 sm:max-w-xl" @open.window="open=true" @close.window="open=false">
+                <x-slot name="dialog">
+                    <div class="px-6 py-10 text-lg rtl:text-right mx-2 leading-6 font-medium text-gray-900 dark:text-gray-100">
+                        {{ __('Are you sure you want to delete that user?') }}
+                    </div>
+                </x-slot>
+
+                <x-slot name="footer">
+                    <div class="space-x-2 flex flex-row-reverse">
+
+                        <x-button class="mx-2" type="button" @click="open = false;"
+                                  color="bg-white dark:bg-gray-500 dark:hover:bg-gray-700
+                                   bg:text-gray-900 text-gray-700 dark:text-gray-200
+                                   hover:bg-gray-50 border border-gray-400">
+                            {{ __("Cancel") }}
+                        </x-button>
+
+                        <x-button type="button" wire:click="delete"
+                                  color="bg-red-500 hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-500 text-white">
+                            <x-slot name="svg">
+                                <x-svg.trash wire:loading.remove wire:target="delete" />
+                                <x-svg.spinner wire:loading wire:target="delete" />
+                            </x-slot>
+                            {{ __('Delete User') }}
+                        </x-button>
+                    </div>
+                </x-slot>
+            </x-layouts.modal>
 
         <script>
             window.addEventListener('closeTab', () => window.close());

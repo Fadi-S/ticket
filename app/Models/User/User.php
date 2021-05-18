@@ -74,4 +74,10 @@ class User extends Authenticatable implements HasLocalePreference
     {
         return $this->locale ?? config('app.locale');
     }
+
+    public function verify()
+    {
+        $this->verified_at = now();
+        $this->save();
+    }
 }

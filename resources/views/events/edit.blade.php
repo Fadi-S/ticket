@@ -1,5 +1,5 @@
 <x-master>
-    <x-slot name="title">Edit Mass | Ticket</x-slot>
+    <x-slot name="title">Edit Event | {{ config('app.name') }}</x-slot>
 
     <x-card>
         <div class="text-3xl font-bold text-gray-700">
@@ -9,7 +9,7 @@
         {!! Form::model($event, ["url" => url("$url/$event->id/"), "method" => "DELETE", "id" => 'delete-event']) !!}
             @csrf
             <button type="button"
-                    class="border border-red-500 rounded-md px-4 py-2 hover:bg-red-600 transition-dark mb-4"
+                    class="border border-red-500 rounded-md px-4 py-2 hover:bg-red-600 transition-dark mb-4 focus:outline-none"
                     x-data="{  }" @click="$dispatch('open')">{{ __("Delete Event") }}</button>
 
         @push('modals')

@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use App\Reservations\EventContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Event extends Model
+class Event extends Model implements EventContract
 {
     use SoftDeletes, LogsActivity;
 
@@ -38,6 +39,16 @@ class Event extends Model
     public function period()
     {
         return Period::current($this->start);
+    }
+
+    static public function maxReservations(): int
+    {
+        return config('settings.event.max_reservations_per_period');
+    }
+
+    static public function allowsException(): bool
+    {
+        return config('settings.event.max_reservations_per_period');
     }
 
     /** @deprecated  **/
@@ -151,5 +162,10 @@ class Event extends Model
             return '';
 
         return $order[$eventsCount];
+    }
+
+    static public function conditions()
+    {
+        return [];
     }
 }
