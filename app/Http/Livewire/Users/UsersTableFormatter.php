@@ -108,9 +108,6 @@ class UsersTableFormatter extends DataTableComponent
                 ->hideIf(!auth()->user()->can("users.view")),
             Column::make(__('Role'))
                 ->hideIf(!auth()->user()->can("users.view")),
-            Column::make(__('Activate'), 'activated_at')
-                ->sortable()
-                ->hideIf(!auth()->user()->can("users.activate")),
             Column::blank(),
         ];
     }

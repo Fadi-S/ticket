@@ -297,8 +297,13 @@
                     <div x-data="{ dropdownOpen: false }" class="relative mx-2">
                         <button @click="dropdownOpen = ! dropdownOpen"
                                 class="flex items-center justify-center space-x-2 focus:outline-none">
-                            <div class="text-gray-700 dark:text-white text-sm rtl:ml-2 font-semibold font-tajawal">
-                                {{ auth()->user()->first_name }}
+                            <div class="flex items-center rtl:ml-2">
+                                <div class="text-gray-700 dark:text-white text-sm font-semibold font-tajawal">
+                                    {{ auth()->user()->first_name }}
+                                </div>
+                                @if(auth()->user()->isActive())
+                                    <x-layouts.verified class="rtl:mr-2 ltr:ml-2" />
+                                @endif
                             </div>
                             <div class="relative block h-10 w-10 border border-gray-400 overflow-hidden rounded-full">
                                 <img class="h-full w-full object-cover"

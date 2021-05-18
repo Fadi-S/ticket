@@ -48,10 +48,16 @@
                                 <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
                                         {{ $row->name }}
                                 </div>
-                                @if($row->activated_at)
-                                        <div class="text-xs bg-blue-600 text-white rounded-full mx-1">
-                                                <x-svg.check size="w-4 h-4" />
-                                        </div>
+                                @if($row->isActive())
+                                        <x-layouts.verified class="mx-1" />
+                                @else
+                                        <button class="focus:outline-none transition-dark mx-1"
+                                                type="button" wire:click="activate('{{ $row->username }}')">
+                                                <div class="text-xs text-blue-200" wire:loading.remove wire:target="activate('{{ $row->username }}')">
+                                                        {{ __('Activate') }}
+                                                </div>
+                                                <x-svg.spinner size="w-3 h-3" wire:loading wire:target="activate('{{ $row->username }}')" />
+                                        </button>
                                 @endif
                         </div>
                         <div class="dark:text-gray-300 font-semibold text-gray-500 text-sm sm:hidden">
@@ -123,21 +129,6 @@
                                             {{ $color['background'] . ' ' . $color['text'] }}">
                                 {{ isset($row->roles[0]) ? $row->roles[0]->name : 'user' }}
                         </div>
-                </div>
-        </x-table.td>
-@endif
-@if(auth()->user()->can("users.activate"))
-        <x-table.td>
-                <div class="flex items-center justify-center">
-                        @if($row->activated_at === null)
-                                <button class="rounded-full p-1 focus:outline-none
-                                border border-green-500 hover:bg-green-500 transition-dark
-                           dark:hover:bg-green-500 hover:text-white text-green-500 dark:text-green-100"
-                                        type="button" wire:click="activate('{{ $row->username }}')">
-                                        <x-svg.check wire:loading.remove wire:target="activate('{{ $row->username }}')" />
-                                        <x-svg.spinner wire:loading wire:target="activate('{{ $row->username }}')" />
-                                </button>
-                        @endif
                 </div>
         </x-table.td>
 @endif
