@@ -29,7 +29,7 @@ class UsersTableFormatter extends DataTableComponent
         $this->showPerPage = auth()->user()->can('users.view');
     }
 
-    public function rowView() : string
+    public function rowView(): string
     {
         return 'tables.users';
     }
@@ -41,7 +41,7 @@ class UsersTableFormatter extends DataTableComponent
 
     public function filters(): array
     {
-        if(! auth()->user()->can('users.view'))
+        if (!auth()->user()->can('users.view'))
             return [];
 
         return [
@@ -61,13 +61,19 @@ class UsersTableFormatter extends DataTableComponent
                     'yes' => 'Yes',
                     'no' => 'No',
                 ]),
+
+            'active' => Filter::make(__('Account Active'))
+                ->select([
+                    '' => '-',
+                    'yes' => 'Yes',
+                    'no' => 'No',
+                ]),
         ];
     }
 
     public function columns(): array
     {
-        $search = fn(Builder $query, $searchTerm)
-        => $query->searchDatabase($searchTerm);
+        $search = fn(Builder $query, $searchTerm) => $query->searchDatabase($searchTerm);
 
         return [
             Column::make(__('ID'), 'id')
@@ -102,7 +108,8 @@ class UsersTableFormatter extends DataTableComponent
                 ->hideIf(!auth()->user()->can("users.view")),
             Column::make(__('Role'))
                 ->hideIf(!auth()->user()->can("users.view")),
-            Column::make(__('Active'))
+            Column::make(__('Activate'), 'activated_at')
+                ->sortable()
                 ->hideIf(!auth()->user()->can("users.activate")),
             Column::blank(),
         ];
@@ -123,13 +130,12 @@ class UsersTableFormatter extends DataTableComponent
     public function query(): Builder
     {
         $query = User::query();
-        if(!auth()->user()->can("users.view"))
+        if (!auth()->user()->can("users.view"))
             $query = User::where('creator_id', '=', \Auth::id())
                 ->orWhere('id', '=', \Auth::id());
 
         return $query
             ->with('creator')
-
             ->when($this->getFilter('role'),
                 fn($query, $role) => $query->role($role)
             )
@@ -141,7 +147,14 @@ class UsersTableFormatter extends DataTableComponent
             ->when($this->getFilter('verified'),
                 function ($query, $verified) {
                     $function = $verified === 'yes' ? 'whereNotNull' : 'whereNull';
-                    return  $query->$function('verified_at');
+                    return $query->$function('verified_at');
+                }
+            )
+
+            ->when($this->getFilter('active'),
+                function ($query, $activated) {
+                    $function = $activated === 'yes' ? 'whereNotNull' : 'whereNull';
+                    return $query->$function('activated_at');
                 }
             );
     }

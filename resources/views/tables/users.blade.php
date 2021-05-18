@@ -44,8 +44,15 @@
                         <img class="h-10 w-10 rounded-full" src="{{ $row->picture }}" alt="{{ $row->name }}'s picture">
                 </div>
                 <div class="ml-4 space-y-2">
-                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                {{ $row->name }}
+                        <div class="flex items-center">
+                                <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                        {{ $row->name }}
+                                </div>
+                                @if($row->activated_at)
+                                        <div class="text-xs bg-blue-600 text-white rounded-full mx-1">
+                                                <x-svg.check size="w-4 h-4" />
+                                        </div>
+                                @endif
                         </div>
                         <div class="dark:text-gray-300 font-semibold text-gray-500 text-sm sm:hidden">
                                 {{ $row->arabic_name }}
@@ -123,20 +130,13 @@
         <x-table.td>
                 <div class="flex items-center justify-center">
                         @if($row->activated_at === null)
-                                <x-button class="rounded-full"
-                                          color="border border-green-500 hover:bg-green-500
+                                <button class="rounded-full p-1 focus:outline-none
+                                border border-green-500 hover:bg-green-500 transition-dark
                            dark:hover:bg-green-500 hover:text-white text-green-500 dark:text-green-100"
-                                          wire:click="activate('{{ $row->username }}')">
-                                        <x-slot name="svg">
-                                                <x-svg.check wire:loading.remove wire:target="activate('{{ $row->username }}')" />
-                                                <x-svg.spinner wire:loading wire:target="activate('{{ $row->username }}')" />
-                                        </x-slot>
-                                </x-button>
-                        @else
-                                <div class="text-sm font-medium px-2 py-1
-                         text-green-100 rounded-full bg-green-500 dark:bg-green-600">
-                                        {{ $row->activated_at->translatedFormat('d/m/y ha') }}
-                                </div>
+                                        type="button" wire:click="activate('{{ $row->username }}')">
+                                        <x-svg.check wire:loading.remove wire:target="activate('{{ $row->username }}')" />
+                                        <x-svg.spinner wire:loading wire:target="activate('{{ $row->username }}')" />
+                                </button>
                         @endif
                 </div>
         </x-table.td>
