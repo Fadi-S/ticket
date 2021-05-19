@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Users;
 
 use App\Models\Login;
 use App\Models\User\User;
+use App\Notifications\AccountActivated;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
@@ -120,6 +121,8 @@ class UsersTableFormatter extends DataTableComponent
 
         $user->activated_at = now();
         $user->save();
+
+        $user->notify(new AccountActivated);
 
         $this->dispatchBrowserEvent('message', [
             'level' => 'success',
