@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Helpers\NormalizePhoneNumber;
+use App\Helpers\StandardRegex;
 use App\Http\Controllers\Controller;
 use App\Models\Login;
 use App\Providers\RouteServiceProvider;
@@ -40,10 +41,15 @@ class LoginController extends Controller
             $field = 'email';
         }
 
-        if(is_numeric($request->input('email'))){
-            $field = 'phone';
+        if(is_numeric($request->input('email'))) {
+            if(preg_match('/'. StandardRegex::NATIONAL_ID . '/', $request->input('email'))) {
+                $field = 'national_id';
 
-            $value = NormalizePhoneNumber::create($value)->handle();
+            }else {
+                $field = 'phone';
+
+                $value = NormalizePhoneNumber::create($value)->handle();
+            }
         }
 
         $credentials = [
@@ -51,10 +57,7 @@ class LoginController extends Controller
             'password' => $request->input('password')
         ];
 
-        if($this->guard()->attempt($credentials, true))
-            return true;
-
-        return false;
+        return $this->guard()->attempt($credentials, true);
     }
 
     protected function authenticated(Request $request, $user)

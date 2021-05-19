@@ -12,7 +12,7 @@
 
         <input type="hidden" name="remember" value="true">
         <div class="rounded-md shadow-sm space-y-3">
-            <x-form.input-2 label="{{ __('Email, Phone or Username') }}" dir="ltr"
+            <x-form.input-2 label="{{ __('Email, Phone or National ID') }}" dir="ltr"
                             id="email" value="{{ old('email') }}" :error="$errors->get('email')"
                             type="text" required />
 
