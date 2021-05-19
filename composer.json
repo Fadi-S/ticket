@@ -12,6 +12,7 @@
         "ext-curl": "*",
         "ext-intl": "*",
         "algolia/algoliasearch-client-php": "^2.8",
+        "consoletvs/charts": "^7.2",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",

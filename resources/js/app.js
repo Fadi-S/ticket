@@ -1,5 +1,6 @@
 import 'alpinejs';
 import Echo from "laravel-echo";
+import { Chartisan } from '@chartisan/chartjs';
 
 window.Pikaday = require('pikaday-time');
 

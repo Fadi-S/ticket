@@ -15,6 +15,7 @@ class AddActivatedAtToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->timestamp('activated_at')
+                ->index()
                 ->after('remember_token')
                 ->nullable();
         });

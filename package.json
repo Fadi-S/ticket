@@ -31,6 +31,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "@chartisan/chartjs": "^2.1.0",
         "@fortawesome/fontawesome-free": "^5.15.2",
         "@fullcalendar/core": "^5.5.1",
         "@fullcalendar/daygrid": "^5.5.0",

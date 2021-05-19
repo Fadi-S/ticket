@@ -19,7 +19,7 @@ class PeriodsTable extends Component
     public function render()
     {
         return view('livewire.periods-table', [
-            'periods' => Period::orderBy('start')->paginate(15)
+            'periods' => Period::where('end', '>=', now())->orderBy('start')->paginate(15)
         ])->layout('components.master');
     }
 }

@@ -153,6 +153,18 @@
         @endif
     </div>
 
+    @can('viewStatistics')
+        <div class="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-6 p-4">
+            <div class="bg-gray-700 rounded-md col-span-1">
+                <x-charts.users-status />
+            </div>
+
+            <div class="bg-gray-700 rounded-md col-span-2">
+                <x-charts.logins />
+            </div>
+        </div>
+    @endcan
+
     @if($user->isUser() && !empty($only))
         @if(collect($only)->contains('user.name'))
         <span class="flex justify-center text-3xl font-bold text-red-500">

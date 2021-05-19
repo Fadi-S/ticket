@@ -14,7 +14,7 @@ const mix = require('laravel-mix');
 mix.disableSuccessNotifications();
 
 mix.js('resources/js/app.js', 'public/js')
-    .extract(['alpinejs', 'laravel-echo', 'pikaday-time', 'pusher-js', 'intro.js'])
+    .extract(['alpinejs', 'laravel-echo', 'pikaday-time', 'pusher-js', 'intro.js', 'chart.js', '@chartisan/chartjs'])
 
     .js('resources/js/turbo.js', 'public/js')
 

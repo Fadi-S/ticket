@@ -47,6 +47,11 @@ class UserPolicy
         return $admin->can("users.delete") && $admin->can("activityLog") ? true : null;
     }
 
+    public function viewStatistics(User $admin)
+    {
+        return $admin->can("viewStatistics") ? true : null;
+    }
+
     public function forceDelete(User $admin, User $model)
     {
         return $admin->can("users.forceDelete") ? true : null;
