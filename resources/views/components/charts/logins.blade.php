@@ -6,7 +6,7 @@
 
 @push('charts')
     <script>
-        new Chartisan({
+        let cha = new Chartisan({
             el: '#chart-{{ $id }}',
             url: "@chart('logins_chart')",
             hooks: new ChartisanHooks()
