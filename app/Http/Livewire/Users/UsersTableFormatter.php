@@ -114,6 +114,10 @@ class UsersTableFormatter extends DataTableComponent
 
     public function activate(User $user)
     {
+        if(! auth()->user()->can('users.activate')) {
+            return;
+        }
+
         $user->activated_at = now();
         $user->save();
 
