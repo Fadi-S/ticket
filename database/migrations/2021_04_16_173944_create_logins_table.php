@@ -19,7 +19,7 @@ class CreateLoginsTable extends Migration
             $table->string('ip')->index()->nullable();
             $table->string('session_id')->index()->nullable();
             $table->text('device')->nullable();
-            $table->timestamp('time');
+            $table->timestamp('time')->index();
         });
     }
 

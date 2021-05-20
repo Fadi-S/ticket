@@ -14,7 +14,9 @@
                     type: 'line',
                     fill: true,
                     borderColor: '#1538a0',
-                    tension: 0
+                    tension: 0,
+                    pointRadius: 0,
+                    pointHitRadius: 4
                 }])
                 .beginAtZero()
                 .colors(['rgba(59,97,224,0.3)'])
