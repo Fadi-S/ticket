@@ -59,7 +59,7 @@
 
                                     @php
                                     $date = false;
-                                    if(!( is_numeric($old) || is_numeric($log->changes["attributes"][$key]))) {
+                                    if(!( is_numeric($value) || is_numeric($log->changes["attributes"][$key]))) {
                                     try{
                                       $old = \Carbon\Carbon::parse($value);
                                       $new = \Carbon\Carbon::parse($log->changes["attributes"][$key]);
