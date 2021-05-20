@@ -14,7 +14,8 @@
         @endcan
     @endif
 
-    <livewire:users.user-form :user="$user" :only="[
+    @if(!$user->isActive())
+        <livewire:users.user-form :user="$user" :only="[
             'user.name',
              'user.arabic_name',
              'user.national_id',
@@ -22,6 +23,7 @@
              'user.email',
              'gender'
         ]" />
+    @endif
 
     @if($user->isSignedIn())
         <livewire:change-password-form />

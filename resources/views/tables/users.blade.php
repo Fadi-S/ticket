@@ -133,5 +133,7 @@
         </x-table.td>
 @endif
 <x-table.td>
-        <x-buttons.edit :url="url('/users/' . $row->username . '/edit')" />
+        @if(!$row->isActive() || auth()->user()->can("users.edit"))
+                <x-buttons.edit :url="url('/users/' . $row->username . '/edit')" />
+        @endif
 </x-table.td>
