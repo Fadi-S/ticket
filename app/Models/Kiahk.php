@@ -35,17 +35,4 @@ class Kiahk extends Event implements EventContract
     {
         return false;
     }
-
-    static public function conditions()
-    {
-        return [
-            MustHaveNationalID::class,
-            EventDateHasNotPassed::class,
-            NotAlreadyReserved::class,
-            ReservedByAdmin::class,
-            EnoughSpaceInEvent::class,
-            QualifiesForException::class,
-            HaveKiahkTickets::class,
-        ];
-    }
 }
