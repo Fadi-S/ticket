@@ -95,6 +95,8 @@ class UsersTableFormatter extends DataTableComponent
                 ->searchable($search),
             Column::make(__('Gender'), 'gender')
                 ->sortable(),
+            Column::make(__('Location of stay'), 'location_id')
+                ->sortable(),
             Column::make(__('Last Login'))
                 ->sortable(
                     fn(Builder $query, $direction) => $query->orderBy(
@@ -139,7 +141,7 @@ class UsersTableFormatter extends DataTableComponent
                 ->orWhere('id', '=', \Auth::id());
 
         return $query
-            ->with('creator')
+            ->with('creator', 'location')
             ->when($this->getFilter('role'),
                 fn($query, $role) => $query->role($role)
             )

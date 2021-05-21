@@ -78,6 +78,10 @@
                                        label="{{ __('Role') }}" :options="$roles" />
                     @endif
 
+                  @if($this->showField('user.location_id'))
+                        <x-form.select label="{{ __('Location of stay') }}" dir="rtl" wire:model="user.location_id" name="location_id" id="location_id" :options="$locations" />
+                        @endif
+
                     @if($this->showField('gender'))
                         <x-form.gender-switch :livewire="true" name="gender" id="gender" label="{{ __('Gender') }}" />
                     @endif

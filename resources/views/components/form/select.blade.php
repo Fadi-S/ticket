@@ -15,7 +15,7 @@
         <label for="{{ $id }}" class="dark:text-white">{{ $label }}</label>
     @endisset
 
-    <select dir="ltr" class="mt-1 focus:outline-none p-2
+    <select dir="{{ $dir }}" class="mt-1 focus:outline-none p-2
 
     {{ $error
             ? 'focus:ring-red-500 ring-red-500 focus:ring-1 border-red-500 placeholder-red-300 dark:border-red-600 text-red-900'
