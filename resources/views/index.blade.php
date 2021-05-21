@@ -165,7 +165,7 @@
         </div>
     @endcan
 
-    @if($user->isUser() && !empty($only))
+    @if($user->isUser() && !empty($only) && !$user->isActive())
         @if(collect($only)->contains('user.name'))
         <span class="flex justify-center text-3xl font-bold text-red-500">
             {{ __('Please write your full name (4 names)') }}
