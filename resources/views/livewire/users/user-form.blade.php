@@ -74,12 +74,17 @@
 
                     @if($this->showField('role_id') && auth()->user()->can('editRole') && !$user->isSignedIn())
                         <x-form.select wire:model="role_id" name="role_id"
-                                       id="role_id" size="col-span-1"
+                                       id="role_id" size="col-span-1" dir="ltr"
                                        label="{{ __('Role') }}" :options="$roles" />
                     @endif
 
-                  @if($this->showField('user.location_id'))
-                        <x-form.select label="{{ __('Location of stay') }}" dir="rtl" wire:model="user.location_id" name="location_id" id="location_id" :options="$locations" />
+                  @if($this->showField('user.location_id') && (($isCreate || !$user->location_id) || auth()->user()->can('users.edit')))
+                        <x-form.select label="{{ __('Location of stay') }}"
+                                       dir="rtl"
+                                       :error="$errors->get('user.location_id')"
+                                       wire:model="user.location_id"
+                                       id="location_id"
+                                       :options="$locations" />
                         @endif
 
                     @if($this->showField('gender'))

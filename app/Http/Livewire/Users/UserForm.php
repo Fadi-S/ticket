@@ -43,9 +43,12 @@ class UserForm extends Component
 
     public function render()
     {
+        $locations = collect([0 => '-']);
+        $locations->push(...Location::pluck('name', 'id')->toArray());
+
         return view('livewire.users.user-form', [
             'roles' => Role::pluck('name', 'id'),
-            'locations' => Location::pluck('name', 'id'),
+            'locations' => $locations,
         ])->layout('components.master');
     }
 
@@ -158,13 +161,14 @@ class UserForm extends Component
                 'min:' . User::$minPassword,
             ],
             'role_id' => 'required|exists:roles,id',
-            'user.location_id' => 'required|exists:locations,id',
+            'user.location_id' => 'exclude_if:user.location_id,0|exists:locations,id',
         ];
 
         if (!$this->isCreate) {
             $id = isset($this->user) ? $this->user->id : 0;
 
             $rules['password'] = 'nullable|min:' . User::$minPassword;
+
             $rules['user.email'] = [
                 'nullable',
                 'email',

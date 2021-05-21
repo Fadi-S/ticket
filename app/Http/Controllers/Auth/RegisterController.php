@@ -33,8 +33,11 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
+        $locations = collect([0 => '-']);
+        $locations->push(...Location::pluck('name', 'id')->toArray());
+
         return view('auth.register', [
-            'locations' => Location::orderBy('name')->get(),
+            'locations' => $locations,
         ]);
     }
 
