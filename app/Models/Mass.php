@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Reservations\Conditions\{EnoughSpaceInEvent,
     EventDateHasNotPassed,
     HaveMassTickets,
+    IsDeaconReservation,
     MustHaveFullName,
     MustHaveNationalID,
     NotAlreadyReserved,
@@ -60,6 +61,7 @@ class Mass extends Event implements EventContract
             ReservedByAdmin::class,
             EnoughSpaceInEvent::class,
             QualifiesForException::class,
+            IsDeaconReservation::class,
             HaveMassTickets::class,
         ];
     }
