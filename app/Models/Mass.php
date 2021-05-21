@@ -33,6 +33,11 @@ class Mass extends Event implements EventContract
         );
     }
 
+    static public function maxReservations(): int
+    {
+        return config('settings.mass.max_reservations_per_period');
+    }
+
     public function getReservationsLeftAttribute()
     {
         $roles = ['user', 'agent', 'super-admin'];

@@ -10,6 +10,10 @@ return [
         'max_reservations_per_period' => 2,
     ],
 
+    'vesper' => [
+        'max_reservations_per_period' => 1,
+    ],
+
     'google_api_token' => env('GOOGLE_API_TOKEN', null),
 
     'light_theme_photo' => env('LIGHT_THEME_PHOTO', '/images/stmary_jesus-500-min.jpg'),

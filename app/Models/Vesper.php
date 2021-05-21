@@ -23,6 +23,11 @@ class Vesper extends Event implements EventContract
         );
     }
 
+    static public function maxReservations(): int
+    {
+        return config('settings.vesper.max_reservations_per_period');
+    }
+
     static public function conditions()
     {
         return [
