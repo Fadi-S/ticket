@@ -43,6 +43,8 @@
                             id="password_confirmation" value="{{ old('password_confirmation') }}"
                             type="password" required />
 
+            <x-form.select dir="rtl" name="location_id" id="location_id" :options="$locations->pluck('name', 'id')" />
+
             <x-form.gender-switch name="gender" id="gender" label="{{ __('Gender') }}" />
         </div>
 

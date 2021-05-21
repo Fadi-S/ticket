@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Users;
 
 use App\Helpers\StandardRegex;
+use App\Models\Location;
 use App\Models\User\User;
 use App\Rules\ArabicOnly;
 use App\Rules\EnglishOnly;
@@ -44,6 +45,7 @@ class UserForm extends Component
     {
         return view('livewire.users.user-form', [
             'roles' => Role::pluck('name', 'id'),
+            'locations' => Location::pluck('name', 'id'),
         ])->layout('components.master');
     }
 
@@ -156,6 +158,7 @@ class UserForm extends Component
                 'min:' . User::$minPassword,
             ],
             'role_id' => 'required|exists:roles,id',
+            'user.location_id' => 'required|exists:locations,id',
         ];
 
         if (!$this->isCreate) {
