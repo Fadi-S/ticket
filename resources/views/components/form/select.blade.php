@@ -30,7 +30,7 @@
                     @if($multiple)
                     {{ in_array($key, $checked) ? 'selected' : '' }}
                     @else
-                    {{ (old($attributes['name']) ?? $checked) == $key ? 'checked' : '' }}
+                    {{ (old($attributes->get('name')) ?? $checked) == $key ? 'selected' : '' }}
                     @endif
             >
                 {{ $option }}
