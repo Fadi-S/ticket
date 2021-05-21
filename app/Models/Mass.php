@@ -20,8 +20,8 @@ class Mass extends Event implements EventContract
     use HasFactory;
 
     public static int $type = 1;
-    public bool $hasDeacons = false;
-    public int $deaconNumber = 4;
+    public bool $hasDeacons = true;
+    public int $deaconNumber = 20;
 
 
     protected $attributes = ['type_id' => 1];
