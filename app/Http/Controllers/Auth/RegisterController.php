@@ -57,7 +57,7 @@ class RegisterController extends Controller
             'email' => ['nullable', 'string', 'email', 'max:191', 'unique:users'],
             'phone' => ['required', 'string', 'regex:/' . StandardRegex::PHONE_NUMBER . '/', 'unique:users'],
             'username' => ['required', 'unique:users'],
-            'national_id' => ['nullable', 'regex:/' . StandardRegex::NATIONAL_ID . '/', 'unique:users', new NationalIDValidation,],
+            'national_id' => ['required', 'regex:/' . StandardRegex::NATIONAL_ID . '/', 'unique:users', new NationalIDValidation,],
             'password' => ['required', 'string', 'min:' . User::$minPassword, 'confirmed'],
             'gender' => ['required', Rule::in([1, 0]),],
         ]);

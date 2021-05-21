@@ -145,7 +145,7 @@ class UserForm extends Component
                 'unique:users,phone',
             ],
             'user.national_id' => [
-                'nullable',
+                'required',
                 'regex:/' . StandardRegex::NATIONAL_ID . '/',
                 'unique:users,national_id',
                 new NationalIDValidation,
@@ -175,7 +175,7 @@ class UserForm extends Component
             ];
 
             $rules['user.national_id'] = [
-                'nullable',
+                'required',
                 'regex:/' . StandardRegex::NATIONAL_ID . '/',
                 new NationalIDValidation,
                 Rule::unique('users', 'national_id')->ignore($id),
