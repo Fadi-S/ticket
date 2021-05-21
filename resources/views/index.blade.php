@@ -168,7 +168,7 @@
     @if($user->isUser() && !empty($only))
         @if(collect($only)->contains('user.name'))
         <span class="flex justify-center text-3xl font-bold text-red-500">
-            {{ __('Please write your full name (3 names)') }}
+            {{ __('Please write your full name (4 names)') }}
         </span>
         @endif
         @if(collect($only)->contains('user.national_id'))
