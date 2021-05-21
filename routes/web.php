@@ -15,6 +15,7 @@ use App\Http\Livewire\Users\UsersTable;
 use App\Http\Livewire\VerifyPhoneNumber;
 use App\Http\Middleware\EnsurePhoneNumberIsVerified;
 use App\Http\Middleware\UnVerified;
+use App\Models\User\User;
 use App\Http\Controllers\Admin\{AuthController, DashboardController, UsersController};
 use Intervention\Image\ImageManagerStatic as Image;
 use App\Http\Livewire\Users\UserForm;
@@ -28,7 +29,7 @@ Route::middleware(ProtectAgainstSpam::class)
         Route::get('password/forgot', fn() => view('auth.forgot'));
         Route::get('password/phone', ResetPasswordByPhone::class);
 
-        Auth::routes(['verify' => true, 'register' => false]);
+        Auth::routes(['verify' => true, 'register' => config('settings.allow_users_to_create_accounts')]);
     });
 
 Route::get('/verify', VerifyPhoneNumber::class)
