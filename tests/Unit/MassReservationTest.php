@@ -37,6 +37,8 @@ class MassReservationTest extends TestCase
     {
         $ticket = Ticket::factory()->create();
 
+        dd($ticket->event->conditions());
+
         $this->assertCount(0, $this->user->reservations);
 
         $this->user->reserveIn($ticket);
@@ -182,18 +184,18 @@ class MassReservationTest extends TestCase
 
         Period::create([
             'name' => 'Test Period',
-            'start' => $date->startOfDay(),
-            'end' => $date->copy()->addWeek()->endOfDay(),
+            'start' => $date->copy()->addDays(2)->startOfDay(),
+            'end' => $date->copy()->addDays(2)->addWeek()->endOfDay(),
         ]);
 
         $eventInBeginning = Mass::factory()->create([
-            'start' => $date->copy()->hours(8),
-            'end' => $date->copy()->addHours(2),
+            'start' => $date->copy()->addDays(2)->hours(8),
+            'end' => $date->copy()->addDays(2)->addHours(2),
         ]);
 
         $eventInEnd = Mass::factory()->create([
-            'start' => $date->copy()->addWeek(),
-            'end' => $date->copy()->addWeek()->addHour(),
+            'start' => $date->copy()->addDays(2)->addWeek(),
+            'end' => $date->copy()->addDays(2)->addWeek()->addHour(),
         ]);
 
         config()->set('settings.allow_for_exceptions', false);

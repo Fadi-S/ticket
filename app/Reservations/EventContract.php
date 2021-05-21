@@ -9,5 +9,5 @@ interface EventContract
 
     static public function allowsException() : bool;
 
-    static public function conditions();
+    public function conditions();
 }

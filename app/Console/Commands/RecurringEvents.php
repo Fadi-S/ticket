@@ -120,6 +120,7 @@ class RecurringEvents extends Command
                     'number_of_places' => $template->number_of_places,
                     'deacons_number' => $template->deacons_number,
                     'published_at' => $day->hours(8),
+                    'church_id' => $template->church_id,
                 ]);
             }
 

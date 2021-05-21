@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Reservations\Conditions\{EnoughSpaceInEvent,
     EventDateHasNotPassed,
+    HaveEventTickets,
     HaveMassTickets,
     IsDeaconReservation,
     MustHaveFullName,
@@ -35,20 +36,5 @@ class Mass extends Event implements EventContract
     static public function maxReservations(): int
     {
         return config('settings.mass.max_reservations_per_period');
-    }
-
-    static public function conditions()
-    {
-        return [
-            //MustHaveNationalID::class,
-            MustHaveFullName::class,
-            EventDateHasNotPassed::class,
-            NotAlreadyReserved::class,
-            ReservedByAdmin::class,
-            EnoughSpaceInEvent::class,
-            IsDeaconReservation::class,
-            QualifiesForException::class,
-            HaveMassTickets::class,
-        ];
     }
 }

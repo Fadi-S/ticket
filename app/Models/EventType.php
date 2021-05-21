@@ -23,4 +23,10 @@ class EventType extends Model
         return $this->belongsToMany(Period::class, 'period_type', 'period_id', 'type_id')
             ->withPivot('max_reservations');
     }
+
+    public function conditions()
+    {
+        return $this->belongsToMany(Condition::class, 'condition_type', 'condition_id', 'type_id')
+            ->withPivot(['church_id', 'order']);
+    }
 }

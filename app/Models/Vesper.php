@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Reservations\Conditions\{EnoughSpaceInEvent,
     EventDateHasNotPassed,
+    HaveEventTickets,
     HaveVesperTickets,
     IsDeaconReservation,
     MustHaveFullName,
@@ -34,20 +35,5 @@ class Vesper extends Event implements EventContract
     static public function maxReservations(): int
     {
         return config('settings.vesper.max_reservations_per_period');
-    }
-
-    static public function conditions()
-    {
-        return [
-            //MustHaveNationalID::class,
-            MustHaveFullName::class,
-            EventDateHasNotPassed::class,
-            NotAlreadyReserved::class,
-            ReservedByAdmin::class,
-            EnoughSpaceInEvent::class,
-            IsDeaconReservation::class,
-            QualifiesForException::class,
-            HaveVesperTickets::class,
-        ];
     }
 }

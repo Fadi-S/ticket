@@ -20,6 +20,8 @@ class AddChurchIdToTables extends Migration
         Schema::table('users', $addColumn);
 
         Schema::table('events', $addColumn);
+
+        Schema::table('templates', $addColumn);
     }
 
     /**
@@ -34,5 +36,7 @@ class AddChurchIdToTables extends Migration
         Schema::table('users', $dropColumn);
 
         Schema::table('events', $dropColumn);
+
+        Schema::table('templates', $dropColumn);
     }
 }

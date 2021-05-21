@@ -181,8 +181,12 @@ class Event extends Model implements EventContract
         return $order[$eventsCount];
     }
 
-    static public function conditions()
+    public function conditions()
     {
-        return [];
+        return $this->type->conditions()
+            ->where('church_id', '=', $this->church_id)
+            ->orderBy('order')
+            ->pluck('path')
+            ->toArray();
     }
 }

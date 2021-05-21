@@ -31,6 +31,18 @@ class Ticket
         return $left >= 0 ? $left : 0;
     }
 
+    public function event($type, $date=null){
+        $method = [
+            1 => 'mass',
+            2 => 'kiahk',
+            3 => 'baskha',
+            4 => 'vesper',
+            5 => 'baskhaOccasion',
+        ][$type] ?? 'mass';
+
+        return $this->$method($date);
+    }
+
     public function mass($month=null)
     {
         $period = Period::current($month);
