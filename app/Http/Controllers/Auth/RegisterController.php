@@ -6,6 +6,7 @@ use App\Events\UserRegistered;
 use App\Helpers\NormalizePhoneNumber;
 use App\Helpers\StandardRegex;
 use App\Http\Controllers\Controller;
+use App\Models\Location;
 use App\Models\Login;
 use App\Providers\RouteServiceProvider;
 use App\Models\User\User;
@@ -28,6 +29,15 @@ class RegisterController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
+
+
+    public function showRegistrationForm()
+    {
+        return view('auth.register', [
+            'locations' => Location::orderBy('name')->get(),
+        ]);
+    }
+
 
     /**
      * Create a new controller instance.
@@ -60,6 +70,7 @@ class RegisterController extends Controller
             'national_id' => ['nullable', 'regex:/' . StandardRegex::NATIONAL_ID . '/', 'unique:users', new NationalIDValidation,],
             'password' => ['required', 'string', 'min:' . User::$minPassword, 'confirmed'],
             'gender' => ['required', Rule::in([1, 0]),],
+            'location_id' => ['required', 'exists:locations,id',],
         ]);
     }
 
@@ -77,6 +88,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'phone' => $data['phone'],
             'gender' => $data['gender'],
+            'location_id' => $data['location_id'],
             'national_id' => $data['national_id'] ?? null,
             'username' => $data['username'],
             'password' => $data['password'],

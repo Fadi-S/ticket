@@ -5,6 +5,7 @@ namespace App\Models\User;
 
 
 use App\Helpers\NormalizePhoneNumber;
+use App\Models\Location;
 use App\Models\Login;
 
 trait UserAttributes
@@ -137,6 +138,11 @@ trait UserAttributes
     public function creator()
     {
         return $this->belongsTo(self::class, 'creator_id', 'id');
+    }
+
+    public function location()
+    {
+        return $this->belongsTo(Location::class);
     }
 
     public function users()

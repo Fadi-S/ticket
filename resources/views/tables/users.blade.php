@@ -103,6 +103,12 @@
         </div>
 </x-table.td>
 
+<x-table.td>
+        <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                {{ ($row->location) ? $row->location->name : '-' }}
+        </div>
+</x-table.td>
+
 @if(auth()->user()->can("users.view"))
         <x-table.td>
                 <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
