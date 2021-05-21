@@ -61,11 +61,10 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         $data['phone'] = NormalizePhoneNumber::create($data['phone'] ?? '')->handle();
-        $data['username'] = User::makeSlug($data['name']);
+        $data['username'] = User::makeSlug($data['arabic_name']);
         \request()->request->set('username', $data['username']);
 
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:191', new Fullname, new EnglishOnly],
             'arabic_name' => ['required', 'string', 'max:191', new Fullname, new ArabicOnly],
             'email' => ['nullable', 'string', 'email', 'max:191', 'unique:users'],
             'phone' => ['required', 'string', 'regex:/' . StandardRegex::PHONE_NUMBER . '/', 'unique:users'],
@@ -86,7 +85,6 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
             'arabic_name' => $data['arabic_name'],
             'email' => $data['email'],
             'phone' => $data['phone'],

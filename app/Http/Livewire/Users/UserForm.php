@@ -77,7 +77,7 @@ class UserForm extends Component
         }
 
         if($this->isCreate) {
-            $this->user->username = User::makeSlug($this->user->name, $this->user->id);
+            $this->user->username = User::makeSlug($this->user->arabic_name, $this->user->id);
         }
 
         if(!$this->user->isSignedIn() && auth()->user()->isUser()) {
@@ -129,11 +129,6 @@ class UserForm extends Component
     protected function rules()
     {
         $rules = [
-            'user.name' => [
-                'required',
-                new Fullname,
-                new EnglishOnly
-            ],
             'user.arabic_name' => [
                 'required',
                 new Fullname,

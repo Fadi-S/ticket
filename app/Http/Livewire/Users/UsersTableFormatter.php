@@ -80,12 +80,8 @@ class UsersTableFormatter extends DataTableComponent
             Column::make(__('ID'), 'id')
                 ->sortable()
                 ->searchable($search),
-            Column::make(__('Name'), 'name')
+            Column::make(__('Name'), 'arabic_name')
                 ->sortable()
-                ->searchable($search),
-            Column::make(__('Arabic Name'), 'arabic_name')
-                ->sortable()
-                ->addClass('hidden sm:table-cell')
                 ->searchable($search),
             Column::make(__('Phone'), 'phone')
                 ->sortable()
