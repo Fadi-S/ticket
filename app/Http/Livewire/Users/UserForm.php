@@ -43,7 +43,7 @@ class UserForm extends Component
 
     public function render()
     {
-        $locations = collect([0 => '-']);
+        $locations = collect([0 => 'المنطقة']);
         $locations->push(...Location::pluck('name', 'id')->toArray());
 
         return view('livewire.users.user-form', [

@@ -33,7 +33,7 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        $locations = collect([0 => '-']);
+        $locations = collect([0 => 'المنطقة']);
         $locations->push(...Location::pluck('name', 'id')->toArray());
 
         return view('auth.register', [
