@@ -22,13 +22,15 @@
         </div>
 
         <div class="flex items-center justify-end">
-{{--            <div class="text-sm w-10/12">--}}
-{{--                <a href="{{ url('/register') }}"--}}
-{{--                   class="font-medium dark:text-blue-400 dark:hover:text-blue-300--}}
-{{--                    text-blue-800 hover:text-blue-700">--}}
-{{--                    {{ __('Sign Up for new account') }}--}}
-{{--                </a>--}}
-{{--            </div>--}}
+            @if(config('settings.allow_users_to_create_accounts'))
+            <div class="text-sm w-10/12">
+                <a href="{{ url('/register') }}"
+                   class="font-medium dark:text-blue-400 dark:hover:text-blue-300
+                    text-blue-800 hover:text-blue-700">
+                    {{ __('Sign Up for new account') }}
+                </a>
+            </div>
+            @endif
 
 
             <div class="flex justify-end text-sm w-10/12">

@@ -12,4 +12,6 @@ return [
     'dark_theme_photo' => env('DARK_THEME_PHOTO', '/images/resurrection-500-min.jpg'),
 
     'users_limit' => 10,
+
+    'allow_users_to_create_accounts' => env('ALLOW_USERS_TO_CREATE_ACCOUNTS', true),
 ];

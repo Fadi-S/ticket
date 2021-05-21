@@ -6,7 +6,7 @@
             @csrf
 
             <div class="space-y-6">
-                @if(auth()->user()->can('users.create'))
+                @if(auth()->user()->can('create', \App\Models\User\User::class))
                     <x-button id="open-user-btn" type="button" @click="$dispatch('openuser')"
                               color="bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 text-white">
                         <x-slot name="svg">
@@ -245,7 +245,7 @@
                     </x-slot>
                 </x-layouts.modal>
 
-            @if(auth()->user()->can('users.*'))
+                @if(auth()->user()->can('create', \App\Models\User\User::class))
                 <x-layouts.modal id="user-form-modal" :force="true" size="w-full rounded-none sm:rounded-lg md:max-w-2xl
                  lg:max-w-4xl my-2 sm:max-w-xl" @openUser.window="open=true" @closeUser.window="open=false">
                     <x-slot name="dialog">
