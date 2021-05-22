@@ -27,7 +27,7 @@
             <div class="space-y-6">
                 <div class="grid lg:grid-cols-2 grid-cols-1 gap-4">
 
-                    @if($this->showField('user.name'))
+                    @if(false && $this->showField('user.name'))
                         <x-form.input wire:model.lazy="user.name" required type="text"
                                       :error="$errors->get('user.name')"
                                       size="col-span-1" name="name" id="name" dir="ltr"

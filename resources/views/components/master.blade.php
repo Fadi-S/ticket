@@ -47,7 +47,7 @@
             <a href="{{ url('/') }}">
                 <div class="flex items-center justify-center">
                     <div class="flex items-center m-4">
-                        <img class="rounded-full w-1/4" src="{{ asset("images/stg_logo-250.png") }}" alt="">
+                        <img class="rounded-full w-1/4" src="{{ asset("images/koba_logo-250.png") }}" alt="">
                         <span class="w-3/4 text-gray-200 ltr:ml-6 rtl:mr-6 text-2xl font-semibold">Ticket</span>
                     </div>
                 </div>
