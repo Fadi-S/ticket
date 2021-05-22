@@ -34,7 +34,9 @@ class RegisterController extends Controller
     public function showRegistrationForm()
     {
         $locations = collect([0 => 'المنطقة']);
-        $locations->push(...Location::pluck('name', 'id')->toArray());
+        $locs = Location::pluck('name', 'id');
+        foreach ($locs as $key => $location)
+            $locations->put($key, $location);
 
         return view('auth.register', [
             'locations' => $locations,
