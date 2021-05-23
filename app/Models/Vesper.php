@@ -2,7 +2,15 @@
 
 namespace App\Models;
 
-use App\Reservations\Conditions\{EnoughSpaceInEvent, EventDateHasNotPassed, HaveVesperTickets, MustHaveFullName, MustHaveNationalID, NotAlreadyReserved, QualifiesForException, ReservedByAdmin};
+use App\Reservations\Conditions\{EnoughSpaceInEvent,
+    EventDateHasNotPassed,
+    HaveVesperTickets,
+    IsDeaconReservation,
+    MustHaveFullName,
+    MustHaveNationalID,
+    NotAlreadyReserved,
+    QualifiesForException,
+    ReservedByAdmin};
 use App\Reservations\EventContract;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,6 +31,11 @@ class Vesper extends Event implements EventContract
         );
     }
 
+    static public function maxReservations(): int
+    {
+        return config('settings.vesper.max_reservations_per_period');
+    }
+
     static public function conditions()
     {
         return [
@@ -32,6 +45,7 @@ class Vesper extends Event implements EventContract
             NotAlreadyReserved::class,
             ReservedByAdmin::class,
             EnoughSpaceInEvent::class,
+            IsDeaconReservation::class,
             QualifiesForException::class,
             HaveVesperTickets::class,
         ];
