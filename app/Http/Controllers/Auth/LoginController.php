@@ -39,16 +39,19 @@ class LoginController extends Controller
 
         if(filter_var($request->input('email'), FILTER_VALIDATE_EMAIL)) {
             $field = 'email';
-        }
+        } else {
 
-        if(is_numeric($request->input('email'))) {
-            if(preg_match('/'. StandardRegex::NATIONAL_ID . '/', $request->input('email'))) {
-                $field = 'national_id';
+            $value = strtr($value, ['٠'=>'0', '١'=>'1', '٢'=>'2', '٣'=>'3', '٤'=>'4', '٥'=>'5', '٦'=>'6', '٧'=>'7', '٨'=>'8', '٩'=>'9']);
 
-            }else {
-                $field = 'phone';
+            if(is_numeric($value)) {
+                if(preg_match('/'. StandardRegex::NATIONAL_ID . '/', $request->input('email'))) {
+                    $field = 'national_id';
 
-                $value = NormalizePhoneNumber::create($value)->handle();
+                }else {
+                    $field = 'phone';
+
+                    $value = NormalizePhoneNumber::create($value)->handle();
+                }
             }
         }
 
