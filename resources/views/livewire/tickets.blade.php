@@ -95,6 +95,11 @@
                 'background' => 'bg-gray-200 dark:bg-gray-300',
                 'text' => 'text-gray-500 dark:text-gray-800',
             ],
+            [
+                'border' => 'border-indigo-500 dark:border-indigo-800',
+                'background' => 'bg-indigo-200 dark:bg-indigo-800',
+                'text' => 'text-indigo-500 dark:text-indigo-300',
+            ],
         ];
     @endphp
 
