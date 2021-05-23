@@ -103,21 +103,17 @@ class Tickets extends Component
 
     private function getTickets()
     {
-        return $this->getTicketsByRole('user', 'super-admin', 'agent');
+        return $this->getTicketsByRole();
     }
 
     private function getDeaconTickets()
     {
-        return $this->getTicketsByRole('deacon', 'deacon-admin');
+        return $this->getTicketsByRole(true);
     }
 
-    private function getTicketsByRole(...$roles)
+    private function getTicketsByRole($deacons=false)
     {
-        if(!is_array($roles))
-            $roles = [$roles];
-
         $userFunction = fn($query) => $query
-            ->role($roles)
             ->when(auth()->user()->can('tickets.view') && $this->search,
                 fn($query) => $query->searchDatabase($this->search)
             );
@@ -125,8 +121,8 @@ class Tickets extends Component
         return Ticket::with('event', 'reservedBy')
             ->with(['reservations.user' => $userFunction])
             ->whereHas('reservations',
-                function($query) use ($roles, $userFunction) {
-                    $query->whereHas('user', $userFunction);
+                function($query) use ($deacons, $userFunction) {
+                    $query->where('is_deacon', $deacons)->whereHas('user', $userFunction);
                 })->whereHas('event',
                 fn($query) => $query
                     ->when(!$this->old, fn($query) => $query->upcoming())

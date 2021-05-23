@@ -12,7 +12,7 @@ class Event extends Model implements EventContract
     use SoftDeletes, LogsActivity;
 
     protected $table = "events";
-    protected $fillable = ["start", "end", "number_of_places", "description", "type_id", "overload", "published_at"];
+    protected $fillable = ["start", "end", "number_of_places", "deacons_number", "description", "type_id", "overload", "published_at"];
     protected $dates = ['start', 'end', 'published_at'];
 
     protected static $logFillable = true;
@@ -21,7 +21,6 @@ class Event extends Model implements EventContract
 
     protected $with = ['type'];
 
-    public int $deaconNumber = 10;
     public bool $hasDeacons = true;
 
     public function scopeUpcoming($query)
@@ -39,6 +38,11 @@ class Event extends Model implements EventContract
     public function period()
     {
         return Period::current($this->start);
+    }
+
+    public function getDeaconNumberAttribute()
+    {
+        return $this->deacons_number;
     }
 
     static public function maxReservations(): int
@@ -64,22 +68,35 @@ class Event extends Model implements EventContract
 
     public function getReservationsLeftAttribute()
     {
-        $roles = ['user', 'agent', 'super-admin'];
-
-        if(! $this->hasDeacons) {
-            array_push($roles, 'deacon', 'deacon-admin');
-        }
-
-        return $this->number_of_places - $this
-                ->reservationsCountForRole(...$roles);
+        return $this->number_of_places - $this->getReservationsCount();
     }
 
     public function getDeaconReservationsLeftAttribute()
     {
         if($this->hasDeacons)
-            return $this->deaconNumber - $this->reservationsCountForRole('deacon', 'deacon-admin');
+            return $this->deacons_number - $this->getReservationsCount(true);
 
         return $this->reservationsLeft;
+    }
+
+    public function getReservationsCount($deacon=false)
+    {
+        $count = 0;
+
+        $tickets = $this->tickets()
+            ->withCount([
+                'reservations' =>
+                    fn($query) => $query->where('is_deacon', '=', $deacon)
+            ])
+            ->whereHas('reservations', fn ($query) =>
+                $query->where('is_deacon', '=', $deacon)
+            )->get();
+
+        foreach ($tickets as $ticket) {
+            $count += $ticket->reservations_count;
+        }
+
+        return $count;
     }
 
     public function reservationsCountForRole(...$role)
