@@ -8,6 +8,7 @@ use App\Models\BaskhaOccasion;
 use App\Models\Event;
 use App\Models\Kiahk;
 use App\Models\Mass;
+use App\Models\MassOpen;
 use App\Models\Template;
 use App\Models\User\User;
 use App\Models\Vesper;
@@ -28,6 +29,7 @@ class EventsController extends Controller
             'kiahk' => Kiahk::class,
             'baskha' => Baskha::class,
             'holy' => BaskhaOccasion::class,
+            'masses-open' => MassOpen::class,
         ][$this->url] ?? Event::class;
 
         $reflection = new \ReflectionClass($this->model);
