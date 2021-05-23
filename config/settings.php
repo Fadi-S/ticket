@@ -6,10 +6,18 @@ return [
         'max_reservations_per_period' => 1,
     ],
 
+    'mass' => [
+        'max_reservations_per_period' => 2,
+    ],
+
+    'vesper' => [
+        'max_reservations_per_period' => 1,
+    ],
+
     'google_api_token' => env('GOOGLE_API_TOKEN', null),
 
-    'light_theme_photo' => env('LIGHT_THEME_PHOTO', '/images/resurrection-500-min.jpg'),
-    'dark_theme_photo' => env('DARK_THEME_PHOTO', '/images/resurrection-500-min.jpg'),
+    'light_theme_photo' => env('LIGHT_THEME_PHOTO', '/images/saintmarc.jpg'),
+    'dark_theme_photo' => env('DARK_THEME_PHOTO', '/images/saintmarc.jpg'),
 
     'users_limit' => 10,
 
