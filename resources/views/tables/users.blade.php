@@ -46,7 +46,7 @@
                 <div class="ml-4 space-y-2">
                         <div class="flex items-center">
                                 <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                        {{ $row->name }}
+                                        {{ $row->arabic_name }}
                                 </div>
                                 @if($row->isActive())
                                         <x-layouts.verified class="mx-1" />
@@ -60,19 +60,10 @@
                                         </button>
                                 @endif
                         </div>
-                        <div class="dark:text-gray-300 font-semibold text-gray-500 text-sm sm:hidden">
-                                {{ $row->arabic_name }}
-                        </div>
                         <div class="text-xs text-gray-500 dark:text-gray-400">
                                 {{ $row->email }}
                         </div>
                 </div>
-        </div>
-</x-table.td>
-
-<x-table.td class="hidden sm:table-cell">
-        <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                {{ $row->arabic_name }}
         </div>
 </x-table.td>
 

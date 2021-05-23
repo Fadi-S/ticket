@@ -30,6 +30,7 @@ class MassReservationTest extends TestCase
         $this->user->assignRole('user');
         $this->actingAs($this->user);
 
+        config(['settings.mass.max_reservations_per_period' => 1]);
     }
 
     /** @test */
@@ -178,22 +179,22 @@ class MassReservationTest extends TestCase
     /** @test */
     function events_in_the_start_and_end_of_period_counts_towards_user_quota()
     {
-        $date = now()->hours(8);
+        $date = now()->addDay()->hours(8);
 
         Period::create([
             'name' => 'Test Period',
-            'start' => $date->startOfDay(),
-            'end' => $date->copy()->addWeek()->endOfDay(),
+            'start' => $date->copy()->addDay()->startOfDay(),
+            'end' => $date->copy()->addDay()->addWeek()->endOfDay(),
         ]);
 
         $eventInBeginning = Mass::factory()->create([
-            'start' => $date->copy()->hours(8),
-            'end' => $date->copy()->addHours(2),
+            'start' => $date->copy()->addDay()->hours(8),
+            'end' => $date->copy()->addDay()->addHours(2),
         ]);
 
         $eventInEnd = Mass::factory()->create([
-            'start' => $date->copy()->addWeek(),
-            'end' => $date->copy()->addWeek()->addHour(),
+            'start' => $date->copy()->addDay()->addWeek(),
+            'end' => $date->copy()->addDay()->addWeek()->addHour(),
         ]);
 
         config()->set('settings.allow_for_exceptions', false);
