@@ -126,6 +126,7 @@
                     <x-table.th>{{ __('Description') }}</x-table.th>
                     <x-table.th>{{ __('Day Of Week') }}</x-table.th>
                     <x-table.th>{{ __('Number of Places') }}</x-table.th>
+                    <x-table.th>{{ __('Deacon Places') }}</x-table.th>
                     <x-table.th>{{ __('Active') }}</x-table.th>
                 @can('events.edit')
                         <x-table.th>{{ __('Edit') }}</x-table.th>
@@ -160,6 +161,12 @@
 
                             <div class="dark:text-gray-400 font-semibold text-gray-500 text-sm">
                                 +{{ $template->overload * 100 }}%
+                            </div>
+                        </x-table.td>
+
+                        <x-table.td dir="ltr" className="rtl:text-right">
+                            <div dir="ltr" class="rtl:text-right text-sm font-medium text-gray-900 dark:text-gray-100">
+                                {{ $template->deacons_number }}
                             </div>
                         </x-table.td>
 
