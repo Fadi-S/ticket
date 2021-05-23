@@ -2,16 +2,24 @@
 
 return [
     'event' => [
-        'allow_for_exceptions' => true,
-        'max_reservations_per_period' => 1,
+        'allow_for_exceptions' => env('EVENT_ALLOW_EXCEPTION', true),
+        'max_reservations_per_period' => env('EVENT_MAX_RESERVATIONS_PER_PERIOD', 1),
     ],
 
-    'google_api_token' => env('GOOGLE_API_TOKEN', null),
+    'mass' => [
+        'max_reservations_per_period' => env('MASS_MAX_RESERVATIONS_PER_PERIOD', 1),
+    ],
 
-    'light_theme_photo' => env('LIGHT_THEME_PHOTO', '/images/resurrection-500-min.jpg'),
-    'dark_theme_photo' => env('DARK_THEME_PHOTO', '/images/resurrection-500-min.jpg'),
+    'vesper' => [
+        'max_reservations_per_period' => env('Vesper_MAX_RESERVATIONS_PER_PERIOD', 1),
+    ],
 
-    'users_limit' => 10,
+    'google_api_token' => env('GOOGLE_API_TOKEN'),
+
+    'light_theme_photo' => env('LIGHT_THEME_PHOTO'),
+    'dark_theme_photo' => env('DARK_THEME_PHOTO'),
+
+    'users_limit' => env('CREATE_USERS_LIMIT', 10),
 
     'allow_users_to_create_accounts' => env('ALLOW_USERS_TO_CREATE_ACCOUNTS', true),
 
