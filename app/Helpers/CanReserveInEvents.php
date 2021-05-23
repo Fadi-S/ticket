@@ -42,7 +42,8 @@ trait CanReserveInEvents
 
         $reservation = new Reservation(
             array_merge([
-                'ticket_id' => $ticket->id
+                'ticket_id' => $ticket->id,
+                'is_deacon' => $this->isDeacon(),
             ], $output->body() ?? []));
 
         $this->reservations()->save($reservation);

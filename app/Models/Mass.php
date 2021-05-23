@@ -22,8 +22,6 @@ class Mass extends Event implements EventContract
 
     public static int $type = 1;
     public bool $hasDeacons = true;
-    public int $deaconNumber = 20;
-
 
     protected $attributes = ['type_id' => 1];
 
@@ -37,18 +35,6 @@ class Mass extends Event implements EventContract
     static public function maxReservations(): int
     {
         return config('settings.mass.max_reservations_per_period');
-    }
-
-    public function getReservationsLeftAttribute()
-    {
-        $roles = ['user', 'agent', 'super-admin'];
-
-        if(! $this->hasDeacons) {
-            array_push($roles, 'deacon', 'deacon-admin');
-        }
-
-        return $this->number_of_places - $this
-                ->reservationsCountForRole(...$roles);
     }
 
     static public function conditions()

@@ -98,6 +98,7 @@ class TemplatesForm extends Component
         return [
             'template.description' => 'required',
             'template.number_of_places' => 'required|numeric',
+            'template.deacons_number' => 'required|numeric',
             'template.overload' => 'required|numeric|between:0,100',
             'start' => 'required',
             'end' => 'required',

@@ -13,7 +13,7 @@ class Fullname implements Rule
      *
      * @param int $number
      */
-    public function __construct($number=4)
+    public function __construct($number=3)
     {
         $this->number = $number;
     }
@@ -37,6 +37,6 @@ class Fullname implements Rule
      */
     public function message()
     {
-        return __('You must write your full name (4 names).');
+        return __('You must write your full name (3 names).');
     }
 }
