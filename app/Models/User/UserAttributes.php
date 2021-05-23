@@ -76,7 +76,7 @@ trait UserAttributes
     {
         $isFirstName = fn($name) => count(explode(' ', $name)) < 3;
 
-        return $isFirstName($this->name) || $isFirstName($this->arabic_name);
+        return $isFirstName($this->arabic_name);
     }
 
     public function setPasswordAttribute($password)
@@ -111,10 +111,7 @@ trait UserAttributes
 
     public function getLocaleNameAttribute()
     {
-        if(! $this->arabic_name)
-            return $this->name;
-
-        return app()->getLocale() === 'ar' ? $this->arabic_name : $this->name;
+        return $this->arabic_name;
     }
 
     public function getSmartNameAttribute()
