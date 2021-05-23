@@ -46,6 +46,7 @@ class Mass extends Event implements EventContract
             NotAlreadyReserved::class,
             ReservedByAdmin::class,
             EnoughSpaceInEvent::class,
+            IsDeaconReservation::class,
             QualifiesForException::class,
             IsDeaconReservation::class,
             HaveMassTickets::class,

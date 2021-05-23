@@ -45,6 +45,7 @@ class Vesper extends Event implements EventContract
             NotAlreadyReserved::class,
             ReservedByAdmin::class,
             EnoughSpaceInEvent::class,
+            IsDeaconReservation::class,
             QualifiesForException::class,
             IsDeaconReservation::class,
             HaveVesperTickets::class,
