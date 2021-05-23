@@ -11,10 +11,11 @@ class Fullname implements Rule
     /**
      * Create a new rule instance.
      *
-     * @param int $number
      */
-    public function __construct($number=3)
+    public function __construct()
     {
+        $number = config('settings.full_name_number');
+
         $this->number = $number;
     }
 
@@ -37,6 +38,6 @@ class Fullname implements Rule
      */
     public function message()
     {
-        return __('You must write your full name (3 names).');
+        return __('You must write your full name (' . $this->number . ' names).');
     }
 }
