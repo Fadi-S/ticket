@@ -22,4 +22,6 @@ return [
     'users_limit' => 10,
 
     'allow_users_to_create_accounts' => env('ALLOW_USERS_TO_CREATE_ACCOUNTS', true),
+
+    'full_name_number' => env('FULL_NAME_NUMBER', 3),
 ];
