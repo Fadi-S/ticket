@@ -21,8 +21,6 @@ class Mass extends Event implements EventContract
 
     public static int $type = 1;
     public bool $hasDeacons = true;
-    public int $deaconNumber = 4;
-
 
     protected $attributes = ['type_id' => 1];
 
@@ -31,18 +29,6 @@ class Mass extends Event implements EventContract
         static::addGlobalScope('event_type',
             fn (Builder $builder) => $builder->where('type_id', self::$type)
         );
-    }
-
-    public function getReservationsLeftAttribute()
-    {
-        $roles = ['user', 'agent', 'super-admin'];
-
-        if(! $this->hasDeacons) {
-            array_push($roles, 'deacon', 'deacon-admin');
-        }
-
-        return $this->number_of_places - $this
-                ->reservationsCountForRole(...$roles);
     }
 
     static public function conditions()
