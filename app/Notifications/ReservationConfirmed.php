@@ -42,19 +42,17 @@ class ReservationConfirmed extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $eventType = $this->ticket->event->type->locale_name;
+        $eventName = $this->ticket->event->description;
 
         return (new MailMessage)
-                    ->subject(__(':type Reservation Invoice', ['type' => $eventType]))
+                    ->subject(__(':type Reservation Invoice', ['type' => $eventName]))
 
                     ->greeting(__('Hello :name,', ['name' => $notifiable->locale_name]))
 
                     ->line(__('You have reserved in the :type day :date', [
-                        'type' => $eventType,
-                        'date' => $this->ticket->event->start->format('d/m/Y h:i a')
-                    ]))
-
-                    ->line(__('Thank You'));
+                        'type' => $eventName,
+                        'date' => $this->ticket->event->start->translatedFormat('D d M')
+                    ]));
     }
 
     /**
