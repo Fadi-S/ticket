@@ -32,7 +32,7 @@ class LoginsChart extends BaseChart
             $days->push($date->copy());
         }
 
-        $logins = Login::whereBetween('time', [$days->first(), $days->last()])->pluck('time');
+        $logins = Login::whereBetween('time', [$days->first()->startOfDay(), $days->last()->endOfDay()])->pluck('time');
 
         $loginsPerHour = collect();
 
