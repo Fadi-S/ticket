@@ -80,6 +80,9 @@ Route::middleware(["auth", EnsurePhoneNumberIsVerified::class])->group(function(
     Route::resource("holy", EventsController::class)
         ->parameters(['holy' => 'event'])
         ->only($eventResources);
+    Route::resource("masses-open", EventsController::class)
+        ->parameters(['masses-open' => 'event'])
+        ->only($eventResources);
 
     Route::get("tickets", Tickets::class);
 

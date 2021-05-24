@@ -2,27 +2,30 @@
 
 namespace App\Models;
 
-use App\Reservations\Conditions\{EnoughSpaceInEvent,
+use App\Reservations\Conditions\{AllowAll,
+    EnoughSpaceInEvent,
     EventDateHasNotPassed,
-    HaveBaskhaOccasionTickets,
-    HaveBaskhaTickets,
+    HaveMassTickets,
     IsDeaconReservation,
+    MustHaveFullName,
+    MustHaveNationalID,
     NotAlreadyReserved,
     QualifiesForException,
+    ReservationStillOpen,
     ReservedByAdmin,
     UserIsActive};
 use App\Reservations\EventContract;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class BaskhaOccasion extends Event implements EventContract
+class MassOpen extends Event implements EventContract
 {
     use HasFactory;
 
-    protected $attributes = ['type_id' => 5];
-    public static int $type = 5;
+    public static int $type = 6;
+    public bool $hasDeacons = true;
 
-    public int $deaconNumber = 0;
+    protected $attributes = ['type_id' => 6];
 
     protected static function booted()
     {
@@ -33,30 +36,21 @@ class BaskhaOccasion extends Event implements EventContract
 
     static public function maxReservations(): int
     {
-        return 1;
-    }
-
-    static public function hoursForException(): int
-    {
-        return 16;
-    }
-
-    static public function allowsException(): bool
-    {
-        return true;
+        return 7;
     }
 
     static public function conditions()
     {
         return [
+            //MustHaveNationalID::class,
             UserIsActive::class,
+            MustHaveFullName::class,
             EventDateHasNotPassed::class,
             NotAlreadyReserved::class,
             ReservedByAdmin::class,
             EnoughSpaceInEvent::class,
             IsDeaconReservation::class,
-            QualifiesForException::class,
-            HaveBaskhaOccasionTickets::class,
+            AllowAll::class,
         ];
     }
 }

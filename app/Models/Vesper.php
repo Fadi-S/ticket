@@ -10,7 +10,8 @@ use App\Reservations\Conditions\{EnoughSpaceInEvent,
     MustHaveNationalID,
     NotAlreadyReserved,
     QualifiesForException,
-    ReservedByAdmin};
+    ReservedByAdmin,
+    UserIsActive};
 use App\Reservations\EventContract;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,8 +22,8 @@ class Vesper extends Event implements EventContract
 
     protected $attributes = ['type_id' => 4];
     public static int $type = 4;
-    public bool $hasDeacons = false;
-    public int $deaconNumber = 4;
+    public bool $hasDeacons = true;
+    public int $deaconNumber = 20;
 
     protected static function booted()
     {
@@ -40,6 +41,7 @@ class Vesper extends Event implements EventContract
     {
         return [
             //MustHaveNationalID::class,
+            UserIsActive::class,
             MustHaveFullName::class,
             EventDateHasNotPassed::class,
             NotAlreadyReserved::class,
@@ -47,6 +49,7 @@ class Vesper extends Event implements EventContract
             EnoughSpaceInEvent::class,
             IsDeaconReservation::class,
             QualifiesForException::class,
+            IsDeaconReservation::class,
             HaveVesperTickets::class,
         ];
     }

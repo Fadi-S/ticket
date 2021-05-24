@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Reservations\Conditions\{EnoughSpaceInEvent, EventDateHasNotPassed, HaveBaskhaTickets, IsDeaconReservation, NotAlreadyReserved, QualifiesForException, ReservedByAdmin};
+use App\Reservations\Conditions\{EnoughSpaceInEvent, EventDateHasNotPassed, HaveBaskhaTickets, IsDeaconReservation, NotAlreadyReserved, QualifiesForException, ReservedByAdmin, UserIsActive};
 use App\Reservations\EventContract;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -42,6 +42,7 @@ class Baskha extends Event implements EventContract
     static public function conditions()
     {
         return [
+            UserIsActive::class,
             EventDateHasNotPassed::class,
             NotAlreadyReserved::class,
             ReservedByAdmin::class,

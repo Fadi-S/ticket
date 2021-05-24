@@ -47,7 +47,7 @@
             <a href="{{ url('/') }}">
                 <div class="flex items-center justify-center">
                     <div class="flex items-center m-4">
-                        <img class="rounded-full w-1/4" src="{{ asset("images/stg_logo-250.png") }}" alt="">
+                        <img class="rounded-full w-1/4" src="{{ asset("images/koba_logo-250.png") }}" alt="">
                         <span class="w-3/4 text-gray-200 ltr:ml-6 rtl:mr-6 text-2xl font-semibold">Ticket</span>
                     </div>
                 </div>
@@ -134,6 +134,23 @@
                         @endcan
 
                         <x-navbar.child label="{{ __('View Masses') }}" href="{{ url('/masses') }}"/>
+
+                    </x-navbar.list>
+
+                    <x-navbar.list label="{{ __('Open Masses') }}">
+
+                        <x-slot name="svg">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
+                            </svg>
+                        </x-slot>
+
+                        @can("events.create")
+                            <x-navbar.child label="{{ __('Add Mass') }}" href="{{ url('/masses-open/create') }}"/>
+                        @endcan
+
+                        <x-navbar.child label="{{ __('View Masses') }}" href="{{ url('/masses-open') }}"/>
 
                     </x-navbar.list>
 
