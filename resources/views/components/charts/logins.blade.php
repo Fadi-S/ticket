@@ -14,12 +14,12 @@
                     type: 'line',
                     fill: true,
                     borderColor: '#1538a0',
-                    tension: 0,
+                    tension: 0.2,
                     pointRadius: 0,
-                    pointHitRadius: 4
+                    pointHitRadius: 6
                 }])
                 .beginAtZero()
-                .colors(['rgba(59,97,224,0.3)'])
+                .colors(['rgba(59,97,224,0.1)'])
                 .legend(false),
             loader: {
                 color: 'rgba(2,2,47,0.82)',
