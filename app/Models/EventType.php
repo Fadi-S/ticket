@@ -29,4 +29,40 @@ class EventType extends Model
         return $this->belongsToMany(Condition::class, 'condition_type', 'condition_id', 'type_id')
             ->withPivot(['church_id', 'order']);
     }
+
+    public function churches()
+    {
+        return $this->belongsToMany(Church::class, 'condition_type', 'church_id', 'type_id')
+            ->withPivot(['condition_id', 'order']);
+    }
+
+    public function getConditions($church_id=1)
+    {
+        return $this->conditions()
+            ->wherePivot('church_id', '=', $church_id)
+            ->orderBy('priority')
+            ->orderBy('order')
+            ->pluck('path')
+            ->toArray();
+    }
+
+    public function setConditions($conditions, $church_id=1)
+    {
+        $this->conditions()
+            ->wherePivot('church_id', '=', $church_id)
+            ->detach();
+
+        $order = 1;
+
+        foreach ($conditions as $condition)
+        {
+            $this->conditions()
+                ->attach($condition->id, [
+                    'order' => $order,
+                    'church_id' => $church_id,
+                ]);
+
+            $order++;
+        }
+    }
 }

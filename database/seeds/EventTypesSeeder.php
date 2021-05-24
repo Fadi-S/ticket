@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Baskha;
+use App\Models\BaskhaOccasion;
 use App\Models\EventType;
 use App\Models\Kiahk;
 use App\Models\Mass;
@@ -38,6 +39,12 @@ class EventTypesSeeder extends Seeder
             "name" => "Vesper",
             "arabic_name" => "عشية",
             'model' => Vesper::class,
+        ]);
+
+        EventType::create([
+            "name" => "Holy Week",
+            "arabic_name" => "أسبوع الالام",
+            'model' => BaskhaOccasion::class,
         ]);
     }
 }

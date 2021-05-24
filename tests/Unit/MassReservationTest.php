@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Models\Event;
+use App\Models\EventType;
 use App\Models\Mass;
 use App\Models\Period;
 use App\Models\Reservation;
@@ -29,15 +30,12 @@ class MassReservationTest extends TestCase
         $this->user = User::factory()->create(['name' => 'Test Name Full', 'arabic_name' => 'تيست اسم ثلاثي']);
         $this->user->assignRole('user');
         $this->actingAs($this->user);
-
     }
 
     /** @test */
     function a_user_can_reserve_in_an_event()
     {
         $ticket = Ticket::factory()->create();
-
-        dd($ticket->event->conditions());
 
         $this->assertCount(0, $this->user->reservations);
 

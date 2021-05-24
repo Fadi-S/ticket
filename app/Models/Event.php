@@ -183,10 +183,6 @@ class Event extends Model implements EventContract
 
     public function conditions()
     {
-        return $this->type->conditions()
-            ->where('church_id', '=', $this->church_id)
-            ->orderBy('order')
-            ->pluck('path')
-            ->toArray();
+        return $this->type->getConditions();
     }
 }
