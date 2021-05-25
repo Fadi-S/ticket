@@ -90,6 +90,7 @@ class ConditionsSeeder extends Seeder
             'priority' => 5,
         ]);
 
+        // Mass
         $type = EventType::find(1);
         $type->setConditions([
             $MustHaveFullName,
@@ -102,6 +103,33 @@ class ConditionsSeeder extends Seeder
             $HaveEventTickets,
         ]);
 
+        // Vesper
+        $type = EventType::find(4);
+        $type->setConditions([
+            $MustHaveFullName,
+            $EventDateHasNotPassed,
+            $NotAlreadyReserved,
+            $ReservedByAdmin,
+            $EnoughSpaceInEvent,
+            $IsDeaconReservation,
+            $QualifiesForException,
+            $HaveEventTickets,
+        ]);
+
+        // Kiahk
+        $type = EventType::find(2);
+        $type->setConditions([
+            $MustHaveFullName,
+            $EventDateHasNotPassed,
+            $NotAlreadyReserved,
+            $ReservedByAdmin,
+            $EnoughSpaceInEvent,
+            $IsDeaconReservation,
+            $QualifiesForException,
+            $HaveEventTickets,
+        ]);
+
+        // baskha
         $type = EventType::find(3);
         $type->setConditions([
             $MustHaveFullName,
@@ -114,28 +142,7 @@ class ConditionsSeeder extends Seeder
             $HaveEventTickets,
         ]);
 
-        $type = EventType::find(2);
-        $type->setConditions([
-            $MustHaveFullName,
-            $EventDateHasNotPassed,
-            $NotAlreadyReserved,
-            $ReservedByAdmin,
-            $EnoughSpaceInEvent,
-            $QualifiesForException,
-            $HaveEventTickets,
-        ]);
-
-        $type = EventType::find(4);
-        $type->setConditions([
-            $MustHaveFullName,
-            $EventDateHasNotPassed,
-            $NotAlreadyReserved,
-            $ReservedByAdmin,
-            $EnoughSpaceInEvent,
-            $QualifiesForException,
-            $HaveEventTickets,
-        ]);
-
+        // Baskha Occasion
         $type = EventType::find(5);
         $type->setConditions([
             $MustHaveFullName,
@@ -143,6 +150,7 @@ class ConditionsSeeder extends Seeder
             $NotAlreadyReserved,
             $ReservedByAdmin,
             $EnoughSpaceInEvent,
+            $IsDeaconReservation,
             $QualifiesForException,
             $HaveEventTickets,
         ]);
