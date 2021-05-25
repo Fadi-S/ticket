@@ -76,7 +76,7 @@ Route::middleware(["auth", EnsurePhoneNumberIsVerified::class])->group(function(
     Route::get('/friends', Friends::class);
 
     Route::resource("{type}", EventsController::class)
-        // ->parameters([$type->url => 'event'])
+        ->parameters(["{type}" => 'type'])
         ->only(['create', 'edit', 'index', 'store', 'update', 'destroy']);
 });
 
