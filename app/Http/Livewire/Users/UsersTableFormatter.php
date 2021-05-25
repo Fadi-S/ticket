@@ -108,7 +108,8 @@ class UsersTableFormatter extends DataTableComponent
             Column::make(__('Location of stay'), 'location_id')
                 ->sortable(),
             Column::make(__('Church'), 'church_id')
-                ->sortable(),
+                ->sortable()
+                ->hideIf(!auth()->user()->can("activateUser")),
             Column::make(__('Last Login'))
                 ->sortable(
                     fn(Builder $query, $direction) => $query->orderBy(
@@ -133,7 +134,7 @@ class UsersTableFormatter extends DataTableComponent
             return;
         }
 
-        $user->activated_at = now();
+        $user->activated_at = ($user->isActive() ? null : now());
         $user->save();
 
         $user->notify(new AccountActivated);
@@ -147,11 +148,11 @@ class UsersTableFormatter extends DataTableComponent
 
     public function addToChurch(User $user)
     {
-        if(! auth()->user()->can('users.church')) {
+        if(! auth()->user()->can('activateUser')) {
             return;
         }
 
-        $user->church_id = auth()->user()->church_id;
+        $user->church_id = (!! $user->church_id) ? null : auth()->user()->church_id;
         $user->save();
     }
 
