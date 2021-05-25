@@ -18,6 +18,16 @@ class EventType extends Model
         return app()->getLocale() === 'ar' ? $this->arabic_name : $name;
     }
 
+    public function getLocalePluralNameAttribute()
+    {
+        return app()->getLocale() === 'ar' ? $this->plural_name : $this->name;
+    }
+
+    public function scopeShown($query, $show=true)
+    {
+        $query->where('show', $show);
+    }
+
     public function periods()
     {
         return $this->belongsToMany(Period::class, 'period_type', 'period_id', 'type_id')
@@ -26,13 +36,13 @@ class EventType extends Model
 
     public function conditions()
     {
-        return $this->belongsToMany(Condition::class, 'condition_type', 'condition_id', 'type_id')
+        return $this->belongsToMany(Condition::class, 'condition_type', 'type_id', 'condition_id')
             ->withPivot(['church_id', 'order']);
     }
 
     public function churches()
     {
-        return $this->belongsToMany(Church::class, 'condition_type', 'church_id', 'type_id')
+        return $this->belongsToMany(Church::class, 'condition_type', 'type_id', 'church_id')
             ->withPivot(['condition_id', 'order']);
     }
 

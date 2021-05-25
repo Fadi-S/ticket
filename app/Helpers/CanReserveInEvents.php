@@ -26,7 +26,7 @@ trait CanReserveInEvents
 
     public function reserveIn($ticket)
     {
-        $output = $this->canReserveIn($ticket->event->specific());
+        $output = $this->canReserveIn($ticket->event);
 
         if(is_null($output)) {
             flash()->error("Something went wrong for $this->name");

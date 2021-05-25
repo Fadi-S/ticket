@@ -2,17 +2,18 @@
 
 namespace Database\Factories;
 
+use App\Models\Event;
 use App\Models\Mass;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class MassFactory extends Factory
+class EventFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Mass::class;
+    protected $model = Event::class;
 
     /**
      * Define the model's default state.
@@ -22,8 +23,8 @@ class MassFactory extends Factory
     public function definition()
     {
         return [
-            'start' => now()->startOfMonth()->addDays(15),
-            'end' => now()->startOfMonth()->addDays(15)->addHours(2),
+            'start' => now(),
+            'end' => now()->addHours(2),
             'number_of_places' => 120,
             'deacons_number' => 10,
             'overload' => 0.2,

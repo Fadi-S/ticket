@@ -90,7 +90,31 @@ class ConditionsSeeder extends Seeder
             'priority' => 4,
         ]);
 
-        $type = EventType::find(Mass::$type);
+        $type = EventType::find(1);
+        $type->setConditions([
+            $MustHaveFullName,
+            $EventDateHasNotPassed,
+            $NotAlreadyReserved,
+            $ReservedByAdmin,
+            $EnoughSpaceInEvent,
+            $IsDeaconReservation,
+            $QualifiesForException,
+            $HaveEventTickets,
+        ]);
+
+        $type = EventType::find(3);
+        $type->setConditions([
+            $MustHaveFullName,
+            $EventDateHasNotPassed,
+            $NotAlreadyReserved,
+            $ReservedByAdmin,
+            $EnoughSpaceInEvent,
+            $IsDeaconReservation,
+            $QualifiesForException,
+            $HaveEventTickets,
+        ]);
+
+        $type = EventType::find(2);
         $type->setConditions([
             $MustHaveFullName,
             $EventDateHasNotPassed,
@@ -101,7 +125,7 @@ class ConditionsSeeder extends Seeder
             $HaveEventTickets,
         ]);
 
-        $type = EventType::find(Vesper::$type);
+        $type = EventType::find(4);
         $type->setConditions([
             $MustHaveFullName,
             $EventDateHasNotPassed,
@@ -112,29 +136,7 @@ class ConditionsSeeder extends Seeder
             $HaveEventTickets,
         ]);
 
-        $type = EventType::find(Kiahk::$type);
-        $type->setConditions([
-            $MustHaveFullName,
-            $EventDateHasNotPassed,
-            $NotAlreadyReserved,
-            $ReservedByAdmin,
-            $EnoughSpaceInEvent,
-            $QualifiesForException,
-            $HaveEventTickets,
-        ]);
-
-        $type = EventType::find(Baskha::$type);
-        $type->setConditions([
-            $MustHaveFullName,
-            $EventDateHasNotPassed,
-            $NotAlreadyReserved,
-            $ReservedByAdmin,
-            $EnoughSpaceInEvent,
-            $QualifiesForException,
-            $HaveEventTickets,
-        ]);
-
-        $type = EventType::find(BaskhaOccasion::$type);
+        $type = EventType::find(5);
         $type->setConditions([
             $MustHaveFullName,
             $EventDateHasNotPassed,

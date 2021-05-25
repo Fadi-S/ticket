@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
+use App\Models\EventType;
 use App\Models\Mass;
 use App\Models\Period;
 use App\Models\User\User;
@@ -19,7 +20,6 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
         $num = app()->make('num');
-        $tickets = $user->tickets();
 
         $only = [];
         if($user->hasFirstNameOnly()) {
@@ -40,11 +40,16 @@ class DashboardController extends Controller
 
         $period = Period::current();
 
+        $shownTypes = EventType::shown()->get();
+        $tickets = [];
+        foreach ($shownTypes as $type) {
+            $tickets[$type->id] = __(':number of :from left', ['number' => $num->format($user->tickets()->event($type->id)), 'from' => $num->format($type->max_reservations)]);
+        }
+
         return view("index", [
             'users' => $user->isAdmin() ? User::count() : 0,
             'verified_users' => $user->isAdmin() ? User::verified()->count() : 0,
-            'massTickets' => __(':number of :from left', ['number' => $num->format($tickets->mass()), 'from' => $num->format(Mass::maxReservations())]),
-            'vesperTickets' => __(':number of :from left', ['number' => $num->format($tickets->vesper()), 'from' => $num->format(Vesper::maxReservations())]),
+            'tickets' => $tickets,
             'user' => $user,
             'period' => $period,
             'currentEvents' => $currentEvents ?? null,
