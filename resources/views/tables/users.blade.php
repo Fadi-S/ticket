@@ -48,16 +48,20 @@
                                 <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
                                         {{ config('settings.arabic_name_only') ? $row->arabic_name : $row->name }}
                                 </div>
+                                @if(auth()->user()->can('activateUser'))
+                                <button class="focus:outline-none transition-dark mx-1"
+                                        type="button" wire:click="activate('{{ $row->username }}')">
+                                @endif
                                 @if($row->isActive())
                                         <x-layouts.verified class="mx-1" />
                                 @elseif(auth()->user()->can('activateUser'))
-                                        <button class="focus:outline-none transition-dark mx-1"
-                                                type="button" wire:click="activate('{{ $row->username }}')">
                                                 <div class="text-xs text-blue-200" wire:loading.remove wire:target="activate('{{ $row->username }}')">
                                                         {{ __('Activate') }}
                                                 </div>
                                                 <x-svg.spinner size="w-3 h-3" wire:loading wire:target="activate('{{ $row->username }}')" />
-                                        </button>
+                                @endif
+                               @if(auth()->user()->can('activateUser'))
+                                </button>
                                 @endif
                         </div>
                         @unless(config('settings.arabic_name_only'))
@@ -113,21 +117,23 @@
         </div>
 </x-table.td>
 
-<x-table.td>
-        @if($row->church)
-                <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                        {{  $row->church->name }}
-                </div>
-        @else
+@if(auth()->user()->can("activateUser"))
+        <x-table.td>
                 <button class="focus:outline-none transition-dark mx-1"
                         type="button" wire:click="addToChurch('{{ $row->username }}')">
-                        <div class="text-xs text-blue-200" wire:loading.remove wire:target="addToChurch('{{ $row->username }}')">
-                                {{ __('Add to church') }}
-                        </div>
-                        <x-svg.spinner size="w-3 h-3" wire:loading wire:target="addToChurch('{{ $row->username }}')" />
-                </button>
-        @endif
-</x-table.td>
+                        @if($row->church)
+                                <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                        {{  $row->church->name }}
+                                </div>
+                        @else
+                                <div class="text-xs text-blue-200" wire:loading.remove wire:target="addToChurch('{{ $row->username }}')">
+                                        {{ __('Add to church') }}
+                                </div>
+                                <x-svg.spinner size="w-3 h-3" wire:loading wire:target="addToChurch('{{ $row->username }}')" />
+                        @endif
+              </button>
+        </x-table.td>
+@endif
 
 @if(auth()->user()->can("users.view"))
         <x-table.td>
