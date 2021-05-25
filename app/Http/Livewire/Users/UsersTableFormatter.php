@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Users;
 
+use App\Models\Church;
 use App\Models\Login;
 use App\Models\User\User;
 use App\Notifications\AccountActivated;
@@ -45,16 +46,17 @@ class UsersTableFormatter extends DataTableComponent
         if (!auth()->user()->can('users.view'))
             return [];
 
+        $churches = collect(['' => '-']);
+        $chs = Church::pluck('name', 'id');
+        foreach ($chs as $id => $church)
+            $churches->put($id, $church);
+
         return [
             'role' => Filter::make(__('Role'))
                 ->select(array_merge(['' => '-'], Role::pluck('name', 'name')->toArray())),
 
-            'gender' => Filter::make(__('Gender'))
-                ->select([
-                    '' => '-',
-                    'male' => __('Male'),
-                    'female' => __('Female'),
-                ]),
+            'church' => Filter::make(__('Church'))
+                ->select($churches->toArray()),
 
             'verified' => Filter::make(__('Phone Verified'))
                 ->select([
@@ -69,6 +71,13 @@ class UsersTableFormatter extends DataTableComponent
                     'yes' => 'Yes',
                     'no' => 'No',
                 ]),
+
+            'gender' => Filter::make(__('Gender'))
+                ->select([
+                    '' => '-',
+                    'male' => __('Male'),
+                    'female' => __('Female'),
+                ]),
         ];
     }
 
@@ -80,9 +89,14 @@ class UsersTableFormatter extends DataTableComponent
             Column::make(__('ID'), 'id')
                 ->sortable()
                 ->searchable($search),
-            Column::make(__('Name'), 'arabic_name')
+            Column::make(__('Name'), 'name')
                 ->sortable()
                 ->searchable($search),
+            Column::make(__('Arabic Name'), 'arabic_name')
+                ->sortable()
+                ->addClass('hidden sm:table-cell')
+                ->searchable($search)
+                ->hideIf(config('settings.arabic_name_only')),
             Column::make(__('Phone'), 'phone')
                 ->sortable()
                 ->searchable($search),
@@ -92,6 +106,8 @@ class UsersTableFormatter extends DataTableComponent
             Column::make(__('Gender'), 'gender')
                 ->sortable(),
             Column::make(__('Location of stay'), 'location_id')
+                ->sortable(),
+            Column::make(__('Church'), 'church_id')
                 ->sortable(),
             Column::make(__('Last Login'))
                 ->sortable(
@@ -113,7 +129,7 @@ class UsersTableFormatter extends DataTableComponent
 
     public function activate(User $user)
     {
-        if(! auth()->user()->can('users.activate')) {
+        if(! auth()->user()->can('activateUser')) {
             return;
         }
 
@@ -129,6 +145,16 @@ class UsersTableFormatter extends DataTableComponent
         ]);
     }
 
+    public function addToChurch(User $user)
+    {
+        if(! auth()->user()->can('users.church')) {
+            return;
+        }
+
+        $user->church_id = auth()->user()->church_id;
+        $user->save();
+    }
+
     public function query(): Builder
     {
         $query = User::query();
@@ -140,6 +166,10 @@ class UsersTableFormatter extends DataTableComponent
             ->with('creator', 'location')
             ->when($this->getFilter('role'),
                 fn($query, $role) => $query->role($role)
+            )
+
+            ->when($this->getFilter('church'),
+                fn($query, $church) => $query->where('church_id', $church)
             )
 
             ->when($this->getFilter('gender'),

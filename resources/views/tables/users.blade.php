@@ -41,16 +41,16 @@
 <x-table.td>
         <div class="flex items-center">
                 <div class="flex-shrink-0 h-10 w-10">
-                        <img class="h-10 w-10 rounded-full" src="{{ $row->picture }}" alt="{{ $row->name }}'s picture">
+                        <img class="h-10 w-10 rounded-full" src="{{ $row->picture }}" alt="{{ $row->locale_name }}'s picture">
                 </div>
                 <div class="ml-4 space-y-2">
                         <div class="flex items-center">
                                 <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                        {{ $row->arabic_name }}
+                                        {{ config('settings.arabic_name_only') ? $row->arabic_name : $row->name }}
                                 </div>
                                 @if($row->isActive())
                                         <x-layouts.verified class="mx-1" />
-                                @elseif(auth()->user()->can('users.activate'))
+                                @elseif(auth()->user()->can('activateUser'))
                                         <button class="focus:outline-none transition-dark mx-1"
                                                 type="button" wire:click="activate('{{ $row->username }}')">
                                                 <div class="text-xs text-blue-200" wire:loading.remove wire:target="activate('{{ $row->username }}')">
@@ -60,12 +60,25 @@
                                         </button>
                                 @endif
                         </div>
+                        @unless(config('settings.arabic_name_only'))
+                                <div class="dark:text-gray-300 font-semibold text-gray-500 text-sm sm:hidden">
+                                        {{ $row->arabic_name }}
+                                </div>
+                        @endunless
                         <div class="text-xs text-gray-500 dark:text-gray-400">
                                 {{ $row->email }}
                         </div>
                 </div>
         </div>
 </x-table.td>
+
+@unless(config('settings.arabic_name_only'))
+        <x-table.td class="hidden sm:table-cell">
+                <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                        {{ $row->arabic_name }}
+                </div>
+        </x-table.td>
+@endunless
 
 <x-table.td>
         <div class="flex items-center justify-start">
@@ -98,6 +111,22 @@
         <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
                 {{ ($row->location) ? $row->location->name : '-' }}
         </div>
+</x-table.td>
+
+<x-table.td>
+        @if($row->church)
+                <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                        {{  $row->church->name }}
+                </div>
+        @else
+                <button class="focus:outline-none transition-dark mx-1"
+                        type="button" wire:click="addToChurch('{{ $row->username }}')">
+                        <div class="text-xs text-blue-200" wire:loading.remove wire:target="addToChurch('{{ $row->username }}')">
+                                {{ __('Add to church') }}
+                        </div>
+                        <x-svg.spinner size="w-3 h-3" wire:loading wire:target="addToChurch('{{ $row->username }}')" />
+                </button>
+        @endif
 </x-table.td>
 
 @if(auth()->user()->can("users.view"))

@@ -5,6 +5,7 @@ namespace App\Models\User;
 
 
 use App\Helpers\NormalizePhoneNumber;
+use App\Models\Church;
 use App\Models\Location;
 use App\Models\Login;
 
@@ -76,7 +77,7 @@ trait UserAttributes
     {
         $isFirstName = fn($name) => count(explode(' ', $name)) < 3;
 
-        return $isFirstName($this->arabic_name);
+        return $isFirstName($this->name) || $isFirstName($this->arabic_name);
     }
 
     public function setPasswordAttribute($password)
@@ -111,7 +112,13 @@ trait UserAttributes
 
     public function getLocaleNameAttribute()
     {
-        return $this->arabic_name;
+        if(config('settings.arabic_name_only'))
+            return $this->arabic_name;
+
+        if(! $this->arabic_name)
+            return $this->name;
+
+        return app()->getLocale() === 'ar' ? $this->arabic_name : $this->name;
     }
 
     public function getSmartNameAttribute()
@@ -145,5 +152,10 @@ trait UserAttributes
     public function users()
     {
         return $this->hasMany(self::class, 'creator_id', 'id');
+    }
+
+    public function church()
+    {
+        return $this->belongsTo(Church::class);
     }
 }

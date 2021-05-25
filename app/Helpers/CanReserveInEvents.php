@@ -26,7 +26,7 @@ trait CanReserveInEvents
 
     public function reserveIn($ticket)
     {
-        $output = $this->canReserveIn($ticket->event->specific());
+        $output = $this->canReserveIn($ticket->event);
 
         if(is_null($output)) {
             flash()->error("Something went wrong for $this->name");
@@ -43,7 +43,7 @@ trait CanReserveInEvents
         $reservation = new Reservation(
             array_merge([
                 'ticket_id' => $ticket->id,
-                'is_deacon' => $this->isDeacon(),
+                'is_deacon' => $ticket->event->hasDeacons && $this->isDeacon(),
             ], $output->body() ?? []));
 
         $this->reservations()->save($reservation);
