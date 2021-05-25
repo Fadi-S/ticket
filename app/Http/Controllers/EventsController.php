@@ -11,13 +11,12 @@ use Carbon\Carbon;
 class EventsController extends Controller
 {
     private $url;
-    private $typeId;
 
     public function __construct()
     {
         $this->url = request()->segment(1);
 
-        $this->typeId = EventType::where('url', '=', $this->url)->first()->id;
+        \View::share('type', EventType::whereUrl($this->url)->first());
     }
 
     public function create()
@@ -31,12 +30,12 @@ class EventsController extends Controller
         ]);
     }
 
-    public function store(EventsRequest $request)
+    public function store(EventType $type, EventsRequest $request)
     {
         $this->authorize('create', Event::class);
 
         $data = collect($request->all());
-        $data->put('type_id', $this->typeId);
+        $data->put('type_id', $type->id);
         if($event = Event::create($data->toArray()))
             flash()->success("Created event successfully");
         else
@@ -50,7 +49,7 @@ class EventsController extends Controller
         return redirect("/$this->url/create");
     }
 
-    public function edit(Event $event)
+    public function edit(EventType $type, Event $event)
     {
         $this->authorize('update', $event);
 
@@ -62,7 +61,7 @@ class EventsController extends Controller
         ]);
     }
 
-    public function update(Event $event, EventsRequest $request)
+    public function update(EventType $type, Event $event, EventsRequest $request)
     {
         $this->authorize('update', $event);
 
@@ -79,17 +78,17 @@ class EventsController extends Controller
         return redirect("/$this->url/$event->id/edit");
     }
 
-    public function index()
+    public function index(EventType $type)
     {
         $this->authorize('index', Event::class);
 
-        $events = Event::typeId($this->typeId)
+        $events = Event::typeId($type->id)
             ->orderBy('start')
             ->upcoming()
             ->with('tickets.reservations.user')
             ->paginate(10);
 
-        $templates = Template::type($this->typeId)
+        $templates = Template::type($type->id)
             ->orderByDesc('active')
             ->get();
 
@@ -97,7 +96,7 @@ class EventsController extends Controller
             'events' => $events,
             'templates' => $templates,
             'title' => 'View All Events',
-            'type_id' => $this->typeId,
+            'type_id' => $type->id,
             'url' => $this->url,
         ]);
     }

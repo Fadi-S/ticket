@@ -26,7 +26,7 @@ class EventsRequest extends FormRequest
     {
         return [
             "number_of_places" => "required|numeric|min:1",
-            "deacons_number" => "required|numeric|min:0",
+            "deacons_number" => "nullable|numeric|min:0",
             "description" => "required",
             "start" => "required|date",
             "end" => "required|date|after:start",

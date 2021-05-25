@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        \App\Providers\ViewsServiceProvider::class,
 
         Collective\Html\HtmlServiceProvider::class,
 

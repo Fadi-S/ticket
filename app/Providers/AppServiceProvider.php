@@ -45,12 +45,5 @@ class AppServiceProvider extends ServiceProvider
         }
 
         \View::share('isDark', $isDark);
-
-        $this->shareTypesWithViews();
-    }
-
-    private function shareTypesWithViews()
-    {
-        \View::share('shownTypes', EventType::shown()->get());
     }
 }
