@@ -129,7 +129,7 @@ class UsersTableFormatter extends DataTableComponent
 
     public function activate(User $user)
     {
-        if(! auth()->user()->can('users.activate')) {
+        if(! auth()->user()->can('activateUser')) {
             return;
         }
 

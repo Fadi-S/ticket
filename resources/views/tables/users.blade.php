@@ -50,7 +50,7 @@
                                 </div>
                                 @if($row->isActive())
                                         <x-layouts.verified class="mx-1" />
-                                @elseif(auth()->user()->can('users.activate'))
+                                @elseif(auth()->user()->can('activateUser'))
                                         <button class="focus:outline-none transition-dark mx-1"
                                                 type="button" wire:click="activate('{{ $row->username }}')">
                                                 <div class="text-xs text-blue-200" wire:loading.remove wire:target="activate('{{ $row->username }}')">
