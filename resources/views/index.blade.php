@@ -32,42 +32,26 @@
             @endforeach
         @endcan
 
-        <x-data-card color="bg-indigo-500"
-                     data-step="2" data-intro="{{ __('Here is the number of masses left in this month') }}">
-            <x-slot name="svg">
-                <x-svg.ticket/>
-            </x-slot>
+        @foreach($shownTypes as $type)
+            <x-data-card color="bg-blue-500">
+                <x-slot name="svg">
+                    <x-svg.ticket/>
+                </x-slot>
 
-            <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">{{ $massTickets }}</h4>
-            <div class="text-gray-500 dark:text-gray-300">
-                @if($period)
-                    {{ __('Mass reservations left between :start and :end', [
-                            'start' => $period->start->translatedFormat('D d M'),
-                            'end' => $period->end->translatedFormat('D d M'),
-                     ]) }}
-                @else
-                    {{ __('Mass reservations left in :Month', ['month' => \Carbon\Carbon::now()->monthName]) }}
-                @endif
-            </div>
-        </x-data-card>
-
-        <x-data-card color="bg-red-500">
-            <x-slot name="svg">
-                <x-svg.ticket/>
-            </x-slot>
-
-            <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">{{ $vesperTickets }}</h4>
-            <div class="text-gray-500 dark:text-gray-300">
-                @if($period)
-                    {{ __('Vesper reservations left between :start and :end', [
-                            'start' => $period->start->translatedFormat('D d M'),
-                            'end' => $period->end->translatedFormat('D d M'),
-                     ]) }}
-                @else
-                    {{ __('Vesper reservations left in :Month', ['month' => \Carbon\Carbon::now()->monthName]) }}
-                @endif
-            </div>
-        </x-data-card>
+                <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">{{ $tickets[$type->id] }}</h4>
+                <div class="text-gray-500 dark:text-gray-300">
+                    @if($period)
+                        {{ __(':type reservations left between :start and :end', [
+                                'start' => $period->start->translatedFormat('D d M'),
+                                'end' => $period->end->translatedFormat('D d M'),
+                                'type' => $type->locale_plural_name,
+                         ]) }}
+                    @else
+                        {{ __(':type reservations left in :Month', ['month' => \Carbon\Carbon::now()->monthName, 'type' => $type->locale_plural_name]) }}
+                    @endif
+                </div>
+            </x-data-card>
+        @endforeach
 
         @if(auth()->user()->isDeacon())
             <x-data-card color="bg-blue-500">

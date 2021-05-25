@@ -15,6 +15,7 @@ class AddDeaconsNumberToEventsTable extends Migration
     {
         Schema::table('events', function (Blueprint $table) {
             $table->unsignedInteger('deacons_number')
+                ->default(5)
                 ->after('number_of_places');
         });
     }
