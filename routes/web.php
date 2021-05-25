@@ -35,6 +35,24 @@ Route::middleware(ProtectAgainstSpam::class)
 Route::get('/verify', VerifyPhoneNumber::class)
     ->middleware(['auth', UnVerified::class]);
 
+Route::get('/admin', [DashboardController::class, 'adminHackerTrap']);
+Route::get('/wp-admin', [DashboardController::class, 'adminHackerTrap']);
+
+Route::get('lang/{locale}', function ($locale) {
+    if(!in_array($locale, array_keys(app()->make('locales'))))
+        abort(404);
+
+    if(auth()->check()) {
+        $user = auth()->user();
+        $user->locale = $locale;
+        $user->save();
+    }
+
+    setcookie('locale', $locale, time()+60*60*24*365*10, '/'); // For 10 years
+
+    return back();
+});
+
 Route::middleware(["auth", EnsurePhoneNumberIsVerified::class])->group(function() {
     Route::get('/assets/{image}', function ($image) {
         $width = request('w') ?? 200;
@@ -77,22 +95,4 @@ Route::middleware(["auth", EnsurePhoneNumberIsVerified::class])->group(function(
 
     Route::resource("{eventType}", EventsController::class)
         ->only(['create', 'edit', 'index', 'store', 'update', 'destroy']);
-});
-
-Route::get('/admin', [DashboardController::class, 'adminHackerTrap']);
-Route::get('/wp-admin', [DashboardController::class, 'adminHackerTrap']);
-
-Route::get('lang/{locale}', function ($locale) {
-    if(!in_array($locale, array_keys(app()->make('locales'))))
-        abort(404);
-
-    if(auth()->check()) {
-        $user = auth()->user();
-        $user->locale = $locale;
-        $user->save();
-    }
-
-    setcookie('locale', $locale, time()+60*60*24*365*10, '/'); // For 10 years
-
-    return back();
 });

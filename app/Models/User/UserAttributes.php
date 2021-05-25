@@ -112,6 +112,9 @@ trait UserAttributes
 
     public function getLocaleNameAttribute()
     {
+        if(config('settings.arabic_name_only'))
+            return $this->arabic_name;
+
         if(! $this->arabic_name)
             return $this->name;
 

@@ -166,6 +166,10 @@ class UserForm extends Component
             'user.location_id' => 'exclude_if:user.location_id,0|exists:locations,id',
         ];
 
+        if(config('settings.arabic_name_only')) {
+            $rules['user.name'] = ['nullable'];
+        }
+
         if (!$this->isCreate) {
             $id = isset($this->user) ? $this->user->id : 0;
 

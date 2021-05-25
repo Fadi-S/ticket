@@ -41,12 +41,12 @@
 <x-table.td>
         <div class="flex items-center">
                 <div class="flex-shrink-0 h-10 w-10">
-                        <img class="h-10 w-10 rounded-full" src="{{ $row->picture }}" alt="{{ $row->name }}'s picture">
+                        <img class="h-10 w-10 rounded-full" src="{{ $row->picture }}" alt="{{ $row->locale_name }}'s picture">
                 </div>
                 <div class="ml-4 space-y-2">
                         <div class="flex items-center">
                                 <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                        {{ $row->name }}
+                                        {{ config('settings.arabic_name_only') ? $row->arabic_name : $row->name }}
                                 </div>
                                 @if($row->isActive())
                                         <x-layouts.verified class="mx-1" />
@@ -60,9 +60,11 @@
                                         </button>
                                 @endif
                         </div>
-                        <div class="dark:text-gray-300 font-semibold text-gray-500 text-sm sm:hidden">
-                                {{ $row->arabic_name }}
-                        </div>
+                        @unless(config('settings.arabic_name_only'))
+                                <div class="dark:text-gray-300 font-semibold text-gray-500 text-sm sm:hidden">
+                                        {{ $row->arabic_name }}
+                                </div>
+                        @endunless
                         <div class="text-xs text-gray-500 dark:text-gray-400">
                                 {{ $row->email }}
                         </div>
@@ -70,11 +72,13 @@
         </div>
 </x-table.td>
 
-<x-table.td class="hidden sm:table-cell">
-        <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                {{ $row->arabic_name }}
-        </div>
-</x-table.td>
+@unless(config('settings.arabic_name_only'))
+        <x-table.td class="hidden sm:table-cell">
+                <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                        {{ $row->arabic_name }}
+                </div>
+        </x-table.td>
+@endunless
 
 <x-table.td>
         <div class="flex items-center justify-start">
