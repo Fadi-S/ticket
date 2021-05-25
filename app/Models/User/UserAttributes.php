@@ -77,7 +77,7 @@ trait UserAttributes
     {
         $isFirstName = fn($name) => count(explode(' ', $name)) < 3;
 
-        return $isFirstName($this->name) || $isFirstName($this->arabic_name);
+        return $isFirstName($this->arabic_name) || (!config('settings.arabic_name_only') && $isFirstName($this->name));
     }
 
     public function setPasswordAttribute($password)
