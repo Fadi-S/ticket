@@ -36,6 +36,7 @@ class EventsController extends Controller
 
         $data = collect($request->all());
         $data->put('type_id', $eventType->id);
+        $data->put('church_id', auth()->user()->church_id);
         if($event = Event::create($data->toArray()))
             flash()->success("Created event successfully");
         else
@@ -101,7 +102,7 @@ class EventsController extends Controller
         ]);
     }
 
-    public function destroy(Event $event)
+    public function destroy(EventType $eventType, Event $event)
     {
         $this->authorize('delete', Event::class);
 
