@@ -50,6 +50,9 @@ class ReservationsController extends Controller
             '#72727d',
             '#b00d02',
             '#323236',
+            '#62b9d1',
+            '#5658e8',
+            '#5658e8',
         ];
 
         // $cacheDates = $start->format('Y-m-d')  . '.' . $end->format('Y-m-d');
