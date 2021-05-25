@@ -3,37 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EventsRequest;
-use App\Models\Baskha;
-use App\Models\BaskhaOccasion;
 use App\Models\Event;
-use App\Models\Kiahk;
-use App\Models\Mass;
+use App\Models\EventType;
 use App\Models\Template;
-use App\Models\User\User;
-use App\Models\Vesper;
 use Carbon\Carbon;
 
 class EventsController extends Controller
 {
     private $url;
-    private $model;
 
     public function __construct()
     {
         $this->url = request()->segment(1);
 
-        $this->model = [
-            'masses' => Mass::class,
-            'vespers' => Vesper::class,
-            'kiahk' => Kiahk::class,
-            'baskha' => Baskha::class,
-            'holy' => BaskhaOccasion::class,
-        ][$this->url] ?? Event::class;
-
-        $reflection = new \ReflectionClass($this->model);
-        $this->model = $reflection->newInstance();
-
-//        $this->authorizeResource(Event::class, 'event');
+        \View::share('type', EventType::whereUrl($this->url)->first());
     }
 
     public function create()
@@ -47,11 +30,13 @@ class EventsController extends Controller
         ]);
     }
 
-    public function store(EventsRequest $request)
+    public function store(EventType $eventType, EventsRequest $request)
     {
         $this->authorize('create', Event::class);
 
-        if($event = $this->model::create($request->all()))
+        $data = collect($request->all());
+        $data->put('type_id', $eventType->id);
+        if($event = Event::create($data->toArray()))
             flash()->success("Created event successfully");
         else
             flash()->error("Error creating event");
@@ -64,7 +49,7 @@ class EventsController extends Controller
         return redirect("/$this->url/create");
     }
 
-    public function edit(Event $event)
+    public function edit(EventType $eventType, Event $event)
     {
         $this->authorize('update', $event);
 
@@ -76,7 +61,7 @@ class EventsController extends Controller
         ]);
     }
 
-    public function update(Event $event, EventsRequest $request)
+    public function update(EventType $eventType, Event $event, EventsRequest $request)
     {
         $this->authorize('update', $event);
 
@@ -93,16 +78,17 @@ class EventsController extends Controller
         return redirect("/$this->url/$event->id/edit");
     }
 
-    public function index()
+    public function index(EventType $eventType)
     {
         $this->authorize('index', Event::class);
 
-        $events = $this->model->orderBy('start')
+        $events = Event::typeId($eventType->id)
+            ->orderBy('start')
             ->upcoming()
             ->with('tickets.reservations.user')
             ->paginate(10);
 
-        $templates = Template::type($this->model->type_id)
+        $templates = Template::type($eventType->id)
             ->orderByDesc('active')
             ->get();
 
@@ -110,7 +96,7 @@ class EventsController extends Controller
             'events' => $events,
             'templates' => $templates,
             'title' => 'View All Events',
-            'type_id' => $this->model->type_id,
+            'type_id' => $eventType->id,
             'url' => $this->url,
         ]);
     }

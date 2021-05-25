@@ -22,11 +22,13 @@
                                   name="number_of_places" label="{{ __('Number of Places') }}" class="col-span-1"
                                   size="col-span-1" min="1" placeholder="{{ __('Number of Places') }}" />
 
+                    @if($this->type->has_deacons)
                     <x-form.input required type="number" id="deacon_places"
                                   wire:model="template.deacons_number"
                                   :error="$errors->get('template.deacons_number')"
                                   name="deacon_places" label="{{ __('Deacon Places') }}" class="col-span-1"
                                   size="col-span-1" min="0" placeholder="{{ __('Deacon Places') }}" />
+                    @endif
 
                     <x-form.input required type="number" id="overload"
                                   wire:model="template.overload"

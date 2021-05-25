@@ -39,11 +39,17 @@
                             </div>
                             <div class="ml-4">
                                 <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                    {{ $reservation->user->name }}
+                                    @if(config('settings.arabic_name_only'))
+                                        {{ $reservation->user->arabic_name }}
+                                    @else
+                                        {{ $reservation->user->name }}
+                                    @endif
                                 </div>
-                                <div class="text-sm text-gray-500 dark:text-gray-400">
-                                    {{ $reservation->user->arabic_name }}
-                                </div>
+                                @unless(config('settings.arabic_name_only'))
+                                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                                        {{ $reservation->user->arabic_name }}
+                                    </div>
+                                @endunless
                                 <div class="text-xs text-gray-500 dark:text-gray-400">
                                     #{{ $reservation->user->id }}
                                 </div>
