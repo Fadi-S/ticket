@@ -79,7 +79,7 @@ class UserForm extends Component
         }
 
         if($this->isCreate) {
-            $this->user->username = User::makeSlug($this->user->name, $this->user->id);
+            $this->user->username = User::makeSlug($this->user->arabic_name, $this->user->id);
         }
 
         if(!$this->user->isSignedIn() && auth()->user()->isUser()) {
@@ -131,11 +131,6 @@ class UserForm extends Component
     protected function rules()
     {
         $rules = [
-            'user.name' => [
-                'required',
-                new Fullname,
-                new EnglishOnly
-            ],
             'user.arabic_name' => [
                 'required',
                 new Fullname,
@@ -152,7 +147,7 @@ class UserForm extends Component
                 'unique:users,phone',
             ],
             'user.national_id' => [
-                'nullable',
+                'required',
                 'regex:/' . StandardRegex::NATIONAL_ID . '/',
                 'unique:users,national_id',
                 new NationalIDValidation,
@@ -188,7 +183,7 @@ class UserForm extends Component
             ];
 
             $rules['user.national_id'] = [
-                'nullable',
+                'required',
                 'regex:/' . StandardRegex::NATIONAL_ID . '/',
                 new NationalIDValidation,
                 Rule::unique('users', 'national_id')->ignore($id),

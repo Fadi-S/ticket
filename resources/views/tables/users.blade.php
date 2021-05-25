@@ -79,7 +79,6 @@
                 </div>
         </x-table.td>
 @endunless
-
 <x-table.td>
         <div class="flex items-center justify-start">
                 @if($row->isVerified())
