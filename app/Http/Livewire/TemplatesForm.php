@@ -68,7 +68,8 @@ class TemplatesForm extends Component
 
         $this->template->start = $this->start;
         $this->template->end = $this->end;
-        $this->template->type_id = $this->type_id ?? Mass::$type;
+        $this->template->type_id = $this->type_id ?? 1;
+        $this->template->church_id = auth()->user()->church_id;
         $this->template->active ??= true;
         $this->template->overload = $this->template->overload / 100;
         $this->template->save();
