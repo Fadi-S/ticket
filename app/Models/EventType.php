@@ -8,6 +8,11 @@ class EventType extends Model
 {
     protected $guarded = [];
 
+    public function getRouteKeyName()
+    {
+        return 'url';
+    }
+
     public function getNameAttribute($name)
     {
         return app()->getLocale() === 'ar' ? $this->arabic_name : $name;

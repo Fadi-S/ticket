@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Helpers\NormalizePhoneNumber;
+use App\Models\Location;
 use App\Models\User\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
@@ -16,6 +17,8 @@ class AuthenticationTest extends TestCase
        parent::setUp();
 
        $this->seed();
+
+       config(['settings.allow_users_to_create_accounts' => true]);
    }
 
     /** @test */
@@ -298,6 +301,7 @@ class AuthenticationTest extends TestCase
             'gender' => 1,
             'password_confirmation' => '123456',
             'phone' => '01273315870',
+            'location_id' => 1,
         ], $attributes));
     }
 

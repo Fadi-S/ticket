@@ -64,23 +64,6 @@ Route::middleware(["auth", EnsurePhoneNumberIsVerified::class])->group(function(
     Route::get('/periods/{period}/edit', PeriodForm::class);
     Route::get('/periods', PeriodsTable::class);
 
-    $eventResources = ['create', 'edit', 'index', 'store', 'update', 'destroy'];
-    Route::resource("masses", EventsController::class)
-        ->parameters(['masses' => 'event'])
-        ->only($eventResources);
-    Route::resource("kiahk", EventsController::class)
-        ->parameters(['kiahk' => 'event'])
-        ->only($eventResources);
-    Route::resource("vespers", EventsController::class)
-        ->parameters(['vespers' => 'event'])
-        ->only($eventResources);
-    Route::resource("baskha", EventsController::class)
-        ->parameters(['baskha' => 'event'])
-        ->only($eventResources);
-    Route::resource("holy", EventsController::class)
-        ->parameters(['holy' => 'event'])
-        ->only($eventResources);
-
     Route::get("tickets", Tickets::class);
 
     Route::get('/reserve', MakeReservation::class);
@@ -91,6 +74,10 @@ Route::middleware(["auth", EnsurePhoneNumberIsVerified::class])->group(function(
     Route::get("ajax/reservation/events", [ReservationsController::class, 'getEvents']);
 
     Route::get('/friends', Friends::class);
+
+    Route::resource("{type}", EventsController::class)
+        // ->parameters([$type->url => 'event'])
+        ->only(['create', 'edit', 'index', 'store', 'update', 'destroy']);
 });
 
 Route::get('/admin', [DashboardController::class, 'adminHackerTrap']);
