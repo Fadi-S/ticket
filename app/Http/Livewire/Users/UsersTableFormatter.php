@@ -95,7 +95,8 @@ class UsersTableFormatter extends DataTableComponent
             Column::make(__('Arabic Name'), 'arabic_name')
                 ->sortable()
                 ->addClass('hidden sm:table-cell')
-                ->searchable($search),
+                ->searchable($search)
+                ->hideIf(config('settings.arabic_name_only')),
             Column::make(__('Phone'), 'phone')
                 ->sortable()
                 ->searchable($search),

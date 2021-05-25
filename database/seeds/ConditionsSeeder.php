@@ -80,14 +80,14 @@ class ConditionsSeeder extends Seeder
             'name' => 'Exception the day before event at 10pm',
             'path' => QualifiesForException::class,
             'required' => false,
-            'priority' => 3,
+            'priority' => 4,
         ]);
 
         $HaveEventTickets = Condition::create([
             'name' => 'Have tickets for event',
             'path' => HaveEventTickets::class,
             'required' => true,
-            'priority' => 4,
+            'priority' => 5,
         ]);
 
         $type = EventType::find(1);
