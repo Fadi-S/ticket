@@ -25,7 +25,7 @@ class TicketFactory extends Factory
     public function definition()
     {
         return [
-            'event_id' => Mass::factory(),
+            'event_id' => Event::factory(),
             'reserved_by' => auth()->id(),
             'reserved_at' => now(),
             'secret' => (new GenerateRandomString)->handle(),

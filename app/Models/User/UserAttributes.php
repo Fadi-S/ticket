@@ -5,6 +5,7 @@ namespace App\Models\User;
 
 
 use App\Helpers\NormalizePhoneNumber;
+use App\Models\Church;
 use App\Models\Location;
 use App\Models\Login;
 
@@ -148,5 +149,10 @@ trait UserAttributes
     public function users()
     {
         return $this->hasMany(self::class, 'creator_id', 'id');
+    }
+
+    public function church()
+    {
+        return $this->belongsTo(Church::class);
     }
 }

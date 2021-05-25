@@ -109,6 +109,22 @@
         </div>
 </x-table.td>
 
+<x-table.td>
+        @if($row->church)
+                <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                        {{  $row->church->name }}
+                </div>
+        @else
+                <button class="focus:outline-none transition-dark mx-1"
+                        type="button" wire:click="addToChurch('{{ $row->username }}')">
+                        <div class="text-xs text-blue-200" wire:loading.remove wire:target="addToChurch('{{ $row->username }}')">
+                                {{ __('Add to church') }}
+                        </div>
+                        <x-svg.spinner size="w-3 h-3" wire:loading wire:target="addToChurch('{{ $row->username }}')" />
+                </button>
+        @endif
+</x-table.td>
+
 @if(auth()->user()->can("users.view"))
         <x-table.td>
                 <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
