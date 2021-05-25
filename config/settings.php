@@ -13,4 +13,6 @@ return [
     'full_name_number' => env('FULL_NAME_NUMBER', 3),
 
     'arabic_name_only' => env('ARABIC_NAME_ONLY', false),
+
+    'logo' => env('LOGO', false),
 ];
