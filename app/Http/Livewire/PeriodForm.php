@@ -25,8 +25,8 @@ class PeriodForm extends Component
         $this->isCreate = ! isset($this->period);
 
         if(!$this->isCreate) {
-            $this->start = $this->period->start;
-            $this->end = $this->period->end;
+            $this->start = Carbon::parse($this->period->start)->format('Y-m-d');
+            $this->end = Carbon::parse($this->period->end)->format('Y-m-d');
         }
 
         $this->period ??= new Period;
@@ -47,8 +47,8 @@ class PeriodForm extends Component
     {
         $this->validate();
 
-        $this->period->start = $this->start;
-        $this->period->end = $this->end;
+        $this->period->start = Carbon::parse($this->start)->startOfDay();
+        $this->period->end = Carbon::parse($this->end)->endOfDay();
         $this->period->save();
 
         session()->flash('success', __('Period Saved Successfully'));
