@@ -25,6 +25,16 @@ class Period extends Model
             ->first();
     }
 
+    public function setStartAttribute($start)
+    {
+        $this->attributes['start'] = Carbon::parse($start)->startOfDay();
+    }
+
+    public function setEndAttribute($end)
+    {
+        $this->attributes['end'] = Carbon::parse($end)->endOfDay();
+    }
+
     public function isNow() : bool
     {
         return now()->isBetween($this->start, $this->end);
