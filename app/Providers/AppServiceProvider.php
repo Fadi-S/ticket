@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\EventType;
 use App\Charts\{UsersStatusChart, LoginsChart};
 use ConsoleTVs\Charts\Registrar as Charts;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;

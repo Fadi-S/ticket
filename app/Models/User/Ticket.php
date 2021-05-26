@@ -5,6 +5,7 @@ namespace App\Models\User;
 use App\Models\Baskha;
 use App\Models\BaskhaOccasion;
 use App\Models\Event;
+use App\Models\EventType;
 use App\Models\Kiahk;
 use App\Models\Mass;
 use App\Models\Period;
@@ -24,113 +25,27 @@ class Ticket
     {
         $period ??= Period::current();
 
-        $days = $period->start->diffInDays($period->end->endOfDay());
-
-        $left = $this->calculateReservationsLeft($typeId, $maxReservations, $period->start, $days);
+        $left = $this->calculateReservationsLeft($typeId, $maxReservations, $period->start, $period->end);
 
         return $left >= 0 ? $left : 0;
     }
 
-    public function mass($month=null)
+    public function event($type, $date=null)
     {
-        $period = Period::current($month);
-        if($period) {
-            $left = $this->reservationsPerPeriod(Mass::$type, Mass::maxReservations(), $period);
-            return $left >= 0 ? $left : 0;
-        }
+        if(is_numeric($type))
+            $type = EventType::find($type);
 
-        $start = ($month ?? now())->startOfMonth();
-
-        $left = $this->calculateReservationsLeft(Mass::$type, Mass::maxReservations(), $start);
-
-        return $left >= 0 ? $left : 0;
-    }
-
-    public function kiahk($date=null)
-    {
         $period = Period::current($date);
+
         if($period) {
-            $left = $this->reservationsPerPeriod(Kiahk::$type, Kiahk::maxReservations(), $period);
-            return $left >= 0 ? $left : 0;
+            return $this->reservationsPerPeriod($type->id, $type->max_reservations, $period);
         }
 
-        $startOfKiahk = $this->currentKiahkStartDate($date);
-
-        $left = $this->calculateReservationsLeft(Kiahk::$type, Kiahk::maxReservations(), $startOfKiahk, 10);
-
-        return $left >= 0 ? $left : 0;
+        return 0;
     }
 
-    public function currentKiahkStartDate($date=null)
+    private function calculateReservationsLeft($typeId, $maxReservations, $startDate, $endDate) : int
     {
-        $current = $date ?? now();
-
-        $startOfKiahk = Carbon::create(
-            $current->year +  (($current->month == 1) ?  -1 : 0),
-            12,
-            $current->addYears($current->month == 1 ? 0 : 1)->isLeapYear() ? 11 : 10
-        );
-
-        $diffDays = abs($startOfKiahk->diffInDays($current));
-
-        while($diffDays > 10) {
-            $diffDays -= 10;
-
-            $startOfKiahk = $startOfKiahk->addDays(10);
-        }
-
-        return $startOfKiahk;
-    }
-
-    public function vesper($date=null)
-    {
-        $period = Period::current($date);
-        if($period) {
-            $left = $this->reservationsPerPeriod(Vesper::$type, Vesper::maxReservations(), $period);
-            return $left >= 0 ? $left : 0;
-        }
-
-        $start = ($date ?? now())->startOfMonth();
-
-        $left = $this->calculateReservationsLeft(Vesper::$type, Vesper::maxReservations(), $start);
-
-        return $left >= 0 ? $left : 0;
-    }
-
-    public function baskha($date=null)
-    {
-        $period = Period::current($date);
-        if($period) {
-            $left = $this->reservationsPerPeriod(Baskha::$type, Baskha::maxReservations(), $period);
-            return $left >= 0 ? $left : 0;
-        }
-
-        $start = Carbon::parse('15th April 2022');
-
-        $left = $this->calculateReservationsLeft(Baskha::$type, Baskha::maxReservations(), $start, 10);
-
-        return $left >= 0 ? $left : 0;
-    }
-
-    public function baskhaOccasion($date=null)
-    {
-        $period = Period::current($date);
-        if($period) {
-            $left = $this->reservationsPerPeriod(BaskhaOccasion::$type, BaskhaOccasion::maxReservations(), $period);
-            return $left >= 0 ? $left : 0;
-        }
-
-        $start = Carbon::parse('15th April 2022');
-
-        $left = $this->calculateReservationsLeft(BaskhaOccasion::$type, BaskhaOccasion::maxReservations(), $start, 10);
-
-        return $left >= 0 ? $left : 0;
-    }
-
-    private function calculateReservationsLeft($typeId, $maxReservations, $date, $period=null) : int
-    {
-        $endDate = $period ? $date->copy()->addDays($period) : $date->copy()->endOfMonth();
-
         return $maxReservations -
             $this->user
                 ->reservations()
@@ -139,7 +54,7 @@ class Ticket
                 $query->whereHas('event', fn($query) =>
 
                 $query->where('type_id', $typeId)
-                    ->whereBetween('start', [$date->startOfDay(), $endDate->endOfDay()])
+                    ->whereBetween('start', [$startDate->startOfDay(), $endDate->endOfDay()])
 
                 ))->count();
     }

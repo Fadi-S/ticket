@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Http\Livewire\MakeReservation;
 use App\Models\Event;
+use App\Models\EventType;
 use App\Models\Mass;
 use App\Models\Reservation;
 use App\Models\Ticket;
@@ -19,6 +20,7 @@ class MakeReservationTest extends TestCase
 
     private Event $event;
     private User $user;
+    private $maximum;
 
     protected function setUp(): void
     {
@@ -28,7 +30,9 @@ class MakeReservationTest extends TestCase
 
         $this->travelTo(now()->startOfMonth());
 
-        $this->event = Mass::factory()->create();
+        $this->event = Event::factory()->create();
+
+        $this->maximum = $this->event->type->max_reservations;
 
         $this->user = User::factory()->create(['name' => 'Test Name Full', 'arabic_name' => 'تيست اسم ثلاثي']);
         $this->actingAs($this->user);
@@ -151,13 +155,11 @@ class MakeReservationTest extends TestCase
 
             $this->assertEquals(0, Reservation::count());
 
-            $maximum = Mass::maxReservations();
+            $this->reserveMaximum();
 
-            $this->reserveMaximum($maximum);
-
-            $mass = Mass::factory()->create([
-                'start' => now()->startOfMonth()->addDays(2 * ($maximum + 1)),
-                'end' => now()->startOfMonth()->addDays(2 * ($maximum + 1))->addHours(2),
+            $mass = Event::factory()->create([
+                'start' => now()->startOfMonth()->addDays(2 * ($this->maximum + 1)),
+                'end' => now()->startOfMonth()->addDays(2 * ($this->maximum + 1))->addHours(2),
             ]);
 
             Livewire::test(MakeReservation::class)
@@ -167,7 +169,7 @@ class MakeReservationTest extends TestCase
                 ->call('save')
                 ->assertDispatchedBrowserEvent('open');
 
-            $this->assertEquals($maximum, Reservation::count());
+            $this->assertEquals($this->maximum, Reservation::count());
 
             Ticket::all()->each->cancel();
         }
@@ -178,7 +180,7 @@ class MakeReservationTest extends TestCase
     {
         $this->travelTo(now()->startOfMonth()->addDays(15));
 
-        $mass = Mass::factory()->create([
+        $mass = Event::factory()->create([
             'start' => now()->startOfMonth(),
             'end' => now()->startOfMonth()->addHours(2),
         ]);
@@ -194,7 +196,7 @@ class MakeReservationTest extends TestCase
     /** @test */
     function event_must_be_published()
     {
-        $mass = Mass::factory()->create([
+        $mass = Event::factory()->create([
             'published_at' => now()->addDays(5),
         ]);
 
@@ -279,14 +281,13 @@ class MakeReservationTest extends TestCase
     {
         $this->setRole('agent');
 
-        $john = User::factory()->create();
+        $john = User::factory()->create(['name' => 'John Esm Talet', 'arabic_name' => 'جون اسم ثالت']);
 
-        $maximum = Mass::maxReservations();
-        $this->reserveMaximum($maximum, $john);
+        $this->reserveMaximum($john);
 
-        $mass = Mass::factory()->create([
-            'start' => now()->startOfMonth()->addDays(2 * ($maximum + 1)),
-            'end' => now()->startOfMonth()->addDays(2 * ($maximum + 1))->addHours(2),
+        $mass = Event::factory()->create([
+            'start' => now()->startOfMonth()->addDays(2 * ($this->maximum + 1)),
+            'end' => now()->startOfMonth()->addDays(2 * ($this->maximum + 1))->addHours(2),
         ]);
 
         Livewire::test(MakeReservation::class)
@@ -295,7 +296,7 @@ class MakeReservationTest extends TestCase
             ->call('save')
             ->assertDispatchedBrowserEvent('open');
 
-        $this->assertEquals($maximum, Reservation::count());
+        $this->assertEquals($this->maximum, Reservation::count());
     }
 
     /** @test */
@@ -305,12 +306,11 @@ class MakeReservationTest extends TestCase
 
         $john = User::factory()->create();
 
-        $maximum = Mass::maxReservations();
-        $this->reserveMaximum($maximum, $john);
+        $this->reserveMaximum($john);
 
-        $mass = Mass::factory()->create([
-            'start' => now()->startOfMonth()->addDays(2 * ($maximum + 1)),
-            'end' => now()->startOfMonth()->addDays(2 * ($maximum + 1))->addHours(2),
+        $mass = Event::factory()->create([
+            'start' => now()->startOfMonth()->addDays(2 * ($this->maximum + 1)),
+            'end' => now()->startOfMonth()->addDays(2 * ($this->maximum + 1))->addHours(2),
         ]);
 
         Livewire::test(MakeReservation::class)
@@ -319,7 +319,7 @@ class MakeReservationTest extends TestCase
             ->call('save')
             ->assertRedirect();
 
-        $this->assertEquals($maximum + 1, Reservation::count());
+        $this->assertEquals($this->maximum + 1, Reservation::count());
     }
 
     function setRole($roleName, $user=null)
@@ -329,14 +329,16 @@ class MakeReservationTest extends TestCase
         $user->syncRoles([Role::where('name', $roleName)->first()->id]);
     }
 
-    function reserveMaximum($maximum, $user=null)
+    function reserveMaximum($user=null)
     {
         $user ??= $this->user;
 
         $this->travelTo(now()->startOfMonth());
 
-        for ($i=1; $i<=$maximum; $i++) {
-            $mass = Mass::factory()->create([
+        $type = EventType::first();
+
+        for ($i=1; $i<=$type->max_reservations; $i++) {
+            $mass = Event::factory()->create([
                 'start' => now()->startOfMonth()->addDays(2 * $i),
                 'end' => now()->startOfMonth()->addDays(2 * $i)->addHours(2),
             ]);

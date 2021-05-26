@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddDeaconsNumberToEventsTable extends Migration
+class ChangeDatesTypeInPeriodsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class AddDeaconsNumberToEventsTable extends Migration
      */
     public function up()
     {
-        Schema::table('events', function (Blueprint $table) {
-            $table->unsignedInteger('deacons_number')
-                ->default(5)
-                ->after('number_of_places');
+        Schema::table('periods', function (Blueprint $table) {
+            $table->dateTime('start')->change();
+            $table->dateTime('end')->change();
         });
     }
 
@@ -27,8 +26,9 @@ class AddDeaconsNumberToEventsTable extends Migration
      */
     public function down()
     {
-        Schema::table('events', function (Blueprint $table) {
-            $table->dropColumn('deacons_number');
+        Schema::table('periods', function (Blueprint $table) {
+            $table->date('start')->change();
+            $table->date('end')->change();
         });
     }
 }

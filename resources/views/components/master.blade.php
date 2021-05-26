@@ -47,7 +47,7 @@
             <a href="{{ url('/') }}">
                 <div class="flex items-center justify-center">
                     <div class="flex items-center m-4">
-                        <img class="rounded-full w-1/4" src="{{ asset("images/koba_logo-250.png") }}" alt="">
+                        <img class="rounded-full w-1/4" src="{{ asset(config('settings.logo')) }}" alt="">
                         <span class="w-3/4 text-gray-200 ltr:ml-6 rtl:mr-6 text-2xl font-semibold">Ticket</span>
                     </div>
                 </div>
@@ -120,89 +120,25 @@
 
                     </x-navbar.list>
 
-                    <x-navbar.list label="{{ __('Masses') }}">
+                    @foreach($shownTypes as $type)
+                        <x-navbar.list label="{{ __(':events', ['events' => $type->locale_plural_name]) }}">
 
-                        <x-slot name="svg">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
-                            </svg>
-                        </x-slot>
+                            <x-slot name="svg">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
+                                </svg>
+                            </x-slot>
 
-                        @can("events.create")
-                            <x-navbar.child label="{{ __('Add Mass') }}" href="{{ url('/masses/create') }}"/>
-                        @endcan
+                            @can("events.create")
+                                <x-navbar.child label="{{ __('Add :event', ['event' => $type->locale_name]) }}" href="{{ url($type->url . '/create') }}"/>
+                            @endcan
 
-                        <x-navbar.child label="{{ __('View Masses') }}" href="{{ url('/masses') }}"/>
+                            <x-navbar.child label="{{ __('View :events', ['events' => $type->locale_plural_name]) }}" href="{{ url($type->url) }}"/>
+                        </x-navbar.list>
+                    @endforeach
 
-                    </x-navbar.list>
-
-                    <x-navbar.list label="{{ __('Vespers') }}">
-
-                        <x-slot name="svg">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-                            </svg>
-                        </x-slot>
-
-                        @can("events.create")
-                            <x-navbar.child label="{{ __('Add Vesper') }}" href="{{ url('/vespers/create') }}"/>
-                        @endcan
-
-                        <x-navbar.child label="{{ __('View Vespers') }}" href="{{ url('/vespers') }}"/>
-
-                    </x-navbar.list>
                 @endcan
-
-{{--                @can("tickets.view")--}}
-{{--                    <x-navbar.list label="{{ __('Baskhat') }}">--}}
-
-{{--                        <x-slot name="svg">--}}
-{{--                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">--}}
-{{--                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>--}}
-{{--                            </svg>--}}
-{{--                        </x-slot>--}}
-
-{{--                        @can("events.create")--}}
-{{--                            <x-navbar.child label="{{ __('Add Baskha') }}" href="{{ url('/baskha/create') }}"/>--}}
-{{--                        @endcan--}}
-
-{{--                        <x-navbar.child label="{{ __('View Baskhat') }}" href="{{ url('/baskha') }}"/>--}}
-
-{{--                    </x-navbar.list>--}}
-
-{{--                    <x-navbar.list label="{{ __('Holy Week') }}">--}}
-
-{{--                        <x-slot name="svg">--}}
-{{--                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">--}}
-{{--                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>--}}
-{{--                            </svg>--}}
-{{--                        </x-slot>--}}
-
-{{--                        @can("events.create")--}}
-{{--                            <x-navbar.child label="{{ __('Add Occasion') }}" href="{{ url('/holy/create') }}"/>--}}
-{{--                        @endcan--}}
-
-{{--                        <x-navbar.child label="{{ __('View Occasions') }}" href="{{ url('/holy') }}"/>--}}
-
-{{--                    </x-navbar.list>--}}
-{{--                @endcan--}}
-
-                {{--                @can("tickets.view")--}}
-                {{--                    <x-navbar.list label="{{ __('Kiahk') }}">--}}
-
-                {{--                        <x-slot name="svg">--}}
-                {{--                            <x-svg.christmas/>--}}
-                {{--                        </x-slot>--}}
-
-                {{--                        @can("events.create")--}}
-                {{--                            <x-navbar.child label="{{ __('Add Kiahk') }}" href="{{ url('/kiahk/create') }}"/>--}}
-                {{--                        @endcan--}}
-
-                {{--                        <x-navbar.child label="{{ __('View Kiahk Events') }}" href="{{ url('/kiahk') }}"/>--}}
-
-                {{--                    </x-navbar.list>--}}
-                {{--                @endcan--}}
 
                 @if(auth()->user()->users()->count() && !auth()->user()->can('users.view'))
                     <x-navbar.divider />

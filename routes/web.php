@@ -35,6 +35,24 @@ Route::middleware(ProtectAgainstSpam::class)
 Route::get('/verify', VerifyPhoneNumber::class)
     ->middleware(['auth', UnVerified::class]);
 
+Route::get('/admin', [DashboardController::class, 'adminHackerTrap']);
+Route::get('/wp-admin', [DashboardController::class, 'adminHackerTrap']);
+
+Route::get('lang/{locale}', function ($locale) {
+    if(!in_array($locale, array_keys(app()->make('locales'))))
+        abort(404);
+
+    if(auth()->check()) {
+        $user = auth()->user();
+        $user->locale = $locale;
+        $user->save();
+    }
+
+    setcookie('locale', $locale, time()+60*60*24*365*10, '/'); // For 10 years
+
+    return back();
+});
+
 Route::middleware(["auth", EnsurePhoneNumberIsVerified::class])->group(function() {
     Route::get('/assets/{image}', function ($image) {
         $width = request('w') ?? 200;
@@ -64,23 +82,6 @@ Route::middleware(["auth", EnsurePhoneNumberIsVerified::class])->group(function(
     Route::get('/periods/{period}/edit', PeriodForm::class);
     Route::get('/periods', PeriodsTable::class);
 
-    $eventResources = ['create', 'edit', 'index', 'store', 'update', 'destroy'];
-    Route::resource("masses", EventsController::class)
-        ->parameters(['masses' => 'event'])
-        ->only($eventResources);
-    Route::resource("kiahk", EventsController::class)
-        ->parameters(['kiahk' => 'event'])
-        ->only($eventResources);
-    Route::resource("vespers", EventsController::class)
-        ->parameters(['vespers' => 'event'])
-        ->only($eventResources);
-    Route::resource("baskha", EventsController::class)
-        ->parameters(['baskha' => 'event'])
-        ->only($eventResources);
-    Route::resource("holy", EventsController::class)
-        ->parameters(['holy' => 'event'])
-        ->only($eventResources);
-
     Route::get("tickets", Tickets::class);
 
     Route::get('/reserve', MakeReservation::class);
@@ -91,22 +92,8 @@ Route::middleware(["auth", EnsurePhoneNumberIsVerified::class])->group(function(
     Route::get("ajax/reservation/events", [ReservationsController::class, 'getEvents']);
 
     Route::get('/friends', Friends::class);
-});
 
-Route::get('/admin', [DashboardController::class, 'adminHackerTrap']);
-Route::get('/wp-admin', [DashboardController::class, 'adminHackerTrap']);
-
-Route::get('lang/{locale}', function ($locale) {
-    if(!in_array($locale, array_keys(app()->make('locales'))))
-        abort(404);
-
-    if(auth()->check()) {
-        $user = auth()->user();
-        $user->locale = $locale;
-        $user->save();
-    }
-
-    setcookie('locale', $locale, time()+60*60*24*365*10, '/'); // For 10 years
-
-    return back();
+    Route::resource("{eventType}", EventsController::class)
+        ->parameters(['{eventType}' => 'event', 'eventType' => 'eventType'])
+        ->only(['create', 'edit', 'index', 'store', 'update', 'destroy']);
 });

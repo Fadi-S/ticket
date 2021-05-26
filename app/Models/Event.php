@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Reservations\EventContract;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Event extends Model implements EventContract
+class Event extends Model
 {
-    use SoftDeletes, LogsActivity;
+    use SoftDeletes, LogsActivity, HasFactory;
 
     protected $table = "events";
     protected $fillable = ["start", "end", "number_of_places", "deacons_number", "description", "type_id", "overload", "published_at"];
@@ -20,8 +21,6 @@ class Event extends Model implements EventContract
     protected static $submitEmptyLogs = false;
 
     protected $with = ['type'];
-
-    public bool $hasDeacons = true;
 
     public function scopeUpcoming($query)
     {
@@ -35,6 +34,11 @@ class Event extends Model implements EventContract
             ->orWhere('hidden_at', '>=', now());
     }
 
+    public function scopeTypeId($query, $type)
+    {
+        return $query->where('type_id', '=', $type);
+    }
+
     public function period()
     {
         return Period::current($this->start);
@@ -45,14 +49,14 @@ class Event extends Model implements EventContract
         return $this->deacons_number;
     }
 
-    static public function maxReservations(): int
+    public function getHasDeaconsAttribute()
     {
-        return config('settings.event.max_reservations_per_period');
+        return $this->type->has_deacons;
     }
 
-    static public function allowsException(): bool
+    public function allowsException()
     {
-        return config('settings.event.max_reservations_per_period');
+        return $this->type->allows_exception;
     }
 
     /** @deprecated  **/
@@ -155,11 +159,14 @@ class Event extends Model implements EventContract
         return $this->start->lte(now()) || $this->hidden_at != null;
     }
 
+    /** @deprecated  **/
     public function specific()
     {
-        return app($this->type->model)->find($this->id);
+        return $this;
     }
 
+
+    /** @deprecated  **/
     public function eventOrderInDay()
     {
         $order = [
@@ -181,8 +188,8 @@ class Event extends Model implements EventContract
         return $order[$eventsCount];
     }
 
-    static public function conditions()
+    public function conditions()
     {
-        return [];
+        return $this->type->getConditions();
     }
 }

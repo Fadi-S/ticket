@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use App\Models\Event;
-use App\Models\Mass;
+use App\Models\EventType;
 use App\Models\Period;
 use App\Models\Reservation;
 use App\Models\Ticket;
@@ -30,7 +30,13 @@ class MassReservationTest extends TestCase
         $this->user->assignRole('user');
         $this->actingAs($this->user);
 
-        config(['settings.mass.max_reservations_per_period' => 1]);
+        Period::create([
+            'name' => 'Test Period',
+            'start' => now()->copy(),
+            'end' => now()->copy()->endOfMonth(),
+        ]);
+
+        EventType::query()->where('id', 1)->update(['allows_exception' => false]);
     }
 
     /** @test */
@@ -52,11 +58,11 @@ class MassReservationTest extends TestCase
 
         $this->fillTickets();
 
-        $this->assertEquals(0, $this->user->tickets()->mass());
+        $this->assertEquals(0, $this->user->tickets()->event(1));
 
         $this->assertFalse($this->reserveInNewEvent(now()->endOfMonth()->subHours(4)));
 
-        $this->assertEquals(0, $this->user->tickets()->mass());
+        $this->assertEquals(0, $this->user->tickets()->event(1));
     }
 
     /** @test */
@@ -87,7 +93,7 @@ class MassReservationTest extends TestCase
     function an_admin_reserving_to_user_can_bypass_place_limits()
     {
         $ticket = Ticket::factory()->create([
-            'event_id' => Mass::factory()->create(['number_of_places' => 1])->id
+            'event_id' => Event::factory()->create(['number_of_places' => 1])->id
         ]);
 
         $this->assertNotFalse($this->user->reserveIn($ticket));
@@ -105,7 +111,7 @@ class MassReservationTest extends TestCase
     function there_must_be_enough_space_to_reserve_a_ticket_to_user()
     {
         $ticket = Ticket::factory()->create([
-            'event_id' => Mass::factory()->create(['number_of_places' => 1])->id
+            'event_id' => Event::factory()->create(['number_of_places' => 1])->id
         ]);
 
         $this->assertNotFalse($this->user->reserveIn($ticket));
@@ -117,13 +123,13 @@ class MassReservationTest extends TestCase
 
     private function reserveInNewEvent(Carbon $time=null)
     {
-        $mass = Mass::factory()->create([
-            'start' => $time ?? now()->addHours(10),
-            'end' => $time ?? now()->addHours(12),
+        $event = Event::factory()->create([
+            'start' => $time ?? now()->hours(8),
+            'end' => $time ?? now()->hours(10),
         ]);
 
         $ticket = Ticket::factory()->create([
-            'event_id' => $mass->id
+            'event_id' => $event->id
         ]);
 
         return $this->user->reserveIn($ticket);
@@ -150,65 +156,67 @@ class MassReservationTest extends TestCase
             'end' => $endOfSecond,
         ]);
 
-        $massAtTheStartOfFirst = Mass::factory()->create([
+        $EventAtTheStartOfFirst = Event::factory()->create([
             'start' => $startOfFirst->copy()->hours(8),
             'end' => $startOfFirst->copy()->hours(10),
         ]);
 
-        $massAtTheStartOfSecond = Mass::factory()->create([
+        $EventAtTheStartOfSecond = Event::factory()->create([
             'start' => $startOfSecond->copy()->hours(8),
             'end' => $startOfSecond->copy()->hours(10),
         ]);
 
         $this->travelTo($startOfFirst->copy()->subDays(2));
-        $ticket1 = Ticket::factory()->create(['event_id' => $massAtTheStartOfFirst]);
+        $ticket1 = Ticket::factory()->create(['event_id' => $EventAtTheStartOfFirst]);
 
-        $this->assertEquals(1, $this->user->tickets()->mass($startOfFirst));
+        $this->assertEquals(1, $this->user->tickets()->event(1, $startOfFirst));
         $this->assertNotFalse($this->user->reserveIn($ticket1));
-        $this->assertEquals(0, $this->user->tickets()->mass($startOfFirst));
+        $this->assertEquals(0, $this->user->tickets()->event(1, $startOfFirst));
 
 
         $this->travelTo($startOfSecond->copy()->subDays(2));
-        $ticket2 = Ticket::factory()->create(['event_id' => $massAtTheStartOfSecond]);
+        $ticket2 = Ticket::factory()->create(['event_id' => $EventAtTheStartOfSecond]);
 
-        $this->assertEquals(1, $this->user->tickets()->mass($startOfSecond));
+        $this->assertEquals(1, $this->user->tickets()->event(1, $startOfSecond));
         $this->assertNotFalse($this->user->reserveIn($ticket2));
-        $this->assertEquals(0, $this->user->tickets()->mass($startOfSecond));
+        $this->assertEquals(0, $this->user->tickets()->event(1, $startOfSecond));
     }
 
     /** @test */
     function events_in_the_start_and_end_of_period_counts_towards_user_quota()
     {
-        $date = now()->addDay()->hours(8);
+        $date = now()->hours(8);
+
+        Period::query()->delete();
 
         Period::create([
             'name' => 'Test Period',
-            'start' => $date->copy()->addDay()->startOfDay(),
-            'end' => $date->copy()->addDay()->addWeek()->endOfDay(),
+            'start' => $date->copy()->addDays(2)->startOfDay(),
+            'end' => $date->copy()->addDays(2)->addWeek()->endOfDay(),
         ]);
 
-        $eventInBeginning = Mass::factory()->create([
-            'start' => $date->copy()->addDay()->hours(8),
-            'end' => $date->copy()->addDay()->addHours(2),
+        $eventInBeginning = Event::factory()->create([
+            'start' => $date->copy()->addDays(2)->hours(8),
+            'end' => $date->copy()->addDays(2)->addHours(2),
         ]);
 
-        $eventInEnd = Mass::factory()->create([
-            'start' => $date->copy()->addDay()->addWeek(),
-            'end' => $date->copy()->addDay()->addWeek()->addHour(),
+        $eventInEnd = Event::factory()->create([
+            'start' => $date->copy()->addDays(2)->addWeek(),
+            'end' => $date->copy()->addDays(2)->addWeek()->addHour(),
         ]);
-
-        config()->set('settings.allow_for_exceptions', false);
 
         foreach ([$eventInBeginning, $eventInEnd] as $event) {
+            $event->type->allows_exception = false;
+            $event->type->save();
             $ticket = Ticket::factory()->create([
                 'event_id' => $event->id
             ]);
 
-            $this->assertEquals(1, $this->user->tickets()->mass($event->start));
+            $this->assertEquals(1, $this->user->tickets()->event(1, $event->start));
 
             $this->assertNotFalse($this->user->reserveIn($ticket));
 
-            $this->assertEquals(0, $this->user->tickets()->mass($event->start));
+            $this->assertEquals(0, $this->user->tickets()->event(1, $event->start));
 
             $ticket->cancel();
         }
@@ -217,7 +225,9 @@ class MassReservationTest extends TestCase
 
     private function fillTickets()
     {
+        $period = Period::current();
+
         for($i=1; $i<=5; $i++)
-            $this->reserveInNewEvent(now()->endOfMonth()->subDays(3 * $i));
+            $this->reserveInNewEvent($period->end->endOfDay()->subDays(1 * $i));
     }
 }

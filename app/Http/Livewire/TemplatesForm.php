@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Event;
 
+use App\Models\EventType;
 use App\Models\Mass;
 use App\Models\Template;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -45,6 +46,11 @@ class TemplatesForm extends Component
 
     }
 
+    public function getTypeProperty()
+    {
+        return EventType::find($this->type_id);
+    }
+
     public function render()
     {
         return view('livewire.templates-form')
@@ -62,7 +68,8 @@ class TemplatesForm extends Component
 
         $this->template->start = $this->start;
         $this->template->end = $this->end;
-        $this->template->type_id = $this->type_id ?? Mass::$type;
+        $this->template->type_id = $this->type_id ?? 1;
+        $this->template->church_id = auth()->user()->church_id;
         $this->template->active ??= true;
         $this->template->overload = $this->template->overload / 100;
         $this->template->save();
@@ -98,7 +105,7 @@ class TemplatesForm extends Component
         return [
             'template.description' => 'required',
             'template.number_of_places' => 'required|numeric',
-            'template.deacons_number' => 'required|numeric',
+            'template.deacons_number' => 'nullable|numeric',
             'template.overload' => 'required|numeric|between:0,100',
             'start' => 'required',
             'end' => 'required',

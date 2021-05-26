@@ -15,6 +15,7 @@ class AddIsDeaconToReservationsTable extends Migration
     {
         Schema::table('reservations', function (Blueprint $table) {
             $table->boolean('is_deacon')
+                ->default(false)
                 ->after('is_exception');
         });
     }

@@ -13,6 +13,11 @@
 
         <input type="hidden" name="remember" value="true">
         <div class="space-y-3">
+            @unless(config('settings.arabic_name_only'))
+                <x-form.input-2 label="{{ __('Name in english') }}" :error="$errors->get('name')"
+                            id="name" value="{{ old('name') }}"
+                            type="text" required />
+            @endunless
 
             <x-form.input-2 label="{{ __('Name in arabic') }}" dir="rtl" :error="$errors->get('arabic_name')"
                             id="arabic_name" value="{{ old('arabic_name') }}"
