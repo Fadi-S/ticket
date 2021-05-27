@@ -67,21 +67,32 @@ class ReservationsController extends Controller
 
         return $events->map(function ($event) use ($colors, $isUser, $isDeacon) {
 
-            if($isDeacon) {
-                $left = $event->deacon_reservations_left;
-            }else{
-                $left = $event->reservations_left;
-            }
-
+            $left = $event->reservations_left;
             if($isUser)
                 $left = $left >= 0 ? $left : 0;
 
-            return [
-                'id' => $event->id,
-                'title' => __(":name | :number left", [
+            $title = __(":name | :number left", [
+                'name' => $event->description,
+                'number' => $left,
+            ]);
+
+            if($isDeacon || auth()->user()->can('tickets.view')) {
+                $deaconsLeft = $event->deacon_reservations_left;
+                if($isUser)
+                    $deaconsLeft = $deaconsLeft >= 0 ? $deaconsLeft : 0;
+
+                $title = __(":name | :number left and :deacons deacons", [
                     'name' => $event->description,
                     'number' => $left,
-                ]),
+                    'deacons' => $deaconsLeft,
+                ]);
+            }
+
+
+
+            return [
+                'id' => $event->id,
+                'title' => $title,
                 'start' => $event->start,
                 'end' => $event->end,
                 'color' => $colors[$event->type_id - 1]
