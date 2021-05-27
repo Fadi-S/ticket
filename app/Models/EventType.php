@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class EventType extends Model
@@ -45,6 +46,23 @@ class EventType extends Model
             ->withPivot(['church_id', 'order']);
     }
 
+    public function toggleCondition(Condition $condition, $church_id=1)
+    {
+        $conditions = $this->conditions()
+            ->wherePivot('church_id', '=', $church_id)
+            ->get();
+
+        if($conditions->where('id', $condition['id'])->isNotEmpty()) {
+            $conditions = $conditions->reject(fn($cond) => $cond['id'] === $condition['id']);
+        }else{
+            $conditions = $conditions->push($condition);
+        }
+
+        $this->setConditions($conditions->toArray());
+
+        \Cache::forget('conditions.' . $this->id . ".$church_id");
+    }
+
     public function churches()
     {
         return $this->belongsToMany(Church::class, 'condition_type', 'type_id', 'church_id')
@@ -53,12 +71,16 @@ class EventType extends Model
 
     public function getConditions($church_id=1)
     {
-        return $this->conditions()
+        return \Cache::remember(
+            'conditions.' . $this->id . ".$church_id",
+            now()->addDay(),
+            fn() => $this->conditions()
             ->wherePivot('church_id', '=', $church_id)
             ->orderBy('priority')
             ->orderBy('order')
             ->pluck('path')
-            ->toArray();
+            ->toArray()
+        );
     }
 
     public function setConditions($conditions, $church_id=1)
@@ -72,7 +94,7 @@ class EventType extends Model
         foreach ($conditions as $condition)
         {
             $this->conditions()
-                ->attach($condition->id, [
+                ->attach($condition['id'], [
                     'order' => $order,
                     'church_id' => $church_id,
                 ]);
