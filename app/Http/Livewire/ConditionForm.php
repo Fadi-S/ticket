@@ -18,7 +18,7 @@ class ConditionForm extends Component
         $this->authorize('create', Condition::class);
 
         $this->condition ??= new Condition();
-        $this->required = $this->condition->required;
+        $this->required = !! $this->condition->required;
     }
 
     public function render()
