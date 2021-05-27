@@ -3,7 +3,9 @@
 namespace App\Http\Livewire;
 
 use App\Models\Condition;
+use App\Rules\ConditionExists;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class ConditionForm extends Component
@@ -12,11 +14,13 @@ class ConditionForm extends Component
 
     public Condition $condition;
     public bool $required = false;
+    public bool $isCreate;
 
     public function mount()
     {
         $this->authorize('create', Condition::class);
 
+        $this->isCreate = ! isset($this->condition);
         $this->condition ??= new Condition();
         $this->required = !! $this->condition->required;
     }
@@ -34,13 +38,27 @@ class ConditionForm extends Component
         $this->condition->save();
 
         session()->flash('success', __('Condition Saved Successfully'));
+
+        if($this->isCreate) {
+            $this->condition = new Condition;
+            $this->required = false;
+        }
     }
 
     public function rules()
     {
+        $id = $this->condition->id;
+
         return [
-            'condition.name' => ['required', 'unique:conditions,name'],
-            'condition.path' => ['required', 'unique:conditions,path'],
+            'condition.name' => [
+                'required',
+                Rule::unique('conditions', 'name')->ignore($id),
+            ],
+            'condition.path' => [
+                'required',
+                Rule::unique('conditions', 'path')->ignore($id),
+                new ConditionExists(),
+            ],
             'condition.priority' => ['required', 'numeric'],
             'required' => ['required', 'boolean'],
         ];

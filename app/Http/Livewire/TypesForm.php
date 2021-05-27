@@ -38,6 +38,11 @@ class TypesForm extends Component
         $this->type->save();
 
         session()->flash('success', __('Type Saved Successfully'));
+
+        if($this->isCreate) {
+            $this->type = new EventType();
+            $this->show = false;
+        }
     }
 
     public function rules()
