@@ -170,6 +170,24 @@
                     </x-navbar.link>
                 @endif
 
+                @can('conditions')
+                    <x-navbar.list label="{{ __('Conditions') }}">
+
+                        <x-slot name="svg">
+                            <x-svg.conditions />
+                        </x-slot>
+
+                        @can("conditions.create")
+                            <x-navbar.child label="{{ __('Add Condition') }}" href="{{ url('/conditions/create') }}"/>
+                        @endcan
+
+                        <x-navbar.child label="{{ __('Add Type') }}" href="{{ url('/types/create') }}"/>
+
+                        <x-navbar.child label="{{ __('View Types') }}" href="{{ url('/types') }}"/>
+
+                    </x-navbar.list>
+                @endcan
+
                 @can('activityLog')
                     <x-navbar.divider/>
 

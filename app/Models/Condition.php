@@ -10,5 +10,9 @@ class Condition extends Model
     use HasFactory;
     protected $guarded = [];
 
+    protected $casts = [
+        'required' => 'boolean',
+    ];
+
     public $timestamps = false;
 }
