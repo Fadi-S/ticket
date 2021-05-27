@@ -22,7 +22,7 @@ class TypesForm extends Component
         $this->isCreate = ! isset($this->type);
 
         $this->type ??= new EventType();
-        $this->show = $this->type->show;
+        $this->show = !! $this->type->show;
     }
 
     public function render()
