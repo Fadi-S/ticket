@@ -165,6 +165,10 @@ class UserForm extends Component
             $rules['user.name'] = ['nullable'];
         }
 
+        if(! auth()->user()->can('users.edit')) {
+            $rules['user.location_id'] = ['required', 'exists:locations,id'];
+        }
+
         if (!$this->isCreate) {
             $id = isset($this->user) ? $this->user->id : 0;
 
