@@ -43,7 +43,6 @@ class ReservationsController extends Controller
             ->get();
 
         // $events = $events->filter(fn($event) => $event->reservations_left > 0)->values();
-
         // $cacheDates = $start->format('Y-m-d')  . '.' . $end->format('Y-m-d');
 
 
