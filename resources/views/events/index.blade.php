@@ -171,9 +171,7 @@
                         </x-table.td>
 
                         <x-table.td>
-                            <div class="w-6 h-6 rounded-full p-1 text-center flex items-center justify-center
-                            {{ $template->active ? 'bg-green-200' : 'bg-red-200' }}">
-                            </div>
+                            <x-svg.active-or-not :active="$template->active" />
                         </x-table.td>
 
                         @can('events.edit')

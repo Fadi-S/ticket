@@ -13,7 +13,6 @@
 
         <input type="hidden" name="remember" value="true">
         <div class="space-y-3">
-
             @unless(config('settings.arabic_name_only'))
                 <x-form.input-2 label="{{ __('Name in english') }}" :error="$errors->get('name')"
                             id="name" value="{{ old('name') }}"
@@ -34,7 +33,7 @@
 
             <x-form.input-2 label="{{ __('National ID') }}" :error="$errors->get('national_id')"
                             id="national_id" value="{{ old('national_id') }}" required
-                            type="text" />
+                            type="text" required />
 
             <x-form.input-2 label="{{ __('Password') }}" :error="$errors->get('password')"
                             id="password" value="{{ old('password') }}"

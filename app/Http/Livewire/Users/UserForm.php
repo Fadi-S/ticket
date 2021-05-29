@@ -79,7 +79,11 @@ class UserForm extends Component
         }
 
         if($this->isCreate) {
-            $this->user->username = User::makeSlug($this->user->arabic_name, $this->user->id);
+            $name = config('settings.arabic_name_only')
+                ? $this->user->arabic_name
+                : $this->user->name;
+
+            $this->user->username = User::makeSlug($name, $this->user->id);
         }
 
         if(!$this->user->isSignedIn() && auth()->user()->isUser()) {
@@ -163,6 +167,10 @@ class UserForm extends Component
 
         if(config('settings.arabic_name_only')) {
             $rules['user.name'] = ['nullable'];
+        }
+
+        if(! auth()->user()->can('users.edit')) {
+            $rules['user.location_id'] = ['required', 'exists:locations,id'];
         }
 
         if (!$this->isCreate) {

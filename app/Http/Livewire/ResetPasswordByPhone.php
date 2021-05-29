@@ -87,9 +87,17 @@ class ResetPasswordByPhone extends Component
 
         $sessionInfo = \DB::table('phone_verifications')
             ->where('phone', session($this->phoneKey))
-            ->first()
-            ->reCaptcha;
+            ->first();
 
+        if(! $sessionInfo) {
+            session()->flash('error', "Try sending again");
+
+            session()->put($this->stateKey, 0);
+
+            return;
+        }
+
+        $sessionInfo = $sessionInfo->reCaptcha;
         if (!$api->verifyCode($this->code, $sessionInfo)) {
             session()->flash('error', "Wrong code");
 
