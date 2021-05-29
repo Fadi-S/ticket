@@ -19,7 +19,7 @@
         @can('tickets.view')
             @foreach($currentEvents as $currentEvent)
                 <x-data-card :href="url('/tickets?event=' . $currentEvent->id)" color="bg-green-400"
-                             class="cursor-pointer transform transition duration-150
+                             class="cursor-pointer transform transition duration-500
                               hover:scale-95 focus:scale-95">
                     <x-slot name="svg">
                         <x-svg.clock/>
