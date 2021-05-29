@@ -27,29 +27,8 @@
 
     <div class="mb-6">
         @if($state == 0)
-            <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=implicit"
-                    async defer>
-            </script>
-            <script type="text/javascript">
-                var onloadCallback = function() {
-                @this.set('reCaptcha', recaptcha);
-                };
-            </script>
-
             <form class="space-y-6" action="#" method="POST" wire:submit.prevent="send">
                 @csrf
-
-                <script type="text/javascript">
-                    var onloadCallback = function() {
-                        grecaptcha.render('recaptcha-div', {
-                            'sitekey' : '{{ config('settings.google_site_key') }}',
-                            'callback': function(response) {
-                                @this.set('reCaptcha', response);
-                            },
-                        });
-                    };
-                </script>
-
                 <div>
                     <label for="phone" class="block text-sm font-medium text-gray-700">
                         {{ __('Phone') }}
@@ -74,7 +53,7 @@
                 </div>
 
                 <div wire:ignore>
-                    <div data-theme="{{ $isDark ? 'dark' : 'light'}}" id="recaptcha-div"></div>
+                    <div id="recaptcha-div"></div>
                 </div>
 
 
@@ -90,9 +69,21 @@
                     {{ __('Send Code') }}
                 </x-button>
 
-                <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
-                        async defer>
-                </script>
+                @push('scripts')
+                    <script type="text/javascript">
+                        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-div', {
+                            'size': 'normal',
+                            'theme': '{{ $isDark ? 'dark' : 'light'}}',
+                            'callback': (response) => {
+                            @this.set('reCaptcha', response);
+                            },
+                        });
+
+                        recaptchaVerifier.render().then((widgetId) => {
+                            window.recaptchaWidgetId = widgetId;
+                        });
+                    </script>
+                @endpush
             </form>
         @endif
 
