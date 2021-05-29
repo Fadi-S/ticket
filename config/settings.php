@@ -2,6 +2,8 @@
 
 return [
     'google_api_token' => env('GOOGLE_API_TOKEN'),
+    'google_site_key' => env('GOOGLE_SITE_KEY'),
+    'google_private_site_key' => env('PRIVATE_GOOGLE_SITE_KEY'),
 
     'light_theme_photo' => env('LIGHT_THEME_PHOTO'),
     'dark_theme_photo' => env('DARK_THEME_PHOTO'),

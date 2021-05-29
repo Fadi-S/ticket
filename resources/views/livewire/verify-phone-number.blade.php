@@ -66,8 +66,27 @@
         </div>
 
         <div>
+            @if(!$sent)
+                <script type="text/javascript">
+                    var onloadCallback = function() {
+                        grecaptcha.render('recaptcha-div', {
+                            'sitekey' : '{{ config('settings.google_site_key') }}',
+                            'callback': function(response) {
+                            @this.set('reCaptcha', response);
+                            },
+                        });
+                    };
+                </script>
+
+                <div wire:ignore>
+                    <div data-theme="{{ $isDark ? 'dark' : 'light'}}" id="recaptcha-div"></div>
+                </div>
+            @endif
+        </div>
+
+        <div>
             @unless($edit)
-                <x-button type="button" wire:click="send"
+                <x-button :disabled="is_null($reCaptcha)" type="button" wire:click="send"
                           class="mx-auto w-full justify-center shadow-lg">
                     <x-slot name="svg">
                         <svg wire:loading.remove wire:target="send" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -86,20 +105,9 @@
             @endunless
         </div>
 
-        <div wire:ignore>
-            <button type="button" class="sr-only" id="recaptcha-div"></button>
-        </div>
-
         @push('scripts')
-            <script>
-                window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-div', {
-                    'size': 'invisible',
-                    'callback': recaptcha => @this.set('reCaptcha', recaptcha),
-                });
-
-                window.recaptchaVerifier.render().then(
-                    () => document.querySelector('#recaptcha-div').dispatchEvent(new Event('click'))
-                );
+            <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+                    async defer>
             </script>
         @endpush
         <div class="w-full">
