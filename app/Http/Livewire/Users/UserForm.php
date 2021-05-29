@@ -79,7 +79,6 @@ class UserForm extends Component
         }
 
         if($this->isCreate) {
-
             $name = config('settings.arabic_name_only')
                 ? $this->user->arabic_name
                 : $this->user->name;
@@ -136,11 +135,6 @@ class UserForm extends Component
     protected function rules()
     {
         $rules = [
-            'user.name' => [
-                'required',
-                new Fullname,
-                new EnglishOnly
-            ],
             'user.arabic_name' => [
                 'required',
                 new Fullname,
@@ -157,7 +151,7 @@ class UserForm extends Component
                 'unique:users,phone',
             ],
             'user.national_id' => [
-                'nullable',
+                'required',
                 'regex:/' . StandardRegex::NATIONAL_ID . '/',
                 'unique:users,national_id',
                 new NationalIDValidation,
@@ -197,7 +191,7 @@ class UserForm extends Component
             ];
 
             $rules['user.national_id'] = [
-                'nullable',
+                'required',
                 'regex:/' . StandardRegex::NATIONAL_ID . '/',
                 new NationalIDValidation,
                 Rule::unique('users', 'national_id')->ignore($id),
