@@ -73,12 +73,12 @@ trait UserAttributes
         return explode(' ', $this->locale_name)[0];
     }
 
-    public function getNameAttribute()
+    public function getNameAttribute($name)
     {
         if(config('settings.arabic_name_only'))
             return $this->arabic_name;
 
-        return $this->name;
+        return $name;
     }
 
     public function hasFirstNameOnly() : bool
