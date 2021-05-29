@@ -9,6 +9,7 @@
 
     @livewireStyles
 
+    @stack('header')
 </head>
 <body class="app {{ $isDark ? 'dark' : '' }}"
       :class="{'dark': dark}"
