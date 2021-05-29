@@ -79,8 +79,12 @@ class UserForm extends Component
         }
 
         if($this->isCreate) {
-            $name = config('settings.arabic_name_only') ? 'arabic_name' : 'name';
-            $this->user->username = User::makeSlug($this->user->$name, $this->user->id);
+
+            $name = config('settings.arabic_name_only')
+                ? $this->user->arabic_name
+                : $this->user->name;
+
+            $this->user->username = User::makeSlug($name, $this->user->id);
         }
 
         if(!$this->user->isSignedIn() && auth()->user()->isUser()) {
