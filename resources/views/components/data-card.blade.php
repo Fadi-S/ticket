@@ -1,5 +1,6 @@
 @props([
     'color' => 'bg-gray-600',
+    'colorStyle' => null,
     'class' => null,
     'href' => null,
 ])
@@ -11,7 +12,7 @@
     @endif
 
         <div class="flex h-full items-center px-5 py-6 shadow-md rounded-xl bg-white dark:bg-gray-700 transition-dark">
-            <div class="p-3 rounded-full {{ $color }} bg-opacity-75">
+            <div class="p-3 rounded-full {{ $color }} bg-opacity-75" style="{{ $colorStyle }}">
 
                 {{ $svg }}
 

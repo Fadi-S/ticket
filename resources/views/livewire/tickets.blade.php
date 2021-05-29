@@ -68,44 +68,15 @@
         </div>
     @endif
 
-    @php
-        $colors = [
-            [
-                'border' => 'border-indigo-500 dark:border-indigo-800',
-                'background' => 'bg-indigo-200 dark:bg-indigo-800',
-                'text' => 'text-indigo-500 dark:text-indigo-300',
-            ],
-            [
-                'border' => 'border-green-500 dark:border-green-800',
-                'background' => 'bg-green-200 dark:bg-green-300',
-                'text' => 'text-green-500 dark:text-green-800',
-            ],
-            [
-                'border' => 'border-gray-500 dark:border-gray-300',
-                'background' => 'bg-gray-200 dark:bg-gray-300',
-                'text' => 'text-gray-500 dark:text-gray-800',
-            ],
-            [
-                'border' => 'border-yellow-500 dark:border-yellow-800',
-                'background' => 'bg-yellow-200 dark:bg-yellow-800',
-                'text' => 'text-yellow-700 dark:text-yellow-300',
-            ],
-            [
-                'border' => 'border-gray-500 dark:border-gray-300',
-                'background' => 'bg-gray-200 dark:bg-gray-300',
-                'text' => 'text-gray-500 dark:text-gray-800',
-            ],
-        ];
-    @endphp
-
     <div class="grid grid-cols-12 gap-4">
         <div class="col-span-12">
             @if($event)
                 <div class="mb-2 flex flex-col text-gray-800 space-y-4
                  dark:text-gray-200 items-start justify-between">
-                    @php($color = $colors[$this->eventModel->type_id-1])
-                    <div class="font-bold text-sm rounded-full py-1 px-2
-                                {{ $color['background'] . ' ' . $color['text'] }}">
+                    @php($color = $this->eventModel->type->colorNames)
+                    <div class="font-bold text-sm rounded-full py-1 px-2"
+                        style="color: {{ $color['text'] }}; background-color: {{ $color['background'] }};"
+                    >
                         {{ $this->eventModel->type->arabic_name }}
                     </div>
 
@@ -119,7 +90,7 @@
         </div>
 
 
-        <x-layouts.tickets :tickets="$tickets" :colors="$colors" :event="$event" :type="$type">
+        <x-layouts.tickets :tickets="$tickets" :event="$event" :type="$type">
             <x-slot name="empty">
                 @if($event)
                     <span>{{ __('You have no tickets at this event!') }}

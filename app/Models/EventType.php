@@ -69,6 +69,56 @@ class EventType extends Model
             ->withPivot(['condition_id', 'order']);
     }
 
+    public function getColorAttribute($color)
+    {
+        if($color)
+            return $color;
+
+        $colors = collect([
+            '#5658e8',
+            '#37ad28',
+            '#72727d',
+            '#b00d02',
+            '#323236',
+            '#62b9d1',
+        ]);
+
+        return $colors->get($this->id -1, '#62b9d1');
+    }
+
+    public function getColorNamesAttribute()
+    {
+        $adjustColor = function ($hex, $steps) {
+            $steps = max(-255, min(255, $steps));
+
+            // Normalize into a six character long hex string
+            $hex = str_replace('#', '', $hex);
+            if (strlen($hex) == 3) {
+                $hex = str_repeat(substr($hex,0,1), 2) .
+                    str_repeat(substr($hex,1,1), 2).str_repeat(substr($hex,2,1), 2);
+            }
+
+            // Split into three parts: R, G and B
+            $color_parts = str_split($hex, 2);
+            $return = '#';
+
+            foreach ($color_parts as $color) {
+                $color   = hexdec($color); // Convert to decimal
+                $color   = max(0,min(255,$color + $steps)); // Adjust color
+                $return .= str_pad(dechex($color), 2, '0', STR_PAD_LEFT); // Make two char hex code
+            }
+
+            return $return;
+        };
+
+
+        return [
+            'border' => $adjustColor($this->color, 60),
+            'background' => $adjustColor($this->color, 60),
+            'text' => $adjustColor($this->color, -150),
+        ];
+    }
+
     public function getConditions($church_id=1)
     {
         return \Cache::remember(

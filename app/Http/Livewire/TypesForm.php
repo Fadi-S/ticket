@@ -61,6 +61,7 @@ class TypesForm extends Component
                 Rule::unique('event_types', 'url')->ignore($id),
             ],
             'type.max_reservations' => ['required', 'min:1'],
+            'type.color' => ['required'],
             'show' => ['required', 'boolean'],
             'deacons' => ['required', 'boolean'],
         ];
