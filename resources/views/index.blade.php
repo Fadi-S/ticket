@@ -33,7 +33,7 @@
         @endcan
 
         @foreach($shownTypes as $type)
-            <x-data-card color="bg-blue-500">
+            <x-data-card colorStyle="background-color: {{ $type->color }}">
                 <x-slot name="svg">
                     <x-svg.ticket/>
                 </x-slot>

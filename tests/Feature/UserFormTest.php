@@ -30,7 +30,9 @@ class UserFormTest extends TestCase
             ->set('user.name', 'John Doe third')
             ->set('user.arabic_name', 'جون دو اسم')
             ->set('user.email', 'test@example.com')
+            ->set('user.national_id', '30204250201616')
             ->set('user.phone', '01200000000')
+            ->set('user.location_id', 1)
             ->set('gender', 1)
             ->call('save')
             ->assertSee(__('User Saved Successfully'));

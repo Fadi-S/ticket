@@ -6,6 +6,8 @@
             <tr>
                 <x-table.th>{{ __('Name') }}</x-table.th>
                 <x-table.th>{{ __('Shown') }}</x-table.th>
+                <x-table.th>{{ __('Color') }}</x-table.th>
+                <x-table.th>{{ __('Has Deacons') }}</x-table.th>
                 @if(auth()->user()->can('types.edit'))
                     <x-table.th>{{ __('Edit') }}</x-table.th>
                 @endif
@@ -36,9 +38,18 @@
                     </x-table.td>
 
                     <x-table.td>
-                        <div class="w-6 h-6 rounded-full p-1 text-center flex items-center justify-center
-                            {{ $type->show ? 'bg-green-200' : 'bg-red-200' }}">
+                        <x-svg.active-or-not :active="$type->show" />
+                    </x-table.td>
+
+                    <x-table.td>
+                        <div class="w-6 h-6 rounded-full p-1 text-center flex items-center justify-center"
+                             style="background-color: {{ $type->color }}"
+                        >
                         </div>
+                    </x-table.td>
+
+                    <x-table.td>
+                        <x-svg.active-or-not :active="$type->has_deacons" />
                     </x-table.td>
 
                     @if(auth()->user()->can('events.edit'))

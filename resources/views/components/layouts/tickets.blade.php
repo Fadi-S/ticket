@@ -5,10 +5,10 @@
 ])
 
 @forelse($tickets as $ticket)
-    @php($color = $colors[$ticket->event->type_id-1])
+    @php($color = $ticket->event->type->colorNames)
     <div id="ticket-{{ $ticket->id }}" wire:key="ticket-{{ $ticket->id }}" class="transition-colors duration-500
             col-span-12 md:col-span-6 xl:col-span-4 overflow-x-hidden w-full shadow-lg
-             border-t-4 rounded-lg {{ $color['border'] }}">
+             border-t-4 rounded-lg" style="border-color: {{ $color['border'] }}">
         @if(!$event)
             <h3 class="flex text-gray-800 dark:text-gray-200
                     bg-gray-50 dark:bg-gray-800 transition-dark
@@ -19,8 +19,9 @@
                     <div class="dark:text-gray-400 font-semibold text-gray-500 text-xs">{{ $ticket->event->start->translatedFormat('l, jS F Y') }}</div>
                 </div>
 
-                <span class="font-bold text-sm rounded-full py-1 px-2
-                                {{ $color['background'] . ' ' . $color['text'] }}">
+                <span class="font-bold text-sm rounded-full py-1 px-2"
+                      style="color: {{ $color['text'] }}; background-color: {{ $color['background'] }};"
+                >
                             {{ $ticket->event->type->arabic_name }}
                         </span>
             </h3>
