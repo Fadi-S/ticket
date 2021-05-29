@@ -14,11 +14,6 @@ class EventType extends Model
         return 'url';
     }
 
-    public function getNameAttribute($name)
-    {
-        return app()->getLocale() === 'ar' ? $this->arabic_name : $name;
-    }
-
     public function getLocaleNameAttribute($name)
     {
         return app()->getLocale() === 'ar' ? $this->arabic_name : $name;
