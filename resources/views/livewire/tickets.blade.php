@@ -113,7 +113,6 @@
                     </div>
                 <div class="grid grid-cols-12 gap-4">
                     <x-layouts.tickets :tickets="$deacons"
-                                       :colors="$colors"
                                        :event="$event"
                                        :type="$type"
                     >
