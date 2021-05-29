@@ -75,7 +75,10 @@ trait UserAttributes
 
     public function getNameAttribute()
     {
-        return $this->name ?? $this->arabic_name;
+        if(config('settings.arabic_name_only'))
+            return $this->arabic_name;
+
+        return $this->name;
     }
 
     public function hasFirstNameOnly() : bool
