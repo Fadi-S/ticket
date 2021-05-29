@@ -67,17 +67,6 @@
 
         <div>
             @if(!$sent)
-                <script type="text/javascript">
-                    var onloadCallback = function() {
-                        grecaptcha.render('recaptcha-div', {
-                            'sitekey' : '{{ config('settings.google_site_key') }}',
-                            'callback': function(response) {
-                            @this.set('reCaptcha', response);
-                            },
-                        });
-                    };
-                </script>
-
                 <div wire:ignore>
                     <div data-theme="{{ $isDark ? 'dark' : 'light'}}" id="recaptcha-div"></div>
                 </div>
@@ -106,8 +95,18 @@
         </div>
 
         @push('scripts')
-            <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
-                    async defer>
+            <script type="text/javascript">
+                window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-div', {
+                    'size': 'normal',
+                    'theme': '{{ $isDark ? 'dark' : 'light'}}',
+                    'callback': (response) => {
+                    @this.set('reCaptcha', response);
+                    },
+                });
+
+                recaptchaVerifier.render().then((widgetId) => {
+                    window.recaptchaWidgetId = widgetId;
+                });
             </script>
         @endpush
         <div class="w-full">
