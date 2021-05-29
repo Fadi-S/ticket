@@ -29,10 +29,6 @@ class TypeConditions extends Component
 
     public function toggle(Condition $condition)
     {
-        if($condition['required']) {
-            return;
-        }
-
         $this->type->toggleCondition($condition);
 
         $this->getConditions();
