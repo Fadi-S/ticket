@@ -49,6 +49,8 @@
                                   label="{{ __('Max Reservations') }}" size="col-span-1" />
 
                     <x-form.switch wire:model="show" :label="__('Shown')" />
+
+                    <x-form.switch wire:model="deacons" :label="__('Has Deacons')" />
                 </div>
 
                 <x-button type="submit" class="mx-auto mt-2">

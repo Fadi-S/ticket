@@ -73,7 +73,7 @@ class ReservationsController extends Controller
                 'number' => $left,
             ]);
 
-            if($isDeacon || auth()->user()->can('tickets.view')) {
+            if($event->hasDeacons && ($isDeacon || auth()->user()->can('tickets.view'))) {
                 $deaconsLeft = $event->deacon_reservations_left;
                 if($isUser)
                     $deaconsLeft = $deaconsLeft >= 0 ? $deaconsLeft : 0;
