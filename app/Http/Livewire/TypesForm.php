@@ -13,6 +13,7 @@ class TypesForm extends Component
 
     public EventType $type;
     public bool $show;
+    public bool $deacons;
     public bool $isCreate;
 
     public function mount()
@@ -23,6 +24,7 @@ class TypesForm extends Component
 
         $this->type ??= new EventType();
         $this->show = !! $this->type->show;
+        $this->deacons = !! $this->type->has_deacons;
     }
 
     public function render()
@@ -35,6 +37,7 @@ class TypesForm extends Component
         $this->validate();
 
         $this->type->show = $this->show;
+        $this->type->has_deacons = $this->deacons;
         $this->type->save();
 
         session()->flash('success', __('Type Saved Successfully'));
@@ -58,7 +61,9 @@ class TypesForm extends Component
                 Rule::unique('event_types', 'url')->ignore($id),
             ],
             'type.max_reservations' => ['required', 'min:1'],
+            'type.color' => ['required'],
             'show' => ['required', 'boolean'],
+            'deacons' => ['required', 'boolean'],
         ];
     }
 }

@@ -44,14 +44,6 @@ class ReservationsController extends Controller
 
         // $events = $events->filter(fn($event) => $event->reservations_left > 0)->values();
 
-        $colors = [
-            '#5658e8',
-            '#37ad28',
-            '#72727d',
-            '#b00d02',
-            '#323236',
-        ];
-
         // $cacheDates = $start->format('Y-m-d')  . '.' . $end->format('Y-m-d');
 
 
@@ -62,7 +54,7 @@ class ReservationsController extends Controller
 //        else
 //            $role = 'admin';
 
-        return $events->map(function ($event) use ($colors, $isUser, $isDeacon) {
+        return $events->map(function ($event) use ($isUser, $isDeacon) {
 
             $left = $event->reservations_left;
             if($isUser)
@@ -73,7 +65,7 @@ class ReservationsController extends Controller
                 'number' => $left,
             ]);
 
-            if($isDeacon || auth()->user()->can('tickets.view')) {
+            if($event->hasDeacons && ($isDeacon || auth()->user()->can('tickets.view'))) {
                 $deaconsLeft = $event->deacon_reservations_left;
                 if($isUser)
                     $deaconsLeft = $deaconsLeft >= 0 ? $deaconsLeft : 0;
@@ -85,14 +77,12 @@ class ReservationsController extends Controller
                 ]);
             }
 
-
-
             return [
                 'id' => $event->id,
                 'title' => $title,
                 'start' => $event->start,
                 'end' => $event->end,
-                'color' => $colors[$event->type_id - 1]
+                'color' => $event->type->color,
             ];
         });
     }

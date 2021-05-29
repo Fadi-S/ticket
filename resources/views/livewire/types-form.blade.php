@@ -48,7 +48,16 @@
                                   placeholder="{{ __('Max Reservations') }}"
                                   label="{{ __('Max Reservations') }}" size="col-span-1" />
 
+                    <x-form.input required type="color" id="color" name="color"
+                                  wire:model.lazy="type.color"
+                                  autocomplete="off"
+                                  :error="$errors->get('type.color')"
+                                  placeholder="{{ __('Color') }}"
+                                  label="{{ __('Color') }}" size="col-span-1" />
+
                     <x-form.switch wire:model="show" :label="__('Shown')" />
+
+                    <x-form.switch wire:model="deacons" :label="__('Has Deacons')" />
                 </div>
 
                 <x-button type="submit" class="mx-auto mt-2">

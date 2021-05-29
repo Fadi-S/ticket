@@ -5,10 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\EventType;
-use App\Models\Mass;
 use App\Models\Period;
 use App\Models\User\User;
-use App\Models\Vesper;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Cookie;
 use Spatie\Activitylog\Models\Activity;
@@ -83,7 +81,7 @@ class DashboardController extends Controller
 
         $adminAccess = json_decode(Cache::get('admin-access', "[]"));
         array_push($adminAccess, [
-            'user_id' => Auth::id() ?? null,
+            'user_id' => \Auth::id() ?? null,
             'ip' => request()->getClientIp(),
             'client' => request()->header('User-Agent'),
             'time' => now(),

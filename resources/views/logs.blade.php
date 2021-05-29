@@ -25,7 +25,7 @@
                                 </div>
                                 <div class="flex flex-col">
                                     <div>
-                                        {{ ($log->causer) ? $log->causer->name : "System" }}
+                                        {{ ($log->causer) ? ($log->causer->name ?? $log->causer->arabic_name) : "System" }}
                                     </div>
 
                                     <div class="text-sm text-gray-500 dark:text-gray-400">
@@ -45,7 +45,7 @@
                                     {{ $log->subject_type }}
                                 </div>
                                 <div class="text-sm text-gray-500 dark:text-gray-400">
-                                    {{ $log->subject ? $log->subject["name"] ?? $log->subject["start"] : '' }}
+                                    {{ $log->subject ? $log->subject["name"] ?? $log->subject["arabic_name"] ?? $log->subject["start"] ?? '' : '' }}
                                 </div>
                             </div>
                         </x-table.td>

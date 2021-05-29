@@ -30,7 +30,9 @@ class UserFormTest extends TestCase
             ->set('user.name', 'John Doe third')
             ->set('user.arabic_name', 'جون دو اسم')
             ->set('user.email', 'test@example.com')
+            ->set('user.national_id', '30204250201616')
             ->set('user.phone', '01200000000')
+            ->set('user.location_id', 1)
             ->set('gender', 1)
             ->call('save')
             ->assertSee(__('User Saved Successfully'));
@@ -48,8 +50,10 @@ class UserFormTest extends TestCase
         Livewire::test(UserForm::class)
             ->set('user.name', 'John Doe third third')
             ->set('user.arabic_name', 'بيس جون دو اسم')
+            ->set('user.national_id', '30204250201615')
             ->set('user.email', '')
-            ->set('user.phone', '01200000000')
+            ->set('user.phone', '01200000005')
+            ->set('user.location_id', 1)
             ->set('gender', 1)
             ->call('save')
             ->assertSee(__('User Saved Successfully'));
@@ -59,8 +63,10 @@ class UserFormTest extends TestCase
         Livewire::test(UserForm::class)
             ->set('user.name', 'John Doe third')
             ->set('user.arabic_name', 'جون دو اسم')
+            ->set('user.national_id', '30204250201616')
             ->set('user.email', '')
-            ->set('user.phone', '01200000001')
+            ->set('user.location_id', 1)
+            ->set('user.phone', '01200000011')
             ->set('gender', 1)
             ->call('save')
             ->assertSee(__('User Saved Successfully'));
@@ -82,7 +88,7 @@ class UserFormTest extends TestCase
             ->set('user.phone', '01200000000')
             ->set('gender', 1)
             ->call('save')
-            ->assertHasErrors('user.phone');
+            ->assertHasErrors(['user.phone']);
 
         $this->assertEquals(2, User::count());
     }
