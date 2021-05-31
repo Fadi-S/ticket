@@ -38,16 +38,26 @@
                     <x-svg.ticket/>
                 </x-slot>
 
-                <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">{{ $tickets[$type->id] }}</h4>
-                <div class="text-gray-500 dark:text-gray-300">
-                    @if($period)
-                        {{ __(':type reservations left between :start and :end', [
-                                'start' => $period->start->translatedFormat('D d M'),
-                                'end' => $period->end->translatedFormat('D d M'),
-                                'type' => $type->locale_plural_name,
-                         ]) }}
+                <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">
+                    @if($type->isUnlimited())
+                        {{ $type->locale_plural_name }}
                     @else
-                        {{ __(':type reservations left in :Month', ['month' => \Carbon\Carbon::now()->monthName, 'type' => $type->locale_plural_name]) }}
+                        {{ $tickets[$type->id] }}
+                    @endif
+                </h4>
+                <div class="text-gray-500 dark:text-gray-300">
+                    @if($type->isUnlimited())
+                        {{ __('You can reserve') }}
+                    @else
+                        @if($period)
+                            {{ __(':type reservations left between :start and :end', [
+                                    'start' => $period->start->translatedFormat('D d M'),
+                                    'end' => $period->end->translatedFormat('D d M'),
+                                    'type' => $type->locale_plural_name,
+                             ]) }}
+                        @else
+                            {{ __(':type reservations left in :Month', ['month' => \Carbon\Carbon::now()->monthName, 'type' => $type->locale_plural_name]) }}
+                        @endif
                     @endif
                 </div>
             </x-data-card>

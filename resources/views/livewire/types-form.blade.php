@@ -43,7 +43,7 @@
 
                     <x-form.input required type="number" id="max_reservations" name="max_reservations"
                                   wire:model.lazy="type.max_reservations"
-                                  autocomplete="off" min="1"
+                                  autocomplete="off" min="-1"
                                   :error="$errors->get('type.max_reservations')"
                                   placeholder="{{ __('Max Reservations') }}"
                                   label="{{ __('Max Reservations') }}" size="col-span-1" />
