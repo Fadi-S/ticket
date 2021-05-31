@@ -3,18 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\EmailBlacklist;
-use Illuminate\Http\Request;
+use Aws\Sns\Message;
+use Aws\Sns\MessageValidator;
 
 class AmazonController extends Controller
 {
-    public function handle(Request $request)
+    public function handle(MessageValidator $validator)
     {
-        $notifications = collect(json_decode(\Cache::get('notifications', '[]')));
-        $notifications->push($request->all());
-        \Cache::put('notifications', $notifications->toJson());
+        $message = Message::fromRawPostData();
+        if(! $validator->isValid($message)) {
+            abort(404);
+        }
 
-        if ($request->json('Type') == 'Notification' || $request->json('Type') == 'SubscriptionConfirmation') {
-            $message = $request->json('Message');
+        $message = collect($message->toArray());
+
+        if ($message->get('Type') === 'SubscriptionConfirmation') {
+            \Http::get( $message->get('SubscribeURL') );
+
+            return response()->json(['status' => 200, "message" => 'AWS subscription confirmed']);
+        }
+
+        if ($message->get('Type') === 'Notification') {
+            $message = $message->get('Message');
 
             $type = [
                 'Bounce' => [
@@ -30,7 +40,7 @@ class AmazonController extends Controller
             if(! $type) {
                 $this->handle($message);
 
-                return response()->json(['status' => 200, "message" => 'success']);
+                abort(404);
             }
 
             foreach ($type['recipients'] as $recipients) {
@@ -41,13 +51,10 @@ class AmazonController extends Controller
                     $email->increment('repeated_attempts', 1);
                 }
             }
+
+            return response()->json(['message' => 'Notification handled']);
         }
 
-        return response()->json(['status' => 200, "message" => 'success']);
-    }
-
-    private function defaultHandler($message)
-    {
-
+        return response([], 404);
     }
 }
