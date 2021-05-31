@@ -6,6 +6,7 @@ namespace App\Helpers;
 
 use App\Models\Reservation;
 use App\Models\User\Ticket;
+use App\Reservations\ConditionOutput;
 
 trait CanReserveInEvents
 {
@@ -53,6 +54,10 @@ trait CanReserveInEvents
 
     public function canReserveIn($event)
     {
+        if($this->isGuest()) {
+            return ConditionOutput::allow();
+        }
+
         $output = null;
 
         foreach ($event->conditions() as $condition)
