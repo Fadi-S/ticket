@@ -9,9 +9,9 @@ class AmazonController extends Controller
 {
     public function handle(Request $request)
     {
-        $notifications = collect(json_decode(\Config::get('notifications', '[]')));
+        $notifications = collect(json_decode(\Cache::get('notifications', '[]')));
         $notifications->push($request->toArray());
-        \Config::put('notifications', $notifications->toJson());
+        \Cache::put('notifications', $notifications->toJson());
 
         if ($request->json('Type') == 'Notification' || $request->json('Type') == 'SubscriptionConfirmation') {
             $message = $request->json('Message');
