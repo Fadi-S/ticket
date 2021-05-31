@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\AmazonController;
 use App\Http\Controllers\API\ReservationsController;
 use App\Http\Controllers\EventsController;
 use App\Http\Livewire\ConditionForm;
@@ -103,6 +104,8 @@ Route::middleware(["auth", EnsurePhoneNumberIsVerified::class])->group(function(
     Route::get('/types/create', TypesForm::class);
     Route::get('/types/{type}/edit', TypesForm::class);
     Route::get('/types', TypesTable::class);
+
+    Route::post('aws/bounce', [AmazonController::class, 'handle']);
 
     Route::resource("{eventType}", EventsController::class)
         ->parameters(['{eventType}' => 'event', 'eventType' => 'eventType'])
