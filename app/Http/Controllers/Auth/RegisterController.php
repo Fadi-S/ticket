@@ -72,7 +72,7 @@ class RegisterController extends Controller
             'email' => ['nullable', 'string', 'email', 'max:191', 'unique:users'],
             'phone' => ['required', 'string', 'regex:/' . StandardRegex::PHONE_NUMBER . '/', 'unique:users'],
             'username' => ['required', 'unique:users'],
-            'national_id' => ['required', 'regex:/' . StandardRegex::NATIONAL_ID . '/', 'unique:users', new NationalIDValidation,],
+            'national_id' => [(config('settings.national_id_required')) ? 'nullable' : 'required', 'regex:/' . StandardRegex::NATIONAL_ID . '/', 'unique:users', new NationalIDValidation,],
             'password' => ['required', 'string', 'min:' . User::$minPassword, 'confirmed'],
             'gender' => ['required', Rule::in([1, 0]),],
             'location_id' => ['required', 'exists:locations,id',],
@@ -88,6 +88,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
+            'name' => $data['name'],
             'arabic_name' => $data['arabic_name'],
             'email' => $data['email'],
             'phone' => $data['phone'],

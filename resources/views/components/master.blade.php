@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="{{ mix("/css/app.css") }}" rel="stylesheet" type="text/css">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
-    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <link rel="manifest" href="{{ config('settings.photo_library_url') . '/manifest.json' }}">
+    <link rel="icon" href="{{ config('settings.photo_library_url') . '/favicon.ico' }}" sizes="16x16">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,900;1,400;1,500;1,700&display=swap" rel="stylesheet">
@@ -47,7 +48,7 @@
             <a href="{{ url('/') }}">
                 <div class="flex items-center justify-center">
                     <div class="flex items-center m-4">
-                        <img class="rounded-full w-1/4" src="{{ asset(config('settings.logo')) }}" alt="">
+                        <img class="rounded-full w-1/4" src="{{ config('settings.photo_library_url') . '/logo-250.png' }}" alt="">
                         <span class="w-3/4 text-gray-200 ltr:ml-6 rtl:mr-6 text-2xl font-semibold">Ticket</span>
                     </div>
                 </div>

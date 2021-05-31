@@ -151,7 +151,7 @@ class UserForm extends Component
                 'unique:users,phone',
             ],
             'user.national_id' => [
-                'required',
+                config('settings.national_id_required') ? 'required' : 'nullable',
                 'regex:/' . StandardRegex::NATIONAL_ID . '/',
                 'unique:users,national_id',
                 new NationalIDValidation,
@@ -166,7 +166,7 @@ class UserForm extends Component
         ];
 
         if(config('settings.arabic_name_only')) {
-            $rules['user.name'] = ['nullable'];
+            $rules['user.name'] = ['nullable', new Fullname, new EnglishOnly];
         }
 
         if(! auth()->user()->can('users.edit')) {
@@ -191,7 +191,7 @@ class UserForm extends Component
             ];
 
             $rules['user.national_id'] = [
-                'required',
+                config('settings.national_id_required') ? 'required' : 'nullable',
                 'regex:/' . StandardRegex::NATIONAL_ID . '/',
                 new NationalIDValidation,
                 Rule::unique('users', 'national_id')->ignore($id),

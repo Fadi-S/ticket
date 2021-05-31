@@ -89,7 +89,7 @@ class UsersTableFormatter extends DataTableComponent
             Column::make(__('ID'), 'id')
                 ->sortable()
                 ->searchable($search),
-            Column::make(__('Name'), 'arabic_name')
+            Column::make(__('Name'), config('settings.arabic_name_only') ? 'arabic_name' : 'name')
                 ->sortable()
                 ->searchable($search),
             Column::make(__('Arabic Name'), 'arabic_name')
