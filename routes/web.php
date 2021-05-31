@@ -58,7 +58,7 @@ Route::get('lang/{locale}', function ($locale) {
     return back();
 });
 
-Route::post('/aws/bounce', [AmazonController::class, 'handle']);
+Route::post('aws/bounce', [AmazonController::class, 'handle']);
 
 Route::middleware(["auth", EnsurePhoneNumberIsVerified::class])->group(function() {
     Route::get('/assets/{image}', function ($image) {
