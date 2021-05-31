@@ -115,7 +115,7 @@ class AuthenticationTest extends TestCase
 
         $user = User::find(2);
 
-        $this->assertEquals('test.user.name', $user->username);
+        $this->assertEquals(2, User::count());
 
         auth()->logout();
 
@@ -126,8 +126,7 @@ class AuthenticationTest extends TestCase
         ]);
 
         $user = User::find(3);
-
-        $this->assertEquals('test.user.name.1', $user->username);
+        $this->assertEquals(3, User::count());
     }
 
     /** @test */
