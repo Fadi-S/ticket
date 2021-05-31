@@ -79,7 +79,6 @@ class UserForm extends Component
         }
 
         if($this->isCreate) {
-
             $name = config('settings.arabic_name_only')
                 ? $this->user->arabic_name
                 : $this->user->name;
@@ -136,11 +135,6 @@ class UserForm extends Component
     protected function rules()
     {
         $rules = [
-            'user.name' => [
-                'required',
-                new Fullname,
-                new EnglishOnly
-            ],
             'user.arabic_name' => [
                 'required',
                 new Fullname,
