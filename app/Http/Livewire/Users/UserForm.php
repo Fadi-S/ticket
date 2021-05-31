@@ -135,6 +135,11 @@ class UserForm extends Component
     protected function rules()
     {
         $rules = [
+            'user.name' => [
+                'required',
+                new Fullname,
+                new EnglishOnly
+            ],
             'user.arabic_name' => [
                 'required',
                 new Fullname,
