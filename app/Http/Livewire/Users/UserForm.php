@@ -171,7 +171,7 @@ class UserForm extends Component
         ];
 
         if(config('settings.arabic_name_only')) {
-            $rules['user.name'] = ['nullable', new Fullname, new EnglishOnly];
+            $rules['user.name'] = ['nullable'];
         }
 
         if(! auth()->user()->can('users.edit')) {
