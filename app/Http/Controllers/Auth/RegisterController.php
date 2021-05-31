@@ -73,7 +73,7 @@ class RegisterController extends Controller
             'phone' => ['required', 'string', 'regex:/' . StandardRegex::PHONE_NUMBER . '/', 'unique:users'],
             'username' => ['required', 'unique:users'],
             'national_id' => ['nullable', 'regex:/' . StandardRegex::NATIONAL_ID . '/', 'unique:users', new NationalIDValidation,],
-            'password' => ['required', 'string', 'min:' . User::$minPassword, 'confirmed'],
+            'password' => [(config('settings.national_id_required')) ? 'nullable' : 'required', 'string', 'min:' . User::$minPassword, 'confirmed'],
             'gender' => ['required', Rule::in([1, 0]),],
             'location_id' => ['required', 'exists:locations,id',],
         ]);

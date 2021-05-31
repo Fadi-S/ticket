@@ -33,7 +33,7 @@
                             type="phone" required />
 
             <x-form.input-2 label="{{ __('National ID') }}" :error="$errors->get('national_id')"
-                            id="national_id" value="{{ old('national_id') }}" required
+                            id="national_id" value="{{ old('national_id') }}" {{ config('settings.national_id_required') ? 'required' : '' }}
                             type="text" />
 
             <x-form.input-2 label="{{ __('Password') }}" :error="$errors->get('password')"
