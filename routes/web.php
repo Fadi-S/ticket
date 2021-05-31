@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\AmazonController;
 use App\Http\Controllers\API\ReservationsController;
 use App\Http\Controllers\EventsController;
 use App\Http\Livewire\ConditionForm;
@@ -56,6 +57,8 @@ Route::get('lang/{locale}', function ($locale) {
 
     return back();
 });
+
+Route::post('aws/bounce', [AmazonController::class, 'handle']);
 
 Route::middleware(["auth", EnsurePhoneNumberIsVerified::class])->group(function() {
     Route::get('/assets/{image}', function ($image) {
