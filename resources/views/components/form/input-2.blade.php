@@ -4,12 +4,13 @@
     'label',
     'id',
     'dir' => __('ltr'),
+    'required_attr' => false,
 ])
 
 <div>
     <label for="{{ $id }}" class="sr-only">{{ $label }}</label>
     <div class="mt-1 relative rounded-md shadow-sm">
-    <input id="{{ $id }}" name="{{ $id }}" {{ $attributes }}
+    <input id="{{ $id }}" name="{{ $id }}" {{ $attributes }} {{ $required_attr ? 'required' : '' }}
            class="appearance-none h-12
            dark:bg-gray-600 dark:text-white text-gray-900
         {{ $error
