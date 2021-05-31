@@ -68,6 +68,11 @@ class User extends Authenticatable implements HasLocalePreference
         return $this->hasAnyRole('user', 'deacon') || $this->roles->isEmpty();
     }
 
+    public function isGuest()
+    {
+        return !! $this->expiration;
+    }
+
     public function isSignedIn() : bool
     {
         return $this->id == \Auth::id();

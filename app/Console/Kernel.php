@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\ClearLogins;
+use App\Console\Commands\DeleteGuests;
 use App\Console\Commands\RecurringEvents;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -21,6 +22,7 @@ class Kernel extends ConsoleKernel
         ClearLogins::class,
         CleanActivitylogCommand::class,
         RecurringEvents::class,
+        DeleteGuests::class,
     ];
 
     /**
@@ -33,14 +35,14 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('telescope:prune')->daily();
 
-        // $schedule->command('queue:work --stop-when-empty')->everyMinute();
-
         $schedule->command('activitylog:clean')->daily();
 
         $schedule->command('logins:clear')->daily();
 
-        $schedule->command('events:create')
-            ->daily();
+        $schedule->command('guests:delete')->daily();
+
+//        $schedule->command('events:create')
+//            ->daily();
     }
 
     /**
