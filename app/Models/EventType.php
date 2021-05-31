@@ -35,6 +35,11 @@ class EventType extends Model
             ->withPivot('max_reservations');
     }
 
+    public function isUnlimited()
+    {
+        return $this->max_reservations < 0;
+    }
+
     public function conditions()
     {
         return $this->belongsToMany(Condition::class, 'condition_type', 'type_id', 'condition_id')
