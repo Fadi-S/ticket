@@ -69,7 +69,7 @@
                  rounded-b-lg transition-dark px-2 py-1 text-sm text-gray-400
                          items-start justify-between">
                     <span>
-                        {{ __('By : :name', ['name' => $ticket->reservedBy->locale_name]) }}
+                        {{ __('By : :name', ['name' => ($ticket->reservedBy) ? $ticket->reservedBy->locale_name : null ]) }}
                     </span>
                     <div dir="ltr">{{ $ticket->reserved_at->format('d/m h:i a')  }}</div>
                 </div>
