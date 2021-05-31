@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Mail\ErrorDetected;
+use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Telescope\IncomingEntry;
 use Laravel\Telescope\IncomingExceptionEntry;
@@ -35,21 +37,14 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
                    $entry->hasMonitoredTag();
         });
 
-//        Telescope::afterStoring(function (array $entries, $batchId) {
-//            foreach ($entries as $entry) {
-//                if ($entry instanceof IncomingExceptionEntry) {
-//                    logger()->channel('slack')->critical(
-//                        $entry->exception,
-//                        [
-//                            'environment' => app()->environment(),
-//                            'url' => app()->runningInConsole() ? 'CLI' : request()->method() . ' ' . request()->fullUrl(),
-//                            'user' => $entry->content['user'] ?? '-',
-//                            'view in Telescope' => url('telescope/exceptions/' . $entry->uuid),
-//                        ]
-//                    );
-//                }
-//            }
-//        });
+        Telescope::afterStoring(function (array $entries, $batchId) {
+            if(app()->environment() === 'production') {
+                foreach ($entries as $entry) {
+                    \Mail::to('fady.sarwat377@gmail.com')
+                        ->queue(new ErrorDetected($entry));
+                }
+            }
+        });
     }
 
     /**
