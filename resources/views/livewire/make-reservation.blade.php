@@ -207,6 +207,8 @@
                     </div>
                 @endif
 
+                <x-svg.spinner size="w-8 h-8" wire:loading wire:target="save"/>
+
                 <div wire:ignore id='calendar' class="z-0"
                      data-step="7"
                      data-intro="{{ __('These are the list of events you can book a ticket in, you have to chose one of them by clicking on it') }}"

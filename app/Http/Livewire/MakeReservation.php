@@ -48,6 +48,10 @@ class MakeReservation extends Component
     public function setEvent($id)
     {
         $this->event = $id;
+
+        if($this->users->isNotEmpty()) {
+            $this->save();
+        }
     }
 
     public function render()

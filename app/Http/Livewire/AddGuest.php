@@ -39,11 +39,8 @@ class AddGuest extends Component
         $this->validate();
 
         $this->user->gender = $this->gender;
-        $this->user->username = User::makeSlug(
-            config('settings.arabic_name_only')
-                ? $this->user->name
-                : $this->user->arabic_name
-        );
+        $this->user->username = User::makeSlug($this->user->arabic_name);
+        $this->user->name = $this->user->arabic_name;
         $this->user->expiration = Carbon::parse($this->date)->endOfDay();
         $this->user->save();
 
@@ -65,11 +62,6 @@ class AddGuest extends Component
     public function rules()
     {
         $rules = [
-            'user.name' => [
-                'required',
-                new Fullname,
-                new EnglishOnly
-            ],
             'user.arabic_name' => [
                 'required',
                 new Fullname,
