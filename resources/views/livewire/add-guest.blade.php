@@ -5,7 +5,7 @@
                 <x-form.input wire:model.lazy="user.arabic_name"
                               required type="text"
                               :error="$errors->get('user.arabic_name')"
-                              size="col-span-1" name="arabic_name"
+                              size="col-span-1" name="guest-arabic_name"
                               id="arabic_name"
                               dir="rtl"
                               label="{{ __('Name in arabic') }} *" placeholder="{{ __('Name in arabic') }}"/>
@@ -17,7 +17,7 @@
                              :error="$errors->get('date')"
                              label="{{ __('Until') }}" size="col-span-1" />
 
-                <x-form.gender-switch :livewire="true" name="gender" id="gender" label="{{ __('Gender') }}"/>
+                <x-form.gender-switch :livewire="true" name="gender" id="guest-gender" label="{{ __('Gender') }}"/>
             </div>
 
             <x-button type="submit" class="ml-auto mt-2">
