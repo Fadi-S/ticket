@@ -252,5 +252,6 @@
   "Guest added successfully": "تم اضافة الضيف بنجاح",
   "Until": "حتي",
   "Reservation Confirmation": "تأكيد الحجز",
-  "Are you sure you want to reserve?": "هل أنت متأكد انك تريد الحجز؟"
+  "Are you sure you want to reserve?": "هل أنت متأكد انك تريد الحجز؟",
+  "Yes": "تأكيد"
 }
