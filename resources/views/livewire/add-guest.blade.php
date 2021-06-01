@@ -6,7 +6,7 @@
                               required type="text"
                               :error="$errors->get('user.arabic_name')"
                               size="col-span-1" name="guest-arabic_name"
-                              id="arabic_name"
+                              id="guest-arabic_name"
                               dir="rtl"
                               label="{{ __('Name in arabic') }} *" placeholder="{{ __('Name in arabic') }}"/>
 
