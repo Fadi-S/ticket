@@ -6,7 +6,7 @@
     'disabled' => false,
 ])
 
-<button class="flex items-center px-4 py-2 rounded-lg {{ $color }}
+<button class="flex items-center w-full sm:w-auto px-4 py-2 rounded-lg {{ $color }}
         transition-colors duration-300 ease-in
         focus:outline-none {{ $class }}" {{ $disabled ? 'disabled="disabled"' : '' }}
         {{ $attributes }}>
