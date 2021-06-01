@@ -250,5 +250,7 @@
   "You can reserve": "يمكنك الحجز",
   "Reserve For a Guest": "الحجز لضيف",
   "Guest added successfully": "تم اضافة الضيف بنجاح",
-  "Until": "حتي"
+  "Until": "حتي",
+  "Reservation Confirmation": "تأكيد الحجز",
+  "Are you sure you want to reserve?": "هل أنت متأكد انك تريد الحجز؟"
 }

@@ -2,6 +2,7 @@
     'force' => false,
     'defaultState' => 'false',
     'size' => 'sm:max-w-xl rounded-lg sm:w-full',
+    'color' => 'bg-red-100',
 ])
 
 <div x-data="{ open: {{ $defaultState }}, details:{}, message: '' }" x-init="
@@ -43,7 +44,7 @@
                 <div class="sm:flex sm:items-start">
 
                     @isset($svg)
-                    <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                    <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full {{ $color }} sm:mx-0 sm:h-10 sm:w-10">
                         {{ $svg }}
                     </div>
                     @endisset

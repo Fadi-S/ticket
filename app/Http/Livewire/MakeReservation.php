@@ -24,6 +24,7 @@ class MakeReservation extends Component
 
     protected $listeners = [
         'set:event' => 'setEvent',
+        'reserve' => 'save',
         'user-created' => 'userCreated',
     ];
 
@@ -50,7 +51,7 @@ class MakeReservation extends Component
         $this->event = $id;
 
         if($this->users->isNotEmpty()) {
-            $this->save();
+            $this->dispatchBrowserEvent('openconfirmation');
         }
     }
 
