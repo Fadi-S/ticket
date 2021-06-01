@@ -282,7 +282,7 @@
                     <x-slot name="footer">
                         <div class="space-x-2 flex flex-row-reverse">
                             <x-button class="mx-2" type="button"
-                                      @click="$wire.emit('reserve'); open = false;"
+                                      @click="window.livewire.emit('reserve'); open = false;"
                                       color="bg-green-500 hover:bg-green-600
                                        dark:bg-green-600 dark:hover:bg-green-700
                                         text-white">
