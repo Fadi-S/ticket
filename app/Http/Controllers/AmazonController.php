@@ -52,7 +52,7 @@ class AmazonController extends Controller
             foreach ($message[$type['name']][$type['recipients']] as $recipients) {
                 $emailAddress = $recipients['emailAddress'];
 
-                $email = EmailBlacklist::firstOrCreate(['email' => $emailAddress, 'problem_type' => 'Bounce', 'repeated_attempts' => 1]);
+                $email = EmailBlacklist::firstOrCreate(['email' => $emailAddress, 'problem_type' => 'Bounce', 'repeated_attempts' => 0]);
                 if ($email) {
                     $email->increment('repeated_attempts', 1);
                 }
