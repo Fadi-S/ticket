@@ -23,11 +23,9 @@ class AmazonController extends Controller
             abort(404);
         }
 
-        \Cache::set('here', 'Hello');
-
-        return response()->json(['']);
-
         $message = collect($message->toArray());
+
+        \Cache::set('here', $message);
 
         if ($message->get('Type') === 'SubscriptionConfirmation') {
             \Http::get( $message->get('SubscribeURL') );
@@ -55,7 +53,7 @@ class AmazonController extends Controller
                 abort(404);
             }
 
-            foreach ($type['recipients'] as $recipients) {
+            foreach ($message[$type['name']][$type['recipients']] as $recipients) {
                 $emailAddress = $recipients['emailAddress'];
 
                 $email = EmailBlacklist::firstOrCreate(['email' => $emailAddress, 'problem_type' => 'Bounce']);
