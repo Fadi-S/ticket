@@ -34,7 +34,7 @@ class EventReservationsExport implements FromView, WithStyles, ShouldAutoSize
             foreach ($ticket->reservations as $reservation) {
                 $user = $reservation->user;
 
-                if($user->isDeacon())
+                if($reservation->isDeacon())
                     $deacons->push($user);
 
                 else if($user->gender == 1)
@@ -69,8 +69,15 @@ class EventReservationsExport implements FromView, WithStyles, ShouldAutoSize
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->getStyle('1')->getFont()->setBold(true);
-        $sheet->getStyle('A:B')->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A:C')->getFont()->setSize(16);
+        $sheet->getStyle('1')
+            ->getFont()
+            ->setBold(true);
+
+        $sheet->getStyle('A:B')
+            ->getAlignment()
+            ->setHorizontal('center');
+
+        $sheet->getStyle('A:C')
+            ->getFont()->setSize(16);
     }
 }

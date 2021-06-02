@@ -5,8 +5,8 @@
         <th>مناسبة الحضور</th>
     </tr>
     <tr style="text-align: center;">
-        <td dir="ltr">{{ $event->start->format('h:i a') }}</td>
-        <td dir="ltr">{{ $event->start->format('l, F j, Y') }}</td>
+        <td dir="ltr">{{ $event->start->translatedFormat('h:i a') }}</td>
+        <td dir="ltr">{{ $event->start->translatedFormat('l, F j, Y') }}</td>
         <td>{{ $event->description }}</td>
     </tr>
 </table>

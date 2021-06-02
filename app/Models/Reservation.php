@@ -35,6 +35,11 @@ class Reservation extends Model
         return ($this->ticket) ? $this->ticket->event : null;
     }
 
+    public function isDeacon()
+    {
+        return !! $this->is_deacon;
+    }
+
     public function cancel()
     {
         activity()->causedBy(auth()->user())
