@@ -4,6 +4,7 @@ namespace App\Models\User;
 
 use App\Helpers\CanReserveInEvents;
 use App\Helpers\HasFriends;
+use App\Models\EmailBlacklist;
 use App\Traits\Slugable;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -76,6 +77,15 @@ class User extends Authenticatable implements HasLocalePreference
     public function isSignedIn() : bool
     {
         return $this->id == \Auth::id();
+    }
+
+    public function routeNotificationForMail($notification = null)
+    {
+        if (! EmailBlacklist::isBlacklisted($this->email)) {
+            return $this->email;
+        }
+
+        return null;
     }
 
     public function preferredLocale()

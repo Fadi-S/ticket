@@ -38,7 +38,7 @@ class AmazonController extends Controller
             ][$message['notificationType']] ?? [];
 
             if(! $type) {
-                $this->handle($message);
+                $this->handleDefault($message);
 
                 abort(404);
             }
@@ -56,5 +56,10 @@ class AmazonController extends Controller
         }
 
         return response([], 404);
+    }
+
+    public function handleDefault($message)
+    {
+
     }
 }

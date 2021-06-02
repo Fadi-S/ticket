@@ -10,4 +10,9 @@ class EmailBlacklist extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public static function isBlacklisted($email)
+    {
+        return self::where('email', '=', $email)->exists();
+    }
 }
