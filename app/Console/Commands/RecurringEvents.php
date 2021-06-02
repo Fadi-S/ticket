@@ -119,7 +119,7 @@ class RecurringEvents extends Command
                     'overload' => $template->overload,
                     'number_of_places' => $template->number_of_places,
                     'deacons_number' => $template->deacons_number,
-                    'published_at' => $day->hours(8),
+                    'published_at' => $day,
                     'church_id' => $template->church_id,
                 ]);
             }

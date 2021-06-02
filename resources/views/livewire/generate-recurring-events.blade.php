@@ -22,7 +22,7 @@
 
                 <x-form.date required type="text" id="publish_at" name="publish_at_time"
                              wire:model.lazy="publish_at"
-                             autocomplete="off"
+                             autocomplete="off" :time="true"
                              :error="$errors->get('publish_at')"
                              label="{{ __('Publish Date') }}" size="col-span-1" />
             </div>

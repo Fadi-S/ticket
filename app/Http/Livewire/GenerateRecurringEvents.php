@@ -16,7 +16,7 @@ class GenerateRecurringEvents extends Component
     protected $rules = [
         'start' => 'required|date|date_format:Y-m-d',
         'end' => 'required|date|after:start|date_format:Y-m-d',
-        'publish_at' => 'required|date|date_format:Y-m-d',
+        'publish_at' => 'required|date|date_format:Y-m-d h:i A',
     ];
 
     public function render()
