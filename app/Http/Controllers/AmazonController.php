@@ -10,7 +10,13 @@ class AmazonController extends Controller
 {
     public function handle(MessageValidator $validator)
     {
-        $message = Message::fromRawPostData();
+        try {
+            $message = Message::fromRawPostData();
+        }catch (\Exception $e) {
+            $message = null;
+            abort(404);
+        }
+
         if(! $validator->isValid($message)) {
             abort(404);
         }
