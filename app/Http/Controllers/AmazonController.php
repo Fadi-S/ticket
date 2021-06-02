@@ -30,7 +30,7 @@ class AmazonController extends Controller
         }
 
         if ($message->get('Type') === 'Notification') {
-            $message = collect(json_decode($message->get('Message')));
+            $message = json_decode($message->get('Message'), true);
 
             $type = [
                 'Bounce' => [
@@ -49,10 +49,8 @@ class AmazonController extends Controller
                 abort(404);
             }
 
-            $notification = collect(json_decode($message[$type['name']]));
-
-            foreach ($notification[$type['recipients']] as $recipients) {
-                $emailAddress = collect(json_decode($recipients))['emailAddress'];
+            foreach ($message[$type['name']][$type['recipients']] as $recipients) {
+                $emailAddress = $recipients['emailAddress'];
 
                 $email = EmailBlacklist::firstOrCreate(['email' => $emailAddress, 'problem_type' => 'Bounce']);
                 if ($email) {
