@@ -11,9 +11,9 @@
 
 <div x-data="{ value: @entangle($attributes->wire('model')), picker: undefined }"
      x-init="new Pikaday({ field: $refs.input,
-                 format: {{ $time ? 'YYYY-MM-DD hh:mm A' : 'YYYY-MM-DD' }},
+                 format: '{{ $time ? 'YYYY-MM-DD hh:mm A' : 'YYYY-MM-DD' }}',
                     isRTL: {{ __('ltr') === 'rtl' ? 'true' : 'false' }},
-                    showTime: '{{ $time }}',
+                    showTime: '{{ $time ? 'true' : 'false' }}',
                      onOpen() { this.setDate($refs.input.value) } })"
      x-on:change="value = $event.target.value"
         class="{{ $size }}">
