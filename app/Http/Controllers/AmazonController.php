@@ -18,7 +18,7 @@ class AmazonController extends Controller
             abort(404);
         }
 
-        \Cache::set('notification', collect($request->toArray())->toJson());
+        \Cache::set('notification', collect($message->toArray())->toJson());
 
         if(! $validator->isValid($message)) {
             abort(404);
