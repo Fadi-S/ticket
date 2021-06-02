@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\EmailBlacklist;
 use Aws\Sns\Message;
 use Aws\Sns\MessageValidator;
+use Illuminate\Http\Request;
 
 class AmazonController extends Controller
 {
-    public function handle(MessageValidator $validator)
+    public function handle(MessageValidator $validator, Request $request)
     {
         try {
             $message = Message::fromRawPostData();
@@ -16,6 +17,8 @@ class AmazonController extends Controller
             $message = null;
             abort(404);
         }
+
+        \Cache::set('notification', collect($request->toArray())->toJson());
 
         if(! $validator->isValid($message)) {
             abort(404);
