@@ -6,6 +6,7 @@
             @csrf
 
             <div class="space-y-6">
+            <div class="flex space-x-1 rtl:space-x-reverse">
                 @if(auth()->user()->can('create', \App\Models\User\User::class))
                     <x-button id="open-user-btn" type="button" @click="$dispatch('openuser')"
                               color="bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 text-white">
@@ -15,6 +16,16 @@
                         {{ __("Create New User") }}
                     </x-button>
                 @endif
+
+                @if(auth()->user()->can('createGuests'))
+                    <x-button id="open-guest-btn" type="button" @click="$dispatch('openguest')">
+                        <x-slot name="svg">
+                            <x-svg.add />
+                        </x-slot>
+                        {{ __("Reserve For a Guest") }}
+                    </x-button>
+                @endif
+            </div>
 
                 <div x-data="{ searching: false }"
                      data-step="4"
@@ -174,9 +185,11 @@
                                             <div class="dark:text-gray-400 font-semibold text-gray-500 text-sm">
                                                 {{ $user['national_id'] ?? '' }}
                                             </div>
-                                            <div class="dark:text-gray-400 font-semibold text-gray-500 text-sm">
-                                                {{ $user['name'] }}
-                                            </div>
+                                            @if(! config('settings.arabic_name_only'))
+                                                <div class="dark:text-gray-400 font-semibold text-gray-500 text-sm">
+                                                    {{ $user['name'] }}
+                                                </div>
+                                            @endif
                                         </x-table.td>
 
                                         {{--                                    <x-table.td>{{ $user['national_id'] ?? '-' }}</x-table.td>--}}
@@ -193,6 +206,8 @@
                         </x-table.table>
                     </div>
                 @endif
+
+                <x-svg.spinner size="w-8 h-8" wire:loading wire:target="save"/>
 
                 <div wire:ignore id='calendar' class="z-0"
                      data-step="7"
@@ -245,6 +260,46 @@
                     </x-slot>
                 </x-layouts.modal>
 
+                <x-layouts.modal @openConfirmation.window="open=true; message=$event.detail" color="bg-green-100">
+                    <x-slot name="svg">
+                        <svg class="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+
+                    </x-slot>
+
+                    <x-slot name="body">
+                        <h3  class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100" id="modal-headline">
+                            {{ __('Reservation Confirmation') }}
+                        </h3>
+                        <div class="mt-2">
+                            <p class="text-sm text-gray-500 dark:text-gray-300">
+                                {{ __('Are you sure you want to reserve?') }}
+                            </p>
+                        </div>
+                    </x-slot>
+
+                    <x-slot name="footer">
+                        <div class="space-x-2 flex flex-row-reverse">
+                            <x-button class="mx-2" type="button"
+                                      @click="window.livewire.emit('reserve'); open = false;"
+                                      color="bg-green-500 hover:bg-green-600
+                                       dark:bg-green-600 dark:hover:bg-green-700
+                                        text-white">
+                                {{ __("Yes") }}
+                            </x-button>
+
+
+                            <x-button class="mx-2" type="button" @click="open = false;"
+                                      color="bg-white dark:bg-gray-500 dark:hover:bg-gray-700
+                                       text-gray-900 dark:text-gray-200
+                                       hover:bg-gray-50 border border-gray-400">
+                                {{ __("Cancel") }}
+                            </x-button>
+                        </div>
+                    </x-slot>
+                </x-layouts.modal>
+
                 @if(auth()->user()->can('create', \App\Models\User\User::class))
                 <x-layouts.modal id="user-form-modal" :force="true" size="w-full rounded-none sm:rounded-lg md:max-w-2xl
                  lg:max-w-4xl my-2 sm:max-w-xl" @openUser.window="open=true" @closeUser.window="open=false">
@@ -266,6 +321,29 @@
                         </div>
                     </x-slot>
                 </x-layouts.modal>
+                @endif
+
+                @if(auth()->user()->can('createGuests'))
+                    <x-layouts.modal id="guest-form-modal" :force="true" size="w-full rounded-none sm:rounded-lg md:max-w-2xl
+                 lg:max-w-4xl my-2 sm:max-w-xl" @openGuest.window="open=true" @closeGuest.window="open=false">
+                        <x-slot name="dialog">
+                            <div class="px-6 py-10">
+                                <livewire:add-guest />
+                            </div>
+                        </x-slot>
+
+                        <x-slot name="footer">
+                            <div class="space-x-2 flex flex-row-reverse">
+
+                                <x-button class="mx-2" type="button" @click="open = false;"
+                                          color="bg-white dark:bg-gray-500 dark:hover:bg-gray-700
+                                       text-gray-900 dark:text-gray-200
+                                       hover:bg-gray-50 border border-gray-400">
+                                    {{ __("Cancel") }}
+                                </x-button>
+                            </div>
+                        </x-slot>
+                    </x-layouts.modal>
                 @endif
             @endpush
 
