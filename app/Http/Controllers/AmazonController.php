@@ -17,15 +17,11 @@ class AmazonController extends Controller
             abort(404);
         }
 
-        \Cache::set('notification', collect($message->toArray())->toJson());
-
         if(! $validator->isValid($message)) {
             abort(404);
         }
 
         $message = collect($message->toArray());
-
-        \Cache::set('here', $message);
 
         if ($message->get('Type') === 'SubscriptionConfirmation') {
             \Http::get( $message->get('SubscribeURL') );
@@ -34,7 +30,7 @@ class AmazonController extends Controller
         }
 
         if ($message->get('Type') === 'Notification') {
-            $message = $message->get('Message');
+            $message = collect(json_decode($message->get('Message')));
 
             $type = [
                 'Bounce' => [
@@ -53,8 +49,10 @@ class AmazonController extends Controller
                 abort(404);
             }
 
-            foreach ($message[$type['name']][$type['recipients']] as $recipients) {
-                $emailAddress = $recipients['emailAddress'];
+            $notification = collect(json_decode($message[$type['name']]));
+
+            foreach ($notification[$type['recipients']] as $recipients) {
+                $emailAddress = collect(json_decode($recipients))['emailAddress'];
 
                 $email = EmailBlacklist::firstOrCreate(['email' => $emailAddress, 'problem_type' => 'Bounce']);
                 if ($email) {
