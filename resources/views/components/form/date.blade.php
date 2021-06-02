@@ -6,13 +6,14 @@
     'error' => null,
     'value' => null,
     'dir' => __('ltr'),
+    'time' => false,
 ])
 
 <div x-data="{ value: @entangle($attributes->wire('model')), picker: undefined }"
      x-init="new Pikaday({ field: $refs.input,
-                 format: 'YYYY-MM-DD',
+                 format: '{{ $time ? 'YYYY-MM-DD hh:mm A' : 'YYYY-MM-DD' }}',
                     isRTL: {{ __('ltr') === 'rtl' ? 'true' : 'false' }},
-                    showTime: false,
+                    showTime: '{{ $time ? 'true' : 'false' }}',
                      onOpen() { this.setDate($refs.input.value) } })"
      x-on:change="value = $event.target.value"
         class="{{ $size }}">

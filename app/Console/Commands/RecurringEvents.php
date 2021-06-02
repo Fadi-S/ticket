@@ -86,7 +86,7 @@ class RecurringEvents extends Command
             if(!$this->hasOption('publish')) {
                 $this->warn('You have not specified a publish date, using default: ' . $day->format('Y-m-d h:i a'));
             }else {
-                $day = Carbon::parse($this->option('publish'));
+                $day = Carbon::createFromFormat('Y-m-d-h-i-A', $this->option('publish'));
             }
         }
 
@@ -119,7 +119,7 @@ class RecurringEvents extends Command
                     'overload' => $template->overload,
                     'number_of_places' => $template->number_of_places,
                     'deacons_number' => $template->deacons_number,
-                    'published_at' => $day->hours(8),
+                    'published_at' => $day,
                     'church_id' => $template->church_id,
                 ]);
             }
