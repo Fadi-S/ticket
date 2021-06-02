@@ -86,7 +86,6 @@ class RecurringEvents extends Command
             if(!$this->hasOption('publish')) {
                 $this->warn('You have not specified a publish date, using default: ' . $day->format('Y-m-d h:i a'));
             }else {
-                dd($this->option('publish'));
                 $day = Carbon::createFromFormat('Y-m-d-h-i-A', $this->option('publish'));
             }
         }
