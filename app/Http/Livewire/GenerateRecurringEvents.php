@@ -31,6 +31,8 @@ class GenerateRecurringEvents extends Component
 
         $publish = Carbon::createFromFormat('Y-m-d h:i A', $this->publish_at);
 
+        dd($publish);
+
         Artisan::call("events:create --start=$this->start --end=$this->end --publish=" . $publish->format('Y-m-d-h-i-A') . "--type=$this->type");
 
         $this->dispatchBrowserEvent('message', [
