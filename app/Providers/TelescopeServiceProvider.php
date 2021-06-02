@@ -40,8 +40,10 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
         Telescope::afterStoring(function (array $entries, $batchId) {
             if(app()->environment() === 'production') {
                 foreach ($entries as $entry) {
-                    \Mail::to('fady.sarwat377@gmail.com')
-                        ->queue(new ErrorDetected($entry));
+                    if($entry->isException()) {
+                        \Mail::to('fady.sarwat377@gmail.com')
+                            ->queue(new ErrorDetected($entry));
+                    }
                 }
             }
         });
