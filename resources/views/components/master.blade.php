@@ -189,6 +189,12 @@
                     </x-navbar.list>
                 @endcan
 
+                @can('announcements.create')
+                    <x-navbar.link label="{{ __('Announcement') }}" :href="url('/announcements/create')">
+                        <x-svg.speaker />
+                    </x-navbar.link>
+                @endcan
+
                 @can('activityLog')
                     <x-navbar.divider/>
 

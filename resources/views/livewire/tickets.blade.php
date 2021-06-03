@@ -19,32 +19,36 @@
         </x-button>
     @endif
 
-    <div class="flex items-center space-x-2">
+    <div class="flex items-center justify-between sm:justify-start space-x-2">
         @if($event && auth()->user()->can('tickets.view'))
-
-
-            @if(auth()->user()->can('events.show'))
-                <x-button wire:click="toggleEvent" class="ml-2"
-                          color="bg-green-500 hover:bg-green-600
+            <div>
+                @if(auth()->user()->can('events.show'))
+                    <x-button wire:click="toggleEvent" class="ml-2"
+                              color="bg-green-500 hover:bg-green-600
                           dark:bg-green-600 dark:hover:bg-green-700">
-                    <x-slot name="svg">
+                        <x-slot name="svg">
+                            @if($this->eventModel->hidden_at)
+                                <x-svg.eye wire:loading.remove wire:target="toggleEvent" />
+                            @else
+                                <x-svg.edit wire:loading.remove wire:target="toggleEvent" />
+                            @endif
+                            <x-svg.spinner wire:loading wire:target="toggleEvent" />
+                        </x-slot>
+
                         @if($this->eventModel->hidden_at)
-                            <x-svg.eye wire:loading.remove wire:target="toggleEvent" />
+                            {{ __('Show Event') }}
                         @else
-                            <x-svg.edit wire:loading.remove wire:target="toggleEvent" />
+                            {{ __('Hide Event') }}
                         @endif
-                        <x-svg.spinner wire:loading wire:target="toggleEvent" />
-                    </x-slot>
+                    </x-button>
+                @endif
+            </div>
 
-                    @if($this->eventModel->hidden_at)
-                        {{ __('Show Event') }}
-                    @else
-                        {{ __('Hide Event') }}
-                    @endif
-                </x-button>
-            @endif
-
-            <x-button type="button" wire:click="export">
+        <div>
+            <x-button type="button"
+                      color="bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-500
+                       dark:hover:bg-indigo-600 text-white"
+                      wire:click="export">
                 <x-slot name="svg">
                     <x-svg.printer wire:loading.remove wire:target="export"/>
                     <x-svg.spinner wire:loading wire:target="export"/>
@@ -52,6 +56,7 @@
 
                 {{ __('Print/Export as PDF') }}
             </x-button>
+        </div>
         @endif
     </div>
 
@@ -146,7 +151,8 @@
             </x-slot>
 
             <x-slot name="body">
-                <h3 class="text-lg rtl:text-right mx-2 leading-6 font-medium text-gray-900 dark:text-gray-100" id="modal-headline">
+                <h3 class="text-lg rtl:text-right mx-2 leading-6 font-medium text-gray-900 dark:text-gray-100
+                flex items-center sm:justify-start sm:mr-3 justify-center" id="modal-headline">
                     {{ __('Cancel Reservation') }}
                 </h3>
                 <div class="mt-2">
@@ -158,14 +164,16 @@
             </x-slot>
 
             <x-slot name="footer">
-                <div class="space-x-2 flex flex-row-reverse">
+                <div class="space-x-2 flex justify-between">
                     <x-button type="button" @click="open = false; Livewire.emit('cancelReservation', details.reservationId);" class="ml-2"
                               color="bg-red-600 hover:bg-red-700 text-white">
                         {{ __('Cancel Reservation') }}
                     </x-button>
 
                     <x-button class="mx-2" type="button" @click="open = false;"
-                              color="bg-white text-gray-900 dark:bg-gray-600 hover:bg-gray-50 border border-gray-400">
+                              color="bg-white dark:bg-gray-500 dark:hover:bg-gray-700
+                                       text-gray-900 dark:text-gray-200
+                                       hover:bg-gray-50 border border-gray-400">
                         {{ __('Close') }}
                     </x-button>
                 </div>

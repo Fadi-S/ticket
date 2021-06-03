@@ -253,5 +253,12 @@
   "Until": "حتي",
   "Reservation Confirmation": "تأكيد الحجز",
   "Are you sure you want to reserve?": "هل أنت متأكد انك تريد الحجز؟",
-  "Yes": "تأكيد"
+  "Reserve": "حجز",
+  "Announcement": "تنبيه",
+  ":type Saved Successfully": "تم تسجيل :type بنجاح",
+  "Title": "العنوان",
+  "Body": "التنبيه",
+  "Show less": "اخفي",
+  "Show more": "اظهار",
+  "Deleting User": "مسح المستخدم"
 }

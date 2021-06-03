@@ -1,7 +1,7 @@
 @props([
     'force' => false,
     'defaultState' => 'false',
-    'size' => 'sm:max-w-xl rounded-lg sm:w-full',
+    'size' => 'sm:max-w-xl rounded-lg w-full',
     'color' => 'bg-red-100',
 ])
 
@@ -11,7 +11,7 @@
     if (value === true) { document.body.classList.add('overflow-hidden') }
     else { document.body.classList.remove('overflow-hidden') }
   });" x-show="open" style="display: none;" class="fixed z-50 inset-0 overflow-y-auto" {{ $attributes }}>
-    <div class="flex items-end justify-center min-h-screen @if(!isset($dialog)) pt-4 px-4 pb-20 @endif text-center sm:block sm:p-0">
+    <div class="flex items-center justify-center min-h-screen @if(!isset($dialog)) pt-4 px-4 pb-20 @endif text-center sm:block sm:p-0">
 
         <div x-show="open" x-description="Background overlay, show/hide based on modal state."
              x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0"
@@ -56,7 +56,7 @@
             </div>
             @endisset
             @isset($footer)
-                <div class="bg-gray-50 dark:bg-gray-600 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <div class="bg-gray-50 dark:bg-gray-600 px-4 py-3 sm:px-6 sm:flex-row-reverse">
                    {{ $footer }}
                 </div>
             @endisset

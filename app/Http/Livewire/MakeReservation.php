@@ -49,10 +49,6 @@ class MakeReservation extends Component
     public function setEvent($id)
     {
         $this->event = $id;
-
-        if($this->users->isNotEmpty()) {
-            $this->dispatchBrowserEvent('openconfirmation');
-        }
     }
 
     public function render()

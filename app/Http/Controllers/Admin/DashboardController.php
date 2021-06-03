@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Announcement;
 use App\Models\Event;
 use App\Models\EventType;
 use App\Models\Period;
@@ -37,6 +38,7 @@ class DashboardController extends Controller
         }
 
         $period = Period::current();
+        $announcements = Announcement::getCurrent();
 
         $shownTypes = EventType::shown()->get();
         $tickets = [];
@@ -52,6 +54,7 @@ class DashboardController extends Controller
             'period' => $period,
             'currentEvents' => $currentEvents ?? null,
             'only' => $only,
+            'announcements' => $announcements,
         ]);
     }
 

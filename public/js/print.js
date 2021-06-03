@@ -1,1 +1,22 @@
-(self.webpackChunk=self.webpackChunk||[]).push([[173],{3352:()=>{window.printTickets=function(e){var n=window.open("","","height=400,width=800");n.document.write("<html><body>"),n.document.write(e.innerHTML),n.document.write("</body></html>"),n.document.close(),n.print(),n.close()}}},0,[[3352,774]]]);
+(self["webpackChunk"] = self["webpackChunk"] || []).push([["/js/print"],{
+
+/***/ "./resources/js/print.js":
+/*!*******************************!*\
+  !*** ./resources/js/print.js ***!
+  \*******************************/
+/***/ (() => {
+
+window.printTickets = function (element) {
+  var printWindow = window.open('', '', 'height=400,width=800');
+  printWindow.document.write('<html><body>');
+  printWindow.document.write(element.innerHTML);
+  printWindow.document.write('</body></html>');
+  printWindow.document.close();
+  printWindow.print();
+  printWindow.close();
+};
+
+/***/ })
+
+},
+0,[["./resources/js/print.js","/manifest"]]]);

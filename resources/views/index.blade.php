@@ -16,6 +16,47 @@
             <div class="text-gray-500"></div>
         </x-data-card>
 
+        @foreach($announcements as $announcement)
+            <x-data-card :href="$announcement->hasURL() ? url($announcement->url) : null"
+                         colorStyle="background-color: {{ $announcement->color }}"
+                         :class="$announcement->hasURL() ? 'cursor-pointer transform transition duration-500
+                              hover:scale-95 focus:scale-95' : ''">
+                <x-slot name="svg">
+                    <x-svg.speaker />
+                </x-slot>
+
+                <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">
+                    {{ $announcement->title }}
+                </h4>
+                <div class="text-gray-500 dark:text-gray-300">
+                    <p x-data="{ isCollapsed: false, maxLength: 62,
+                             originalContent: '', content: '' }"
+                            x-init="originalContent = $el.firstElementChild.textContent.trim();
+                             content = originalContent.slice(0, maxLength)"
+                    >
+                        <span x-text="isCollapsed ? originalContent : content">
+                            {{ $announcement->body }}
+                        </span>
+                        <button class="focus:outline-none text-blue-400"
+                                @click="isCollapsed = !isCollapsed"
+                                x-show="originalContent.length > maxLength"
+                                x-text="isCollapsed ? '{{ __('Show less') }}' : '{{ __('Show more') }}'"
+                        ></button>
+                    </p>
+
+                </div>
+
+                @can('announcements.edit')
+                    <div class="flex items-center justify-end text-blue-500 text-white text-underline">
+                        <a class="flex items-center space-x-1 space-x-reverse" href="{{ url("/announcements/$announcement->id/edit") }}">
+                            <x-svg.edit size="w-3 h-3" />
+                            {{ __('Edit') }}
+                        </a>
+                    </div>
+                @endcan
+            </x-data-card>
+        @endforeach
+
         @can('tickets.view')
             @foreach($currentEvents as $currentEvent)
                 <x-data-card :href="url('/tickets?event=' . $currentEvent->id)" color="bg-green-400"

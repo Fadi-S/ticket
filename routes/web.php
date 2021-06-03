@@ -4,8 +4,8 @@
 use App\Http\Controllers\AmazonController;
 use App\Http\Controllers\API\ReservationsController;
 use App\Http\Controllers\EventsController;
+use App\Http\Livewire\AnnouncementForm;
 use App\Http\Livewire\ConditionForm;
-use App\Http\Livewire\DuplicatesTable;
 use App\Http\Livewire\Friends;
 use App\Http\Livewire\MakeReservation;
 use App\Http\Livewire\PeriodForm;
@@ -20,7 +20,6 @@ use App\Http\Livewire\VerifyPhoneNumber;
 use App\Http\Livewire\TypesTable;
 use App\Http\Middleware\EnsurePhoneNumberIsVerified;
 use App\Http\Middleware\UnVerified;
-use App\Models\User\User;
 use App\Http\Controllers\Admin\{AuthController, DashboardController, UsersController};
 use Intervention\Image\ImageManagerStatic as Image;
 use App\Http\Livewire\Users\UserForm;
@@ -99,6 +98,9 @@ Route::middleware(["auth", EnsurePhoneNumberIsVerified::class])->group(function(
     Route::get("ajax/reservation/events", [ReservationsController::class, 'getEvents']);
 
     Route::get('/friends', Friends::class);
+
+    Route::get('/announcements/{announcement}/edit', AnnouncementForm::class);
+    Route::get('/announcements/create', AnnouncementForm::class);
 
     Route::get('/conditions/create', ConditionForm::class);
     Route::get('/conditions/{condition}/edit', ConditionForm::class);
