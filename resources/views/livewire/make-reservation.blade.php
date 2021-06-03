@@ -212,6 +212,8 @@
                     </div>
                 @endif
 
+                <x-layouts.errors />
+
                 <div wire:ignore id='calendar' class="z-0"
                      data-step="7"
                      data-intro="{{ __('These are the list of events you can book a ticket in, you have to chose one of them by clicking on it') }}"

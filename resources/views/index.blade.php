@@ -7,7 +7,7 @@
         <x-data-card :href="url('/reserve')" color="bg-red-600"
                      data-step="3"
                      data-intro="{{ __('You can click here to reserve') }}"
-                     class="cursor-pointer transform transition duration-500 hover:scale-95 focus:scale-95">
+                     class="cursor-pointer transform transition duration-500 hover:scale-105 focus:scale-105">
             <x-slot name="svg">
                 <x-svg.bookmark/>
             </x-slot>
