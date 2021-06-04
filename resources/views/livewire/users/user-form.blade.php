@@ -30,7 +30,7 @@
                     @unless(config('settings.arabic_name_only'))
                         @if($this->showField('user.name'))
                             <x-form.input wire:model.lazy="user.name" required type="text"
-                                          :error="$errors->get('user.name')"
+                                          :error="$errors->get('user.name')" autocomplete="off"
                                           size="col-span-1" name="name" id="name" dir="ltr"
                                           label="{{ __('Name in english') }} *"  placeholder="{{ __('Name in english') }}" />
                         @endif
@@ -38,7 +38,7 @@
 
                     @if($this->showField('user.arabic_name'))
                         <x-form.input wire:model.lazy="user.arabic_name"
-                                      required type="text"
+                                      required type="text" autocomplete="off"
                                       :error="$errors->get('user.arabic_name')"
                                       size="col-span-1" name="arabic_name"
                                       id="arabic_name"
@@ -50,14 +50,14 @@
                         @if($this->showField('user.phone'))
                             <x-form.input wire:model.lazy="user.phone" type="text" dir="ltr"
                                           size="col-span-1" name="phone" id="phone"
-                                          :error="$errors->get('user.phone')"
+                                          :error="$errors->get('user.phone')" autocomplete="off"
                                           label="{{ __('Phone') }} *" placeholder="{{ __('Phone') }}" />
                         @endif
 
                         @if(config('settings.ask_for_email'))
                             @if($this->showField('user.email'))
                                 <x-form.input wire:model.lazy="user.email" type="email"
-                                              size="col-span-1" name="email" id="email"
+                                              size="col-span-1" name="email" id="email" autocomplete="off"
                                               :error="$errors->get('user.email')" dir="ltr"
                                               label="{{ __('Email') }} ({{ __('Optional') }})" placeholder="{{ __('Email') }}" />
                             @endif
@@ -65,7 +65,7 @@
 
                     @if($this->showField('user.national_id'))
                     <x-form.input wire:model.lazy="user.national_id" type="text"
-                                  :error="$errors->get('user.national_id')"
+                                  :error="$errors->get('user.national_id')" autocomplete="off"
                                   size="col-span-1" name="national_id" id="national_id"
                                   label="{{ __('National ID') }}" placeholder="{{ __('National ID') }}" />
                     @endif
@@ -73,7 +73,7 @@
                     @if($this->showField('password') && auth()->user()->can('users.edit') && ($isCreate || !$user->isSignedIn()))
                         <x-form.input wire:model.lazy="password" type="password"
                                       size="col-span-1" name="password" id="password"
-                                      :error="$errors->get('password')"
+                                      :error="$errors->get('password')" autocomplete="off"
                                       label="{{ __('Password') }}" placeholder="{{ __('Password') }}" />
                     @endif
 
