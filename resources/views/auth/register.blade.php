@@ -23,9 +23,11 @@
                             id="arabic_name" value="{{ old('arabic_name') }}"
                             type="text" required />
 
+                @if(config('settings.ask_for_email'))
             <x-form.input-2 label="{{ __('Email') }}" :error="$errors->get('email')"
                             id="email" value="{{ old('email') }}"
                             type="email" />
+                @endif
 
             <x-form.input-2 label="{{ __('Phone') }}" :error="$errors->get('phone')"
                             id="phone" value="{{ old('phone') }}"

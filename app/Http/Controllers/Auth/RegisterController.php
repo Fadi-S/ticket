@@ -90,7 +90,7 @@ class RegisterController extends Controller
         return User::create([
             'name' => $data['name'] ?? null,
             'arabic_name' => $data['arabic_name'],
-            'email' => $data['email'],
+            'email' => $data['email'] ?? null,
             'phone' => $data['phone'],
             'gender' => $data['gender'],
             'location_id' => $data['location_id'],

@@ -174,6 +174,10 @@ class UserForm extends Component
             $rules['user.name'] = ['nullable'];
         }
 
+        if(! config('settings.ask_for_email')) {
+            $rules['user.email'] = ['nullable'];
+        }
+
         if(! auth()->user()->can('users.edit')) {
             $rules['user.location_id'] = ['required', 'exists:locations,id'];
         }

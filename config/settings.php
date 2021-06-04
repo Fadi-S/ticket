@@ -11,6 +11,7 @@ return [
     'full_name_number' => env('FULL_NAME_NUMBER', 3),
     'arabic_name_only' => env('ARABIC_NAME_ONLY', false),
     'national_id_required' => env('NATIONAL_ID_REQUIRED', true),
+    'ask_for_email' => env('ASK_FOR_EMAIL', true),
     'verify_phone' => env('VERIFY_PHONE_NUMBER', true),
 
 

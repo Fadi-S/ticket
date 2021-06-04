@@ -46,19 +46,22 @@
                                       label="{{ __('Name in arabic') }} *"  placeholder="{{ __('Name in arabic') }}" />
                     @endif
 
-                    @if($this->showField('user.phone'))
-                        <x-form.input wire:model.lazy="user.phone" type="text" dir="ltr"
-                                      size="col-span-1" name="phone" id="phone"
-                                      :error="$errors->get('user.phone')"
-                                      label="{{ __('Phone') }} *" placeholder="{{ __('Phone') }}" />
-                    @endif
 
-                    @if($this->showField('user.email'))
-                        <x-form.input wire:model.lazy="user.email" type="email"
-                                      size="col-span-1" name="email" id="email"
-                                      :error="$errors->get('user.email')" dir="ltr"
-                                      label="{{ __('Email') }} ({{ __('Optional') }})" placeholder="{{ __('Email') }}" />
-                    @endif
+                        @if($this->showField('user.phone'))
+                            <x-form.input wire:model.lazy="user.phone" type="text" dir="ltr"
+                                          size="col-span-1" name="phone" id="phone"
+                                          :error="$errors->get('user.phone')"
+                                          label="{{ __('Phone') }} *" placeholder="{{ __('Phone') }}" />
+                        @endif
+
+                        @if(config('settings.ask_for_email'))
+                            @if($this->showField('user.email'))
+                                <x-form.input wire:model.lazy="user.email" type="email"
+                                              size="col-span-1" name="email" id="email"
+                                              :error="$errors->get('user.email')" dir="ltr"
+                                              label="{{ __('Email') }} ({{ __('Optional') }})" placeholder="{{ __('Email') }}" />
+                            @endif
+                        @endif
 
                     @if($this->showField('user.national_id'))
                     <x-form.input wire:model.lazy="user.national_id" type="text"
