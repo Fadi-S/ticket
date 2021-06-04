@@ -94,7 +94,9 @@
                     @endif
                 </div>
 
-                <x-button type="submit" class="ml-auto mt-2">
+                <x-button type="submit" class="mt-2 w-full
+                sm:max-w-sm mx-auto
+                flex items-center justify-center text-center">
                     <x-slot name="svg">
                         <x-svg.spinner wire:loading wire:target="save" />
 
@@ -115,14 +117,23 @@
 
             <x-layouts.modal id="user-delete-modal" size="w-full rounded-none sm:rounded-lg md:max-w-2xl
              lg:max-w-4xl my-2 sm:max-w-xl" @open.window="open=true" @close.window="open=false">
-                <x-slot name="dialog">
-                    <div class="px-6 py-10 text-lg rtl:text-right mx-2 leading-6 font-medium text-gray-900 dark:text-gray-100">
-                        {{ __('Are you sure you want to delete that user?') }}
+                <x-slot name="svg">
+                    <x-svg.trash color="text-red-600" />
+                </x-slot>
+
+                <x-slot name="body">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 flex items-center sm:justify-start sm:mr-3 justify-center" id="modal-headline">
+                        {{ __('Deleting User') }}
+                    </h3>
+                    <div class="mt-2">
+                        <p class="text-sm text-gray-500 dark:text-gray-300">
+                            {{ __('Are you sure you want to delete that user?') }}
+                        </p>
                     </div>
                 </x-slot>
 
                 <x-slot name="footer">
-                    <div class="space-x-2 flex flex-row-reverse">
+                    <div class="space-x-2 flex justify-between">
 
                         <x-button class="mx-2" type="button" @click="open = false;"
                                   color="bg-white dark:bg-gray-500 dark:hover:bg-gray-700
@@ -132,7 +143,8 @@
                         </x-button>
 
                         <x-button type="button" wire:click="delete"
-                                  color="bg-red-500 hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-500 text-white">
+                                  color="bg-red-500 hover:bg-red-600 dark:bg-red-700
+                                   dark:hover:bg-red-500 text-white">
                             <x-slot name="svg">
                                 <x-svg.trash wire:loading.remove wire:target="delete" />
                                 <x-svg.spinner wire:loading wire:target="delete" />

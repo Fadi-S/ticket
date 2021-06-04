@@ -20,7 +20,9 @@
                 <x-form.gender-switch :livewire="true" name="gender" id="guest-gender" label="{{ __('Gender') }}"/>
             </div>
 
-            <x-button type="submit" class="ml-auto mt-2">
+            <x-button type="submit" class="mt-2 w-full
+                sm:max-w-sm mx-auto
+                flex items-center justify-center text-center">
                 <x-slot name="svg">
                     <x-svg.spinner wire:loading wire:target="save" />
 

@@ -10,12 +10,14 @@
 <div class="flex flex-col">
     <div class="mt-1" x-data="{ value: @if($livewire) @entangle('gender').defer @else 1 @endif }">
         <div class="{{ $class }} select-none bg-blue-200
-         w-28 h-10 rounded-full cursor-pointer flex flex-row justify-center
-         duration-500
+          h-10 rounded-2xl cursor-pointer flex w-28
+         flex-row justify-center duration-500
          items-center transition-all"
-             :class="((!!value) ? 'bg-blue-200 dark:bg-indigo-600' : 'bg-pink-200 dark:bg-pink-500')" @click="value = ((!value) ? 1 : 0);">
+             :class="((!!value) ? 'bg-blue-300 dark:bg-blue-600' : 'bg-pink-300 dark:bg-pink-500')"
+             @click="value = ((!value) ? 1 : 0);">
 
-            <div class="font-bold w-full flex flex-row justify-center items-center transition-all"
+            <div class="font-bold w-full flex flex-row justify-center items-center
+             transition-all space-x-1 space-x-reverse"
                  :class="((!!value) ? 'text-blue-800 dark:text-blue-200' : 'text-pink-800 dark:text-pink-200')">
 
                 <x-svg.gender x-bind:class="!value ? 'rotate-135' : ''" />

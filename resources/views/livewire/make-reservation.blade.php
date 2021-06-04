@@ -2,30 +2,35 @@
     <x-slot name="title">Make Reservation | Ticket</x-slot>
 
     <x-card>
-        <form wire:submit.prevent="save" action="{{ url('/reservations') }}" method="POST">
+        <form
+                x-data="{}"
+                x-init="window.livewire.on('set:event', (event) => { $dispatch('openconfirmation') })"
+                wire:submit.prevent="save" action="{{ url('/reservations') }}" method="POST">
             @csrf
 
             <div class="space-y-6">
-            <div class="flex space-x-1 rtl:space-x-reverse">
-                @if(auth()->user()->can('create', \App\Models\User\User::class))
-                    <x-button id="open-user-btn" type="button" @click="$dispatch('openuser')"
-                              color="bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 text-white">
-                        <x-slot name="svg">
-                            <x-svg.add />
-                        </x-slot>
-                        {{ __("Create New User") }}
-                    </x-button>
-                @endif
+                <div class="flex space-x-2 rtl:space-x-reverse justify-between sm:justify-start">
+                    @if(auth()->user()->can('create', \App\Models\User\User::class))
+                        <x-button id="open-user-btn" type="button" @click="$dispatch('openuser')"
+                                  color="bg-green-400 hover:bg-green-500 dark:bg-green-500 dark:hover:bg-green-600 text-white">
+                            <x-slot name="svg">
+                                <x-svg.add/>
+                            </x-slot>
+                            {{ __("Create New User") }}
+                        </x-button>
+                    @endif
 
-                @if(auth()->user()->can('createGuests'))
-                    <x-button id="open-guest-btn" type="button" @click="$dispatch('openguest')">
-                        <x-slot name="svg">
-                            <x-svg.add />
-                        </x-slot>
-                        {{ __("Reserve For a Guest") }}
-                    </x-button>
-                @endif
-            </div>
+                    @if(auth()->user()->can('createGuests'))
+                        <x-button id="open-guest-btn" type="button"
+                                  color="bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white"
+                                  @click="$dispatch('openguest')">
+                            <x-slot name="svg">
+                                <x-svg.add/>
+                            </x-slot>
+                            {{ __("Reserve For a Guest") }}
+                        </x-button>
+                    @endif
+                </div>
 
                 <div x-data="{ searching: false }"
                      data-step="4"
@@ -53,7 +58,7 @@
                                    focus:outline-none block w-full sm:text-sm rounded-md"
                                    placeholder="{{ __("Search") }}">
                             <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                <x-svg.search />
+                                <x-svg.search/>
                             </div>
                         </div>
 
@@ -64,7 +69,7 @@
                              x-transition:leave="transition ease-in duration-100"
                              x-transition:leave-start="opacity-100"
                              x-transition:leave-end="opacity-0"
-                                class="absolute mt-1 w-full rounded-md bg-white dark:bg-gray-700 shadow-lg">
+                             class="absolute mt-1 w-full rounded-md bg-white dark:bg-gray-700 shadow-lg">
                             <ul x-ref="listbox" tabindex="-1" role="listbox"
                                 aria-labelledby="listbox-label"
                                 class="max-h-60 rounded-md py-1 text-base ring-1 no-scrollbar
@@ -86,7 +91,7 @@
                                         {{ $selected ? 'bg-indigo-600' : 'hover:text-white hover:bg-indigo-400
                                                                             bg-white dark:hover:bg-indigo-600 dark:bg-gray-700
                                                                              transition-colors duration-500' }}
-                                        text-gray-900">
+                                                text-gray-900">
                                         <div class="flex">
 
                                             <span dir="ltr" class="mx-2 truncate transition-colors duration-500
@@ -114,15 +119,15 @@
                                                 {{ $user->phone }}
                                             </span>
 
-{{--                                            <span class="mx-2 truncate hidden md:block--}}
-{{--                                             {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500 dark:text-gray-200' }}">--}}
-{{--                                                {{ $user->national_id }}--}}
-{{--                                            </span>--}}
+                                            {{--                                            <span class="mx-2 truncate hidden md:block--}}
+                                            {{--                                             {{ $selected ? 'text-indigo-200' : 'group-hover:text-indigo-200 text-gray-500 dark:text-gray-200' }}">--}}
+                                            {{--                                                {{ $user->national_id }}--}}
+                                            {{--                                            </span>--}}
                                         </div>
 
                                         @if($selected)
-                                          <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-white">
-                                                <x-svg.check />
+                                            <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-white">
+                                                <x-svg.check/>
                                           </span>
                                         @endif
 
@@ -142,13 +147,13 @@
                                              w-full items-center" x-data="{  }">
                                                 <span class="dark:text-gray-100">{{ __("No users match search :search", ['search' => $search]) }}</span>
                                                 @if(auth()->user()->can('create', \App\Models\User\User::class))
-                                                <x-button id="open-user-btn" type="button" @click="$dispatch('openuser')"
-                                                          color="bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 text-white">
-                                                    <x-slot name="svg">
-                                                        <x-svg.add />
-                                                    </x-slot>
-                                                    {{ __("Create New User") }}
-                                                </x-button>
+                                                    <x-button id="open-user-btn" type="button" @click="$dispatch('openuser')"
+                                                              color="bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 text-white">
+                                                        <x-slot name="svg">
+                                                            <x-svg.add/>
+                                                        </x-slot>
+                                                        {{ __("Create New User") }}
+                                                    </x-button>
                                                 @endif
                                             </div>
                                         </div>
@@ -198,7 +203,7 @@
                                             <x-buttons.cancel
                                                     data-step="6"
                                                     data-intro="{{ __('To remove a user form this reservation you can click this button') }}"
-                                                    wire:click="removeUser('{{ $user['id'] }}')" />
+                                                    wire:click="removeUser('{{ $user['id'] }}')"/>
                                         </x-table.td>
                                     </tr>
                                 @endforeach
@@ -207,7 +212,7 @@
                     </div>
                 @endif
 
-                <x-svg.spinner size="w-8 h-8" wire:loading wire:target="save"/>
+                <x-layouts.errors />
 
                 <div wire:ignore id='calendar' class="z-0"
                      data-step="7"
@@ -225,8 +230,6 @@
                     </x-slot>
                     {{ __("Make Reservation") }}
                 </x-button>
-
-                <x-layouts.errors/>
             </div>
 
             @push('modals')
@@ -240,7 +243,7 @@
                     </x-slot>
 
                     <x-slot name="body">
-                        <h3  class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100" id="modal-headline">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 flex items-center sm:justify-start sm:mr-3 justify-center" id="modal-headline">
                             {{ __("Couldn't reserve in this event") }}
                         </h3>
                         <div class="mt-2">
@@ -249,7 +252,7 @@
                     </x-slot>
 
                     <x-slot name="footer">
-                        <div class="space-x-2 flex flex-row-reverse">
+                        <div class="space-x-2 flex justify-between">
                             <x-button class="mx-2" type="button" @click="open = false;"
                                       color="bg-white dark:bg-gray-500 dark:hover:bg-gray-700
                                        text-gray-900 dark:text-gray-200
@@ -263,13 +266,13 @@
                 <x-layouts.modal @openConfirmation.window="open=true; message=$event.detail" color="bg-green-100">
                     <x-slot name="svg">
                         <svg class="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                         </svg>
 
                     </x-slot>
 
                     <x-slot name="body">
-                        <h3  class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100" id="modal-headline">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 flex items-center sm:justify-start sm:mr-3 justify-center" id="modal-headline">
                             {{ __('Reservation Confirmation') }}
                         </h3>
                         <div class="mt-2">
@@ -280,47 +283,50 @@
                     </x-slot>
 
                     <x-slot name="footer">
-                        <div class="space-x-2 flex flex-row-reverse">
+                        <div class="space-x-2 flex justify-between">
                             <x-button class="mx-2" type="button"
                                       @click="window.livewire.emit('reserve'); open = false;"
                                       color="bg-green-500 hover:bg-green-600
                                        dark:bg-green-600 dark:hover:bg-green-700
                                         text-white">
-                                {{ __("Yes") }}
-                            </x-button>
+                                <x-slot name="svg">
+                                    <x-svg.check/>
+                                </x-slot>
 
+                                {{ __("Reserve") }}
+                            </x-button>
 
                             <x-button class="mx-2" type="button" @click="open = false;"
                                       color="bg-white dark:bg-gray-500 dark:hover:bg-gray-700
                                        text-gray-900 dark:text-gray-200
                                        hover:bg-gray-50 border border-gray-400">
-                                {{ __("Cancel") }}
+                                {{ __("Close") }}
                             </x-button>
                         </div>
                     </x-slot>
                 </x-layouts.modal>
 
                 @if(auth()->user()->can('create', \App\Models\User\User::class))
-                <x-layouts.modal id="user-form-modal" :force="true" size="w-full rounded-none sm:rounded-lg md:max-w-2xl
+                    <x-layouts.modal id="user-form-modal" :force="true" size="w-full rounded-none sm:rounded-lg md:max-w-2xl
                  lg:max-w-4xl my-2 sm:max-w-xl" @openUser.window="open=true" @closeUser.window="open=false">
-                    <x-slot name="dialog">
-                        <div class="px-6 py-10">
-                            <livewire:users.user-form :card="false" />
-                        </div>
-                    </x-slot>
+                        <x-slot name="dialog">
+                            <div class="px-6 py-10">
+                                <livewire:users.user-form :card="false"/>
+                            </div>
+                        </x-slot>
 
-                    <x-slot name="footer">
-                        <div class="space-x-2 flex flex-row-reverse">
+                        <x-slot name="footer">
+                            <div class="space-x-2 flex flex-row-reverse">
 
-                            <x-button class="mx-2" type="button" @click="open = false;"
-                                      color="bg-white dark:bg-gray-500 dark:hover:bg-gray-700
+                                <x-button class="mx-2" type="button" @click="open = false;"
+                                          color="bg-white dark:bg-gray-500 dark:hover:bg-gray-700
                                        text-gray-900 dark:text-gray-200
                                        hover:bg-gray-50 border border-gray-400">
-                                {{ __("Cancel") }}
-                            </x-button>
-                        </div>
-                    </x-slot>
-                </x-layouts.modal>
+                                    {{ __("Cancel") }}
+                                </x-button>
+                            </div>
+                        </x-slot>
+                    </x-layouts.modal>
                 @endif
 
                 @if(auth()->user()->can('createGuests'))
@@ -328,7 +334,7 @@
                  lg:max-w-4xl my-2 sm:max-w-xl" @openGuest.window="open=true" @closeGuest.window="open=false">
                         <x-slot name="dialog">
                             <div class="px-6 py-10">
-                                <livewire:add-guest />
+                                <livewire:add-guest/>
                             </div>
                         </x-slot>
 
