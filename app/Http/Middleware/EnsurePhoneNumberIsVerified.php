@@ -17,6 +17,10 @@ class EnsurePhoneNumberIsVerified
      */
     public function handle(Request $request, Closure $next)
     {
+        if(! config('settings.verify_phone')) {
+            return $next($request);
+        }
+
         if($request->path() === 'logout') {
             return $next($request);
         }
