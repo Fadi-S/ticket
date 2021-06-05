@@ -4,25 +4,25 @@
 use App\Http\Controllers\AmazonController;
 use App\Http\Controllers\API\ReservationsController;
 use App\Http\Controllers\EventsController;
-use App\Http\Livewire\AnnouncementForm;
-use App\Http\Livewire\ConditionForm;
-use App\Http\Livewire\Friends;
-use App\Http\Livewire\MakeReservation;
-use App\Http\Livewire\PeriodForm;
-use App\Http\Livewire\PeriodsTable;
-use App\Http\Livewire\ResetPasswordByPhone;
-use App\Http\Livewire\TemplatesForm;
-use App\Http\Livewire\Tickets;
-use App\Http\Livewire\TypeConditions;
-use App\Http\Livewire\TypesForm;
-use App\Http\Livewire\Users\UsersTable;
-use App\Http\Livewire\VerifyPhoneNumber;
-use App\Http\Livewire\TypesTable;
+use App\Http\Livewire\{AnnouncementForm,
+    ConditionForm,
+    Friends,
+    MakeReservation,
+    PeriodForm,
+    PeriodsTable,
+    ResetPasswordByPhone,
+    TemplatesForm,
+    Tickets,
+    TypeConditions,
+    TypesForm,
+    Users\UsersTable,
+    VerifyPhoneNumber,
+    TypesTable,
+    Users\UserForm};
 use App\Http\Middleware\EnsurePhoneNumberIsVerified;
 use App\Http\Middleware\UnVerified;
 use App\Http\Controllers\Admin\{AuthController, DashboardController, UsersController};
 use Intervention\Image\ImageManagerStatic as Image;
-use App\Http\Livewire\Users\UserForm;
 use Spatie\Honeypot\ProtectAgainstSpam;
 
 

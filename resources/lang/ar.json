@@ -260,5 +260,6 @@
   "Body": "التنبيه",
   "Show less": "اخفي",
   "Show more": "اظهار",
-  "Deleting User": "مسح المستخدم"
+  "Deleting User": "مسح المستخدم",
+  "You can't add more than :number friends": "لا يمكنك اضافة أكثر من :number أصدقاء"
 }

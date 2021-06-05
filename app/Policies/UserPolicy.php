@@ -25,7 +25,9 @@ class UserPolicy
 
     public function create(User $admin)
     {
-        return $admin->can('users.create') || config('settings.allow_users_to_create_accounts') ? true : null;
+        return $admin->can('users.create') || (config('settings.allow_users_to_create_accounts') && config('settings.allow_users_to_make_accounts_for_others'))
+            ? true
+            : null;
     }
 
     public function update(User $admin, User $model)

@@ -51,6 +51,13 @@ class Friends extends Component
             return;
         }
 
+        if(! auth()->user()->isWithinFriendsLimit())
+        {
+            session()->flash('error', __("You can't add more than :number friends", ['number' => config('settings.friends_limit')]));
+
+            return;
+        }
+
         $friendship = auth()->user()
             ->friendships()
             ->whereHas('users', fn($query)=>$query->where('id', $user->id))

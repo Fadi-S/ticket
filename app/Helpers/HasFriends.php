@@ -43,6 +43,13 @@ trait HasFriends {
         return $this->rejectFriend($user);
     }
 
+    public function isWithinFriendsLimit()
+    {
+        $limit = config('settings.friends_limit');
+
+        return ($limit < 0) || ($this->friendships()->count() < $limit);
+    }
+
     public function confirmFriend($user)
     {
         $this->getFriendship($user)->update(['confirmed_at' => now()]);
