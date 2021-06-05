@@ -10,26 +10,30 @@
 
             <div class="space-y-6">
                 <div class="flex space-x-2 rtl:space-x-reverse justify-between sm:justify-start">
-                    @if(auth()->user()->can('create', \App\Models\User\User::class))
-                        <x-button id="open-user-btn" type="button" @click="$dispatch('openuser')"
-                                  color="bg-green-400 hover:bg-green-500 dark:bg-green-500 dark:hover:bg-green-600 text-white">
-                            <x-slot name="svg">
-                                <x-svg.add/>
-                            </x-slot>
-                            {{ __("Create New User") }}
-                        </x-button>
-                    @endif
+                    <div>
+                        @if(auth()->user()->can('create', \App\Models\User\User::class))
+                            <x-button id="open-user-btn" type="button" @click="$dispatch('openuser')" wire:key="create-user-button"
+                                      color="bg-green-400 hover:bg-green-500 dark:bg-green-500 dark:hover:bg-green-600 text-white">
+                                <x-slot name="svg">
+                                    <x-svg.add/>
+                                </x-slot>
+                                {{ __("Create New User") }}
+                            </x-button>
+                        @endif
+                    </div>
 
-                    @if(auth()->user()->can('createGuests'))
-                        <x-button id="open-guest-btn" type="button"
-                                  color="bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white"
-                                  @click="$dispatch('openguest')">
-                            <x-slot name="svg">
-                                <x-svg.add/>
-                            </x-slot>
-                            {{ __("Reserve For a Guest") }}
-                        </x-button>
-                    @endif
+                    <div>
+                        @if(auth()->user()->can('createGuests'))
+                            <x-button id="open-guest-btn" type="button" wire:key="guest-user-button"
+                                      color="bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white"
+                                      @click="$dispatch('openguest')">
+                                <x-slot name="svg">
+                                    <x-svg.add/>
+                                </x-slot>
+                                {{ __("Reserve For a Guest") }}
+                            </x-button>
+                        @endif
+                    </div>
                 </div>
 
                 <div x-data="{ searching: false }"
