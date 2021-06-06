@@ -80,7 +80,7 @@ trait UserAttributes
 
         $number = substr($this->national_id, -5, 4);
 
-        return $number % 2 == 0;
+        return $number % 2 !== 0;
     }
 
     public function getNameAttribute($name)
