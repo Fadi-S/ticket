@@ -73,6 +73,16 @@ trait UserAttributes
         return explode(' ', $this->locale_name)[0];
     }
 
+    public function getGenderAttribute($gender)
+    {
+        if(!$this->national_id)
+            return $gender;
+
+        $number = substr($this->national_id, -5, 4);
+
+        return $number % 2 !== 0;
+    }
+
     public function getNameAttribute($name)
     {
         if(config('settings.arabic_name_only'))

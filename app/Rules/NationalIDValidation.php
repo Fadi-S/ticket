@@ -6,6 +6,8 @@ use Illuminate\Contracts\Validation\Rule;
 
 class NationalIDValidation implements Rule
 {
+    private $message;
+
     /**
      * Create a new rule instance.
      *
@@ -25,10 +27,11 @@ class NationalIDValidation implements Rule
      */
     public function passes($attribute, $value)
     {
-        if(\Str::length($value) != 14)
+        if(\Str::length($value) != 14) {
+            $this->message = __('validation.regex');
+
             return false;
-
-
+        }
 
         return true;
     }
@@ -40,6 +43,6 @@ class NationalIDValidation implements Rule
      */
     public function message()
     {
-        return __('validation.regex');
+        return $this->message;
     }
 }
