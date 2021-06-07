@@ -20,6 +20,7 @@
         "intervention/image": "^2.5",
         "laracasts/flash": "^3.1",
         "laravel/framework": "^8.12",
+        "laravel/octane": "^1.0",
         "laravel/passport": "^10.0",
         "laravel/scout": "^8.6",
         "laravel/telescope": "^4.4",
@@ -33,7 +34,8 @@
         "rappasoft/laravel-livewire-tables": "^1.6",
         "spatie/laravel-activitylog": "^3.16",
         "spatie/laravel-honeypot": "^3.0",
-        "spatie/laravel-permission": "^3.17"
+        "spatie/laravel-permission": "^3.17",
+        "spiral/roadrunner": "^2.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.7",

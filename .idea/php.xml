@@ -158,6 +158,15 @@
       <path value="$PROJECT_DIR$/vendor/chartisan/php" />
       <path value="$PROJECT_DIR$/vendor/consoletvs/charts" />
       <path value="$PROJECT_DIR$/vendor/aws/aws-php-sns-message-validator" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/deprecations" />
+      <path value="$PROJECT_DIR$/vendor/laravel/octane" />
+      <path value="$PROJECT_DIR$/vendor/laminas/laminas-zendframework-bridge" />
+      <path value="$PROJECT_DIR$/vendor/laminas/laminas-diactoros" />
+      <path value="$PROJECT_DIR$/vendor/symfony/http-client" />
+      <path value="$PROJECT_DIR$/vendor/spiral/roadrunner-http" />
+      <path value="$PROJECT_DIR$/vendor/spiral/roadrunner-worker" />
+      <path value="$PROJECT_DIR$/vendor/spiral/goridge" />
+      <path value="$PROJECT_DIR$/vendor/spiral/roadrunner-cli" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />

@@ -161,6 +161,15 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/chartisan/php" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/consoletvs/charts" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/aws/aws-php-sns-message-validator" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/deprecations" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/octane" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/laminas/laminas-zendframework-bridge" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/laminas/laminas-diactoros" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/http-client" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spiral/roadrunner-http" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spiral/roadrunner-worker" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spiral/goridge" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spiral/roadrunner-cli" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
