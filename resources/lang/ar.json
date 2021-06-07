@@ -261,5 +261,8 @@
   "Show less": "اخفي",
   "Show more": "اظهار",
   "Deleting User": "مسح المستخدم",
-  "You can't add more than :number friends": "لا يمكنك اضافة أكثر من :number أصدقاء"
+  "You can't add more than :number friends": "لا يمكنك اضافة أكثر من :number أصدقاء",
+  "Couldn't send reset link to this email, it doesn't exist": "لم نتمكن من ارسال رسالة لهذا البريد الإلكتروني لأنه غير موجود",
+  "Back to sign in page": "عودة لصفحة تسجيل الدخول",
+  "Send Password Reset Link": "ارسال لينك إعادة التعيين"
 }

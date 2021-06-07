@@ -9,7 +9,7 @@
     @endif
 
     <h2 class="sm:mt-0 mt-2 text-center text-2xl font-bold text-gray-900 dark:text-gray-100">
-        Reset Password
+        {{ __('Reset Password') }}
     </h2>
 
     <form class="space-y-6" action="{{ route('password.email') }}" method="POST">
@@ -18,6 +18,7 @@
 
         <div class="rounded-md shadow-sm space-y-3">
             <x-form.input-2 label="Email"
+                            :error="$errors->get('email')"
                             id="email" value="{{ old('email') }}"
                             type="email" required/>
         </div>
@@ -26,7 +27,7 @@
             <a href="{{ url('/login') }}" class="font-medium
             dark:text-blue-400 dark:hover:text-blue-300
             text-blue-800 hover:text-blue-700">
-                ← Back to sign in page
+                ← {{ __('Back to sign in page') }}
             </a>
         </div>
 
@@ -38,10 +39,8 @@
                 </svg>
             </x-slot>
 
-            Send Password Reset Link
+            {{ __('Send Password Reset Link') }}
         </x-button>
-
-        <x-layouts.errors size="w-full"/>
     </form>
 
 
