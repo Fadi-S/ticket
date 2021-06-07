@@ -17,7 +17,9 @@ class ForgotPasswordController extends Controller
         $this->validateEmail($request);
 
         if(EmailBlacklist::isBlacklisted($request->get('email'))) {
-            return back()->with('status', trans("Couldn't send reset link to this email, it doesn't exist"));
+            return back()
+                ->withInput($request->only('email'))
+                ->withErrors(['email' => trans("Couldn't send reset link to this email, it doesn't exist")]);
         }
 
         // We will send the password reset link to this user. Once we have attempted
