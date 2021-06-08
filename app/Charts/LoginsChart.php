@@ -27,7 +27,7 @@ class LoginsChart extends BaseChart
     {
         $this->authorize('viewStatistics');
 
-        $loginsCache = \Cache::remember('logins.hours', now()->addMinutes(10),
+        $loginsCache = \Cache::remember('logins.hours', now()->addMinutes(30),
             function () {
                 $days = collect([]);
                 for ($date = now()->startOfDay()->subDays(7); $date->lte(now()); $date->addDay()) {

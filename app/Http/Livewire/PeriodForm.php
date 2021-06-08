@@ -52,8 +52,7 @@ class PeriodForm extends Component
         $this->period->end = Carbon::parse($this->end)->endOfDay();
         $this->period->save();
 
-        foreach (Redis::keys(config("cache.prefix") . ':tickets.users.*') as $key)
-            Redis::del($key);
+        \Cache::tags('periods')->flush();
 
         session()->flash('success', __('Period Saved Successfully'));
 

@@ -41,9 +41,8 @@ class TypesForm extends Component
         $this->type->has_deacons = $this->deacons;
         $this->type->save();
 
-        \Cache::forget('event:types:shown');
-        foreach (Redis::keys(\Cache::getPrefix() . ':tickets.users.*') as $key)
-            Redis::del($key);
+        \Cache::forget('event.types.shown');
+        \Cache::tags('ticket.users')->flush();
 
         session()->flash('success', __('Type Saved Successfully'));
 

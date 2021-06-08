@@ -34,7 +34,7 @@ class DashboardController extends Controller
         $period = Period::current();
         $announcements = Announcement::getCurrent();
 
-        $tickets = Cache::remember('tickets.users.' . $user->id, now()->addMinutes(30),
+        $tickets = Cache::tags('ticket.users')->remember('tickets.users.' . $user->id, now()->addMinutes(30),
             function () use($user) {
                 $num = app()->make('num');
                 $tickets = [];
