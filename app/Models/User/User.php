@@ -36,8 +36,6 @@ class User extends Authenticatable implements HasLocalePreference
         'activated_at'
     ];
 
-    protected $with = ['roles.permissions'];
-
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);

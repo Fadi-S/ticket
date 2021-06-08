@@ -31,22 +31,26 @@ class DashboardController extends Controller
         }
 
         if($user->can('tickets.view')) {
-            $currentEvents = Event::where([
-                ['start', '<', now()],
-                ['end', '>', now()]
-            ])->get();
+            $currentEvents = Event::getCurrent();
         }
 
         $period = Period::current();
         $announcements = Announcement::getCurrent();
 
-        $shownTypes = \Cache::remember('event.types.shown', now()->addHour(),
-            fn() => EventType::shown()->get()
+        $tickets = Cache::remember('tickets.users.' . $user->id, now()->addMinutes(30),
+            function () use($num, $user) {
+                $tickets = [];
+                $shownTypes = \Cache::remember('event.types.shown', now()->addHour(),
+                    fn() => EventType::shown()->get()
+                );
+
+                foreach ($shownTypes as $type) {
+                    $tickets[$type->id] = __(':number of :from left', ['number' => $num->format($user->tickets()->event($type->id)), 'from' => $num->format($type->max_reservations)]);
+                }
+
+                return $tickets;
+            }
         );
-        $tickets = [];
-        foreach ($shownTypes as $type) {
-            $tickets[$type->id] = __(':number of :from left', ['number' => $num->format($user->tickets()->event($type->id)), 'from' => $num->format($type->max_reservations)]);
-        }
 
         $usersCount = Cache::remember('users.count', now()->addMinutes(10),
             fn() => [
