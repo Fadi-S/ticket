@@ -65,7 +65,10 @@ class UserForm extends Component
 
     public function updatingUserNationalId($national_id)
     {
-        $this->user->gender = $this->gender = DataFromNationalID::create($national_id)->gender();
+        $nid = DataFromNationalID::create($national_id);
+
+        if($nid)
+            $this->user->gender = $this->gender = $nid->gender();
     }
 
     public function updated($field, $value)

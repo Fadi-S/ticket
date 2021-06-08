@@ -81,7 +81,7 @@ trait UserAttributes
             return $gender;
 
         $nid = $this->NID();
-        return $nid ? $nid->gender() : $gender;
+        return !! $nid ? $nid->gender() : $gender;
     }
 
     public function getNationalIdAttribute($national_id)
