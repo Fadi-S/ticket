@@ -32,13 +32,13 @@
                     <p x-data="{ isCollapsed: false, maxLength: 62,
                              originalContent: '', content: '' }"
                             x-init="originalContent = $el.firstElementChild.textContent.trim();
-                             content = originalContent.slice(0, maxLength)"
+                             content = originalContent.slice(0, maxLength); content += ((originalContent.length > content.length) ? '...' : '')"
                     >
                         <span x-text="isCollapsed ? originalContent : content">
                             {{ $announcement->body }}
                         </span>
-                        <button class="focus:outline-none text-blue-400"
-                                @click="isCollapsed = !isCollapsed"
+                        <button class="focus:outline-none text-blue-400 px-2"
+                                @click="$event.preventDefault(); isCollapsed = !isCollapsed"
                                 x-show="originalContent.length > maxLength"
                                 x-text="isCollapsed ? '{{ __('Show less') }}' : '{{ __('Show more') }}'"
                         ></button>
@@ -47,7 +47,7 @@
                 </div>
 
                 @can('announcements.edit')
-                    <div class="flex items-center justify-end text-blue-500 text-white text-underline">
+                    <div class="flex items-center justify-end text-blue-500 text-white text-underline mt-2">
                         <a class="flex items-center space-x-1 space-x-reverse" href="{{ url("/announcements/$announcement->id/edit") }}">
                             <x-svg.edit size="w-3 h-3" />
                             {{ __('Edit') }}
