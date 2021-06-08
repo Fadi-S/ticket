@@ -80,7 +80,8 @@ trait UserAttributes
         if(!$this->national_id)
             return $gender;
 
-        return DataFromNationalID::create($this->national_id)->gender();
+        $nid = $this->NID();
+        return $nid ? $nid->gender() : $gender;
     }
 
     public function getNationalIdAttribute($national_id)

@@ -3,6 +3,7 @@
 namespace App\Models\User;
 
 use App\Helpers\CanReserveInEvents;
+use App\Helpers\DataFromNationalID;
 use App\Helpers\HasFriends;
 use App\Models\EmailBlacklist;
 use App\Traits\Slugable;
@@ -75,6 +76,11 @@ class User extends Authenticatable implements HasLocalePreference
     public function isSignedIn() : bool
     {
         return $this->id == \Auth::id();
+    }
+
+    public function NID()
+    {
+        return DataFromNationalID::create($this->national_id);
     }
 
     public function routeNotificationForMail($notification = null)

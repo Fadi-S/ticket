@@ -209,7 +209,7 @@ class UserForm extends Component
             $rules['user.national_id'] = [
                 config('settings.national_id_required') ? 'required' : 'nullable',
                 'regex:/' . StandardRegex::NATIONAL_ID . '/',
-                new NationalIDValidation,
+                new NationalIDValidation(!! $this->gender),
                 Rule::unique('users', 'national_id')->ignore($id),
             ];
         }
