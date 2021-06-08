@@ -4,6 +4,8 @@
 namespace App\Models\User;
 
 
+use App\Helpers\ArabicNumbersToEnglish;
+use App\Helpers\DataFromNationalID;
 use App\Helpers\NormalizePhoneNumber;
 use App\Models\Church;
 use App\Models\Location;
@@ -78,9 +80,12 @@ trait UserAttributes
         if(!$this->national_id)
             return $gender;
 
-        $number = substr($this->national_id, -5, 4);
+        return DataFromNationalID::create($this->national_id)->gender();
+    }
 
-        return $number % 2 !== 0;
+    public function getNationalIdAttribute($national_id)
+    {
+        return ArabicNumbersToEnglish::create($national_id)->handle();
     }
 
     public function getNameAttribute($name)

@@ -92,8 +92,8 @@
                     @else
                         @if($period)
                             {{ __(':type reservations left between :start and :end', [
-                                    'start' => $period->start->translatedFormat('D d M'),
-                                    'end' => $period->end->translatedFormat('D d M'),
+                                    'start' => $period->start->translatedFormat('l d M'),
+                                    'end' => $period->end->translatedFormat('l d M'),
                                     'type' => $type->locale_plural_name,
                              ]) }}
                         @else

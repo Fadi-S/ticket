@@ -141,7 +141,7 @@ class Event extends Model
 
     public function getFormattedDateAttribute()
     {
-        return $this->start->translatedFormat("D, d M y");
+        return $this->start->translatedFormat("l, d M y");
     }
 
     public function getFormattedTimeAttribute()

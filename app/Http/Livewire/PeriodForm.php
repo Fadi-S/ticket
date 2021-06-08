@@ -6,6 +6,7 @@ use App\Models\Event;
 use App\Models\Period;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Redis;
 use Livewire\Component;
 
 class PeriodForm extends Component
@@ -51,8 +52,8 @@ class PeriodForm extends Component
         $this->period->end = Carbon::parse($this->end)->endOfDay();
         $this->period->save();
 
-        for ($date = now(); $date->lessThanOrEqualTo(now()->addWeeks(2)); $date->addDay())
-            \Cache::forget('period.' . $date->format('Y-m-d'));
+        foreach (Redis::keys(config("cache.prefix") . ':tickets.users.*') as $key)
+            Redis::del($key);
 
         session()->flash('success', __('Period Saved Successfully'));
 

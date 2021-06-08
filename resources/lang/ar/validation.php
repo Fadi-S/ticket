@@ -149,6 +149,7 @@ return [
     'attributes' => [
         'name' => 'الاسم',
         'username' => 'اسم المُستخدم',
+        'arabic_name' => 'الاسم بالعربية',
         'email' => 'البريد الالكتروني',
         'national_id' => 'الرقم القومي',
         'first_name' => 'الاسم الأول',

@@ -18,7 +18,6 @@ class DashboardController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $num = app()->make('num');
 
         $only = [];
         if($user->hasFirstNameOnly()) {
@@ -30,15 +29,14 @@ class DashboardController extends Controller
             array_push($only, 'user.national_id');
         }
 
-        if($user->can('tickets.view')) {
-            $currentEvents = Event::getCurrent();
-        }
+        $currentEvents = $user->can('tickets.view') ? Event::getCurrent() : [];
 
         $period = Period::current();
         $announcements = Announcement::getCurrent();
 
         $tickets = Cache::remember('tickets.users.' . $user->id, now()->addMinutes(30),
-            function () use($num, $user) {
+            function () use($user) {
+                $num = app()->make('num');
                 $tickets = [];
                 $shownTypes = \Cache::remember('event.types.shown', now()->addHour(),
                     fn() => EventType::shown()->get()
@@ -52,16 +50,16 @@ class DashboardController extends Controller
             }
         );
 
-        $usersCount = Cache::remember('users.count', now()->addMinutes(10),
+        $usersCount = $user->isAdmin() ? Cache::remember('users.count', now()->addMinutes(10),
             fn() => [
                 'verified' => User::verified()->count(),
                 'all' => User::count(),
             ]
-        );
+        ) : ['all' => 0, 'verified' => 0];
 
         return view("index", [
-            'users' => $user->isAdmin() ? $usersCount['all'] : 0,
-            'verified_users' => $user->isAdmin() ? $usersCount['verified'] : 0,
+            'users' => $usersCount['all'],
+            'verified_users' => $usersCount['verified'],
             'tickets' => $tickets,
             'user' => $user,
             'period' => $period,

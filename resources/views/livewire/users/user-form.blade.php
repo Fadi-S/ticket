@@ -93,7 +93,7 @@
                         @endif
 
                     @if($this->showField('gender'))
-                        <x-form.gender-switch :livewire="true" name="gender" id="gender" label="{{ __('Gender') }}" />
+                        <x-form.gender-switch :livewire="true" wire:model="gender" name="gender" id="gender" label="{{ __('Gender') }}" />
                     @endif
                 </div>
 

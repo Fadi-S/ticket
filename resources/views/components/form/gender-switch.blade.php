@@ -8,7 +8,7 @@
 
 
 <div class="flex flex-col">
-    <div class="mt-1" x-data="{ value: @if($livewire) @entangle('gender').defer @else 1 @endif }">
+    <div class="mt-1" x-data="{ value: @if($livewire) @entangle($attributes->wire('model')) @else 1 @endif }">
         <div class="{{ $class }} select-none bg-blue-200
           h-10 rounded-2xl cursor-pointer flex w-28
          flex-row justify-center duration-500

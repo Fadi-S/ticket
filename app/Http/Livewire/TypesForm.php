@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\EventType;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
@@ -40,7 +41,9 @@ class TypesForm extends Component
         $this->type->has_deacons = $this->deacons;
         $this->type->save();
 
-        \Cache::forget('event.types.shown');
+        \Cache::forget('event:types:shown');
+        foreach (Redis::keys(\Cache::getPrefix() . ':tickets.users.*') as $key)
+            Redis::del($key);
 
         session()->flash('success', __('Type Saved Successfully'));
 
