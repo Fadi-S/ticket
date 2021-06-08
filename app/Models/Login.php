@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\User\User;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,9 +26,10 @@ class Login extends Model
 
         $user = Auth::user();
 
-        if($user->logins()
-            ->where('time', '>=', now()->subHour())
-            ->exists())
+        $cacheKey = 'users.last_login.' . auth()->id();
+        $lastLogin = Carbon::parse(\Cache::get($cacheKey) ?? '1970-01-01');
+
+        if($lastLogin->greaterThan(now()->subHour()))
             return;
 
         $client = [
@@ -37,6 +39,8 @@ class Login extends Model
         if(!isset($_SERVER['REMOTE_ADDR'])) {
             return ;
         }
+
+        \Cache::set($cacheKey, now()->format('Y-m-d H:i:s'));
 
         self::create([
             'user_id' => $user->id,

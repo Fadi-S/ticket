@@ -54,6 +54,16 @@ class Event extends Model
         return $this->type->has_deacons;
     }
 
+    public static function getCurrent()
+    {
+        return \Cache::remember('events.current', now()->addMinutes(10),
+            fn() => self::where([
+                ['start', '<', now()],
+                ['end', '>', now()]
+            ])->get()
+        );
+    }
+
     public function allowsException()
     {
         return $this->type->allows_exception;

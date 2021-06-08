@@ -51,6 +51,9 @@ class PeriodForm extends Component
         $this->period->end = Carbon::parse($this->end)->endOfDay();
         $this->period->save();
 
+        for ($date = now(); $date->lessThanOrEqualTo(now()->addWeeks(2)); $date->addDay())
+            \Cache::forget('period.' . $date->format('Y-m-d'));
+
         session()->flash('success', __('Period Saved Successfully'));
 
         if($this->isCreate) {

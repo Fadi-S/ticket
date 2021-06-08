@@ -27,28 +27,38 @@ class LoginsChart extends BaseChart
     {
         $this->authorize('viewStatistics');
 
-        $days = collect([]);
-        for ($date = now()->startOfDay()->subDays(7); $date->lte(now()); $date->addDay()) {
-            $days->push($date->copy());
-        }
+        $loginsCache = \Cache::remember('logins.hours', now()->addMinutes(10),
+            function () {
+                $days = collect([]);
+                for ($date = now()->startOfDay()->subDays(7); $date->lte(now()); $date->addDay()) {
+                    $days->push($date->copy());
+                }
 
-        $logins = Login::whereBetween('time', [$days->first()->startOfDay(), $days->last()->endOfDay()])->pluck('time');
+                $logins = Login::whereBetween('time', [$days->first()->startOfDay(), $days->last()->endOfDay()])->pluck('time');
 
-        $loginsPerHour = collect();
+                $loginsPerHour = collect();
 
-        $hours = collect();
-        foreach ($days as $day) {
-            for ($i = 0; $i <=23; $i ++) {
-                $hour = $day->copy()->hours($i)->startOfHour();
+                $hours = collect();
+                foreach ($days as $day) {
+                    for ($i = 0; $i <=23; $i ++) {
+                        $hour = $day->copy()->hours($i)->startOfHour();
 
-                $hours->push($hour->translatedFormat('l ha'));
+                        $hours->push($hour->translatedFormat('l ha'));
 
-                $loginsPerHour->push($logins->filter(fn($time) => $time->between($hour, $hour->copy()->endOfHour()))->count());
+                        $loginsPerHour->push($logins->filter(fn($time) => $time->between($hour, $hour->copy()->endOfHour()))->count());
+                    }
+                }
+
+                return [
+                    'hours' => $hours->toArray(),
+                    'logins' => $loginsPerHour->toArray(),
+                ];
             }
-        }
+        );
+
 
         return Chartisan::build()
-            ->labels($hours->toArray())
-            ->dataset('Logins', $loginsPerHour->toArray());
+            ->labels($loginsCache['hours'])
+            ->dataset('Logins', $loginsCache['logins']);
     }
 }

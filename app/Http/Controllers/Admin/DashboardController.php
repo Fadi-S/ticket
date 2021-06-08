@@ -31,24 +31,37 @@ class DashboardController extends Controller
         }
 
         if($user->can('tickets.view')) {
-            $currentEvents = Event::where([
-                ['start', '<', now()],
-                ['end', '>', now()]
-            ])->get();
+            $currentEvents = Event::getCurrent();
         }
 
         $period = Period::current();
         $announcements = Announcement::getCurrent();
 
-        $shownTypes = EventType::shown()->get();
-        $tickets = [];
-        foreach ($shownTypes as $type) {
-            $tickets[$type->id] = __(':number of :from left', ['number' => $num->format($user->tickets()->event($type->id)), 'from' => $num->format($type->max_reservations)]);
-        }
+        $tickets = Cache::remember('tickets.users.' . $user->id, now()->addMinutes(30),
+            function () use($num, $user) {
+                $tickets = [];
+                $shownTypes = \Cache::remember('event.types.shown', now()->addHour(),
+                    fn() => EventType::shown()->get()
+                );
+
+                foreach ($shownTypes as $type) {
+                    $tickets[$type->id] = __(':number of :from left', ['number' => $num->format($user->tickets()->event($type->id)), 'from' => $num->format($type->max_reservations)]);
+                }
+
+                return $tickets;
+            }
+        );
+
+        $usersCount = Cache::remember('users.count', now()->addMinutes(10),
+            fn() => [
+                'verified' => User::verified()->count(),
+                'all' => User::count(),
+            ]
+        );
 
         return view("index", [
-            'users' => $user->isAdmin() ? User::count() : 0,
-            'verified_users' => $user->isAdmin() ? User::verified()->count() : 0,
+            'users' => $user->isAdmin() ? $usersCount['all'] : 0,
+            'verified_users' => $user->isAdmin() ? $usersCount['verified'] : 0,
             'tickets' => $tickets,
             'user' => $user,
             'period' => $period,

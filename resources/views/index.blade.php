@@ -20,7 +20,7 @@
             <x-data-card :href="$announcement->hasURL() ? url($announcement->url) : null"
                          colorStyle="background-color: {{ $announcement->color }}"
                          :class="$announcement->hasURL() ? 'cursor-pointer transform transition duration-500
-                              hover:scale-95 focus:scale-95' : ''">
+                              hover:scale-105 focus:scale-105' : ''">
                 <x-slot name="svg">
                     <x-svg.speaker />
                 </x-slot>
@@ -61,7 +61,7 @@
             @foreach($currentEvents as $currentEvent)
                 <x-data-card :href="url('/tickets?event=' . $currentEvent->id)" color="bg-green-400"
                              class="cursor-pointer transform transition duration-500
-                              hover:scale-95 focus:scale-95">
+                              hover:scale-105 focus:scale-105">
                     <x-slot name="svg">
                         <x-svg.clock/>
                     </x-slot>
