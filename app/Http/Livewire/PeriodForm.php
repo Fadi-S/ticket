@@ -6,6 +6,7 @@ use App\Models\Event;
 use App\Models\Period;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Redis;
 use Livewire\Component;
 
 class PeriodForm extends Component
@@ -50,6 +51,8 @@ class PeriodForm extends Component
         $this->period->start = Carbon::parse($this->start)->startOfDay();
         $this->period->end = Carbon::parse($this->end)->endOfDay();
         $this->period->save();
+
+        \Cache::tags('periods')->flush();
 
         session()->flash('success', __('Period Saved Successfully'));
 

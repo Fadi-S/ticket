@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\EventType;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
@@ -39,6 +40,9 @@ class TypesForm extends Component
         $this->type->show = $this->show;
         $this->type->has_deacons = $this->deacons;
         $this->type->save();
+
+        \Cache::forget('event.types.shown');
+        \Cache::tags('ticket.users')->flush();
 
         session()->flash('success', __('Type Saved Successfully'));
 

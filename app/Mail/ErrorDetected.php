@@ -4,13 +4,13 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Mail\Mailable;
-use Illuminate\Queue\SerializesModels;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 use Laravel\Telescope\IncomingEntry;
 
-class ErrorDetected extends Mailable implements ShouldQueue
+class ErrorDetected extends Notification implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Queueable;
 
     private IncomingEntry $entry;
 
@@ -24,20 +24,31 @@ class ErrorDetected extends Mailable implements ShouldQueue
         $this->entry = $entry;
     }
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
-    public function build()
+    public function via($notifiable)
     {
-        return $this->view('emails.error-found', [
+        return ['mail'];
+    }
+
+    public function toMail($notifiable)
+    {
+        $data = [
             'type' => $this->entry->type,
             'time' => $this->entry->recordedAt,
             'environment' => app()->environment(),
             'url' => app()->runningInConsole() ? 'CLI' : request()->method() . ' ' . request()->fullUrl(),
             'user' => $this->entry->content['user'] ?? null,
             'view_in_Telescope' => url('telescope/exceptions/' . $this->entry->uuid),
-        ]);
+        ];
+
+        return (new MailMessage)
+            ->subject('Error detected in ' . config('app.name'))
+
+            ->line('Error detected in ' . $data['url'] . ' at ' . $data['time'])
+
+            ->line('by user ' . $data['user'] ? $data['user']['arabic_name'] : '-')
+
+            ->level('error')
+
+            ->action('View in telescope', $data['view_in_Telescope']);
     }
 }

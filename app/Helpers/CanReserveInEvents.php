@@ -49,6 +49,8 @@ trait CanReserveInEvents
 
         $this->reservations()->save($reservation);
 
+        \Cache::forget('tickets.users.' . $this->id);
+
         return $reservation;
     }
 

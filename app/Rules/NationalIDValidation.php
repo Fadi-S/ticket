@@ -2,20 +2,23 @@
 
 namespace App\Rules;
 
+use App\Helpers\DataFromNationalID;
 use Illuminate\Contracts\Validation\Rule;
 
 class NationalIDValidation implements Rule
 {
     private $message;
 
+    private $gender;
+
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($gender=null)
     {
-        //
+        $this->gender = $gender;
     }
 
     /**
@@ -31,6 +34,16 @@ class NationalIDValidation implements Rule
             $this->message = __('validation.regex');
 
             return false;
+        }
+
+        if(! is_null($this->gender) && $nid = DataFromNationalID::create($value)) {
+            $natIdGender = !! $nid->gender();
+
+            if($this->gender != $natIdGender) {
+                $this->message = __("Gender doesn't match national id");
+
+                return false;
+            }
         }
 
         return true;

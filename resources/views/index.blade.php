@@ -20,7 +20,7 @@
             <x-data-card :href="$announcement->hasURL() ? url($announcement->url) : null"
                          colorStyle="background-color: {{ $announcement->color }}"
                          :class="$announcement->hasURL() ? 'cursor-pointer transform transition duration-500
-                              hover:scale-95 focus:scale-95' : ''">
+                              hover:scale-105 focus:scale-105' : ''">
                 <x-slot name="svg">
                     <x-svg.speaker />
                 </x-slot>
@@ -32,13 +32,13 @@
                     <p x-data="{ isCollapsed: false, maxLength: 62,
                              originalContent: '', content: '' }"
                             x-init="originalContent = $el.firstElementChild.textContent.trim();
-                             content = originalContent.slice(0, maxLength)"
+                             content = originalContent.slice(0, maxLength); content += ((originalContent.length > content.length) ? '...' : '')"
                     >
                         <span x-text="isCollapsed ? originalContent : content">
                             {{ $announcement->body }}
                         </span>
-                        <button class="focus:outline-none text-blue-400"
-                                @click="isCollapsed = !isCollapsed"
+                        <button class="focus:outline-none text-blue-400 px-2"
+                                @click="$event.preventDefault(); isCollapsed = !isCollapsed"
                                 x-show="originalContent.length > maxLength"
                                 x-text="isCollapsed ? '{{ __('Show less') }}' : '{{ __('Show more') }}'"
                         ></button>
@@ -47,7 +47,7 @@
                 </div>
 
                 @can('announcements.edit')
-                    <div class="flex items-center justify-end text-blue-500 text-white text-underline">
+                    <div class="flex items-center justify-end text-blue-500 text-white text-underline mt-2">
                         <a class="flex items-center space-x-1 space-x-reverse" href="{{ url("/announcements/$announcement->id/edit") }}">
                             <x-svg.edit size="w-3 h-3" />
                             {{ __('Edit') }}
@@ -61,7 +61,7 @@
             @foreach($currentEvents as $currentEvent)
                 <x-data-card :href="url('/tickets?event=' . $currentEvent->id)" color="bg-green-400"
                              class="cursor-pointer transform transition duration-500
-                              hover:scale-95 focus:scale-95">
+                              hover:scale-105 focus:scale-105">
                     <x-slot name="svg">
                         <x-svg.clock/>
                     </x-slot>
@@ -92,8 +92,8 @@
                     @else
                         @if($period)
                             {{ __(':type reservations left between :start and :end', [
-                                    'start' => $period->start->translatedFormat('D d M'),
-                                    'end' => $period->end->translatedFormat('D d M'),
+                                    'start' => $period->start->translatedFormat('l d M'),
+                                    'end' => $period->end->translatedFormat('l d M'),
                                     'type' => $type->locale_plural_name,
                              ]) }}
                         @else

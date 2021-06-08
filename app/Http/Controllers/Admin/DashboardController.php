@@ -18,7 +18,6 @@ class DashboardController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $num = app()->make('num');
 
         $only = [];
         if($user->hasFirstNameOnly()) {
@@ -30,25 +29,37 @@ class DashboardController extends Controller
             array_push($only, 'user.national_id');
         }
 
-        if($user->can('tickets.view')) {
-            $currentEvents = Event::where([
-                ['start', '<', now()],
-                ['end', '>', now()]
-            ])->get();
-        }
+        $currentEvents = $user->can('tickets.view') ? Event::getCurrent() : [];
 
         $period = Period::current();
         $announcements = Announcement::getCurrent();
 
-        $shownTypes = EventType::shown()->get();
-        $tickets = [];
-        foreach ($shownTypes as $type) {
-            $tickets[$type->id] = __(':number of :from left', ['number' => $num->format($user->tickets()->event($type->id)), 'from' => $num->format($type->max_reservations)]);
-        }
+        $tickets = Cache::tags('ticket.users')->remember('tickets.users.' . $user->id, now()->addMinutes(30),
+            function () use($user) {
+                $num = app()->make('num');
+                $tickets = [];
+                $shownTypes = \Cache::remember('event.types.shown', now()->addHour(),
+                    fn() => EventType::shown()->get()
+                );
+
+                foreach ($shownTypes as $type) {
+                    $tickets[$type->id] = __(':number of :from left', ['number' => $num->format($user->tickets()->event($type->id)), 'from' => $num->format($type->max_reservations)]);
+                }
+
+                return $tickets;
+            }
+        );
+
+        $usersCount = $user->isAdmin() ? Cache::remember('users.count', now()->addMinutes(10),
+            fn() => [
+                'verified' => User::verified()->count(),
+                'all' => User::count(),
+            ]
+        ) : ['all' => 0, 'verified' => 0];
 
         return view("index", [
-            'users' => $user->isAdmin() ? User::count() : 0,
-            'verified_users' => $user->isAdmin() ? User::verified()->count() : 0,
+            'users' => $usersCount['all'],
+            'verified_users' => $usersCount['verified'],
             'tickets' => $tickets,
             'user' => $user,
             'period' => $period,

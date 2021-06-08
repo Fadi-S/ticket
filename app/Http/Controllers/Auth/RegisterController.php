@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Events\UserRegistered;
+use App\Helpers\ArabicNumbersToEnglish;
 use App\Helpers\NormalizePhoneNumber;
 use App\Helpers\StandardRegex;
 use App\Http\Controllers\Controller;
@@ -57,12 +58,14 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
     {
         $data['phone'] = NormalizePhoneNumber::create($data['phone'] ?? '')->handle();
+        $data['national_id'] = ArabicNumbersToEnglish::create($data['national_id'] ?? '')->handle();
+
         $data['username'] = User::makeSlug(config('settings.arabic_name_only') ? $data['arabic_name'] : $data['name']);
         \request()->request->set('username', $data['username']);
 
@@ -72,7 +75,11 @@ class RegisterController extends Controller
             'email' => ['nullable', 'string', 'email', 'max:191', 'unique:users'],
             'phone' => ['required', 'string', 'regex:/' . StandardRegex::PHONE_NUMBER . '/', 'unique:users'],
             'username' => ['required', 'unique:users'],
-            'national_id' => [(config('settings.national_id_required')) ? 'nullable' : 'required', 'regex:/' . StandardRegex::NATIONAL_ID . '/', 'unique:users', new NationalIDValidation,],
+            'national_id' => [
+                (config('settings.national_id_required')) ? 'nullable' : 'required',
+                'regex:/' . StandardRegex::NATIONAL_ID . '/', 'unique:users',
+                new NationalIDValidation($data['gender'] ?? null),
+            ],
             'password' => ['required', 'string', 'min:' . User::$minPassword, 'confirmed'],
             'gender' => ['required', Rule::in([1, 0]),],
             'location_id' => ['required', 'exists:locations,id',],
@@ -82,7 +89,7 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data
      * @return User
      */
     protected function create(array $data)

@@ -15,7 +15,8 @@ class AddDeaconsNumberToTemplatesTable extends Migration
     {
         Schema::table('templates', function (Blueprint $table) {
             $table->unsignedInteger('deacons_number')
-                ->default(5)
+                ->nullable()
+                ->default(0)
                 ->after('number_of_places');
         });
     }

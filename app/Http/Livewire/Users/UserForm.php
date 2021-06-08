@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Users;
 
+use App\Helpers\DataFromNationalID;
 use App\Helpers\StandardRegex;
 use App\Models\Location;
 use App\Models\User\User;
@@ -57,8 +58,17 @@ class UserForm extends Component
     public function updatedGender($gender)
     {
         $this->validateOnly('gender');
+        $this->validateOnly('user.national_id');
 
         $this->user->gender = (bool)$gender;
+    }
+
+    public function updatingUserNationalId($national_id)
+    {
+        $nid = DataFromNationalID::create($national_id);
+
+        if($nid)
+            $this->user->gender = $this->gender = $nid->gender();
     }
 
     public function updated($field, $value)
@@ -159,7 +169,7 @@ class UserForm extends Component
                 config('settings.national_id_required') ? 'required' : 'nullable',
                 'regex:/' . StandardRegex::NATIONAL_ID . '/',
                 'unique:users,national_id',
-                new NationalIDValidation,
+                new NationalIDValidation(!! $this->gender),
             ],
             'gender' => 'required|in:0,1',
             'password' => [
@@ -202,7 +212,7 @@ class UserForm extends Component
             $rules['user.national_id'] = [
                 config('settings.national_id_required') ? 'required' : 'nullable',
                 'regex:/' . StandardRegex::NATIONAL_ID . '/',
-                new NationalIDValidation,
+                new NationalIDValidation(!! $this->gender),
                 Rule::unique('users', 'national_id')->ignore($id),
             ];
         }

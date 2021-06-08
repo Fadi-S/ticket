@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Mail\ErrorDetected;
+use App\Models\User\User;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Telescope\IncomingEntry;
@@ -41,8 +42,11 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
             if(app()->environment() === 'production') {
                 foreach ($entries as $entry) {
                     if($entry->isException()) {
-                        \Mail::to('fady.sarwat377@gmail.com')
-                            ->queue(new ErrorDetected($entry));
+
+                        $user = new User();
+                        $user->email = 'fady.sarwat377@gmail.com';
+                        $user->notify(new ErrorDetected($entry));
+
                     }
                 }
             }

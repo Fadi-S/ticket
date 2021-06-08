@@ -54,6 +54,16 @@ class Event extends Model
         return $this->type->has_deacons;
     }
 
+    public static function getCurrent()
+    {
+        return \Cache::remember('events.current', now()->addMinutes(10),
+            fn() => self::where([
+                ['start', '<', now()],
+                ['end', '>', now()]
+            ])->get()
+        );
+    }
+
     public function allowsException()
     {
         return $this->type->allows_exception;
@@ -131,7 +141,7 @@ class Event extends Model
 
     public function getFormattedDateAttribute()
     {
-        return $this->start->translatedFormat("D, d M y");
+        return $this->start->translatedFormat("l, d M y");
     }
 
     public function getFormattedTimeAttribute()

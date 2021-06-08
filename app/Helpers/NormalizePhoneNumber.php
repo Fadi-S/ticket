@@ -21,7 +21,7 @@ class NormalizePhoneNumber {
      */
     public static function create($phone, bool $strict=true) : self
     {
-        $phone = strtr($phone, ['٠'=>'0', '١'=>'1', '٢'=>'2', '٣'=>'3', '٤'=>'4', '٥'=>'5', '٦'=>'6', '٧'=>'7', '٨'=>'8', '٩'=>'9']);
+        $phone = ArabicNumbersToEnglish::create($phone)->handle();
 
         return new self($phone, $strict);
     }
