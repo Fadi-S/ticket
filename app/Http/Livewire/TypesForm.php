@@ -40,6 +40,8 @@ class TypesForm extends Component
         $this->type->has_deacons = $this->deacons;
         $this->type->save();
 
+        \Cache::forget('event.types.shown');
+
         session()->flash('success', __('Type Saved Successfully'));
 
         if($this->isCreate) {

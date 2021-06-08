@@ -40,15 +40,24 @@ class DashboardController extends Controller
         $period = Period::current();
         $announcements = Announcement::getCurrent();
 
-        $shownTypes = EventType::shown()->get();
+        $shownTypes = \Cache::remember('event.types.shown', now()->addHour(),
+            fn() => EventType::shown()->get()
+        );
         $tickets = [];
         foreach ($shownTypes as $type) {
             $tickets[$type->id] = __(':number of :from left', ['number' => $num->format($user->tickets()->event($type->id)), 'from' => $num->format($type->max_reservations)]);
         }
 
+        $usersCount = Cache::remember('users.count', now()->addMinutes(10),
+            fn() => [
+                'verified' => User::verified()->count(),
+                'all' => User::count(),
+            ]
+        );
+
         return view("index", [
-            'users' => $user->isAdmin() ? User::count() : 0,
-            'verified_users' => $user->isAdmin() ? User::verified()->count() : 0,
+            'users' => $user->isAdmin() ? $usersCount['all'] : 0,
+            'verified_users' => $user->isAdmin() ? $usersCount['verified'] : 0,
             'tickets' => $tickets,
             'user' => $user,
             'period' => $period,

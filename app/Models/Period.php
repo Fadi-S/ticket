@@ -20,9 +20,11 @@ class Period extends Model
 
         //$date = $date->format('Y-m-d H:i:s');
 
-        return self::where('start', '<=', $date)
-            ->where('end', '>=', $date)
-            ->first();
+        return \Cache::remember('period.' . $date->format('Y-m-d'), now()->addHour(),
+            fn() => self::where('start', '<=', $date)
+                ->where('end', '>=', $date)
+                ->first()
+        );
     }
 
     public function setStartAttribute($start)

@@ -31,7 +31,9 @@ class ViewsServiceProvider extends ServiceProvider
     {
         \View::composer('*', function ($view) {
             $view->with([
-                'shownTypes' => EventType::shown()->get(),
+                'shownTypes' => \Cache::remember('event.types.shown', now()->addHour(),
+                    fn() => EventType::shown()->get()
+                ),
             ]);
         });
     }

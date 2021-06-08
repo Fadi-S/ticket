@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Charts;
 
@@ -25,12 +25,19 @@ class UsersStatusChart extends BaseChart
     {
         $this->authorize('viewStatistics', User::class);
 
-        $activeUsers = User::where('activated_at', '<>', null)->count();
+        $users = \Cache::remember('users.status.active_number', now()->addMinutes(15),
+            function () {
+                $activeUsers = User::where('activated_at', '<>', null)->count();
+                $users = User::where('activated_at', null)->count();
 
-        $users = User::where('activated_at', null)->count();
+                return [
+                    'active' => $activeUsers,
+                    'inactive' => $users,
+                ];
+            });
 
         return Chartisan::build()
-            ->labels([__('Active'), __('Un Active')])
-            ->dataset('Users', [$activeUsers, $users]);
+            ->labels([__('Active'), __('Inactive')])
+            ->dataset('Users', [$users['active'], $users['inactive']]);
     }
 }
