@@ -13,6 +13,7 @@
         "ext-intl": "*",
         "algolia/algoliasearch-client-php": "^2.8",
         "aws/aws-php-sns-message-validator": "^1.6",
+        "aws/aws-sdk-php": "^3.183",
         "consoletvs/charts": "^7.2",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
