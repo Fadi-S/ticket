@@ -36,8 +36,8 @@ class NationalIDValidation implements Rule
             return false;
         }
 
-        if(! is_null($this->gender)) {
-            $natIdGender = !! DataFromNationalID::create($value)->gender();
+        if(! is_null($this->gender) && $nid = DataFromNationalID::create($value)) {
+            $natIdGender = !! $nid->gender();
 
             if($this->gender != $natIdGender) {
                 $this->message = __("Gender doesn't match national id");
