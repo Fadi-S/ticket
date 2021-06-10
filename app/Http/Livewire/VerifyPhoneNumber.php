@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Helpers\GoogleAPI;
 use App\Models\User\User;
+use Illuminate\Support\Facades\Redis;
 use Livewire\Component;
 
 class VerifyPhoneNumber extends Component
@@ -55,7 +56,17 @@ class VerifyPhoneNumber extends Component
         $response = $api->sendVerificationCode($phone, $this->reCaptcha);
 
         if(!isset($response['sessionInfo'])) {
-            session()->flash('error', 'An error has occurred');
+            $error = collect($response['error']);
+
+            session()->flash('error', __('google.' . $error->get('message')));
+
+            $failures = collect(json_decode(Redis::hGet('verification_failures', $this->user->id)));
+
+            $error = $error->put('user_id', $this->user->id);
+            $error = $error->put('phone', $this->user->phone);
+
+            $failures->push($error);
+            Redis::hSet('verification_failures', $this->user->id, $failures->toJson());
 
             return;
         }
