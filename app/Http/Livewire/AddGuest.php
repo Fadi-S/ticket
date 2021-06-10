@@ -68,6 +68,7 @@ class AddGuest extends Component
                 new ArabicOnly
             ],
             'gender' => 'required|boolean',
+            'date' => 'date',
         ];
 
         if(config('settings.arabic_name_only')) {

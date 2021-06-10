@@ -23,7 +23,7 @@
         @endisset
 
         <div class="relative">
-            <input x-ref="input"
+            <input x-ref="input" readonly
                    x-bind:value="value"
                     class="mt-1 focus:outline-none px-2
             dark:bg-gray-600
