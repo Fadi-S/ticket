@@ -66,11 +66,9 @@
         </div>
 
         <div>
-            @if(!$sent)
-                <div wire:ignore>
-                    <div data-theme="{{ $isDark ? 'dark' : 'light'}}" id="recaptcha-div"></div>
-                </div>
-            @endif
+            <div wire:ignore>
+                <div data-theme="{{ $isDark ? 'dark' : 'light'}}" id="recaptcha-div"></div>
+            </div>
         </div>
 
         <div>
