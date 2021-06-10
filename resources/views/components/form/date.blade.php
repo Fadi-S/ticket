@@ -13,7 +13,7 @@
      x-init="new Pikaday({ field: $refs.input,
                  format: '{{ $time ? 'YYYY-MM-DD hh:mm A' : 'YYYY-MM-DD' }}',
                     isRTL: {{ __('ltr') === 'rtl' ? 'true' : 'false' }},
-                    showTime: '{{ $time ? 'true' : 'false' }}',
+                    showTime: {{ $time ? 'true' : 'false' }},
                      onOpen() { this.setDate($refs.input.value) } })"
      x-on:change="value = $event.target.value"
         class="{{ $size }}">
