@@ -15,6 +15,7 @@ return [
     'verify_phone' => env('VERIFY_PHONE_NUMBER', true),
     'allow_users_to_make_accounts_for_others' => env('ALLOW_USERS_TO_MAKE_ACCOUNTS_FOR_OTHERS', true),
     'friends_limit' => env('LIMIT_FOR_PEOPLE_YOU_CAN_SEND_A_REQUEST_TO', -1),
+    'cancellation_before_event_hours' => env('CANCELLATION_BEFORE_EVENT_HOURS', 0),
 
 
     'photo_library_url' => env('PHOTO_LIBRARY_URL'),

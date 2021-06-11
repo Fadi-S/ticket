@@ -166,7 +166,7 @@ class Event extends Model
 
     public function hasPassed()
     {
-        return $this->start->lte(now()) || $this->hidden_at != null;
+        return $this->start->lte(now()->addHours(config('settings.cancellation_before_event_hours'))) || $this->hidden_at != null;
     }
 
     /** @deprecated  **/
