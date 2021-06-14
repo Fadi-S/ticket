@@ -86,7 +86,6 @@ class EventsController extends Controller
         $events = Event::typeId($eventType->id)
             ->orderBy('start')
             ->upcoming()
-            ->with('tickets.reservations.user')
             ->paginate(10);
 
         $templates = Template::type($eventType->id)
