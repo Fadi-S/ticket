@@ -114,8 +114,10 @@ class Event extends Model
 
     public static function getByType($type, $pagination=10)
     {
+        $currentPage = request()->get('page',1);
+
         return \Cache::tags('events')
-            ->remember('events.' . $type, now()->addMinutes(15),
+            ->remember("events.$type.page.$currentPage", now()->addMinutes(15),
                 fn() => self::typeId($type)
                     ->orderBy('start')
                     ->upcoming()
@@ -123,9 +125,9 @@ class Event extends Model
             );
     }
 
-    public static function clearCache($type)
+    public static function clearCache()
     {
-        \Cache::tags('events')->forget('events.' . $type);
+        \Cache::tags('events')->flush();
     }
 
     public function reservationsCountForRole(...$role)

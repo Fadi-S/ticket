@@ -42,7 +42,7 @@ class EventsController extends Controller
         else
             flash()->error("Error creating event");
 
-        Event::clearCache($eventType->id);
+        Event::clearCache();
 
         return redirect("/$this->url/create");
     }
@@ -68,7 +68,7 @@ class EventsController extends Controller
         else
             flash()->error("Error editing event");
 
-        Event::clearCache($event->type_id);
+        Event::clearCache();
 
         return redirect("/$this->url/$event->id/edit");
     }
