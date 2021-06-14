@@ -40,9 +40,9 @@ class EventsRequest extends FormRequest
     {
         $data = $this->all();
 
-        $data['published_at'] = Carbon::createFromFormat("d/m/Y h:i A", $this->published_at);
+        $data['published_at'] = Carbon::createFromFormat("Y-m-d h:i A", $this->published_at);
 
-        $date = Carbon::createFromFormat("d/m/Y", $this->date);
+        $date = Carbon::createFromFormat("Y-m-d", $this->date);
 
         $data['start'] = $date->copy()
             ->hour(explode(":", $this->start_time)[0])

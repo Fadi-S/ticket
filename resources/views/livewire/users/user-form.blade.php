@@ -11,7 +11,7 @@
         @if(!$isCreate && auth()->user()->can('users.forceDelete') && !$user->isSignedIn())
             <div class="mb-4">
                 <button type="button"
-                        class="flex items-center border border-red-500 rounded-md px-4 py-2 hover:bg-red-600 transition-dark mb-4 focus:outline-none"
+                        class="flex items-center border border-red-500 rounded-md px-4 py-2 hover:bg-red-600 transition-dark mb-4 focus:outline-none hover:text-white"
                         x-data="{  }" @click="$dispatch('open')">
                     <div class="ltr:mr-2 rtl:ml-2">
                         <x-svg.trash />

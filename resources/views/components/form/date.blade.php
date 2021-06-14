@@ -9,7 +9,13 @@
     'time' => false,
 ])
 
-<div x-data="{ value: @entangle($attributes->wire('model')), picker: undefined }"
+<div x-data="{ value:
+@if($attributes->wire('model')->directive)
+@entangle($attributes->wire('model'))
+@else
+        '{{ old($attributes->get('name')) ?? $value }}'
+        @endif
+, picker: undefined }"
      x-init="new Pikaday({ field: $refs.input,
                  format: '{{ $time ? 'YYYY-MM-DD hh:mm A' : 'YYYY-MM-DD' }}',
                     isRTL: {{ __('ltr') === 'rtl' ? 'true' : 'false' }},
@@ -32,7 +38,7 @@
             ? 'focus:ring-red-500 ring-red-500 focus:ring-1 border-red-500 placeholder-red-300 dark:border-red-600 text-red-900'
             : 'dark:placeholder-gray-400 focus:ring-blue-600 focus:ring-1 placeholder-gray-500 border-gray-300 dark:border-gray-500' }}
                     dark:text-white
-                     block w-full sm:text-sm border-gray-300 rounded-md h-10 border {{ $class }}"
+                     block w-full sm:text-sm rounded-md h-10 border {{ $class }}"
                    dir="{{ $dir }}"
                    id="{{ $id }}" value="{{ old($attributes->get('name')) ?? $value }}"
                     {{ $attributes->whereDoesntStartWith('wire:model') }} />

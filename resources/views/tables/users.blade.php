@@ -55,7 +55,7 @@
                                 @if($row->isActive())
                                         <x-layouts.verified class="mx-1" />
                                 @elseif(auth()->user()->can('activateUser'))
-                                                <div class="text-xs text-blue-200" wire:loading.remove wire:target="activate('{{ $row->username }}')">
+                                                <div class="text-xs text-blue-400 dark:text-blue-200" wire:loading.remove wire:target="activate('{{ $row->username }}')">
                                                         {{ __('Activate') }}
                                                 </div>
                                                 <x-svg.spinner size="w-3 h-3" wire:loading wire:target="activate('{{ $row->username }}')" />
@@ -125,7 +125,7 @@
                                         {{  $row->church->name }}
                                 </div>
                         @else
-                                <div class="text-xs text-blue-200" wire:loading.remove wire:target="addToChurch('{{ $row->username }}')">
+                                <div class="text-xs text-blue-500 dark:text-blue-200" wire:loading.remove wire:target="addToChurch('{{ $row->username }}')">
                                         {{ __('Add to church') }}
                                 </div>
                                 <x-svg.spinner size="w-3 h-3" wire:loading wire:target="addToChurch('{{ $row->username }}')" />
