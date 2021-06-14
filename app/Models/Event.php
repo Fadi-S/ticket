@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Reservations\EventContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -58,7 +57,7 @@ class Event extends Model
     {
         return \Cache::remember('events.current', now()->addMinutes(10),
             fn() => self::where([
-                ['start', '<', now()],
+                ['start', '<', now()->addMinutes(30)],
                 ['end', '>', now()]
             ])->get()
         );
@@ -111,6 +110,22 @@ class Event extends Model
         }
 
         return $count;
+    }
+
+    public static function getByType($type, $pagination=10)
+    {
+        return \Cache::tags('events')
+            ->remember('events.' . $type, now()->addMinutes(15),
+                fn() => self::typeId($type)
+                    ->orderBy('start')
+                    ->upcoming()
+                    ->paginate($pagination)
+            );
+    }
+
+    public static function clearCache($type)
+    {
+        \Cache::tags('events')->forget('events.' . $type);
     }
 
     public function reservationsCountForRole(...$role)

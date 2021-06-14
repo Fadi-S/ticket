@@ -37,20 +37,17 @@ class EventsController extends Controller
         $data = collect($request->all());
         $data->put('type_id', $eventType->id);
         $data->put('church_id', auth()->user()->church_id);
-        if($event = Event::create($data->toArray()))
+        if(Event::create($data->toArray()))
             flash()->success("Created event successfully");
         else
             flash()->error("Error creating event");
 
-        $recurring = !! $request->get('recurring', false);
-        if($recurring) {
-            Template::fromEvent($event);
-        }
+        Event::clearCache($eventType->id);
 
         return redirect("/$this->url/create");
     }
 
-    public function edit(EventType $eventType, Event $event)
+    public function edit($eventType, Event $event)
     {
         $this->authorize('update', $event);
 
@@ -62,7 +59,7 @@ class EventsController extends Controller
         ]);
     }
 
-    public function update(EventType $eventType, Event $event, EventsRequest $request)
+    public function update($eventType, Event $event, EventsRequest $request)
     {
         $this->authorize('update', $event);
 
@@ -71,10 +68,7 @@ class EventsController extends Controller
         else
             flash()->error("Error editing event");
 
-        $recurring = !! $request->get('recurring', false);
-        if($recurring) {
-            Template::fromEvent($event);
-        }
+        Event::clearCache($event->type_id);
 
         return redirect("/$this->url/$event->id/edit");
     }
@@ -83,15 +77,8 @@ class EventsController extends Controller
     {
         $this->authorize('index', Event::class);
 
-        $events = Event::typeId($eventType->id)
-            ->orderBy('start')
-            ->upcoming()
-            ->with('tickets.reservations.user')
-            ->paginate(10);
-
-        $templates = Template::type($eventType->id)
-            ->orderByDesc('active')
-            ->get();
+        $events = Event::getByType($eventType->id);
+        $templates = Template::getByType($eventType->id);
 
         return view("events.index", [
             'events' => $events,
@@ -102,7 +89,7 @@ class EventsController extends Controller
         ]);
     }
 
-    public function destroy(EventType $eventType, Event $event)
+    public function destroy($eventType, Event $event)
     {
         $this->authorize('delete', Event::class);
 

@@ -74,6 +74,8 @@ class TemplatesForm extends Component
         $this->template->overload = $this->template->overload / 100;
         $this->template->save();
 
+        Template::clearCache($this->type_id ?? 1);
+
         session()->flash('success', __('Template Saved Successfully'));
 
         if($this->isCreate) {
@@ -89,6 +91,8 @@ class TemplatesForm extends Component
 
         if(!$this->isCreate) {
             Template::find($this->template->id)->update(['active' => $this->enabled]);
+
+            Template::clearCache($this->type_id ?? 1);
 
             $state = ($this->enabled) ? __('Enabled') : __('Disabled');
 
