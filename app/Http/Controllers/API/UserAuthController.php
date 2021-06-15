@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Helpers\GetUserLoginField;
 use App\Http\Controllers\Controller;
 use App\Models\Login;
+use App\Models\User\User;
 use Illuminate\Http\Request;
 
 class UserAuthController extends Controller
@@ -33,6 +34,13 @@ class UserAuthController extends Controller
         Login::saveCurrentSession();
 
         return response(['user' => auth()->user(), 'token' => $token]);
+    }
+
+    public function logout()
+    {
+        \Auth::user()->token()->delete();
+
+        return response(['message' => 'Signed out successfully']);
     }
 
 }
