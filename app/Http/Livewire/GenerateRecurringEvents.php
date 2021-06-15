@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Event;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Artisan;
 use Livewire\Component;
@@ -32,6 +33,8 @@ class GenerateRecurringEvents extends Component
         $publish = Carbon::createFromFormat('Y-m-d h:i A', $this->publish_at);
 
         Artisan::call("events:create --start=$this->start --end=$this->end --publish=" . $publish->format('Y-m-d-h-i-A') . " --type=$this->type");
+
+        Event::clearCache();
 
         $this->dispatchBrowserEvent('message', [
             'level' => 'success',
