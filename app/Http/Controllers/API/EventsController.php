@@ -18,4 +18,18 @@ class EventsController extends Controller
 
         return ['events' => $events];
     }
+
+
+    public function reserved()
+    {
+        $events = Event::upcoming()
+            ->published()
+            ->whereHas('tickets', function ($query) {
+                $query->whereHas('reservations', fn($q) => $q->where('user_id', auth()->id()));
+            })->orderBy('start')
+            ->select('id', 'description', 'start', 'end')
+            ->get();
+
+        return ['events' => $events];
+    }
 }

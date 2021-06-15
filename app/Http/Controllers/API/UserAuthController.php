@@ -33,7 +33,7 @@ class UserAuthController extends Controller
 
         Login::saveCurrentSession();
 
-        return response(['user' => auth()->user(), 'token' => $token]);
+        return response(['user' => auth()->user()->toAPI(), 'token' => $token]);
     }
 
     public function logout()

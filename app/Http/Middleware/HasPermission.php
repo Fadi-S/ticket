@@ -14,8 +14,12 @@ class HasPermission
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, $permission)
     {
+        if(auth()->check() && !auth()->user()->can($permission)) {
+                abort(404);
+        }
+
         return $next($request);
     }
 }
