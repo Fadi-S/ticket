@@ -177,6 +177,7 @@ return [
         App\Providers\TelescopeServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         \App\Providers\ViewsServiceProvider::class,
+        \Laravel\Passport\PassportServiceProvider::class,
 
         Collective\Html\HtmlServiceProvider::class,
 

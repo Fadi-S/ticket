@@ -41,8 +41,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('guests:delete')->daily();
 
-//        $schedule->command('events:create')
-//            ->daily();
+        $schedule->command('passport:purge --revoked --expired')->daily();
     }
 
     /**

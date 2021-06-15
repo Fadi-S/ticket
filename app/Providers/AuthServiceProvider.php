@@ -31,7 +31,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        // Passport::routes();
+        Passport::routes();
 
         Gate::before(function ($user, $ability) {
             return $user->hasRole('super-admin') ? true : null;

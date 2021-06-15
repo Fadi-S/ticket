@@ -1,9 +1,15 @@
 <?php
 
-use App\Http\Controllers\API\ReservationsController;
-use App\Http\Controllers\API\UsersController;
+use App\Http\Controllers\API\UserAuthController;
 
-Route::middleware('auth:api')->get('/user', fn(Request $request) => $request->user());
+Route::middleware('auth:api')->group(function () {
 
-Route::get("/reservation/users", [ReservationsController::class, 'getUsers']);
-Route::get("/reservation/events", [ReservationsController::class, 'getEvents']);
+    Route::get('/user',
+        fn() => auth()->user()
+    );
+
+
+
+});
+
+Route::post('/login', [UserAuthController::class, 'login']);
