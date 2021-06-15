@@ -8,7 +8,7 @@ Route::middleware('auth:api')->group(function () {
         fn() => auth()->user()
     );
 
-
+    Route::get('/signed-in', fn() => ['success' => 'User is Signed in']);
 
 });
 
