@@ -25,7 +25,7 @@ class UserAuthController extends Controller
         ]);
 
         if (!$success) {
-            return response(['error_message' => __('auth.failed')], 403);
+            return response(['message' => __('auth.failed')], 403);
         }
 
         $token = auth()->user()->createToken('API Token')->accessToken;
