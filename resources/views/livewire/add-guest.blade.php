@@ -17,7 +17,7 @@
                              :error="$errors->get('date')"
                              label="{{ __('Until') }}" size="col-span-1" />
 
-                <x-form.gender-switch :livewire="true" name="gender" id="guest-gender" label="{{ __('Gender') }}"/>
+                <x-form.gender-switch :livewire="true" name="gender" wire:model="gender" id="guest-gender" label="{{ __('Gender') }}"/>
             </div>
 
             <x-button type="submit" class="mt-2 w-full
