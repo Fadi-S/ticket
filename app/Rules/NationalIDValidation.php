@@ -36,7 +36,8 @@ class NationalIDValidation implements Rule
             return false;
         }
 
-        if(! is_null($this->gender) && $nid = DataFromNationalID::create($value)) {
+        $nid = DataFromNationalID::create($value);
+        if(! is_null($this->gender)) {
             $natIdGender = !! $nid->gender();
 
             if($this->gender != $natIdGender) {
@@ -44,6 +45,12 @@ class NationalIDValidation implements Rule
 
                 return false;
             }
+        }
+
+        if($nid->birthday()->gte(now())) {
+            $this->message = __('validation.regex', ['attribute' => __('validation.attributes.national_id')]);
+
+            return false;
         }
 
         return true;

@@ -95,7 +95,7 @@ return [
     'numeric' => 'يجب على :attribute أن يكون رقمًا.',
     'password' => 'كلمة المرور غير صحيحة.',
     'present' => 'يجب تقديم :attribute.',
-    'regex' => 'صيغة :attribute .غير صحيحة.',
+    'regex' => 'صيغة :attribute غير صحيحة.',
     'required' => ':attribute مطلوب.',
     'required_if' => ':attribute مطلوب في حال ما إذا كان :other يساوي :value.',
     'required_unless' => ':attribute مطلوب في حال ما لم يكن :other يساوي :values.',
