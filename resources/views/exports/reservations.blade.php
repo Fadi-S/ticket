@@ -27,12 +27,15 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($users as $key => $user)
+        @php($i = 1)
+        @foreach($users as $user)
             <tr>
-                <td>{{ $key }}</td>
+                <td>{{ $i }}</td>
                 <td>#{{ $user->id }}</td>
                 <td>{{ $user->arabic_name }}</td>
             </tr>
+
+            @php($i++)
         @endforeach
         </tbody>
     </table>
