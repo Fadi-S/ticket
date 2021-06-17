@@ -22,12 +22,14 @@
         <thead>
         <tr>
             <th style="background-color: #0a0302"></th>
+            <th style="background-color: #0a0302"></th>
             <th style="background-color: #0a0302; color: white; font-weight: bold;">{{ $names[$gender] }}</th>
         </tr>
         </thead>
         <tbody>
-        @foreach($users as $user)
+        @foreach($users as $key => $user)
             <tr>
+                <td>{{ $key }}</td>
                 <td>#{{ $user->id }}</td>
                 <td>{{ $user->arabic_name }}</td>
             </tr>
