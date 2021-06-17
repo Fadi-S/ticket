@@ -48,7 +48,7 @@ class NationalIDValidation implements Rule
         }
 
         if($nid->birthday()->gte(now())) {
-            $this->message = __('validation.regex', ['attribute' => $attribute]);
+            $this->message = __('validation.regex', ['attribute' => 'national_id']);
 
             return false;
         }
