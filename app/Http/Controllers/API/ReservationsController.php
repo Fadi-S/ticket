@@ -33,7 +33,7 @@ class ReservationsController extends Controller
         $start = now();
         $end =  Carbon::parse($request->end);
 
-        $isUser = auth()->user()->isUser();
+        $isUser = !auth()->user()->can('reservations.bypass');
         $isDeacon = auth()->user()->isDeacon();
 
         $events = Event::published()
