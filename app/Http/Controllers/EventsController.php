@@ -90,6 +90,7 @@ class EventsController extends Controller
 
         $templates = Template::type($eventType->id)
             ->orderByDesc('active')
+            ->orderBy('day_of_week')
             ->get();
 
         return view("events.index", [
