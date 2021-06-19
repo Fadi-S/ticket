@@ -33,6 +33,9 @@ class EventReservationsExport implements FromView, WithStyles, ShouldAutoSize
         foreach ($tickets as $ticket) {
             foreach ($ticket->reservations as $reservation) {
                 $user = $reservation->user;
+                if(!$user) {
+                    continue;
+                }
 
                 if($reservation->isDeacon())
                     $deacons->push($user);
