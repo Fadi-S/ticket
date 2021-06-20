@@ -42,6 +42,7 @@ class Template extends Model
             ->remember('templates.' . $type, now()->addDay(),
             fn() => self::type($type)
                 ->orderByDesc('active')
+                ->orderBy('day_of_week')
                 ->get()
         );
     }
