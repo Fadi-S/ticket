@@ -3,7 +3,7 @@
         Home | Ticket
     </x-slot>
 
-    <div class="my-4 mx-5 grid items-start grid-cols-4 gap-5">
+    <div class="my-4 mx-5 grid items-start grid-cols-12 gap-5">
         <x-data-card :href="url('/reserve')" color="bg-red-600"
                      data-step="3"
                      data-intro="{{ __('You can click here to reserve') }}"
