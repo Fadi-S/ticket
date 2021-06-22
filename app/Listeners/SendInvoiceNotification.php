@@ -29,6 +29,10 @@ class SendInvoiceNotification
      */
     public function handle(TicketReserved $event)
     {
+        if(! config('settings.send_invoice_emails')) {
+            return;
+        }
+
         $event->ticket->reservations->each(function ($reservation) use ($event) {
             $user = $reservation->user;
             if($user->email) {
