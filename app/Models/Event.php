@@ -38,6 +38,13 @@ class Event extends Model
         return $query->where('type_id', '=', $type);
     }
 
+    public function scopePublic($query)
+    {
+        $query->upcoming()
+            ->published()
+            ->select('id', 'description', 'start', 'end');
+    }
+
     public function period()
     {
         return Period::current($this->start);

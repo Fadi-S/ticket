@@ -10,10 +10,7 @@ class EventsController extends Controller
 {
     public function index()
     {
-        $events = Event::upcoming()
-            ->published()
-            ->orderBy('start')
-            ->select('id', 'description', 'start', 'end')
+        $events = Event::public()
             ->simplePaginate(10);
 
         return ['events' => $events];
@@ -22,12 +19,10 @@ class EventsController extends Controller
 
     public function reserved()
     {
-        $events = Event::upcoming()
-            ->published()
+        $events = Event::public()
             ->whereHas('tickets', function ($query) {
                 $query->whereHas('reservations', fn($q) => $q->where('user_id', auth()->id()));
-            })->orderBy('start')
-            ->select('id', 'description', 'start', 'end')
+            })
             ->simplePaginate(10);
 
         return ['events' => $events];
