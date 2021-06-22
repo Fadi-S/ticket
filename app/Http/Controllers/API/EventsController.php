@@ -28,7 +28,7 @@ class EventsController extends Controller
                 $query->whereHas('reservations', fn($q) => $q->where('user_id', auth()->id()));
             })->orderBy('start')
             ->select('id', 'description', 'start', 'end')
-            ->get();
+            ->simplePaginate(10);
 
         return ['events' => $events];
     }
