@@ -46,11 +46,13 @@ class EventsRequest extends FormRequest
 
         $data['start'] = $date->copy()
             ->hour(explode(":", $this->start_time)[0])
-            ->minute(explode(":", $this->start_time)[1]);
+            ->minute(explode(":", $this->start_time)[1])
+            ->seconds(0);
 
         $data['end'] = $date->copy()
             ->hour(explode(":", $this->end_time)[0])
-            ->minute(explode(":", $this->end_time)[1]);
+            ->minute(explode(":", $this->end_time)[1])
+            ->seconds(0);
 
         if($data['end']->lessThan($data['start']))
             $data['end']->addDay();
