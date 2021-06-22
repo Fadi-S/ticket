@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\ArabicNumbersToEnglish;
+use App\Helpers\GetUserLoginField;
 use App\Helpers\NormalizePhoneNumber;
 use App\Helpers\StandardRegex;
 use App\Http\Controllers\Controller;
@@ -35,25 +37,7 @@ class LoginController extends Controller
     {
         $value = $request->input('email');
 
-        $field = 'username';
-
-        if(filter_var($request->input('email'), FILTER_VALIDATE_EMAIL)) {
-            $field = 'email';
-        } else {
-
-            $value = strtr($value, ['٠'=>'0', '١'=>'1', '٢'=>'2', '٣'=>'3', '٤'=>'4', '٥'=>'5', '٦'=>'6', '٧'=>'7', '٨'=>'8', '٩'=>'9']);
-
-            if(is_numeric($value)) {
-                if(preg_match('/'. StandardRegex::NATIONAL_ID . '/', $request->input('email'))) {
-                    $field = 'national_id';
-
-                }else {
-                    $field = 'phone';
-
-                    $value = NormalizePhoneNumber::create($value)->handle();
-                }
-            }
-        }
+        [$field, $value] = GetUserLoginField::create($value)->handle();
 
         $credentials = [
             $field => $value,

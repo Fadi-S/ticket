@@ -70,6 +70,22 @@ trait UserAttributes
         return $query->select("*", \DB::raw("CONCAT(name,' (@',username,')') as text"));
     }
 
+    public function toAPI()
+    {
+        return [
+            'name' => $this->name,
+            'arabic_name' => $this->arabic_name,
+            'national_id' => $this->national_id,
+            'username' => $this->username,
+            'gender' => $this->gender,
+            'email' => $this->email,
+            'isAdmin' => $this->can('tickets.view'),
+            'phone' => $this->phone,
+            'locale' => $this->locale,
+            'location_id' => $this->location ? $this->location->name  : null,
+        ];
+    }
+
     public function getFirstNameAttribute()
     {
         return explode(' ', $this->locale_name)[0];

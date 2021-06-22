@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Template extends Model
 {
     use HasFactory;
+
     protected $guarded = [];
     protected $dates = ['start', 'end'];
 
@@ -30,8 +31,24 @@ class Template extends Model
         $query->where('type_id', '=', $type_id);
     }
 
-    public function scopeActive($query, $active=true)
+    public function scopeActive($query, $active = true)
     {
         $query->where('active', '=', $active);
+    }
+
+    public static function getByType($type)
+    {
+        return \Cache::tags('templates')
+            ->remember('templates.' . $type, now()->addDay(),
+            fn() => self::type($type)
+                ->orderByDesc('active')
+                ->orderBy('day_of_week')
+                ->get()
+        );
+    }
+
+    public static function clearCache($type)
+    {
+        \Cache::tags('templates')->forget('templates.' . $type);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Reservations\EventContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -39,6 +38,13 @@ class Event extends Model
         return $query->where('type_id', '=', $type);
     }
 
+    public function scopePublic($query)
+    {
+        $query->upcoming()
+            ->published()
+            ->select('id', 'description', 'start', 'end');
+    }
+
     public function period()
     {
         return Period::current($this->start);
@@ -58,7 +64,7 @@ class Event extends Model
     {
         return \Cache::remember('events.current', now()->addMinutes(10),
             fn() => self::where([
-                ['start', '<', now()],
+                ['start', '<', now()->addMinutes(30)],
                 ['end', '>', now()]
             ])->get()
         );
@@ -111,6 +117,24 @@ class Event extends Model
         }
 
         return $count;
+    }
+
+    public static function getByType($type, $pagination=10)
+    {
+        $currentPage = request()->get('page',1);
+
+        return \Cache::tags('events')
+            ->remember("events.$type.page.$currentPage", now()->addMinutes(15),
+                fn() => self::typeId($type)
+                    ->orderBy('start')
+                    ->upcoming()
+                    ->paginate($pagination)
+            );
+    }
+
+    public static function clearCache()
+    {
+        \Cache::tags('events')->flush();
     }
 
     public function reservationsCountForRole(...$role)

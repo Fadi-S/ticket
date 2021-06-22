@@ -22,7 +22,8 @@ class Login extends Model
         if(!Auth::check())
             return;
 
-        $sessionId = request()->getSession()->getId();
+        if(request()->hasSession())
+            $sessionId = request()->getSession()->getId();
 
         $user = Auth::user();
 
@@ -46,7 +47,7 @@ class Login extends Model
             'user_id' => $user->id,
             'time' => now(),
             'ip' => $_SERVER['REMOTE_ADDR'],
-            'session_id' => $sessionId,
+            'session_id' => $sessionId ?? null,
             'device' => json_encode($client)
         ]);
     }
