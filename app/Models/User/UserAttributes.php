@@ -82,7 +82,7 @@ trait UserAttributes
             'isAdmin' => $this->can('tickets.view'),
             'phone' => $this->phone,
             'locale' => $this->locale,
-            'location_id' => $this->location->name,
+            'location_id' => $this->location ? $this->location->name  : null,
         ];
     }
 
