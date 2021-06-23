@@ -43,6 +43,10 @@ class DataFromNationalID
 
         $day = substr($this->nationalId, 5, 2);
 
+        if($month > 12 || $day > 31) {
+            return null;
+        }
+
         return Carbon::parse("$year-$month-$day");
     }
 
