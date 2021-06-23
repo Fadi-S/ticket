@@ -23,6 +23,8 @@ class NormalizePhoneNumber {
     {
         $phone = ArabicNumbersToEnglish::create($phone)->handle();
 
+        $phone = str_replace(' ', '', $phone);
+
         return new self($phone, $strict);
     }
 
