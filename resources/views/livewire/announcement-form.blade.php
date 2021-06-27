@@ -8,14 +8,14 @@
         <form wire:submit.prevent="save" method="POST">
             <div class="space-y-6">
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-12 gap-4">
 
                     <x-form.input required type="text"
                                   wire:model="announcement.title"
                                   :error="$errors->get('announcement.title')"
                                   id="announcement-title" name="announcement-title" autocomplete="off"
                                   label="{{ __('Title') }}"
-                                  size="col-span-1"
+                                  size="col-span-12 lg:col-span-6"
                                   placeholder="{{ __('Title') }}" />
 
                     <x-form.input required type="color" id="color" name="color"
@@ -23,21 +23,21 @@
                                   autocomplete="off"
                                   :error="$errors->get('announcement.color')"
                                   placeholder="{{ __('Color') }}"
-                                  label="{{ __('Color') }}" size="col-span-1" />
+                                  label="{{ __('Color') }}" size="col-span-12 lg:col-span-6" />
 
                     <x-form.date required type="text" id="announcement-start" name="announcement-start"
                                  wire:model.lazy="start"
                                  autocomplete="off"
                                  :time="true"
                                  :error="$errors->get('start')"
-                                 label="{{ __('Start Time') }}" size="col-span-1" />
+                                 label="{{ __('Start Time') }}" size="col-span-12 lg:col-span-6" />
 
                     <x-form.date required type="text" id="announcement-end" name="announcement-end"
                                  wire:model.lazy="end"
                                  autocomplete="off"
                                  :time="true"
                                  :error="$errors->get('end')"
-                                 label="{{ __('End Time') }}" size="col-span-1" />
+                                 label="{{ __('End Time') }}" size="col-span-12 lg:col-span-6" />
 
                     <x-form.input type="text" id="url" name="url"
                                   wire:model.lazy="announcement.url"
@@ -45,13 +45,13 @@
                                   dir="ltr"
                                   :error="$errors->get('announcement.url')"
                                   placeholder="{{ __('URL') }}"
-                                  label="{{ __('URL') }}" size="col-span-1" />
+                                  label="{{ __('URL') }}" size="col-span-12 lg:col-span-6" />
 
                     <x-form.textarea required id="announcement-body" name="announcement-body"
                                  wire:model.lazy="announcement.body"
                                  autocomplete="off"
                                  :error="$errors->get('announcement.body')"
-                                 label="{{ __('Body') }}" size="col-span-2" />
+                                 label="{{ __('Body') }}" size="col-span-12" />
 
                 </div>
 

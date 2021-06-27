@@ -4,6 +4,20 @@
     </x-slot>
 
     <div class="my-4 mx-5 grid items-start grid-cols-12 gap-5">
+
+        @if(!$periods && auth()->user()->can('events.create'))
+            <x-data-card color="bg-red-800">
+                <x-slot name="svg">
+                    <x-svg.exclamation-circle color="text-red-100" />
+                </x-slot>
+
+                <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">{{ __('No Period is set up, reservations won\'t work') }}</h4>
+                <div class="text-gray-500">
+
+                </div>
+            </x-data-card>
+        @endif
+
         <x-data-card :href="url('/reserve')" color="bg-red-600"
                      data-step="3"
                      data-intro="{{ __('You can click here to reserve') }}"
@@ -73,36 +87,56 @@
             @endforeach
         @endcan
 
-        @foreach($shownTypes as $type)
-            <x-data-card colorStyle="background-color: {{ $type->color }}">
-                <x-slot name="svg">
-                    <x-svg.ticket/>
-                </x-slot>
+        @if($periods)
+            @foreach($shownTypes as $type)
+                <x-data-card colorStyle="background-color: {{ $type->color }}">
+                    <x-slot name="svg">
+                        <x-svg.ticket/>
+                    </x-slot>
 
-                <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">
-                    @if($type->isUnlimited())
-                        {{ $type->locale_plural_name }}
-                    @else
-                        {{ $tickets[$type->id] }}
-                    @endif
-                </h4>
-                <div class="text-gray-500 dark:text-gray-300">
-                    @if($type->isUnlimited())
-                        {{ __('You can reserve') }}
-                    @else
-                        @if($period)
-                            {{ __(':type reservations left between :start and :end', [
-                                    'start' => $period->start->translatedFormat('l d M'),
-                                    'end' => $period->end->translatedFormat('l d M'),
-                                    'type' => $type->locale_plural_name,
-                             ]) }}
-                        @else
-                            {{ __(':type reservations left in :Month', ['month' => \Carbon\Carbon::now()->monthName, 'type' => $type->locale_plural_name]) }}
+                    <ol class="flex gap-2 items-center carousel"
+                        x-data="{ current: {{ $periods->count()-1 }}, count: {{ $periods->count() }} }">
+                        @php($i = 0)
+                        @if($periods->count() > 1)
+                            <button @click="current--" :disabled="current <= 0"
+                                    class="bg-gray-100 dark:bg-gray-600 rounded-full p-2 transition-dark focus:outline-none">
+                                <x-svg.chevron-left class="rtl:rotate-180 transform" />
+                            </button>
                         @endif
-                    @endif
-                </div>
-            </x-data-card>
-        @endforeach
+                        @foreach($periods as $period)
+                            <li x-show="current === {{ $i }}">
+                                <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">
+                                    @if($type->isUnlimited())
+                                        {{ $type->locale_plural_name }}
+                                    @else
+                                        {{ $tickets[$period->id][$type->id] }}
+                                    @endif
+                                </h4>
+
+                                <div class="text-gray-500 dark:text-gray-300">
+                                    @if($type->isUnlimited())
+                                        {{ __('You can reserve') }}
+                                    @else
+                                        {{ __(':type reservations left between :start and :end', [
+                                            'start' => $period->start->translatedFormat('l d M'),
+                                            'end' => $period->end->translatedFormat('l d M'),
+                                            'type' => $type->locale_plural_name,
+                                        ]) }}
+                                    @endif
+                                </div>
+                            </li>
+                            @php($i++)
+                        @endforeach
+                        @if($periods->count() > 1)
+                            <button @click="current++" :disabled="current >= count-1"
+                                    class="bg-gray-100 dark:bg-gray-600 rounded-full p-2 transition-dark focus:outline-none">
+                                <x-svg.chevron-right class="rtl:rotate-180 transform" />
+                            </button>
+                        @endif
+                    </ol>
+                </x-data-card>
+            @endforeach
+        @endif
 
         @if(auth()->user()->isDeacon())
             <x-data-card color="bg-blue-500">

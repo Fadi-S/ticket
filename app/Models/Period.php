@@ -27,6 +27,15 @@ class Period extends Model
         );
     }
 
+    public static function getLatest($last = 2)
+    {
+        return \Cache::tags('periods')->remember('periods.current', now()->addHour(),
+            fn() => self::orderBy('start')
+                ->limit(2)
+                ->get()
+        );
+    }
+
     public function setStartAttribute($start)
     {
         $this->attributes['start'] = Carbon::parse($start)->startOfDay();

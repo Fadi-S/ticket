@@ -20,6 +20,8 @@ class MakeReservation extends Component
 
     public $search = '';
 
+    public bool $redirectAfterReservation = true;
+
     public User $user;
 
     protected $listeners = [
@@ -31,9 +33,9 @@ class MakeReservation extends Component
     protected function getMessages()
     {
         return [
-            'users.required' =>  __('You must choose users'),
-            'users.filled' =>  __('You must choose users'),
-            'event.exists' =>  __('You must choose an event'),
+            'users.required' => __('You must choose users'),
+            'users.filled' => __('You must choose users'),
+            'event.exists' => __('You must choose an event'),
         ];
     }
 
@@ -41,7 +43,9 @@ class MakeReservation extends Component
     {
         $this->users = collect();
 
-        if(auth()->user()->isUser() || auth()->user()->isDeacon()) {
+        $this->redirectAfterReservation = !auth()->user()->can('tickets.view');
+
+        if (auth()->user()->isUser() || auth()->user()->isDeacon()) {
             $this->users->push(auth()->user());
         }
     }
@@ -72,7 +76,7 @@ class MakeReservation extends Component
 
         $event = Event::published()->find($this->event);
 
-        if(!$event) {
+        if (!$event) {
             return $this->failWithErrorMessage('This event does not exist');
         }
 
@@ -80,24 +84,24 @@ class MakeReservation extends Component
 
         $users = User::whereIn('id', $this->users->pluck('id'))->get();
 
-        $users->each(function ($user) use($event) {
+        $users->each(function ($user) use ($event) {
 
-            if(!$user->isSignedIn() && !auth()->user()->can('tickets.view') && !$user->isFriendsWith(auth()->user(), false)) {
+            if (!$user->isSignedIn() && !auth()->user()->can('tickets.view') && !$user->isFriendsWith(auth()->user(), false)) {
                 return $this->failWithErrorMessage("You are not friends with $user->name");
             }
 
             $output = $user->canReserveIn($event);
 
-            if(is_null($output)) {
+            if (is_null($output)) {
                 return $this->failWithErrorMessage("Something went wrong for $user->name");
             }
 
-            if($output->hasMessage()) {
+            if ($output->hasMessage()) {
                 $this->failWithErrorMessage($output->message());
             }
         });
 
-        if(session()->has('error'))
+        if (session()->has('error'))
             return false;
 
         $ticket = Ticket::create([
@@ -111,10 +115,30 @@ class MakeReservation extends Component
 
         TicketReserved::dispatch($ticket);
 
-        flash()->success(Str::plural('Reservation', $users->count()) . " made successfully");
-        redirect("tickets?event=$event->id");
+        $this->handleSuccess($event);
 
         return true;
+    }
+
+    private function handleSuccess($event)
+    {
+        $message = __("Reservation made successfully");
+
+        if($this->redirectAfterReservation) {
+            flash()->success($message);
+            redirect("tickets?event=$event->id");
+        } else {
+            $this->dispatchBrowserEvent('open', [
+                'title' => __('Success'),
+                'message' => $message,
+                'type' => 'success',
+            ]);
+
+            $this->dispatchBrowserEvent('reservation');
+
+            $this->users = collect();
+            $this->event = null;
+        }
     }
 
     public function getSearchedUsers()
@@ -151,7 +175,11 @@ class MakeReservation extends Component
     private function failWithErrorMessage($message) : bool
     {
         session()->flash('error', $message);
-        $this->dispatchBrowserEvent('open', $message);
+        $this->dispatchBrowserEvent('open', [
+            'title' => __("Couldn't reserve in this event"),
+            'message' => $message,
+            'type' => 'error',
+        ]);
 
         return false;
     }

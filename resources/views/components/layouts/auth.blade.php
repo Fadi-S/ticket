@@ -18,7 +18,7 @@
       @dark.window="dark = $event.detail.enable">
 <div class="absolute top-0 items-center w-full flex bg-gray-100
  dark:bg-[#25303e] transition-dark py-2 px-4 justify-between">
-    <x-language-dropdown />
+    <x-language-dropdown textColor="text-gray-800 dark:text-white" />
 
     <div class="text-xs text-gray-400 dark:text-gray-500 sm:block hidden">
         <span dir="ltr" class="w-full flex items-center justify-center">
