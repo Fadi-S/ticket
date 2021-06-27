@@ -39,7 +39,7 @@
                     <x-svg.speaker />
                 </x-slot>
 
-                <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">
+                <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200 ">
                     {{ $announcement->title }}
                 </h4>
                 <div class="text-gray-500 dark:text-gray-300">
@@ -48,7 +48,7 @@
                             x-init="originalContent = $el.firstElementChild.textContent.trim();
                              content = originalContent.slice(0, maxLength); content += ((originalContent.length > content.length) ? '...' : '')"
                     >
-                        <span x-text="isCollapsed ? originalContent : content">
+                        <span x-text="isCollapsed ? originalContent : content" class="whitespace-pre-line">
                             {{ $announcement->body }}
                         </span>
                         <button class="focus:outline-none text-blue-400 px-2"
