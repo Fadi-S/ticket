@@ -5,7 +5,7 @@
     'href' => null,
 ])
 
-<div class="w-full h-full col-span-12 sm:col-span-6 md:col-span-4 xl:col-span-3 {{ $class }}" {{ $attributes }}>
+<div class="w-full h-full col-span-12 sm:col-span-6 md:col-span-6 lg:col-span-4 xl:col-span-3 {{ $class }}" {{ $attributes }}>
 
     @if($href)
         <a href="{{ $href }}">
