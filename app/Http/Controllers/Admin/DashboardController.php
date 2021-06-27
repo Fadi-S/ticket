@@ -31,19 +31,21 @@ class DashboardController extends Controller
 
         $currentEvents = $user->can('tickets.view') ? Event::getCurrent() : [];
 
-        $period = Period::current();
+        $periods = Period::getLatest();
         $announcements = Announcement::getCurrent();
 
         $tickets = Cache::tags('ticket.users')->remember('tickets.users.' . $user->id, now()->addMinutes(30),
-            function () use($user) {
+            function () use($user, $periods) {
                 $num = app()->make('num');
                 $tickets = [];
                 $shownTypes = \Cache::remember('event.types.shown', now()->addHour(),
                     fn() => EventType::shown()->get()
                 );
 
-                foreach ($shownTypes as $type) {
-                    $tickets[$type->id] = __(':number of :from left', ['number' => $num->format($user->tickets()->event($type->id)), 'from' => $num->format($type->max_reservations)]);
+                foreach ($periods as $period) {
+                    foreach ($shownTypes as $type) {
+                        $tickets[$period->id][$type->id] = __(':number of :from left', ['number' => $num->format($user->tickets()->setPeriod($period)->event($type->id)), 'from' => $num->format($type->max_reservations)]);
+                    }
                 }
 
                 return $tickets;
@@ -62,7 +64,7 @@ class DashboardController extends Controller
             'verified_users' => $usersCount['verified'],
             'tickets' => $tickets,
             'user' => $user,
-            'period' => $period,
+            'periods' => $periods,
             'currentEvents' => $currentEvents ?? null,
             'only' => $only,
             'announcements' => $announcements,

@@ -53,6 +53,7 @@ class PeriodForm extends Component
         $this->period->save();
 
         \Cache::tags('periods')->flush();
+        \Cache::tags('ticket.users')->flush();
 
         session()->flash('success', __('Period Saved Successfully'));
 

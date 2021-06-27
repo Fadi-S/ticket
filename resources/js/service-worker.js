@@ -1,12 +1,9 @@
-let CACHE_NAME = 'ticket-cache-v2';
+let CACHE_NAME = 'ticket-cache-v3';
 let urlsToCache = [
     '/js/app.js',
+    '/js/firebase.js',
+    '/js/reservation.js',
     '/css/app.css',
-    '/js/turbo.js',
-    '/images/jesus-500.jpg',
-    '/images/stgeorge_bg-500.jpg',
-    '/images/defaultPicture.png',
-    '/images/stg_logo-250.png',
 ];
 
 self.addEventListener('install', event => {

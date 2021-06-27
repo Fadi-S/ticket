@@ -5,7 +5,7 @@
     'color' => 'bg-red-100',
 ])
 
-<div x-data="{ open: {{ $defaultState }}, details:{}, message: '' }" x-init="
+<div x-data="{ open: {{ $defaultState }}, details:{}, message: '', title: '', type: 'success', color: '{{ $color }}' }" x-init="
   () => document.body.classList.add('overflow-hidden');
   $watch('open', value => {
     if (value === true) { document.body.classList.add('overflow-hidden') }
@@ -44,7 +44,7 @@
                 <div class="sm:flex sm:items-start">
 
                     @isset($svg)
-                    <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full {{ $color }} sm:mx-0 sm:h-10 sm:w-10">
+                    <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full sm:mx-0 sm:h-10 sm:w-10" x-bind:class="color">
                         {{ $svg }}
                     </div>
                     @endisset

@@ -15,10 +15,18 @@ use Carbon\Carbon;
 class Ticket
 {
     private User $user;
+    private Period $period;
 
     public function __construct(User $user)
     {
         $this->user = $user;
+    }
+
+    public function setPeriod(Period $period)
+    {
+        $this->period = $period;
+
+        return $this;
     }
 
     public function reservationsPerPeriod($typeId, $maxReservations, Period $period=null) : int
@@ -35,7 +43,7 @@ class Ticket
         if(is_numeric($type))
             $type = EventType::find($type);
 
-        $period = Period::current($date);
+        $period = $this->period ?? Period::current($date);
 
         if($period) {
             return $this->reservationsPerPeriod($type->id, $type->max_reservations, $period);

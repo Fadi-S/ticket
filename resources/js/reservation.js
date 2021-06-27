@@ -132,6 +132,10 @@ window.addEventListener('load', () => {
     Echo.channel('tickets')
         .listen('TicketReserved', () => calendar.refetchEvents());
 
+    window.addEventListener('reservation', () => {
+        calendar.refetchEvents();
+    })
+
     window.addEventListener('resize', () => {
         let newView = determineView();
 

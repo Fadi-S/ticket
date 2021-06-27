@@ -32,7 +32,7 @@
                             <x-form.input wire:model.lazy="user.name" required type="text"
                                           :error="$errors->get('user.name')" autocomplete="off"
                                           size="col-span-1" name="name" id="name" dir="ltr"
-                                          label="{{ __('Name in english') }} *"  placeholder="{{ __('Name in english') }}" />
+                                          label="{{ __('Name in english') }} *" placeholder="{{ __('Name in english') }}" />
                         @endif
                     @endunless
 
@@ -43,7 +43,7 @@
                                       size="col-span-1" name="arabic_name"
                                       id="arabic_name"
                                       dir="rtl"
-                                      label="{{ __('Name in arabic') }} *"  placeholder="{{ __('Name in arabic') }}" />
+                                      label="{{ __('Name in arabic') }} *" placeholder="{{ __('Name in arabic') }}" />
                     @endif
 
 

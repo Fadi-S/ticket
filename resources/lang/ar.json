@@ -227,6 +227,7 @@
   "User and event must be in the same church": "المستخدم و المناسبة يجب أن يكونا من نفس الكنيسة",
   ":name Activated Successfully": "تم تفعيل :name بنجاح",
   "Location of stay": "منطقة السكن",
+  ":name's account must be activated to make reservations": "يجب أن يكون حساب :name مفعل في الكنيسة لتستطيع الحجز",
   "Your account must be activated to make reservations": "يجب أن يكون حسابك مفعل في الكنيسة لتستطيع الحجز",
   "Church": "الكنيسة",
   "Add to church": "أضف للكنيسة",
@@ -266,5 +267,8 @@
   "Couldn't send reset link to this email, it doesn't exist": "لم نتمكن من ارسال رسالة لهذا البريد الإلكتروني لأنه غير موجود",
   "Back to sign in page": "عودة لصفحة تسجيل الدخول",
   "Send Password Reset Link": "ارسال لينك إعادة التعيين",
-  "Gender doesn't match national id": "النوع غير مطابق مع الرقم القومي"
+  "Gender doesn't match national id": "النوع غير مطابق مع الرقم القومي",
+  "Reservation made successfully": "تم الحجز بنجاح",
+  "Success": "تم الحجز",
+  "No Period is set up, reservations won't work": "لم يتم تحديد فترة، لن يعمل الحجز"
 }

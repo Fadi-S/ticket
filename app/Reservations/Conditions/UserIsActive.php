@@ -12,9 +12,13 @@ class UserIsActive implements ConditionContract
 
     public function check($event, $user): ConditionOutput
     {
+        $message = __(':name\'s account must be activated to make reservations', ['name' => $user->locale_name]);
+        if($user->isSignedIn())
+            $message = __('Your account must be activated to make reservations');
+
         return $user->isActive()
             ? ConditionOutput::undecided()
             : ConditionOutput::deny()
-                ->message(__('Your account must be activated to make reservations'));
+                ->message($message);
     }
 }

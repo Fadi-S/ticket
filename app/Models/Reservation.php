@@ -57,7 +57,7 @@ class Reservation extends Model
         if($this->ticket && $this->ticket->refresh()->reservations_count == 1)
             $this->ticket->delete();
 
-        \Cache::forget('tickets.users.' . $this->user_id);
+        \Cache::tags('ticket.users')->forget('tickets.users.' . $this->user_id);
 
         $this->delete();
     }

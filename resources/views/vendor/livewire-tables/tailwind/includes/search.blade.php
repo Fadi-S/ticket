@@ -3,7 +3,7 @@
         <input
             wire:model{{ $this->searchFilterOptions }}="filters.search"
             placeholder="{{ __('Search') }}"
-            type="text"
+            type="text" dir="auto"
             class="flex-1 shadow-sm border-gray-300 block w-full
             dark:bg-gray-600 dark:placeholder-gray-400 dark:text-white dark:border-gray-500 focus:dark:border-indigo-500 transition-dark
               sm:text-sm sm:leading-5 focus:outline-none focus:border-indigo-300 focus:shadow-outline-indigo

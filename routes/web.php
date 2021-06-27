@@ -19,6 +19,7 @@ use App\Http\Livewire\{AnnouncementForm,
     VerifyPhoneNumber,
     TypesTable,
     Users\UserForm};
+use App\Http\Controllers\LocaleController;
 use App\Http\Middleware\EnsurePhoneNumberIsVerified;
 use App\Http\Middleware\UnVerified;
 use App\Http\Controllers\Admin\{AuthController, DashboardController, UsersController};
@@ -42,20 +43,7 @@ Route::get('/verify', VerifyPhoneNumber::class)
 Route::get('/admin', [DashboardController::class, 'adminHackerTrap']);
 Route::get('/wp-admin', [DashboardController::class, 'adminHackerTrap']);
 
-Route::get('lang/{locale}', function ($locale) {
-    if(!in_array($locale, array_keys(app()->make('locales'))))
-        abort(404);
-
-    if(auth()->check()) {
-        $user = auth()->user();
-        $user->locale = $locale;
-        $user->save();
-    }
-
-    setcookie('locale', $locale, time()+60*60*24*365*10, '/'); // For 10 years
-
-    return back();
-});
+Route::get('lang/{locale}', [LocaleController::class, 'index']);
 
 Route::post('aws/bounce', [AmazonController::class, 'handle']);
 

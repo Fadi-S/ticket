@@ -1,4 +1,7 @@
-@props(['class' => null])
+@props([
+    'class' => null,
+    'textColor' => 'text-white'
+])
 
 <div x-data="{ dropdownOpen: false }" class="relative mx-2 {{ $class }}">
     <button @click="dropdownOpen = ! dropdownOpen"
@@ -10,7 +13,7 @@
                  alt="Country's Flag">
         </div>
 
-        <div class="text-gray-800 dark:text-white text-xs mx-2 font-semibold">
+        <div class="{{ $textColor }} text-xs mx-2 font-semibold">
             {{ $locales[app()->getLocale()]['name'] }}
         </div>
     </button>
