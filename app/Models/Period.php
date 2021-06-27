@@ -31,6 +31,7 @@ class Period extends Model
     {
         return \Cache::tags('periods')->remember('periods.current', now()->addHour(),
             fn() => self::latest('start')
+                ->where('end', '>=', now())
                 ->limit($last)
                 ->get()
         );
