@@ -22,7 +22,7 @@ class Ticket
         $this->user = $user;
     }
 
-    public function setPeriod($period)
+    public function setPeriod(Period $period)
     {
         $this->period = $period;
 

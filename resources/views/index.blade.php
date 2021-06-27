@@ -94,17 +94,19 @@
                         <x-svg.ticket/>
                     </x-slot>
 
-                    <ol class="flex gap-2 items-center carousel"
+                    <ol class="flex justify-center gap-2 items-center"
                         x-data="{ current: {{ $periods->count()-1 }}, count: {{ $periods->count() }} }">
                         @php($i = 0)
                         @if($periods->count() > 1)
                             <button @click="current--" :disabled="current <= 0"
-                                    class="bg-gray-100 dark:bg-gray-600 rounded-full p-2 transition-dark focus:outline-none">
+                                    class="bg-gray-100 dark:bg-gray-600
+                                     disabled:text-gray-500 dark:disabled:text-gray-500 disabled:cursor-default
+                                      rounded-full p-1 transition-dark focus:outline-none">
                                 <x-svg.chevron-left class="rtl:rotate-180 transform" />
                             </button>
                         @endif
-                        @foreach($periods as $period)
-                            <li x-show="current === {{ $i }}">
+                        @foreach($periods->reverse() as $period)
+                            <li x-show="current === {{ $i }}" style="{{ $i != $periods->count()-1 ? 'display:none;' : '' }}">
                                 <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">
                                     @if($type->isUnlimited())
                                         {{ $type->locale_plural_name }}
@@ -129,7 +131,9 @@
                         @endforeach
                         @if($periods->count() > 1)
                             <button @click="current++" :disabled="current >= count-1"
-                                    class="bg-gray-100 dark:bg-gray-600 rounded-full p-2 transition-dark focus:outline-none">
+                                    class="bg-gray-100 dark:bg-gray-600 rounded-full
+                                    disabled:text-gray-500 dark:disabled:text-gray-500 disabled:cursor-default
+                                     p-1 transition-dark focus:outline-none">
                                 <x-svg.chevron-right class="rtl:rotate-180 transform" />
                             </button>
                         @endif
