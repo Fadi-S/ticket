@@ -65,7 +65,7 @@ class User extends Authenticatable implements HasLocalePreference
 
     public function isUser() : bool
     {
-        return $this->hasAnyRole('user', 'deacon') || $this->roles->isEmpty();
+        return $this->hasAnyRole('user', 'deacon', 'kashafa') || $this->roles->isEmpty();
     }
 
     public function isGuest()
