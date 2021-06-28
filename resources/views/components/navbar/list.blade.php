@@ -10,7 +10,7 @@ text-gray-100 w-full focus:outline-none"
 
                 {{ $svg }}
 
-                <span class="mx-3 font-semibold">{{ $label }}</span>
+                <span class="mx-1 font-semibold flex items-start">{{ $label }}</span>
             </div>
 
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
