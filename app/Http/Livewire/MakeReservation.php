@@ -140,9 +140,10 @@ class MakeReservation extends Component
         }
     }
 
-    public function clearUsers()
+    public function clearForm()
     {
         $this->users = collect();
+        $this->event = null;
     }
 
     public function getSearchedUsers()

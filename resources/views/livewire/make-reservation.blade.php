@@ -47,24 +47,38 @@
                         {{ __("Search Users") }}
                     </label>
                     <div class="mt-1 relative">
-                        <div>
-                            <input type="text" @focus="searching=true"
-                                   wire:model.debouce.300ms="search"
-                                   dir="auto" autocomplete="off"
-                                   @input="searching = ($event.target.value !== '')"
-                                   name="user-search" id="user-search"
-                                   class="relative w-full bg-white border border-gray-300 rounded-md
+                        <div class="flex items-center justify-center">
+                            <div>
+                                <input type="text" @focus="searching=true"
+                                       wire:model.debouce.300ms="search"
+                                       dir="auto" autocomplete="off"
+                                       @input="searching = ($event.target.value !== '')"
+                                       name="user-search" id="user-search"
+                                       class="relative w-full bg-white border border-gray-300 rounded-md
                                    dark:bg-gray-600 dark:border-gray-500
                                     dark:placeholder-gray-400 transition-colors duration-500
                                     dark:text-white
                              shadow-sm pl-3 pr-5 py-2 text-left focus:outline-none
                               focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm
                                    focus:outline-none block w-full sm:text-sm rounded-md"
-                                   placeholder="{{ __("Search") }}">
-                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                <x-svg.search/>
+                                       placeholder="{{ __("Search") }}">
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <x-svg.search/>
+                                </div>
+                            </div>
+                            <div>
+                                @if(! $redirectAfterReservation && $users->isNotEmpty())
+                                    <button type="button" wire:click="clearForm"
+                                            class="flex items-center rounded-xl mx-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 transition-dark mb-4 focus:outline-none">
+                                        <div class="ltr:mr-2 rtl:ml-2">
+                                            <x-svg.refresh wire:target="clearForm" wire:loading.remove />
+                                            <x-svg.spinner wire:target="clearForm" wire:loading />
+                                        </div>
+                                    </button>
+                                @endif
                             </div>
                         </div>
+
 
                         <div x-show="searching" style="display: none;"
                              x-transition:enter="transition ease-in duration-100"
@@ -172,17 +186,6 @@
 
                 @if($users->isNotEmpty())
                     <div class="max-w-4xl mx-auto">
-                        @if(! $redirectAfterReservation)
-                            <button type="button" wire:click="clearUsers"
-                                    class="flex items-center rounded-md px-4 py-2 bg-blue-500 hover:bg-blue-600 transition-dark mb-4 focus:outline-none">
-                                <div class="ltr:mr-2 rtl:ml-2">
-                                    <x-svg.refresh wire:target="clearUsers" wire:loading.remove />
-                                    <x-svg.spinner wire:target="clearUsers" wire:loading />
-                                </div>
-                                {{ __('New Reservation') }}
-                            </button>
-                        @endif
-
                         <x-table.table data-step="5" class="max-w-3xl"
                                        data-intro="{{ __('These are the users that you chose to reserve for them') }}"
                                        wire:loading.class="opacity-50" wire:target="toggleUser, removeUser">
