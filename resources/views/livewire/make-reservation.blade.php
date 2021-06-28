@@ -43,12 +43,21 @@
                      @click.away="searching=false"
                      @keydown.escape="searching=false; document.querySelector('#user-search').blur()"
                      class="max-w-2xl mx-auto">
-                    <label id="listbox-label" class="block text-sm font-medium text-gray-700">
+                    <label id="listbox-label" class="block text-sm font-medium">
                         {{ __("Search Users") }}
                     </label>
                     <div class="mt-1 relative">
                         <div class="flex items-center justify-center">
                             <div>
+                                @if(! $redirectAfterReservation && $users->isNotEmpty())
+                                    <button type="button" wire:click="clearForm"
+                                            class="flex items-center rounded-xl mx-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 transition-dark mb-4 focus:outline-none">
+                                        <x-svg.refresh wire:target="clearForm" wire:loading.remove />
+                                        <x-svg.spinner wire:target="clearForm" wire:loading />
+                                    </button>
+                                @endif
+                            </div>
+                            <div class="w-full">
                                 <input type="text" @focus="searching=true"
                                        wire:model.debouce.300ms="search"
                                        dir="auto" autocomplete="off"
@@ -65,17 +74,6 @@
                                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                     <x-svg.search/>
                                 </div>
-                            </div>
-                            <div>
-                                @if(! $redirectAfterReservation && $users->isNotEmpty())
-                                    <button type="button" wire:click="clearForm"
-                                            class="flex items-center rounded-xl mx-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 transition-dark mb-4 focus:outline-none">
-                                        <div class="ltr:mr-2 rtl:ml-2">
-                                            <x-svg.refresh wire:target="clearForm" wire:loading.remove />
-                                            <x-svg.spinner wire:target="clearForm" wire:loading />
-                                        </div>
-                                    </button>
-                                @endif
                             </div>
                         </div>
 
