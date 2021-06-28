@@ -30,13 +30,12 @@ class NationalIDValidation implements Rule
      */
     public function passes($attribute, $value)
     {
-        if(\Str::length($value) != 14) {
+        if(\Str::length($value) != 14 || !is_numeric($value) || !$nid = DataFromNationalID::create($value)) {
             $this->message = __('validation.regex');
 
             return false;
         }
 
-        $nid = DataFromNationalID::create($value);
         if(! is_null($this->gender)) {
             $natIdGender = !! $nid->gender();
 

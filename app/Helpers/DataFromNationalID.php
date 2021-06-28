@@ -24,6 +24,8 @@ class DataFromNationalID
             return null;
         }
 
+        $nationalId = abs($nationalId);
+
         return new self($nationalId);
     }
 
