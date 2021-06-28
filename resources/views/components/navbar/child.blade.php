@@ -8,5 +8,5 @@
         hover:bg-opacity-25" href="{{ $href }}">
     {{ $slot }}
 
-    <span class="mx-3">{{ $label }}</span>
+    <span class="mx-1">{{ $label }}</span>
 </a>

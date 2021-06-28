@@ -20,8 +20,7 @@
 
         <x-data-card :href="url('/reserve')" color="bg-red-600"
                      data-step="3"
-                     data-intro="{{ __('You can click here to reserve') }}"
-                     class="cursor-pointer transform transition duration-500 hover:scale-105 focus:scale-105">
+                     data-intro="{{ __('You can click here to reserve') }}">
             <x-slot name="svg">
                 <x-svg.bookmark/>
             </x-slot>
@@ -32,9 +31,7 @@
 
         @foreach($announcements as $announcement)
             <x-data-card :href="$announcement->hasURL() ? url($announcement->url) : null"
-                         colorStyle="background-color: {{ $announcement->color }}"
-                         :class="$announcement->hasURL() ? 'cursor-pointer transform transition duration-500
-                              hover:scale-105 focus:scale-105' : ''">
+                         colorStyle="background-color: {{ $announcement->color }}">
                 <x-slot name="svg">
                     <x-svg.speaker />
                 </x-slot>
@@ -48,7 +45,8 @@
                             x-init="originalContent = $el.firstElementChild.textContent.trim();
                              content = originalContent.slice(0, maxLength); content += ((originalContent.length > content.length) ? '...' : '')"
                     >
-                        <span x-text="isCollapsed ? originalContent : content" class="whitespace-pre-line">
+                        <span x-text="isCollapsed ? originalContent : content" x-bind:class="isCollapsed ? 'text-lg' : ''"
+                              class="whitespace-pre-line leading-7 tracking-wide transition-all duration-500">
                             {{ $announcement->body }}
                         </span>
                         <button class="focus:outline-none text-blue-400 px-2"
@@ -73,9 +71,7 @@
 
         @can('tickets.view')
             @foreach($currentEvents as $currentEvent)
-                <x-data-card :href="url('/tickets?event=' . $currentEvent->id)" color="bg-green-400"
-                             class="cursor-pointer transform transition duration-500
-                              hover:scale-105 focus:scale-105">
+                <x-data-card :href="url('/tickets?event=' . $currentEvent->id)" color="bg-green-400">
                     <x-slot name="svg">
                         <x-svg.clock/>
                     </x-slot>
@@ -89,24 +85,42 @@
 
         @if($periods)
             @foreach($shownTypes as $type)
-                <x-data-card colorStyle="background-color: {{ $type->color }}">
+                <x-data-card class="relative"
+                        colorStyle="background-color: {{ $type->color }}"
+                             x-data="{ current: {{ $periods->count()-1 }}, count: {{ $periods->count() }} }">
+
+                    <x-slot name="head">
+                        @if($periods->count() > 1)
+                            <div class="absolute flex justify-between items-center h-full w-full">
+                                <button @click="current--" :disabled="current <= 0"
+                                        class="bg-gray-100 opacity-75 dark:bg-gray-600 transform translate-x-2
+                                 disabled:text-gray-500 dark:disabled:text-gray-500 disabled:cursor-default
+                                  rounded-full p-2 transition-dark focus:outline-none">
+                                    <x-svg.chevron-left class="rtl:rotate-180 transform" />
+                                </button>
+                                <button @click="current++" :disabled="current >= count-1"
+                                        class="bg-gray-100 opacity-75 dark:bg-gray-600 rounded-full transform -translate-x-2
+                                disabled:text-gray-500 dark:disabled:text-gray-500 disabled:cursor-default
+                                 p-2 transition-dark focus:outline-none">
+                                    <x-svg.chevron-right class="rtl:rotate-180 transform" />
+                                </button>
+                            </div>
+                        @endif
+                    </x-slot>
+
                     <x-slot name="svg">
                         <x-svg.ticket/>
                     </x-slot>
 
-                    <ol class="flex justify-center gap-2 items-center"
-                        x-data="{ current: {{ $periods->count()-1 }}, count: {{ $periods->count() }} }">
+                    <ol class="items-center"
+                        >
                         @php($i = 0)
-                        @if($periods->count() > 1)
-                            <button @click="current--" :disabled="current <= 0"
-                                    class="bg-gray-100 dark:bg-gray-600
-                                     disabled:text-gray-500 dark:disabled:text-gray-500 disabled:cursor-default
-                                      rounded-full p-1 transition-dark focus:outline-none">
-                                <x-svg.chevron-left class="rtl:rotate-180 transform" />
-                            </button>
-                        @endif
                         @foreach($periods->reverse() as $period)
-                            <li x-show="current === {{ $i }}" style="{{ $i != $periods->count()-1 ? 'display:none;' : '' }}">
+                            <li x-show="current === {{ $i }}"
+                                x-transition:enter="transition transition-opacity duration-700"
+                                x-transition:enter-start="opacity-50"
+                                x-transition:enter-end="opacity-100"
+                                style="{{ $i != $periods->count()-1 ? 'display:none;' : '' }}">
                                 <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">
                                     @if($type->isUnlimited())
                                         {{ $type->locale_plural_name }}
@@ -129,14 +143,6 @@
                             </li>
                             @php($i++)
                         @endforeach
-                        @if($periods->count() > 1)
-                            <button @click="current++" :disabled="current >= count-1"
-                                    class="bg-gray-100 dark:bg-gray-600 rounded-full
-                                    disabled:text-gray-500 dark:disabled:text-gray-500 disabled:cursor-default
-                                     p-1 transition-dark focus:outline-none">
-                                <x-svg.chevron-right class="rtl:rotate-180 transform" />
-                            </button>
-                        @endif
                     </ol>
                 </x-data-card>
             @endforeach
