@@ -66,7 +66,7 @@
                     @if($this->showField('user.national_id'))
                     <x-form.input wire:model.lazy="user.national_id" type="text"
                                   :error="$errors->get('user.national_id')" autocomplete="off"
-                                  size="col-span-1" name="national_id" id="national_id" dir="auto"
+                                  size="col-span-1" name="national_id" id="national_id" dir="ltr"
                                   label="{{ __('National ID') }}" placeholder="{{ __('National ID') }}" />
                     @endif
 
