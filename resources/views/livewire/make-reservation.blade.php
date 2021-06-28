@@ -172,6 +172,17 @@
 
                 @if($users->isNotEmpty())
                     <div class="max-w-4xl mx-auto">
+                        @if($redirectAfterReservation)
+                            <button type="button" wire:click="clearUsers"
+                                    class="flex items-center rounded-md px-4 py-2 bg-blue-500 hover:bg-blue-600 transition-dark mb-4 focus:outline-none">
+                                <div class="ltr:mr-2 rtl:ml-2">
+                                    <x-svg.refresh wire:target="clearUsers" wire:loading.remove />
+                                    <x-svg.spinner wire:target="clearUsers" wire:loading />
+                                </div>
+                                {{ __('New Reservation') }}
+                            </button>
+                        @endif
+
                         <x-table.table data-step="5" class="max-w-3xl"
                                        data-intro="{{ __('These are the users that you chose to reserve for them') }}"
                                        wire:loading.class="opacity-50" wire:target="toggleUser, removeUser">

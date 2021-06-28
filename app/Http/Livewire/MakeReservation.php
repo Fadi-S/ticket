@@ -136,9 +136,13 @@ class MakeReservation extends Component
 
             $this->dispatchBrowserEvent('reservation');
 
-            $this->users = collect();
             $this->event = null;
         }
+    }
+
+    public function clearUsers()
+    {
+        $this->users = collect();
     }
 
     public function getSearchedUsers()
