@@ -29,7 +29,7 @@ class ViewsServiceProvider extends ServiceProvider
 
     private function shareTypesWithViews()
     {
-        \View::composer('*', function ($view) {
+        \View::composer('components.master', function ($view) {
             $view->with([
                 'shownTypes' => \Cache::remember('event.types.shown', now()->addHour(),
                     fn() => EventType::shown()->get()
