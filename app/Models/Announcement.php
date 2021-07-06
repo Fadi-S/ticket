@@ -25,6 +25,44 @@ class Announcement extends Model
         );
     }
 
+    public static function getCurrentForUser($user=null)
+    {
+        $user ??= auth()->user();
+        $announcements = self::getCurrent();
+
+        return $announcements->filter(function ($ann) use($user) {
+            if(! $ann->target) {
+                return true;
+            }
+
+            $conditions = json_decode($ann->target, true);
+
+            foreach ($conditions as $con) {
+                $allow = true;
+
+                foreach ($con as $key => $value) {
+                    if(str_starts_with($key, 'not_')) {
+                        continue;
+                    }
+
+                    $allow = ($user[$key] ?? null) == $value;
+
+                    if(array_key_exists('not_' . $key, $con)) {
+                        $allow = !$allow;
+                    }
+
+                    if(! $allow)
+                        break;
+                }
+
+                if($allow)
+                    return true;
+            }
+
+            return false;
+        });
+    }
+
     public function hasURL() : bool
     {
         return !! $this->url;

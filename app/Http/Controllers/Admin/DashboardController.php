@@ -32,7 +32,7 @@ class DashboardController extends Controller
         $currentEvents = $user->can('tickets.view') ? Event::getCurrent() : [];
 
         $periods = Period::getLatest();
-        $announcements = Announcement::getCurrent();
+        $announcements = Announcement::getCurrentForUser();
 
         $tickets = Cache::tags('ticket.users')->remember('tickets.users.' . $user->id, now()->addMinutes(30),
             function () use($user, $periods) {
