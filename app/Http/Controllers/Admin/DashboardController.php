@@ -33,14 +33,14 @@ class DashboardController extends Controller
 
         $periods = Period::getLatest();
         $announcements = Announcement::getCurrentForUser();
+        $shownTypes = \Cache::remember('event.types.shown', now()->addHour(),
+            fn() => EventType::shown()->get()
+        );
 
         $tickets = Cache::tags('ticket.users')->remember('tickets.users.' . $user->id, now()->addMinutes(30),
-            function () use($user, $periods) {
+            function () use($user, $periods, $shownTypes) {
                 $num = app()->make('num');
                 $tickets = [];
-                $shownTypes = \Cache::remember('event.types.shown', now()->addHour(),
-                    fn() => EventType::shown()->get()
-                );
 
                 foreach ($periods as $period) {
                     foreach ($shownTypes as $type) {
@@ -68,6 +68,7 @@ class DashboardController extends Controller
             'currentEvents' => $currentEvents ?? null,
             'only' => $only,
             'announcements' => $announcements,
+            'shownTypes' => $shownTypes,
         ]);
     }
 
