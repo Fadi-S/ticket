@@ -12,6 +12,10 @@ class MustHaveFullName implements ConditionContract
 
     public function check($event, $user): ConditionOutput
     {
+        if($user->isGuest()) {
+            return ConditionOutput::undecided();
+        }
+
         return ! ($user->isSignedIn() && $user->hasFirstNameOnly())
             ? ConditionOutput::undecided()
             : ConditionOutput::deny()

@@ -12,6 +12,10 @@ class MustHaveNationalID implements ConditionContract
 
     public function check($event, $user): ConditionOutput
     {
+        if($user->isGuest()) {
+            return ConditionOutput::undecided();
+        }
+
         $name = $user->isSignedIn() ? __("You") : $user->locale_name;
 
         return (!! $user->national_id)
