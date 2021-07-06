@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddIsDeaconToReservationsTable extends Migration
+class AddTargetToAnnouncementsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class AddIsDeaconToReservationsTable extends Migration
      */
     public function up()
     {
-        Schema::table('reservations', function (Blueprint $table) {
-            $table->boolean('is_deacon')
-                ->index()
-                ->default(false)
-                ->after('is_exception');
+        Schema::table('announcements', function (Blueprint $table) {
+            $table->json('target')->nullable();
         });
     }
 
@@ -28,8 +25,8 @@ class AddIsDeaconToReservationsTable extends Migration
      */
     public function down()
     {
-        Schema::table('reservations', function (Blueprint $table) {
-            $table->dropColumn('is_deacon');
+        Schema::table('announcements', function (Blueprint $table) {
+            $table->dropColumn('target');
         });
     }
 }

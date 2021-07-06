@@ -12,6 +12,10 @@ class UserAndEventMustBeSameChurch implements ConditionContract
 
     public function check($event, $user): ConditionOutput
     {
+        if($user->isGuest()) {
+            return ConditionOutput::undecided();
+        }
+
         return $event->church_id === $user->church_id
             ? ConditionOutput::undecided()
             : ConditionOutput::deny()

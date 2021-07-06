@@ -93,13 +93,15 @@
                         @if($periods->count() > 1)
                             <div class="absolute flex justify-between items-center h-full w-full">
                                 <button @click="current--" :disabled="current <= 0"
-                                        class="bg-gray-100 opacity-75 dark:bg-gray-600 transform translate-x-2
+                                        class="bg-gray-100 opacity-75 dark:bg-gray-600
+                                         ltr:-translate-x-2 rtl:translate-x-2 transform
                                  disabled:text-gray-500 dark:disabled:text-gray-500 disabled:cursor-default
                                   rounded-full p-2 transition-dark focus:outline-none">
                                     <x-svg.chevron-left class="rtl:rotate-180 transform" />
                                 </button>
                                 <button @click="current++" :disabled="current >= count-1"
-                                        class="bg-gray-100 opacity-75 dark:bg-gray-600 rounded-full transform -translate-x-2
+                                        class="bg-gray-100 opacity-75 dark:bg-gray-600 rounded-full transform
+                                         rtl:-translate-x-2 ltr:translate-x-2
                                 disabled:text-gray-500 dark:disabled:text-gray-500 disabled:cursor-default
                                  p-2 transition-dark focus:outline-none">
                                     <x-svg.chevron-right class="rtl:rotate-180 transform" />

@@ -56,10 +56,6 @@ trait CanReserveInEvents
 
     public function canReserveIn($event)
     {
-        if($this->isGuest()) {
-            return ConditionOutput::allow();
-        }
-
         $output = null;
 
         foreach ($event->conditions() as $condition)
