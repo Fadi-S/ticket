@@ -86,6 +86,12 @@ class EventType extends Model
         return $colors->get($this->id -1, '#62b9d1');
     }
 
+    public static function getShown() {
+        return \Cache::remember('event.types.shown', now()->addHour(),
+            fn() => EventType::shown()->get()
+        );
+    }
+
     public function getColorNamesAttribute()
     {
         $adjustColor = function ($hex, $steps) {
