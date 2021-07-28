@@ -271,5 +271,8 @@
   "Reservation made successfully": "تم الحجز بنجاح",
   "Success": "تم الحجز",
   "No Period is set up, reservations won't work": "لم يتم تحديد فترة، لن يعمل الحجز",
-  "New Reservation": "حجز جديد"
+  "New Reservation": "حجز جديد",
+  "Notices": "التعليقات",
+  "Notice": "التعليق",
+  "Add Notice": "إضافة تعليق"
 }
