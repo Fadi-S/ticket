@@ -32,7 +32,9 @@ class ViewEventNotice extends Component
 
         Event::clearCache();
 
-        $this->dispatchBrowserEvent('notice-edited', ['notice' => $this->event->notice]);
+        $this->dispatchBrowserEvent("notice-edited-{$this->event->id}", [
+            'notice' => $this->event->notice
+        ]);
 
         session()->flash('success', __(':type Saved Successfully', ['type' => __('Notice')]));
     }

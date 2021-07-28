@@ -77,7 +77,7 @@
                         @can('events.notices')
                             <x-table.td>
                                 <button x-data="{ notice: `{{ $event->notice }}` }"
-                                        @notice-edited.window="notice=$event.detail.notice"
+                                        @notice-edited-{{$event->id}}.window="notice=$event.detail.notice"
                                         @click="$dispatch('open-notice', '{{ $event->id }}')"
                                         type="button" class="text-xs text-blue-500 dark:text-blue-200 focus:outline-none">
 
