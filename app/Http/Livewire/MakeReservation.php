@@ -43,7 +43,7 @@ class MakeReservation extends Component
     {
         $this->users = collect();
 
-        $this->redirectAfterReservation = !auth()->user()->can('tickets.view');
+        $this->redirectAfterReservation = false; // !auth()->user()->can('tickets.view');
 
         if (auth()->user()->isUser() || auth()->user()->isDeacon()) {
             $this->users->push(auth()->user());

@@ -33,9 +33,7 @@ class DashboardController extends Controller
 
         $periods = Period::getLatest();
         $announcements = Announcement::getCurrentForUser();
-        $shownTypes = \Cache::remember('event.types.shown', now()->addHour(),
-            fn() => EventType::shown()->get()
-        );
+        $shownTypes = EventType::getShown();
 
         $tickets = Cache::tags('ticket.users')->remember('tickets.users.' . $user->id, now()->addMinutes(30),
             function () use($user, $periods, $shownTypes) {

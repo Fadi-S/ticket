@@ -27,12 +27,12 @@ class Period extends Model
         );
     }
 
-    public static function getLatest($last = 2)
+    public static function getLatest($latest = 2)
     {
         return \Cache::tags('periods')->remember('periods.current', now()->addHour(),
             fn() => self::latest('start')
                 ->where('end', '>=', now())
-                ->limit($last)
+                ->limit($latest)
                 ->get()
         );
     }
