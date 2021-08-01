@@ -22,6 +22,9 @@
                     <x-table.th>{{ __('Date') }}</x-table.th>
                     <x-table.th>{{ __('Number of Places') }}</x-table.th>
                     <x-table.th>{{ __('Publish Date') }}</x-table.th>
+               @can('events.notices')
+                    <x-table.th>{{ __('Notices') }}</x-table.th>
+               @endcan
                 @can('events.edit')
                         <x-table.th>{{ __('Edit') }}</x-table.th>
                     @endcan
@@ -71,6 +74,29 @@
                             </span>
                         </x-table.td>
 
+                        @can('events.notices')
+                            <x-table.td>
+                                <button x-data="{ notice: `{{ $event->notice }}` }"
+                                        @notice-edited-{{$event->id}}.window="notice=$event.detail.notice"
+                                        @click="$dispatch('open-notice', '{{ $event->id }}')"
+                                        type="button" class="text-xs text-blue-500 dark:text-blue-200 focus:outline-none">
+
+                                    <div x-show="!! notice"
+                                         class="truncate w-28" x-text="notice"
+                                         style="display: none">
+                                        {{ $event->notice }}
+                                    </div>
+
+                                    @if(!$event->notice)
+                                        <div x-show="! notice">
+                                            {{ __('Add Notice') }}
+                                        </div>
+                                    @endif
+                                </button>
+
+                            </x-table.td>
+                        @endcan
+
                         @can('events.edit')
                             <x-table.td>
                                 <x-buttons.edit :url="url($url . '/' . $event->id . '/edit')" />
@@ -101,6 +127,50 @@
         {{ $events->links() }}
 
     </x-card>
+
+    <div x-data="{ open: false, }"
+         @open-notice.window="open=true; window.livewire.emit('set:event-notice', $event.detail)"
+         x-init="
+  () => document.body.classList.add('overflow-hidden');
+  $watch('open', value => {
+    if (value === true) { document.body.classList.add('overflow-hidden') }
+    else { document.body.classList.remove('overflow-hidden') }
+  });" x-show="open" style="display: none;" class="fixed z-50 inset-0 overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen text-center sm:block sm:p-0">
+
+            <div x-show="open" x-description="Background overlay, show/hide based on modal state."
+                 x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200"
+                 x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                 class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+            <div @click.away=open=false x-show="open"
+                 x-transition:enter="ease-out duration-300"
+                 x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                 x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                 x-transition:leave="ease-in duration-200"
+                 x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                 x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+
+                 class="inline-block bg-white dark:bg-gray-700 text-left overflow-hidden shadow-xl sm:max-w-xl rounded-lg w-full
+                      transform transition-all sm:my-8 sm:align-middle"
+                 role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+
+                    <div class="sm:flex">
+
+                        <div class="mt-3 text-center sm:mt-0 py-4 px-6 w-full">
+                            <livewire:view-event-notice />
+                        </div>
+
+                    </div>
+
+            </div>
+        </div>
+    </div>
 
     @if($templates->isNotEmpty())
     <x-card>
