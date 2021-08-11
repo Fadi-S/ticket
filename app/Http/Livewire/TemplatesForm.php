@@ -110,7 +110,7 @@ class TemplatesForm extends Component
             'template.description' => 'required',
             'template.number_of_places' => 'required|numeric',
             'template.deacons_number' => 'nullable|numeric',
-            'template.overload' => 'required|numeric|between:0,100',
+            'template.overload' => 'required|numeric|min:0',
             'start' => 'required',
             'end' => 'required',
             'template.day_of_week' => 'required|numeric|min:0|max:6',
