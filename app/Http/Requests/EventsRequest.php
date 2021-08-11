@@ -30,7 +30,7 @@ class EventsRequest extends FormRequest
             "description" => "required",
             "start" => "required|date",
             "end" => "required|date|after:start",
-            "overload" => "required|numeric|min:0|max:100",
+            "overload" => "required|numeric|min:0",
             "published_at" => "required|date|before:start",
             'type_id' => 'nullable',
         ];
