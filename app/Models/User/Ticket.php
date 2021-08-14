@@ -46,7 +46,7 @@ class Ticket
         $period = $this->period ?? Period::current($date);
 
         if($period) {
-            return $this->reservationsPerPeriod($type->id, $type->max_reservations, $period);
+            return $this->reservationsPerPeriod($type->id, $type->maxReservationsForUser($this->user), $period);
         }
 
         return 0;
