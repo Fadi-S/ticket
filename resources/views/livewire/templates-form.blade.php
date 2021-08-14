@@ -34,7 +34,7 @@
                                   wire:model="template.overload"
                                   :error="$errors->get('template.overload')"
                                   name="overload" label="{{ __('Allowed Overload by admins %') }}" class="col-span-1"
-                                  size="col-span-1" min="0" max="100" placeholder="20%" />
+                                  size="col-span-1" min="0" placeholder="20%" />
 
                     <x-form.select wire:model="template.day_of_week" name="day_of_week"
                                    :error="$errors->get('template.day_of_week')"

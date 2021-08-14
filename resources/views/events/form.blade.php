@@ -38,7 +38,7 @@
         <x-form.input required type="number" id="overload" :value="$create ? 20 : $event->overload*100"
                       name="overload" label="{{ __('Allowed Overload by admins %') }}" class="col-span-1"
                       :error="$errors->get('overload')"
-                      size="col-span-1" min="0" max="100" placeholder="20%" />
+                      size="col-span-1" min="0" placeholder="20%" />
 
         <x-form.input required type="time" id="start_time" name="start_time"
                       label="{{ __('Start Time') }}" size="col-span-1" :error="$errors->get('start_time')"
