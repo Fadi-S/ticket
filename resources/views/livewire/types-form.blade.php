@@ -48,6 +48,13 @@
                                   placeholder="{{ __('Max Reservations') }}"
                                   label="{{ __('Max Reservations') }}" size="col-span-1" />
 
+                    <x-form.input required type="number" id="max_reservations_for_deacons" name="max_reservations_for_deacons"
+                                  wire:model.lazy="type.max_reservations_for_deacons"
+                                  autocomplete="off" min="-1"
+                                  :error="$errors->get('type.max_reservations_for_deacons')"
+                                  placeholder="{{ __('Max Reservations For Deacons') }}"
+                                  label="{{ __('Max Reservations For Deacons') }}" size="col-span-1" />
+
                     <x-form.input required type="color" id="color" name="color"
                                   wire:model.lazy="type.color"
                                   autocomplete="off"

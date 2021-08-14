@@ -42,7 +42,10 @@ class DashboardController extends Controller
 
                 foreach ($periods as $period) {
                     foreach ($shownTypes as $type) {
-                        $tickets[$period->id][$type->id] = __(':number of :from left', ['number' => $num->format($user->tickets()->setPeriod($period)->event($type->id)), 'from' => $num->format($type->max_reservations)]);
+                        $tickets[$period->id][$type->id] = __(':number of :from left', [
+                            'number' => $num->format($user->tickets()->setPeriod($period)->event($type->id)),
+                            'from' => $num->format($type->maxReservationsForUser($user))
+                        ]);
                     }
                 }
 

@@ -35,6 +35,17 @@ class EventType extends Model
             ->withPivot('max_reservations');
     }
 
+    public function maxReservationsForUser($user)
+    {
+        $maxReservations = $this->max_reservations;
+
+        if($this->max_reservations_for_deacons != null && $user->isDeacon()) {
+            $maxReservations = $this->max_reservations_for_deacons;
+        }
+
+        return $maxReservations;
+    }
+
     public function isUnlimited()
     {
         return $this->max_reservations < 0;
