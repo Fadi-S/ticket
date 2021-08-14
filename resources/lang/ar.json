@@ -275,6 +275,6 @@
   "Notices": "التعليقات",
   "Notice": "التعليق",
   "Add Notice": "إضافة تعليق",
-  "Max Reservation": "عدد الأماكن المسموح بها للفرد",
-  "Max Reservation For Deacons": "عدد الأماكن المسموح بها للشماس"
+  "Max Reservations": "عدد الأماكن المسموح بها للفرد",
+  "Max Reservations For Deacons": "عدد الأماكن المسموح بها للشماس"
 }
