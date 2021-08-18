@@ -72,6 +72,11 @@
                         <div class="text-xs text-gray-500 dark:text-gray-400">
                                 {{ $row->email }}
                         </div>
+                        @if($row->expiration)
+                                <div class="text-xs text-gray-500 dark:text-gray-400">
+                                        {{ __('Guest will be deleted at: :date', ['date' => $row->expiration->format('d/m/Y')]) }}
+                                </div>
+                        @endif
                 </div>
         </div>
 </x-table.td>
