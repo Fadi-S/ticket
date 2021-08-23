@@ -2,15 +2,8 @@
 
 namespace App\Models\User;
 
-use App\Models\Baskha;
-use App\Models\BaskhaOccasion;
-use App\Models\Event;
 use App\Models\EventType;
-use App\Models\Kiahk;
-use App\Models\Mass;
 use App\Models\Period;
-use App\Models\Vesper;
-use Carbon\Carbon;
 
 class Ticket
 {
