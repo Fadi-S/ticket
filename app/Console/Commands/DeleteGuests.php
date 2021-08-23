@@ -40,7 +40,7 @@ class DeleteGuests extends Command
     {
         User::where('expiration', '<=', now())
             ->where('expiration', '<>', null)
-            ->delete();
+            ->forceDelete();
 
         $this->info('Deleted guests until ' . now()->format('Y-m-d'));
 
