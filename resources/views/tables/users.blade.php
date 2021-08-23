@@ -151,7 +151,7 @@
                         <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
                                 {{ ($res = $row->reservations()->with('ticket.reservedBy')->latest()->first()) ? $res->created_at->diffForHumans() : '-' }}
                         </div>
-                        @if($res)
+                        @if($res && $res->ticket->reservedBy->id !== $user->id)
                                 <div class="text-xs text-gray-500 dark:text-gray-300">
                                         {{ __('By : :name', ['name' => ($res->ticket->reservedBy) ? $res->ticket->reservedBy->locale_name : '[DELETED]']) }}
                                 </div>

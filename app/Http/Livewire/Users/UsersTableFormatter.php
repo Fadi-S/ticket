@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Users;
 
 use App\Models\Church;
 use App\Models\Login;
+use App\Models\Reservation;
 use App\Models\User\User;
 use App\Notifications\AccountActivated;
 use Illuminate\Database\Eloquent\Builder;
@@ -121,7 +122,15 @@ class UsersTableFormatter extends DataTableComponent
                     )
                 )->hideIf(!auth()->user()->can("users.view")),
             Column::make(__('Last Reservation'))
-                ->hideIf(!auth()->user()->can("users.view")),
+                ->sortable(
+                    fn(Builder $query, $direction) => $query->orderBy(
+                        Reservation::select('created_at')
+                            ->whereColumn('reservations.user_id', 'users.id')
+                            ->latest('created_at')
+                            ->take(1),
+                        $direction
+                    )
+                )->hideIf(!auth()->user()->can("users.view")),
             Column::make(__('Created By'))
                 ->hideIf(!auth()->user()->can("users.view")),
             Column::make(__('Role'))
