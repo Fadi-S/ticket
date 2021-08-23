@@ -153,7 +153,7 @@
                         </div>
                         @if($res)
                                 <div class="text-xs text-gray-500 dark:text-gray-300">
-                                        {{ __('By : :name', ['name' => $res->ticket->reservedBy->name]) }}
+                                        {{ __('By : :name', ['name' => ($res->ticket->reservedBy) ? $res->ticket->reservedBy->locale_name : '[DELETED]']) }}
                                 </div>
                         @endif
                 </div>
