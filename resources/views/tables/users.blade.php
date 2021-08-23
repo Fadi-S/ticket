@@ -147,7 +147,7 @@
         </x-table.td>
 
         <x-table.td>
-                <div class="flex items-center">
+                <div class="flex flex-col items-center">
                         <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
                                 {{ ($res = $row->reservations()->with('ticket.reservedBy')->latest()->first()) ? $res->created_at->diffForHumans() : '-' }}
                         </div>
