@@ -120,6 +120,8 @@ class UsersTableFormatter extends DataTableComponent
                         $direction
                     )
                 )->hideIf(!auth()->user()->can("users.view")),
+            Column::make(__('Last Reservation'))
+                ->hideIf(!auth()->user()->can("users.view")),
             Column::make(__('Created By'))
                 ->hideIf(!auth()->user()->can("users.view")),
             Column::make(__('Role'))

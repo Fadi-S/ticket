@@ -147,6 +147,12 @@
         </x-table.td>
 
         <x-table.td>
+                <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                        {{ ($res = $row->reservations()->latest()->first()) ? $res->created_at->diffForHumans() : '-' }}
+                </div>
+        </x-table.td>
+
+        <x-table.td>
                 @if($row->creator)
                         <button type="button" wire:click="$set('filters.search', '#{{ $row->creator->id }}')"
                                 title="#{{ $row->creator->id }}"
