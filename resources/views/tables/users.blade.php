@@ -147,9 +147,17 @@
         </x-table.td>
 
         <x-table.td>
-                <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                        {{ ($res = $row->reservations()->latest()->first()) ? $res->created_at->diffForHumans() : '-' }}
+                <div class="flex items-center">
+                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                {{ ($res = $row->reservations()->with('ticket.reservedBy')->latest()->first()) ? $res->created_at->diffForHumans() : '-' }}
+                        </div>
+                        @if($res)
+                                <div class="text-xs text-gray-500 dark:text-gray-300">
+                                        {{ __('By : :name', ['name' => $res->ticket->reservedBy->name]) }}
+                                </div>
+                        @endif
                 </div>
+
         </x-table.td>
 
         <x-table.td>
