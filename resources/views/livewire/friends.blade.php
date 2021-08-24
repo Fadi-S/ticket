@@ -103,6 +103,10 @@
                 <x-slot name="body">
 
                     @foreach($requests as $friendship)
+                        @if(!$friendship->sender)
+                            @continue
+                        @endif
+
                         <tr>
                             <x-table.td>
                                 <span dir="ltr" class="rtl:text-right text-gray-800 dark:text-gray-200 text-md font-semibold">#{{ $friendship->sender->id }}</span>
