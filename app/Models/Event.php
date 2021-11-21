@@ -47,7 +47,7 @@ class Event extends Model
 
     public function period()
     {
-        return Period::current($this->start);
+        return Period::current($this->type_id, $this->start);
     }
 
     public function getDeaconNumberAttribute()

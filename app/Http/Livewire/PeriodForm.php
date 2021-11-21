@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Event;
+use App\Models\EventType;
 use App\Models\Period;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -17,8 +18,6 @@ class PeriodForm extends Component
     public bool $isCreate;
     public $start;
     public $end;
-
-    public array $types = [];
 
     public function mount()
     {
@@ -35,8 +34,9 @@ class PeriodForm extends Component
 
     public function render()
     {
-        return view('livewire.period-form')
-            ->layout('components.master');
+        return view('livewire.period-form', [
+            'types' => [0 => '-'] + EventType::shown()->pluck('arabic_name', 'id')->toArray()
+        ])->layout('components.master');
     }
 
     public function updated($field, $value)
@@ -66,6 +66,7 @@ class PeriodForm extends Component
     {
         return [
             'period.name' => 'required',
+            'period.type_id' => 'required|exists:event_types,id',
             'start' => 'required',
             'end' => 'required',
         ];

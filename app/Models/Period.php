@@ -12,17 +12,22 @@ class Period extends Model
     protected $guarded = [];
 
     protected $dates = ['start', 'end'];
-    protected $with = ['types'];
 
-    public static function current(Carbon $date=null)
+    public function type()
+    {
+        return $this->belongsTo(EventType::class, 'type_id');
+    }
+
+    public static function current($typeId, Carbon $date=null)
     {
         $date ??= now();
 
         //$date = $date->format('Y-m-d H:i:s');
 
-        return \Cache::tags('periods')->remember('period.' . $date->format('Y-m-d'), now()->addHour(),
+        return \Cache::tags('periods')->remember('period.' . $typeId . '.' . $date->format('Y-m-d'), now()->addHour(),
             fn() => self::where('start', '<=', $date)
                 ->where('end', '>=', $date)
+                ->where('type_id', '=', $typeId)
                 ->first()
         );
     }

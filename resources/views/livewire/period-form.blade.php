@@ -14,6 +14,15 @@
                                   size="col-span-1"
                                   placeholder="{{ __('Name') }}" />
 
+                    <x-form.select required
+                                  wire:model="period.type_id"
+                                  :error="$errors->get('period.type_id')"
+                                  id="type_id" name="type_id"
+                                  label="{{ __('Event Type') }}"
+                                  size="col-span-1"
+                                  placeholder="{{ __('Event Type') }}"
+                                  :options="$types" />
+
                     <x-form.date required type="text" id="start" name="start_time"
                                  wire:model.lazy="start"
                                  autocomplete="off"

@@ -24,7 +24,7 @@ class Ticket
 
     public function reservationsPerPeriod($typeId, $maxReservations, Period $period=null) : int
     {
-        $period ??= Period::current();
+        $period ??= Period::current($typeId);
 
         $left = $this->calculateReservationsLeft($typeId, $maxReservations, $period->start, $period->end);
 
@@ -36,7 +36,7 @@ class Ticket
         if(is_numeric($type))
             $type = EventType::find($type);
 
-        $period = $this->period ?? Period::current($date);
+        $period = $this->period ?? Period::current($type->id, $date);
 
         if($period) {
             return $this->reservationsPerPeriod($type->id, $type->maxReservationsForUser($this->user), $period);

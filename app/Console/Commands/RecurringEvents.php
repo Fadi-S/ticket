@@ -49,7 +49,7 @@ class RecurringEvents extends Command
         \Cache::set('latest_automatic_events', time());
 
         $month = now()->month(now()->month + 1);
-        $period = Period::current();
+        $period = Period::current($this->option('type'));
 
         if($this->hasOption('month')) {
             $month = now()->month($this->option('month'));
