@@ -35,7 +35,7 @@ class PeriodForm extends Component
     public function render()
     {
         return view('livewire.period-form', [
-            'types' => EventType::shown()->pluck('arabic_name', 'id')->toArray()
+            'types' => [0 => '-'] + EventType::shown()->pluck('arabic_name', 'id')->toArray()
         ])->layout('components.master');
     }
 
