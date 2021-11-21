@@ -100,7 +100,7 @@ class EventType extends Model
         return \Cache::remember('event.types.shown', now()->addHour(),
             fn() => EventType::shown()->with([
                 'periods' => function ($query) {
-                    return $query->latest('start')->where('end', '>=', now());
+                    return $query->orderBy('start', 'desc')->where('end', '>=', now());
                 },
             ])->get()
         );
