@@ -5,19 +5,6 @@
 
     <div class="my-4 mx-5 grid items-start grid-cols-12 gap-5">
 
-        @if(!$periods && auth()->user()->can('events.create'))
-            <x-data-card color="bg-red-800">
-                <x-slot name="svg">
-                    <x-svg.exclamation-circle color="text-red-100" />
-                </x-slot>
-
-                <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">{{ __('No Period is set up, reservations won\'t work') }}</h4>
-                <div class="text-gray-500">
-
-                </div>
-            </x-data-card>
-        @endif
-
         <x-data-card :href="url('/reserve')" color="bg-red-600"
                      data-step="3"
                      data-intro="{{ __('You can click here to reserve') }}">
@@ -83,14 +70,18 @@
             @endforeach
         @endcan
 
-        @if($periods)
+
             @foreach($shownTypes as $type)
+                @if($type->periods->isEmpty())
+                    @continue
+                @endif
+
                 <x-data-card class="relative"
                         colorStyle="background-color: {{ $type->color }}"
-                             x-data="{ current: {{ $periods->count()-1 }}, count: {{ $periods->count() }} }">
+                             x-data="{ current: {{ $type->periods->count()-1 }}, count: {{ $type->periods->count() }} }">
 
                     <x-slot name="head">
-                        @if($periods->count() > 1)
+                        @if($type->periods->count() > 1)
                             <div class="absolute flex justify-between items-center h-full w-full">
                                 <button @click="current--" :disabled="current <= 0"
                                         class="bg-gray-100 opacity-75 dark:bg-gray-600
@@ -117,17 +108,18 @@
                     <ol class="items-center"
                         >
                         @php($i = 0)
-                        @foreach($periods->reverse() as $period)
+                        @foreach($type->periods->reverse() as $period)
+
                             <li x-show="current === {{ $i }}"
                                 x-transition:enter="transition transition-opacity duration-700"
                                 x-transition:enter-start="opacity-50"
                                 x-transition:enter-end="opacity-100"
-                                style="{{ $i != $periods->count()-1 ? 'display:none;' : '' }}">
+                                style="{{ $i != $type->periods->count()-1 ? 'display:none;' : '' }}">
                                 <h4 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">
                                     @if($type->isUnlimited())
                                         {{ $type->locale_plural_name }}
                                     @else
-                                        {{ $tickets[$period->id][$type->id] }}
+                                        {{ $tickets[$type->id][$period->id] }}
                                     @endif
                                 </h4>
 
@@ -148,7 +140,6 @@
                     </ol>
                 </x-data-card>
             @endforeach
-        @endif
 
         @if(auth()->user()->isDeacon())
             <x-data-card color="bg-blue-500">

@@ -107,7 +107,7 @@
                 @empty
 
                     <tr>
-                        <x-table.td colspan="5">
+                        <x-table.td colspan="6">
                             <div class="flex items-center justify-center">
                                 <x-svg.ticket />
 

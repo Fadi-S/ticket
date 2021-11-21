@@ -32,6 +32,7 @@ class MassReservationTest extends TestCase
 
         Period::create([
             'name' => 'Test Period',
+            'type_id' => 1,
             'start' => now()->copy(),
             'end' => now()->copy()->endOfMonth(),
         ]);
@@ -146,12 +147,14 @@ class MassReservationTest extends TestCase
 
         Period::create([
             'name' => "Test Period 1",
+            'type_id' => 1,
             'start' => $startOfFirst->copy(),
             'end' => $endOfFirst,
         ]);
 
         Period::create([
             'name' => "Test Period 2",
+            'type_id' => 1,
             'start' => $startOfSecond,
             'end' => $endOfSecond,
         ]);
@@ -191,6 +194,7 @@ class MassReservationTest extends TestCase
 
         Period::create([
             'name' => 'Test Period',
+            'type_id' => 1,
             'start' => $date->copy()->addDays(2)->startOfDay(),
             'end' => $date->copy()->addDays(2)->addWeek()->endOfDay(),
         ]);
@@ -225,7 +229,7 @@ class MassReservationTest extends TestCase
 
     private function fillTickets()
     {
-        $period = Period::current();
+        $period = Period::current(1);
 
         for($i=1; $i<=5; $i++)
             $this->reserveInNewEvent($period->end->endOfDay()->subDays(1 * $i));

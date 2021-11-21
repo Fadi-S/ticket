@@ -31,8 +31,7 @@ class EventType extends Model
 
     public function periods()
     {
-        return $this->belongsToMany(Period::class, 'period_type', 'period_id', 'type_id')
-            ->withPivot('max_reservations');
+        return $this->hasMany(Period::class, 'type_id');
     }
 
     public function maxReservationsForUser($user)
@@ -99,7 +98,11 @@ class EventType extends Model
 
     public static function getShown() {
         return \Cache::remember('event.types.shown', now()->addHour(),
-            fn() => EventType::shown()->get()
+            fn() => EventType::shown()->with([
+                'periods' => function ($query) {
+                    return $query->latest('start')->where('end', '>=', now());
+                },
+            ])->get()
         );
     }
 

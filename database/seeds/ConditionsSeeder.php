@@ -1,12 +1,7 @@
 <?php
 
-use App\Models\Baskha;
-use App\Models\BaskhaOccasion;
 use App\Models\Condition;
 use App\Models\EventType;
-use App\Models\Kiahk;
-use App\Models\Mass;
-use App\Models\Vesper;
 use App\Reservations\Conditions\EnoughSpaceInEvent;
 use App\Reservations\Conditions\EventDateHasNotPassed;
 use App\Reservations\Conditions\HaveEventTickets;

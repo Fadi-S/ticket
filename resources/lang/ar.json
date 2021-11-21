@@ -278,5 +278,6 @@
   "Max Reservations": "عدد الأماكن المسموح بها للفرد",
   "Max Reservations For Deacons": "عدد الأماكن المسموح بها للشماس",
   "Guest will be deleted at: :date": "سيتم مسح هذا الضيف يوم :date",
-  "Last Reservation": "أخر حجز"
+  "Last Reservation": "أخر حجز",
+  "Event Type": "نوع المناسبة"
 }

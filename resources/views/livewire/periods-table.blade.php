@@ -7,6 +7,7 @@
         <x-slot name="head">
             <tr>
                 <x-table.th>{{ __('Name') }}</x-table.th>
+                <x-table.th>{{ __('Event Type') }}</x-table.th>
                 <x-table.th>{{ __('Start') }}</x-table.th>
                 <x-table.th>{{ __('End') }}</x-table.th>
                 @if(auth()->user()->can('events.edit'))
@@ -22,6 +23,12 @@
                     <x-table.td>
                         <span class="text-gray-800 dark:text-gray-200 text-md font-semibold">
                             {{ $period->name }}
+                        </span>
+                    </x-table.td>
+
+                    <x-table.td>
+                        <span class="text-gray-800 dark:text-gray-200 text-md font-semibold">
+                            {{ $period->type->arabic_name }}
                         </span>
                     </x-table.td>
 
