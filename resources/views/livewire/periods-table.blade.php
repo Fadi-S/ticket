@@ -28,7 +28,7 @@
 
                     <x-table.td>
                         <span class="text-gray-800 dark:text-gray-200 text-md font-semibold">
-                            {{ $period->type->arabic_name }}
+                            {{ optional($period->type)->arabic_name }}
                         </span>
                     </x-table.td>
 
