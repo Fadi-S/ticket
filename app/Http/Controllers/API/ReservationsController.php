@@ -37,9 +37,12 @@ class ReservationsController extends Controller
         $isDeacon = auth()->user()->isDeacon();
 
         $events = Event::published()
+            ->with('type:id,max_reservations,color,max_reservations_for_deacons,has_deacons')
             ->upcoming()
             ->visible()
             ->whereBetween('start', [$start, $end])
+            ->selectRaw('events.id, start, end, number_of_places, deacons_number, description, type_id')
+            ->withReservationsCount()
             ->get();
 
         // $events = $events->filter(fn($event) => $event->reservations_left > 0)->values();
@@ -53,7 +56,9 @@ class ReservationsController extends Controller
 //        else
 //            $role = 'admin';
 
-        return $events->map(function ($event) use ($isUser, $isDeacon) {
+        $canSeeTickets = auth()->user()->can('tickets.view');
+
+        return $events->map(function ($event) use ($isUser, $isDeacon, $canSeeTickets) {
 
             $left = $event->reservations_left;
             if($isUser)
@@ -64,7 +69,7 @@ class ReservationsController extends Controller
                 'number' => $left,
             ]);
 
-            if($event->hasDeacons && ($isDeacon || auth()->user()->can('tickets.view'))) {
+            if($event->hasDeacons && ($isDeacon || $canSeeTickets)) {
                 $deaconsLeft = $event->deacon_reservations_left;
                 if($isUser)
                     $deaconsLeft = $deaconsLeft >= 0 ? $deaconsLeft : 0;

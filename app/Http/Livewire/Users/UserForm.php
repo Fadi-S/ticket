@@ -44,14 +44,9 @@ class UserForm extends Component
 
     public function render()
     {
-        $locations = collect([0 => 'المنطقة']);
-        $locs = Location::pluck('name', 'id');
-        foreach ($locs as $key => $location)
-            $locations->put($key, $location);
-
         return view('livewire.users.user-form', [
             'roles' => Role::pluck('name', 'id'),
-            'locations' => $locations,
+            'locations' => [0 => 'المنطقة'] + Location::pluck('name', 'id')->toArray(),
         ])->layout('components.master');
     }
 

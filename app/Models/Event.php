@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
+use function PHPUnit\Framework\isNull;
 
 class Event extends Model
 {
@@ -101,32 +102,48 @@ class Event extends Model
 
     public function getReservationsCount($deacon=false)
     {
-        $count = 0;
-
-        $tickets = $this->tickets()
-            ->withCount([
-                'reservations' =>
-                    fn($query) => $query->where('is_deacon', '=', $deacon)
-            ])
-            ->whereHas('reservations', fn ($query) =>
-                $query->where('is_deacon', '=', $deacon)
-            )->get();
-
-        foreach ($tickets as $ticket) {
-            $count += $ticket->reservations_count;
+        if(!$deacon && isset($this->total_reservations_count)) {
+            return $this->total_reservations_count;
         }
 
-        return $count;
+        if($deacon && isset($this->total_reservations_count_deacon)) {
+            return $this->total_reservations_count_deacon;
+        }
+
+        return \DB::select('Select COALESCE(sum(res_count.count_res), 0) as total
+        from (select (SELECT count(*) from reservations WHERE reservations.ticket_id=tickets.id and reservations.is_deacon=?)
+         as count_res from tickets where event_id=?)
+            as res_count', [$deacon, $this->id])[0]->total;
+    }
+
+    public function scopeWithReservationsCount($query)
+    {
+        if(isNull($query->getQuery()->columns))
+            $query->select('*');
+
+        $query->selectRaw('(select
+        COALESCE(sum(res_count.count_res), 0) as total
+        from (select (SELECT count(*) from reservations WHERE reservations.ticket_id=tickets.id and reservations.is_deacon=?)
+         as count_res from tickets where event_id=events.id)
+            as res_count
+            ) as total_reservations_count_deacon', [1])
+            ->selectRaw('(select
+        COALESCE(sum(res_count.count_res), 0) as total
+        from (select (SELECT count(*) from reservations WHERE reservations.ticket_id=tickets.id and reservations.is_deacon=?)
+         as count_res from tickets where event_id=events.id)
+            as res_count
+            ) as total_reservations_count', [0]);
     }
 
     public static function getByType($type, $pagination=10)
     {
-        $currentPage = request()->get('page',1);
+        $currentPage = request()->get('page', 1);
 
         return \Cache::tags('events')
             ->remember("events.$type.page.$currentPage", now()->addMinutes(15),
                 fn() => self::typeId($type)
                     ->orderBy('start')
+                    ->withReservationsCount()
                     ->upcoming()
                     ->paginate($pagination)
             );
@@ -137,6 +154,7 @@ class Event extends Model
         \Cache::tags('events')->flush();
     }
 
+    /**  @deprecated */
     public function reservationsCountForRole(...$role)
     {
         $count = 0;
