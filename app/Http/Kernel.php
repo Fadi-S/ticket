@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\IsNotDisabled;
 use App\Http\Middleware\Localization;
 use App\Http\Middleware\SaveSession;
 use App\Http\Middleware\SetTurboLinksHeader;
@@ -24,7 +25,6 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        \App\Http\Middleware\SecureConnection::class
     ];
 
     /**
@@ -44,6 +44,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             SetTurboLinksHeader::class,
             SaveSession::class,
+            IsNotDisabled::class,
         ],
 
         'api' => [

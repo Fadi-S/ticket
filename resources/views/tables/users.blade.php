@@ -115,6 +115,15 @@
         </div>
 </x-table.td>
 
+@if(auth()->user()->can("activateUser"))
+    <x-table.td>
+        <button class="focus:outline-none transition-dark mx-1"
+                type="button" wire:click="toggleDisabled('{{ $row->username }}')">
+                    <x-svg.active-or-not :active="! $row->disabled_at" />
+        </button>
+    </x-table.td>
+@endif
+
 <x-table.td>
         <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
                 {{ ($row->location) ? $row->location->name : '-' }}

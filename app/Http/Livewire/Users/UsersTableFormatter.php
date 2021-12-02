@@ -79,6 +79,13 @@ class UsersTableFormatter extends DataTableComponent
                     'male' => __('Male'),
                     'female' => __('Female'),
                 ]),
+
+            'disabled' => Filter::make(__('Disabled'))
+                ->select([
+                    '' => '-',
+                    'yes' => __('Yes'),
+                    'no' => __('No'),
+                ]),
         ];
     }
 
@@ -105,6 +112,9 @@ class UsersTableFormatter extends DataTableComponent
                 ->sortable()
                 ->searchable($search),
             Column::make(__('Gender'), 'gender')
+                ->sortable(),
+            Column::make(__('Allowed'), 'disabled_at')
+                ->hideIf(auth()->user()->cannot('activateUser'))
                 ->sortable(),
             Column::make(__('Location of stay'), 'location_id')
                 ->sortable(),
@@ -157,6 +167,22 @@ class UsersTableFormatter extends DataTableComponent
         ]);
     }
 
+    public function toggleDisabled(User $user)
+    {
+        if(auth()->user()->cannot('activateUser') || $user->isSignedIn() || $user->isAdmin()) {
+            return;
+        }
+
+        $user->disabled_at = ($user->isDisabled() ? null : now());
+        $user->save();
+
+        $this->dispatchBrowserEvent('message', [
+            'level' => 'success',
+            'message' => __(':name Disabled Successfully', ['name' => $user->locale_name]),
+            'important' => false,
+        ]);
+    }
+
     public function addToChurch(User $user)
     {
         if(! auth()->user()->can('activateUser')) {
@@ -192,6 +218,13 @@ class UsersTableFormatter extends DataTableComponent
                 function ($query, $verified) {
                     $function = $verified === 'yes' ? 'whereNotNull' : 'whereNull';
                     return $query->$function('verified_at');
+                }
+            )
+
+            ->when($this->getFilter('disabled'),
+                function ($query, $disabled) {
+                    $function = $disabled === 'yes' ? 'whereNotNull' : 'whereNull';
+                    return $query->$function('disabled_at');
                 }
             )
 

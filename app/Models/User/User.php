@@ -54,6 +54,11 @@ class User extends Authenticatable implements HasLocalePreference
             ?? $this->id;
     }
 
+    public function isDisabled() : bool
+    {
+        return $this->disabled_at !== null;
+    }
+
     public function isAdmin() : bool
     {
         return $this->hasRole('super-admin');

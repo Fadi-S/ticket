@@ -47,6 +47,10 @@ Route::get('lang/{locale}', [LocaleController::class, 'index']);
 
 Route::post('aws/bounce', [AmazonController::class, 'handle']);
 
+Route::get('/disabled', fn() => view('disabled'))
+    ->middleware('auth')
+    ->name('disabled');
+
 Route::middleware(["auth", EnsurePhoneNumberIsVerified::class])->group(function() {
     Route::get('/assets/{image}', function ($image) {
         $width = request('w') ?? 200;
@@ -57,7 +61,7 @@ Route::middleware(["auth", EnsurePhoneNumberIsVerified::class])->group(function(
             ->response();
     });
 
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::get('/', [DashboardController::class, 'index']);
 
