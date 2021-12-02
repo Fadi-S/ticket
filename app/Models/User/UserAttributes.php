@@ -21,9 +21,9 @@ trait UserAttributes
 
     public function scopeSearchDatabase($query, $search, $strict=false)
     {
-//        if(auth()->user()->cannot('disable', User::class)) {
-//            $query->notDisabled();
-//        }
+        if(auth()->user()->cannot('disable', User::class)) {
+            $query->notDisabled();
+        }
 
         if(!$search)
             return $query;

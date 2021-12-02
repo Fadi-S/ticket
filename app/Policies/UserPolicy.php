@@ -23,7 +23,7 @@ class UserPolicy
         return $admin->can("users.view") ? true : null;
     }
 
-    public function disable(User $admin, User $model)
+    public function disable(User $admin, User $model=null)
     {
         return $admin->hasRole('super-admin') ? true : null;
     }

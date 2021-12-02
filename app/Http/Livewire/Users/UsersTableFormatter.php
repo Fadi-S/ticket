@@ -172,7 +172,7 @@ class UsersTableFormatter extends DataTableComponent
 
     public function toggleDisabled(User $user)
     {
-        if(auth()->user()->cannot('activateUser') || $user->isSignedIn() || $user->isAdmin()) {
+        if(auth()->user()->cannot('disable') || $user->isSignedIn() || $user->isAdmin()) {
             return;
         }
 

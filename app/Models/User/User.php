@@ -6,6 +6,7 @@ use App\Helpers\CanReserveInEvents;
 use App\Helpers\DataFromNationalID;
 use App\Helpers\HasFriends;
 use App\Models\EmailBlacklist;
+use App\Scopes\NotDisabledScope;
 use App\Traits\Slugable;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

@@ -24,7 +24,7 @@ class UserFactory extends Factory {
                 . $this->faker->randomNumber(3)
                 . $this->faker->randomNumber(6),
             'verified_at' => now(),
-            'password' => bcrypt('password'),
+            'password' => 'password',
             'remember_token' => Str::random(10),
         ];
     }
