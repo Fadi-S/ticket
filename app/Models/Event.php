@@ -121,18 +121,17 @@ class Event extends Model
         if(isNull($query->getQuery()->columns))
             $query->select('*');
 
-        $query->selectRaw('(select
+        $queryString = '
+        (select
         COALESCE(sum(res_count.count_res), 0) as total
         from (select (SELECT count(*) from reservations WHERE reservations.ticket_id=tickets.id and reservations.is_deacon=?)
          as count_res from tickets where event_id=events.id)
             as res_count
-            ) as total_reservations_count_deacon', [1])
-            ->selectRaw('(select
-        COALESCE(sum(res_count.count_res), 0) as total
-        from (select (SELECT count(*) from reservations WHERE reservations.ticket_id=tickets.id and reservations.is_deacon=?)
-         as count_res from tickets where event_id=events.id)
-            as res_count
-            ) as total_reservations_count', [0]);
+            )
+        ';
+
+        $query->selectRaw($queryString .' as total_reservations_count_deacon', [1])
+            ->selectRaw($queryString . ' as total_reservations_count', [0]);
     }
 
     public static function getByType($type, $pagination=10)
