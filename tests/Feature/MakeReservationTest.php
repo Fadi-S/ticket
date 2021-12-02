@@ -6,6 +6,7 @@ use App\Http\Livewire\MakeReservation;
 use App\Models\Event;
 use App\Models\EventType;
 use App\Models\Mass;
+use App\Models\Period;
 use App\Models\Reservation;
 use App\Models\Ticket;
 use App\Models\User\User;
@@ -33,6 +34,13 @@ class MakeReservationTest extends TestCase
         $this->event = Event::factory()->create();
 
         $this->maximum = $this->event->type->max_reservations;
+
+        Period::create([
+            'name' => 'Test Period',
+            'type_id' => $this->event->type_id,
+            'start' => now()->copy(),
+            'end' => now()->copy()->endOfMonth(),
+        ]);
 
         $this->user = User::factory()->create(['name' => 'Test Name Full', 'arabic_name' => 'تيست اسم ثلاثي']);
         $this->actingAs($this->user);

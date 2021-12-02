@@ -151,20 +151,21 @@
 @if(auth()->user()->can("users.view"))
         <x-table.td>
                 <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                        {{ ($login = $row->logins()->latest('time')->first()) ? $login->time->diffForHumans() : '-' }}
+                        {{ ($row->last_login_at) ? $row->last_login_at->diffForHumans() : '-' }}
                 </div>
         </x-table.td>
 
         <x-table.td>
                 <div class="flex flex-col items-center">
                         <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                {{ ($res = $row->reservations()->with('ticket.reservedBy')->latest()->first()) ? $res->created_at->diffForHumans() : '-' }}
+                                {{ $row->last_reservation_at ? $row->last_reservation_at->diffForHumans() : '-' }}
                         </div>
-                        @if($res && $res->ticket->reservedBy?->id !== $row->id)
-                                <div class="text-xs text-gray-500 dark:text-gray-300">
-                                        {{ ($res->ticket->reservedBy) ? $res->ticket->reservedBy->locale_name : '[DELETED]' }}
-                                </div>
-                        @endif
+
+                    @if($row->reserved_by != $row->arabic_name)
+                        <div class="text-xs text-gray-500 dark:text-gray-300">
+                            {{ $row->reserved_by }}
+                        </div>
+                    @endif
                 </div>
 
         </x-table.td>
