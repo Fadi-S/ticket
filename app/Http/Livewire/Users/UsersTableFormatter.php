@@ -211,13 +211,13 @@ class UsersTableFormatter extends DataTableComponent
                     ->whereColumn('user_id', 'users.id')
                     ->latest()
                     ->take(1),
-                'reserved_by' => User::select('arabic_name')
-                    ->join('reservations', 'reservations.user_id', 'users.id')
-                    ->join('tickets', 'tickets.reserved_by', '=', 'users.id')
-                    ->whereColumn('reservations.ticket_id', 'tickets.id')
-                    ->whereColumn('reservations.user_id', 'users.id')
-                    ->latest('tickets.created_at')
-                    ->take(1),
+//                'reserved_by' => User::select('arabic_name')
+//                    ->join('reservations', 'reservations.user_id', 'users.id')
+//                    ->join('tickets', 'tickets.reserved_by', '=', 'users.id')
+//                    ->whereColumn('reservations.ticket_id', 'tickets.id')
+//                    ->whereColumn('reservations.user_id', 'users.id')
+//                    ->latest('tickets.created_at')
+//                    ->take(1),
                 'last_login_at' => Login::select('time')
                     ->whereColumn('user_id', 'users.id')
                     ->latest('time')

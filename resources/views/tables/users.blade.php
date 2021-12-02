@@ -161,11 +161,11 @@
                                 {{ $row->last_reservation_at ? $row->last_reservation_at->diffForHumans() : '-' }}
                         </div>
 
-                    @if($row->reserved_by != $row->arabic_name)
-                        <div class="text-xs text-gray-500 dark:text-gray-300">
-                            {{ $row->reserved_by }}
-                        </div>
-                    @endif
+{{--                    @if($row->reserved_by != $row->arabic_name)--}}
+{{--                        <div class="text-xs text-gray-500 dark:text-gray-300">--}}
+{{--                            {{ $row->reserved_by }}--}}
+{{--                        </div>--}}
+{{--                    @endif--}}
                 </div>
 
         </x-table.td>
