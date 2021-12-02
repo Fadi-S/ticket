@@ -115,12 +115,14 @@
         </div>
 </x-table.td>
 
-@if(auth()->user()->can("activateUser"))
+@if(auth()->user()->can("disable", \App\Models\User\User::class))
     <x-table.td>
-        <button class="focus:outline-none transition-dark mx-1"
-                type="button" wire:click="toggleDisabled('{{ $row->username }}')">
-                    <x-svg.active-or-not :active="! $row->disabled_at" />
-        </button>
+        @if(auth()->user()->can("disable", $row))
+            <button class="focus:outline-none transition-dark mx-1"
+                    type="button" wire:click="toggleDisabled('{{ $row->username }}')">
+                        <x-svg.active-or-not :active="! $row->disabled_at" />
+            </button>
+        @endif
     </x-table.td>
 @endif
 

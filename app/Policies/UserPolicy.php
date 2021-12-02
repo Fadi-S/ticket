@@ -23,6 +23,11 @@ class UserPolicy
         return $admin->can("users.view") ? true : null;
     }
 
+    public function disable(User $admin, User $model)
+    {
+        return $admin->hasRole('super-admin') ? true : null;
+    }
+
     public function create(User $admin)
     {
         return $admin->can('users.create') || (config('settings.allow_users_to_create_accounts') && config('settings.allow_users_to_make_accounts_for_others'))

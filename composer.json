@@ -38,6 +38,7 @@
         "spatie/laravel-permission": "^3.17"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.6",
         "barryvdh/laravel-ide-helper": "^2.7",
         "facade/ignition": "^2.3.6",
         "fakerphp/faker": "^1.9.1",

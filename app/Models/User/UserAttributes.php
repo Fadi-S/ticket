@@ -14,8 +14,17 @@ use App\Models\Login;
 trait UserAttributes
 {
 
+    public function scopeNotDisabled($query)
+    {
+        $query->where('disabled_at', '=', null);
+    }
+
     public function scopeSearchDatabase($query, $search, $strict=false)
     {
+        if(auth()->user()->cannot('disable', User::class)) {
+            $query->notDisabled();
+        }
+
         if(!$search)
             return $query;
 

@@ -47,17 +47,20 @@ class UsersTableFormatter extends DataTableComponent
         if (!auth()->user()->can('users.view'))
             return [];
 
-        $churches = collect(['' => '-']);
-        $chs = Church::pluck('name', 'id');
-        foreach ($chs as $id => $church)
-            $churches->put($id, $church);
+        $churches = \Cache::remember('churches_for_pluck', now()->addDay(), function () {
+            return ['' => '-'] + Church::pluck('name', 'id')->toArray();
+        });
+
+        $roles = \Cache::remember('roles_for_pluck', now()->addDay(), function () {
+            return ['' => '-'] + Role::pluck('name', 'name')->toArray();
+        });
 
         return [
             'role' => Filter::make(__('Role'))
-                ->select(array_merge(['' => '-'], Role::pluck('name', 'name')->toArray())),
+                ->select($roles),
 
             'church' => Filter::make(__('Church'))
-                ->select($churches->toArray()),
+                ->select($churches),
 
             'verified' => Filter::make(__('Phone Verified'))
                 ->select([
@@ -114,7 +117,7 @@ class UsersTableFormatter extends DataTableComponent
             Column::make(__('Gender'), 'gender')
                 ->sortable(),
             Column::make(__('Allowed'), 'disabled_at')
-                ->hideIf(auth()->user()->cannot('activateUser'))
+                ->hideIf(auth()->user()->cannot('disable', User::class))
                 ->sortable(),
             Column::make(__('Location of stay'), 'location_id')
                 ->sortable(),
@@ -205,6 +208,7 @@ class UsersTableFormatter extends DataTableComponent
                 'creator:id,username,name,arabic_name',
                 'location:id,name',
                 'church:id,name',
+                'roles:id,name',
             )
             ->addSelect([
                 'last_reservation_at' => Reservation::select('created_at')
