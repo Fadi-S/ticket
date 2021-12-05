@@ -103,6 +103,9 @@ class RecurringEvents extends Command
                 $end = $date->copy()
                     ->setTime($template->end->hour, $template->end->minute);
 
+                if($end->lessThan($start))
+                    $end->addDay();
+
                 if(Event::whereBetween('start', [$start, $end])->where('description', '=', $template->description)
                     ->exists())
                     continue;
