@@ -25,7 +25,7 @@ class UserPolicy
 
     public function disable(User $admin, User $model=null)
     {
-        return $admin->hasRole('super-admin') ? true : null;
+        return $admin->can('users.disable') ? true : null;
     }
 
     public function create(User $admin)
