@@ -273,5 +273,8 @@
     "Guest will be deleted at: :date": "سيتم مسح هذا الضيف يوم :date",
     "Last Reservation": "أخر حجز",
     "Event Type": "نوع المناسبة",
-    "Your account has been disabled because of a lack of activity, please get back to the church to fix this issue.": "تم تعطيل حسابك بسبب نقص النشاط ، يرجى الرجوع إلى الكنيسة لإصلاح هذه المشكلة."
+    "Your account has been disabled because of a lack of activity, please get back to the church to fix this issue.": "تم تعطيل حسابك بسبب نقص النشاط ، يرجى الرجوع إلى الكنيسة لإصلاح هذه المشكلة.",
+    "Reservations cancelled": "تم الغاء الحجز",
+    "Are you sure? :name has surpassed his allowed reservations": "هل انت متأكد؟ لقد انتهت تذاكر :name",
+    "Are you sure?": "هل انت متأكد؟"
 }
