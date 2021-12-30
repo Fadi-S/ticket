@@ -288,6 +288,49 @@
                     </x-slot>
                 </x-layouts.modal>
 
+                <x-layouts.modal @open-admin-confirmation.window="open=true;
+                 message=$event.detail.message;
+                 title=$event.detail.title;
+                 type=$event.detail.type;
+                    " color="bg-yellow-100">
+                    <x-slot name="svg">
+                        <x-svg.warning size="h-6 w-6" color="text-yellow-600" />
+                    </x-slot>
+
+                    <x-slot name="body">
+                        <h3 x-text="title" class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 flex items-center sm:justify-start sm:mr-3 justify-center" id="modal-headline">
+
+                        </h3>
+                        <div class="mt-2">
+                            <p x-text="message" class="text-sm text-gray-500 dark:text-gray-300">
+                            </p>
+                        </div>
+                    </x-slot>
+
+                    <x-slot name="footer">
+                        <div class="space-x-2 flex justify-between">
+                            <x-button class="mx-2" type="button"
+                                      @click="window.livewire.emit('confirm', type); open = false;"
+                                      color="bg-green-500 hover:bg-green-600
+                                       dark:bg-green-600 dark:hover:bg-green-700
+                                        text-white">
+                                <x-slot name="svg">
+                                    <x-svg.check/>
+                                </x-slot>
+
+                                {{ __("Reserve") }}
+                            </x-button>
+
+                            <x-button class="mx-2" type="button" @click="open = false;"
+                                      color="bg-white dark:bg-gray-500 dark:hover:bg-gray-700
+                                       text-gray-900 dark:text-gray-200
+                                       hover:bg-gray-50 border border-gray-400">
+                                {{ __("Close") }}
+                            </x-button>
+                        </div>
+                    </x-slot>
+                </x-layouts.modal>
+
                 <x-layouts.modal @openConfirmation.window="open=true; message=$event.detail" color="bg-green-100">
                     <x-slot name="svg">
                         <svg class="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">

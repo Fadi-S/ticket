@@ -27,6 +27,7 @@ class MakeReservation extends Component
     protected $listeners = [
         'set:event' => 'setEvent',
         'reserve' => 'save',
+        'confirm' => 'confirm',
         'user-created' => 'userCreated',
     ];
 
@@ -62,6 +63,13 @@ class MakeReservation extends Component
         ])->layout('components.master');
     }
 
+    public function confirm($confirmation)
+    {
+        session()->flash($confirmation, true);
+
+        $this->save();
+    }
+
     public function save()
     {
         $this->validate([
@@ -94,6 +102,10 @@ class MakeReservation extends Component
 
             if (is_null($output)) {
                 return $this->failWithErrorMessage("Something went wrong for $user->name");
+            }
+
+            if ($output->waitingForConfirmation()) {
+                return $this->waitForConfirmation($output->message(), $output->getConfirmationName());
             }
 
             if ($output->hasMessage()) {
@@ -185,6 +197,18 @@ class MakeReservation extends Component
             'title' => __("Couldn't reserve in this event"),
             'message' => $message,
             'type' => 'error',
+        ]);
+
+        return false;
+    }
+
+    private function waitForConfirmation($message, $confirmation) : bool
+    {
+        session()->flash('error', $message);
+        $this->dispatchBrowserEvent('open-admin-confirmation', [
+            'title' => __("Are you sure?"),
+            'message' => $message,
+            'type' => $confirmation,
         ]);
 
         return false;

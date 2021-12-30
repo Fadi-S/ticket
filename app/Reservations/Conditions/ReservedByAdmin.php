@@ -12,7 +12,7 @@ class ReservedByAdmin implements ConditionContract
 
     public function check($event, $user): ConditionOutput
     {
-        if(!auth()->user()->can('reservations.bypass'))
+        if(!auth()->user()->can('reservations.bypass') || $user->isSignedIn())
             return ConditionOutput::undecided();
 
         if($event->hasDeacons && $user->isDeacon()) {
@@ -31,8 +31,22 @@ class ReservedByAdmin implements ConditionContract
             }
         }
 
-        return !$user->isSignedIn()
+        $confirmation = 'adminBypass.confirmation';
+
+//        dd($user->tickets()->event($event->type_id, $event->start));
+
+        $isNotAllowed = $user->tickets()->event($event->type_id, $event->start) == 0;
+        if(!session()->has($confirmation) && $isNotAllowed) {
+            return ConditionOutput::confirmation(null, $confirmation)
+                ->message(__('Are you sure? :name has surpassed his allowed reservations', ['name' => $user->locale_name]));
+        }
+
+        if(! $isNotAllowed) {
+            return ConditionOutput::allow();
+        }
+
+        return session($confirmation)
             ? ConditionOutput::allow()
-            : ConditionOutput::undecided();
+            : ConditionOutput::deny()->message(__('Reservations cancelled'));
     }
 }
