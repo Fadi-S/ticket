@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use App\Models\Friendship;
 use App\Models\User\User;
+use Illuminate\Support\Facades\Cache;
 
 trait HasFriends {
     public function addFriend($user, $forceConfirm=false)
@@ -53,6 +54,21 @@ trait HasFriends {
     public function confirmFriend($user)
     {
         $this->getFriendship($user)->update(['confirmed_at' => now()]);
+
+        Cache::tags(["friends"])->forget("friends." . auth()->id());
+    }
+
+    public function scopeHasFriends($query)
+    {
+        $friends = Cache::tags(["friends"])
+            ->remember("friends." . auth()->id(), now()->addHour(),
+            fn() => auth()->user()->friends()->pluck('id')
+        );
+
+        $query->where(function ($query) use ($friends) {
+            $query->whereIn('id', $friends)
+                ->orWhere('id', auth()->id());
+        });
     }
 
     public function friends($withUnconfirmed=false)

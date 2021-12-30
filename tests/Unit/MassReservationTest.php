@@ -105,7 +105,7 @@ class MassReservationTest extends TestCase
 
         $john = User::factory()->create();
 
-        $this->assertNotFalse($john->canReserveIn($ticket->event->specific()));
+        $this->assertNotFalse($john->canReserveIn($ticket->event));
     }
 
     /** @test */

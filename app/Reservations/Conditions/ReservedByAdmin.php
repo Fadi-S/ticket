@@ -35,7 +35,7 @@ class ReservedByAdmin implements ConditionContract
 
 //        dd($user->tickets()->event($event->type_id, $event->start));
 
-        $isNotAllowed = $user->tickets()->event($event->type_id, $event->start) == 0;
+        $isNotAllowed = $user->tickets()->event($event->type, $event->start) == 0;
         if(!session()->has($confirmation) && $isNotAllowed) {
             return ConditionOutput::confirmation(null, $confirmation)
                 ->message(__('Are you sure? :name has surpassed his allowed reservations', ['name' => $user->locale_name]));
