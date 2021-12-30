@@ -24,9 +24,9 @@ class ReservedByAdmin implements ConditionContract
         }
 
         if($left <= 0) {
-            $overload = abs($left) + 1;
+            $overload = abs($left);
 
-            if(1 - ($maximum / ($maximum + $overload)) >= $event->overload) {
+            if($event->overload * $maximum - $overload <= 0) {
                 return ConditionOutput::deny()->message(__('Event is overloaded!'));
             }
         }
