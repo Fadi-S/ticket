@@ -79,9 +79,6 @@ class MakeReservation extends Component
                 'required',
                 'filled',
             ],
-            'event' => [
-                'exists:events,id'
-            ]
         ]);
 
         $event = Event::query()->withReservationsCount()->published()->find($this->event);

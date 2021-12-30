@@ -54,7 +54,7 @@ class MakeReservationTest extends TestCase
         Livewire::test(MakeReservation::class)
             //->call('setEvent', $this->event->id)
             ->call('save')
-            ->assertHasErrors('event');
+            ->assertDispatchedBrowserEvent('open');
     }
 
     /** @test */
