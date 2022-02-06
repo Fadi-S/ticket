@@ -18,6 +18,7 @@ return [
     'cancellation_before_event_hours' => env('CANCELLATION_BEFORE_EVENT_HOURS', 0),
     'send_invoice_emails' => env('SEND_INVOICE_EMAIL', false),
 
+    'max_users_per_reservation' => env('MAXIMUM_USERS_PER_RESERVATION'),
 
     'photo_library_url' => env('PHOTO_LIBRARY_URL'),
     'logo' => env('LOGO'),

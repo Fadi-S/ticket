@@ -3,17 +3,13 @@
 namespace App\Http\Livewire;
 
 use App\Events\TicketReserved;
-use App\Events\UserRegistered;
 use App\Helpers\GenerateRandomString;
 use App\Models\Event;
 use App\Models\Reservation;
 use App\Models\Ticket;
 use App\Models\User\User;
-use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Livewire\Component;
-use Spatie\Permission\Models\Role;
 
 class MakeReservation extends Component
 {
@@ -161,6 +157,7 @@ class MakeReservation extends Component
     {
         $this->users = collect();
         $this->event = null;
+        $this->search = '';
         $this->dispatchBrowserEvent('reservation');
     }
 
@@ -186,6 +183,15 @@ class MakeReservation extends Component
         }
 
         if(!$this->users->contains('id', $userId)) {
+            $maxUsers = (int) config('settings.max_users_per_reservation');
+
+            if($maxUsers && $this->users->count() >= $maxUsers) {
+                return $this->failWithErrorMessage(
+                    __('You can not add more than :count users', ['count' => $maxUsers]),
+                    __("Can't add more users"),
+                );
+            }
+
             $this->users->push(
                 $user ??
                 User::query()
@@ -204,13 +210,15 @@ class MakeReservation extends Component
         $this->users->push($user);
     }
 
-    private function failWithErrorMessage($message) : bool
+    private function failWithErrorMessage($message, $title=null) : bool
     {
         \DB::rollBack();
 
+        $title ??= __("Couldn't reserve in this event");
+
         session()->flash('error', $message);
         $this->dispatchBrowserEvent('open', [
-            'title' => __("Couldn't reserve in this event"),
+            'title' => $title,
             'message' => $message,
             'type' => 'error',
         ]);

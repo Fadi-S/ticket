@@ -276,5 +276,7 @@
     "Your account has been disabled because of a lack of activity, please get back to the church to fix this issue.": "تم تعطيل حسابك بسبب نقص النشاط ، يرجى الرجوع إلى الكنيسة لإصلاح هذه المشكلة.",
     "Reservations cancelled": "تم الغاء الحجز",
     "Are you sure? :name has surpassed his allowed reservations": "هل انت متأكد؟ لقد انتهت تذاكر :name",
-    "Are you sure?": "هل انت متأكد؟"
+    "Are you sure?": "هل انت متأكد؟",
+    "You can not add more than :count users": "لا يمكنك اضافة اكثر من :count اشخاص",
+    "Can't add more users": "لا يمكنك اضافة اشخاص"
 }
