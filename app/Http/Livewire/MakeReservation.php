@@ -3,14 +3,12 @@
 namespace App\Http\Livewire;
 
 use App\Events\TicketReserved;
-use App\Events\UserRegistered;
 use App\Helpers\GenerateRandomString;
 use App\Models\Event;
+use App\Models\Reservation;
 use App\Models\Ticket;
 use App\Models\User\User;
-use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Livewire\Component;
 
 class MakeReservation extends Component
@@ -46,7 +44,7 @@ class MakeReservation extends Component
 
         $this->redirectAfterReservation = false; // !auth()->user()->can('tickets.view');
 
-        if (auth()->user()->isUser() || auth()->user()->isDeacon()) {
+        if (auth()->user()->isUser()) {
             $this->users->push(auth()->user());
         }
     }
@@ -77,26 +75,35 @@ class MakeReservation extends Component
                 'required',
                 'filled',
             ],
-            'event' => [
-                'exists:events,id'
-            ]
         ]);
 
-        $event = Event::published()->find($this->event);
+        $event = Event::query()->withReservationsCount()->published()->find($this->event);
 
         if (!$event) {
             return $this->failWithErrorMessage('This event does not exist');
         }
 
-        $event = $event->specific();
+        $users = User::query()
+            ->when(!auth()->user()->can('tickets.view'), fn($q) => $q->hasFriends())
+            ->whereIn('id', $this->users->pluck('id'))
+            ->with('roles')
+            ->get();
 
-        $users = User::whereIn('id', $this->users->pluck('id'))->get();
+        \DB::beginTransaction();
 
-        $users->each(function ($user) use ($event) {
+        $ticket = Ticket::create([
+            'event_id' => $event->id,
+            'reserved_at' => now(),
+            'reserved_by' => \Auth::id(),
+            'secret' => (new GenerateRandomString)->handle(),
+        ]);
+        $ticket->setRelation('event', $event);
 
-            if (!$user->isSignedIn() && !auth()->user()->can('tickets.view') && !$user->isFriendsWith(auth()->user(), false)) {
-                return $this->failWithErrorMessage("You are not friends with $user->name");
-            }
+        $reservations = [];
+        foreach ($users as $user) {
+//            if (!$user->isSignedIn() && !auth()->user()->can('tickets.view') && !$user->isFriendsWith(auth()->user(), false)) {
+//                return $this->failWithErrorMessage("You are not friends with $user->name");
+//            }
 
             $output = $user->canReserveIn($event);
 
@@ -109,21 +116,15 @@ class MakeReservation extends Component
             }
 
             if ($output->hasMessage()) {
-                $this->failWithErrorMessage($output->message());
+                return $this->failWithErrorMessage($output->message());
             }
-        });
 
-        if (session()->has('error'))
-            return false;
+            $reservations[] = $user->reserveIn($ticket, $output, false);
+        }
 
-        $ticket = Ticket::create([
-            'event_id' => $event->id,
-            'reserved_at' => Carbon::now(),
-            'reserved_by' => \Auth::id(),
-            'secret' => (new GenerateRandomString)->handle(),
-        ]);
+        Reservation::insert($reservations);
 
-        $users->each->reserveIn($ticket);
+        \DB::commit();
 
         TicketReserved::dispatch($ticket);
 
@@ -156,6 +157,7 @@ class MakeReservation extends Component
     {
         $this->users = collect();
         $this->event = null;
+        $this->search = '';
         $this->dispatchBrowserEvent('reservation');
     }
 
@@ -170,16 +172,34 @@ class MakeReservation extends Component
     public function removeUser($id)
     {
         $this->users = $this->users->reject(
-            fn ($currentUser) => $currentUser['id'] == $id
+            fn($currentUser) => $currentUser['id'] == $id
         );
     }
 
-    public function toggleUser(User $user)
+    public function toggleUser($userId)
     {
-        if(!$this->users->containsStrict('id', $user->id)) {
-            $this->users->push($user);
+        if(! is_numeric($userId)) {
+            $user = $userId;
+        }
+
+        if(!$this->users->contains('id', $userId)) {
+            $maxUsers = (int) config('settings.max_users_per_reservation');
+
+            if($maxUsers && $this->users->count() >= $maxUsers) {
+                return $this->failWithErrorMessage(
+                    __('You can not add more than :count users', ['count' => $maxUsers]),
+                    __("Can't add more users"),
+                );
+            }
+
+            $this->users->push(
+                $user ??
+                User::query()
+                    ->select(['id', 'name', 'arabic_name', 'national_id', 'church_id'])
+                    ->find($userId)
+            );
         } else {
-            $this->removeUser($user->id);
+            $this->removeUser($userId);
         }
     }
 
@@ -190,11 +210,15 @@ class MakeReservation extends Component
         $this->users->push($user);
     }
 
-    private function failWithErrorMessage($message) : bool
+    private function failWithErrorMessage($message, $title=null) : bool
     {
+        \DB::rollBack();
+
+        $title ??= __("Couldn't reserve in this event");
+
         session()->flash('error', $message);
         $this->dispatchBrowserEvent('open', [
-            'title' => __("Couldn't reserve in this event"),
+            'title' => $title,
             'message' => $message,
             'type' => 'error',
         ]);
@@ -204,6 +228,8 @@ class MakeReservation extends Component
 
     private function waitForConfirmation($message, $confirmation) : bool
     {
+        \DB::rollBack();
+
         session()->flash('error', $message);
         $this->dispatchBrowserEvent('open-admin-confirmation', [
             'title' => __("Are you sure?"),

@@ -7,7 +7,7 @@
 @forelse($tickets as $ticket)
     @php($color = $ticket->event->type->colorNames)
     <div id="ticket-{{ $ticket->id }}" wire:key="ticket-{{ $ticket->id }}" class="transition-colors duration-500
-            col-span-12 md:col-span-6 xl:col-span-4 overflow-x-hidden w-full shadow-lg
+            col-span-12 md:col-span-6 xl:col-span-4 overflow-x-hidden w-full
              border-t-4 rounded-lg" style="border-color: {{ $color['border'] }}">
         @if(!$event)
             <h3 class="flex text-gray-800 dark:text-gray-200
@@ -65,7 +65,7 @@
             @endforeach
         </ul>
             @unless(auth()->user()->isUser())
-                <div class="flex bg-gray-100 dark:bg-gray-800
+                <div class="flex bg-gray-100 dark:bg-gray-800 shadow
                  rounded-b-lg transition-dark px-2 py-1 text-sm text-gray-400
                          items-start justify-between">
                     <span>

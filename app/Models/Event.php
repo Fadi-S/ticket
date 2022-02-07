@@ -210,35 +210,6 @@ class Event extends Model
         return $this->start->lte(now()->addHours(config('settings.cancellation_before_event_hours'))) || $this->hidden_at != null;
     }
 
-    /** @deprecated  **/
-    public function specific()
-    {
-        return $this;
-    }
-
-
-    /** @deprecated  **/
-    public function eventOrderInDay()
-    {
-        $order = [
-            1 => 'أول',
-            2 => 'ثاني',
-            3 => 'تالث',
-            4 => 'رابع',
-            5 => 'خامس',
-            6 => 'سادس',
-        ];
-
-        $eventsCount = Event::whereBetween('start', [$this->start->startOfDay(), $this->start])
-            ->where('type_id', $this->type_id)
-            ->count();
-
-        if(!in_array($eventsCount, array_keys($order)))
-            return '';
-
-        return $order[$eventsCount];
-    }
-
     public function conditions()
     {
         return $this->type->getConditions();

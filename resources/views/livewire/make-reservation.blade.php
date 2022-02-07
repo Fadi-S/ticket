@@ -99,7 +99,7 @@
 
                                         <li x-state:on="Highlighted" id="user-search-{{ $user->id }}"
                                             x-state:off="Not Highlighted"
-                                            wire:click="toggleUser('{{ $user->username }}')"
+                                            wire:click="toggleUser('{{ $user->id }}')"
                                             role="option"
                                             class="group cursor-default z-10
                                          select-none relative py-2 pl-3 pr-9

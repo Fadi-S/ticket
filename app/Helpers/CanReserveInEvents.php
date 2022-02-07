@@ -25,31 +25,37 @@ trait CanReserveInEvents
         return new Ticket($this);
     }
 
-    public function reserveIn($ticket)
+    public function reserveIn($ticket, $output=null, $create=true)
     {
-        $output = $this->canReserveIn($ticket->event);
+        if(! $output) {
+            $output = $this->canReserveIn($ticket->event);
 
-        if(is_null($output)) {
-            flash()->error("Something went wrong for $this->name");
+            if (is_null($output)) {
+                flash()->error("Something went wrong for $this->name");
 
-            return false;
+                return false;
+            }
         }
 
-        if($output->hasMessage())
+        if ($output->hasMessage())
             flash()->error($output->message());
 
-        if($output->isDenied())
+        if ($output->isDenied())
             return false;
 
-        $reservation = new Reservation(
-            array_merge([
-                'ticket_id' => $ticket->id,
-                'is_deacon' => $ticket->event->hasDeacons && $this->isDeacon(),
-            ], $output->body() ?? []));
-
-        $this->reservations()->save($reservation);
-
         \Cache::tags('ticket.users')->forget('tickets.users.' . $this->id);
+
+        $reservation = [
+            'ticket_id' => $ticket->id,
+            'user_id' => $this->id,
+            'is_deacon' => $ticket->event->hasDeacons && $this->isDeacon(),
+            ] + ($output->body() ?? []);
+
+        if($create) {
+            $reservation = new Reservation($reservation);
+
+            $this->reservations()->save($reservation);
+        }
 
         return $reservation;
     }

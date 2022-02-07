@@ -68,12 +68,6 @@ trait UserAttributes
         $query->searchDatabase($search, true);
     }
 
-    public function scopeHasFriends($query)
-    {
-        $query->whereIn('id', auth()->user()->friends()->get()->pluck('id'))
-            ->orWhere('id', auth()->id());
-    }
-
     public function scopeAddUsernameToName($query)
     {
         return $query->select("*", \DB::raw("CONCAT(name,' (@',username,')') as text"));
