@@ -36,7 +36,8 @@ class ReservationsController extends Controller
         $isUser = !auth()->user()->can('reservations.bypass');
         $isDeacon = auth()->user()->isDeacon();
 
-        $events = Event::published()
+        $events = Event::query()
+            ->when(auth()->id() != 1, fn($query) => $query->published())
             ->with('type:id,max_reservations,color,max_reservations_for_deacons,has_deacons')
             ->upcoming()
             ->visible()

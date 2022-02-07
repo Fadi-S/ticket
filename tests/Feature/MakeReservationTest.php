@@ -54,7 +54,7 @@ class MakeReservationTest extends TestCase
         Livewire::test(MakeReservation::class)
             //->call('setEvent', $this->event->id)
             ->call('save')
-            ->assertDispatchedBrowserEvent('open');
+            ->assertHasErrors('event');
     }
 
     /** @test */
@@ -79,9 +79,12 @@ class MakeReservationTest extends TestCase
 
         Livewire::test(MakeReservation::class)
             ->call('setEvent', $this->event->id)
-            ->set('users', collect([$this->user]))
             ->call('save')
-            ->assertDispatchedBrowserEvent('reservation');
+            ->assertDispatchedBrowserEvent('open', [
+                'title' => 'تم الحجز',
+                'message' => 'تم الحجز بنجاح',
+                'type' => 'success',
+            ]);
 
         $this->assertEquals(1, Reservation::count());
     }
@@ -99,10 +102,11 @@ class MakeReservationTest extends TestCase
         $john->forceAddFriend($this->user);
 
         Livewire::test(MakeReservation::class)
+            ->set('redirectAfterReservation', true)
             ->call('toggleUser', $john)
             ->fireEvent('set:event', $this->event->id)
             ->call('save')
-            ->assertDispatchedBrowserEvent('reservation');
+            ->assertRedirect();
 
         $this->assertEquals(2, Reservation::count());
         $this->assertEquals(1, Ticket::count());
@@ -131,28 +135,32 @@ class MakeReservationTest extends TestCase
             ->assertSee('Test Mary');
     }
 
-//    /** @test */
-//    function user_cant_reserve_for_none_friends()
-//    {
-//        $this->setRole('user');
-//
-//        $this->assertEquals(0, Reservation::count());
-//        $this->assertEquals(0, Ticket::count());
-//
-//        $john = User::factory()->create();
-//
-//        $john->addFriend($this->user);
-//
-//        Livewire::test(MakeReservation::class)
-//            ->call('toggleUser', $john)
-//            ->fireEvent('set:event', $this->event->id)
-//            ->call('save')
-//            ->assertDispatchedBrowserEvent('open');
-//
-//
-//        $this->assertEquals(0, Reservation::count());
-//        $this->assertEquals(0, Ticket::count());
-//    }
+    /** @test */
+    function user_cant_reserve_for_none_friends()
+    {
+        $this->setRole('user');
+
+        $this->assertEquals(0, Reservation::count());
+        $this->assertEquals(0, Ticket::count());
+
+        $john = User::factory()->create();
+
+        $john->addFriend($this->user);
+
+        Livewire::test(MakeReservation::class)
+            ->call('toggleUser', $john)
+            ->fireEvent('set:event', $this->event->id)
+            ->call('save')
+            ->assertDispatchedBrowserEvent('open', [
+                "title" => "لا يمكن الحجز في هذه المناسبة",
+                "message" => "You are not friends with $john->name",
+                "type" => "error",
+            ]);
+
+
+        $this->assertEquals(0, Reservation::count());
+        $this->assertEquals(0, Ticket::count());
+    }
 
     /** @test */
     function user_agent_admin_cant_reserve_for_themselves_more_than_the_allowed_maximum()
@@ -230,12 +238,13 @@ class MakeReservationTest extends TestCase
             $this->setRole($role);
 
             Livewire::test(MakeReservation::class)
+                ->set('redirectAfterReservation', true)
                 ->fireEvent('set:event', $this->event->id)
                 ->call('toggleUser', $john)
                 ->call('toggleUser', $mary)
                 ->call('toggleUser', $george)
                 ->call('save')
-                ->assertDispatchedBrowserEvent('reservation');
+                ->assertRedirect();
 
             $this->assertEquals(3, Reservation::count());
 
@@ -274,10 +283,11 @@ class MakeReservationTest extends TestCase
             $this->assertEquals(0, Reservation::count());
 
             Livewire::test(MakeReservation::class)
+                ->set('redirectAfterReservation', true)
                 ->call('setEvent', $this->event->id)
                 ->call('toggleUser', $this->user)
                 ->call('save')
-                ->assertDispatchedBrowserEvent('reservation');
+                ->assertRedirect();
 
             $this->assertEquals(1, Reservation::count());
 
@@ -323,12 +333,12 @@ class MakeReservationTest extends TestCase
         ]);
 
         Livewire::test(MakeReservation::class)
+            ->set('redirectAfterReservation', true)
             ->fireEvent('set:event', $mass->id)
             ->call('toggleUser', $john)
             ->call('save')
-            ->assertDispatchedBrowserEvent('open-admin-confirmation')
-            ->emit('confirm', 'adminBypass.confirmation')
-            ->assertDispatchedBrowserEvent('reservation');
+            ->call('confirm', 'adminBypass.confirmation')
+            ->assertRedirect();
 
         $this->assertEquals($this->maximum + 1, Reservation::count());
     }
@@ -355,11 +365,12 @@ class MakeReservationTest extends TestCase
             ]);
 
             Livewire::test(MakeReservation::class)
+                ->set('redirectAfterReservation', true)
                 ->fireEvent('set:event', $mass->id)
                 ->call('removeUser', $user->id)
                 ->call('toggleUser', $user)
                 ->call('save')
-                ->assertDispatchedBrowserEvent('reservation');
+                ->assertRedirect();
 
             $this->assertEquals($i, Reservation::count());
         }
