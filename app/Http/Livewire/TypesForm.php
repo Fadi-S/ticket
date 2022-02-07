@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Condition;
 use App\Models\EventType;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Redis;
@@ -46,9 +47,15 @@ class TypesForm extends Component
 
         session()->flash('success', __('Type Saved Successfully'));
 
+
         if($this->isCreate) {
-            $this->type = new EventType();
-            $this->show = false;
+            $this->type->setConditions(Condition::where('required', '=', true)->get()->toArray());
+
+            \Cache::forget('conditions.' . $this->type->id . ".1");
+
+            return redirect()->route('type.conditions', [
+                'type' => $this->type->url,
+            ]);
         }
     }
 

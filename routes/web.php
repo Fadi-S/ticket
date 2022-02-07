@@ -96,7 +96,7 @@ Route::middleware(["auth", EnsurePhoneNumberIsVerified::class])->group(function(
 
     Route::get('/conditions/create', ConditionForm::class);
     Route::get('/conditions/{condition}/edit', ConditionForm::class);
-    Route::get('/conditions/{type}', TypeConditions::class);
+    Route::get('/conditions/{type}', TypeConditions::class)->name("type.conditions");
     Route::get('/types/create', TypesForm::class);
     Route::get('/types/{type}/edit', TypesForm::class);
     Route::get('/types', TypesTable::class);
