@@ -121,15 +121,15 @@ class Tickets extends Component
         return Ticket::with('event', 'reservedBy')
             ->with(['reservations.user' => $userFunction])
             ->whereHas('reservations',
-                function($query) use ($deacons, $userFunction) {
-                    $query->where('is_deacon', $deacons)->whereHas('user', $userFunction);
-                })->whereHas('event',
+                fn($query) => $query->whereHas('user', $userFunction)->where('is_deacon', $deacons)
+            )
+            ->whereHas('event',
                 fn($query) => $query
                     ->when(!$this->old, fn($query) => $query->upcoming())
                     ->when($this->event || $this->type,
-                        fn($query) => $query->where(function ($query) {
-                            $query->where('id', $this->event)->orWhere('type_id', $this->type);
-                        })
+                        fn($query) => $query->where(
+                            fn($query) => $query->where('id', $this->event)->orWhere('type_id', $this->type)
+                        )
                     )
             )->user()
             ->orderBy('reserved_at', 'DESC');

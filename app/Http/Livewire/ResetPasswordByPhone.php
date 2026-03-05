@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Helpers\GoogleAPI;
 use App\Helpers\NormalizePhoneNumber;
+use App\Helpers\StandardRegex;
 use App\Models\User\User;
 use Livewire\Component;
 
@@ -48,7 +49,7 @@ class ResetPasswordByPhone extends Component
         $this->validate([
             'phone' => [
                 'required',
-                'regex:/(\+201)[0-9]{9}/',
+                'regex:/' . StandardRegex::PHONE_NUMBER . '/',
                 'exists:users',
             ]
         ]);
