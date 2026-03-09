@@ -54,7 +54,12 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "Barryvdh\\LaravelDebugBar\\DebugBarServiceProvider",
+                "Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider",
+                "Facade\\Ignition\\IgnitionServiceProvider",
+                "Laravel\\Dusk\\DuskServiceProvider"
+            ]
         }
     },
     "autoload": {
